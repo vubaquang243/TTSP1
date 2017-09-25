@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_ESB_TTSP" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="p_TRAN_CODE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{p_TRAN_CODE}==""?null:$P{p_TRAN_CODE}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_SENDER_CODE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{p_SENDER_CODE}==""?null:$P{p_SENDER_CODE}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_RECEIVE_CODE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{p_RECEIVE_CODE}==""?null:$P{p_RECEIVE_CODE}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_LOG_DATE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_ERROR_CODE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{p_ERROR_CODE}==""?"00":$P{p_ERROR_CODE}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT	a.msg_id, a.sender_code, a.sender_name, a.receiver_code,a.receiver_name, a.tran_code, a.msg_refid,
+TO_CHAR (a.send_date, 'DD/MM/YYYY HH24:mi:ss') send_date, a.ERROR_CODE, a.error_desc FROM esb_transaction_log a WHERE 1 = 1 AND (a.tran_code = $P{p_TRAN_CODE} OR $P{p_TRAN_CODE} IS NULL) AND (a.receiver_code NOT IN ('TABMIS', 'TCS_KBA', 'ESB')  AND a.sender_code NOT IN ('TABMIS', 'TCS_KBA', 'ESB')) AND (a.sender_code = $P{p_SENDER_CODE} or $P{p_SENDER_CODE} IS NULL) AND ( (a.receiver_code = $P{p_RECEIVE_CODE} OR $P{p_RECEIVE_CODE} IS NULL)  OR (a.sender_code = $P{p_SENDER_CODE} or $P{p_SENDER_CODE} IS NULL))  AND to_char(a.log_date,'DD-MM-YYYY') >= $P{p_LOG_DATE} AND to_char(a.log_date,'DD-MM-YYYY') <= $P{p_LOG_DATE} AND (a.ERROR_CODE IS NULL OR ERROR_CODE = $P{p_ERROR_CODE})]]>
+	</queryString>
+	<field name="MSG_ID" class="java.lang.String"/>
+	<field name="SENDER_CODE" class="java.lang.String"/>
+	<field name="SENDER_NAME" class="java.lang.String"/>
+	<field name="RECEIVER_CODE" class="java.lang.String"/>
+	<field name="RECEIVER_NAME" class="java.lang.String"/>
+	<field name="TRAN_CODE" class="java.lang.String"/>
+	<field name="MSG_REFID" class="java.lang.String"/>
+	<field name="SEND_DATE" class="java.lang.String"/>
+	<field name="ERROR_CODE" class="java.lang.String"/>
+	<field name="ERROR_DESC" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="99" height="26"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[MSG_ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="99" y="0" width="65" height="26"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[SENDER CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="164" y="0" width="141" height="26"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[SENDER NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="305" y="0" width="66" height="26" isPrintWhenDetailOverflows="true"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[RECEIVER CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="371" y="0" width="124" height="26"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[RECEIVER NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="495" y="0" width="41" height="26"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[TRAN CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="536" y="0" width="70" height="26"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[MSG REFID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="606" y="0" width="75" height="26"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[SEND DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="681" y="0" width="39" height="26"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[ERROR CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="720" y="0" width="80" height="26"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[ERROR DESC]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="99" height="20"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MSG_ID}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="99" y="0" width="65" height="20"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{SENDER_CODE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="164" y="0" width="141" height="20"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{SENDER_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="305" y="0" width="66" height="20"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{RECEIVER_CODE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="371" y="0" width="124" height="20"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{RECEIVER_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="495" y="0" width="41" height="20"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{TRAN_CODE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="536" y="0" width="70" height="20"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MSG_REFID}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="606" y="0" width="75" height="20" isRemoveLineWhenBlank="true"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{SEND_DATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="681" y="0" width="39" height="20"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{ERROR_CODE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="720" y="0" width="80" height="20"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{ERROR_DESC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,124 @@
+<?xml version = '1.0' encoding = 'windows-1252'?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+  <form-beans>
+    <form-bean name="DTSoatForm" type="com.seatech.ttsp.dts.form.DTSoatForm"/>
+    <form-bean name="TraCuuDTSoatForm" type="com.seatech.ttsp.dts.form.TraCuuDTSToanQuocForm"/>
+    <form-bean name="ChungThuSoForm" type="com.seatech.ttsp.chungthuso.form.ChungThuSoForm"/>
+     <form-bean name="DongBoHoaForm"
+                type="com.seatech.ttsp.DongBoHoa.Form.DongBoHoaForm"/>
+  </form-beans> 
+  <action-mappings>
+    <action name="DTSoatForm" path="/dtsoatlttdiView" parameter="list" scope="request" type="com.seatech.ttsp.dts.action.DTSoatLTToanDiAction">
+      <forward name="success" path="/pages/dts/DTSoatLTTDi.jsp"/>
+      <forward name="failure" path="/pages/dts/DTSoatLTTDi.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="timeout" path="/login.jsp"/>
+    </action>
+    <action name="DTSoatForm" path="/updatedtsExc" parameter="updateExc" scope="request" type="com.seatech.ttsp.dts.action.DTSoatLTToanDiAction">
+      <forward name="success" path="/pages/dts/DTSoatLTTDi.jsp"/>
+      <forward name="failure" path="/pages/main/main.jsp"/>
+    </action>
+    <action name="DTSoatForm" path="/tracuudts" parameter="view" scope="request" type="com.seatech.ttsp.dts.action.DTSoatLTToanDiAction">
+
+       <forward name="success" path="/pages/dts/TraCuuDTS.jsp"/>
+       <forward name="failure" path="/pages/dts/TraCuuDTS.jsp"/>
+    </action>
+    <action name="DTSoatForm" path="/checkstatebudts" scope="request" type="com.seatech.ttsp.dts.action.DTSoatLTToanDiAction">
+      <forward name="success" path="/pages/dts/DTSoatLTTDi.jsp"/>
+      <forward name="failure" path="/pages/main/main.jsp"/>
+    </action>
+    <action name="DTSoatForm" path="/themdtslttdi" parameter="add" scope="request" type="com.seatech.ttsp.dts.action.DTSoatLTToanDiAction">
+      <forward name="success" path="/pages/dts/DTSoatLTTDiAdd.jsp"/>
+    </action>
+    <action name="DTSoatForm" path="/themdtslttdiExc" parameter="addExc" scope="request" type="com.seatech.ttsp.dts.action.DTSoatLTToanDiAction">
+      <forward name="success" path="/pages/dts/DTSoatLTTDiAdd.jsp"/>
+    </action>
+    <action name="MainForm" path="/thoatView"  type="com.seatech.ttsp.main.action.MainAction" scope="request">
+     <forward name="success" path="/pages/main/main.jsp"/>
+     <forward name="failure" path="/pages/main/main.jsp"/>
+    </action>
+    <action name="DTSoatForm" path="/xulydtshoitunhtmView" parameter="list" scope="request" type="com.seatech.ttsp.dts.action.DTSoatHoiTuNHAction">
+      <forward name="success" path="/pages/dts/XuLyDTSoatHoiTuNHTM.jsp"/>
+      <forward name="failure" path="/pages/dts/XuLyDTSoatHoiTuNHTM.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action name="DTSoatForm" path="/filldatadtsoatdetail" scope="request" type="com.seatech.ttsp.dts.action.DTSoatHoiTuNHAction">
+      <forward name="success" path="/pages/dts/XuLyDTSoatHoiTuNHTM.jsp"/>
+    </action>
+    <action name="DTSoatForm" path="/nhapdtsoattraloi" parameter="view" scope="request" type="com.seatech.ttsp.dts.action.NhapDTSoatTraLoiAction">
+      <forward name="success" path="/pages/dts/NhapDienTraSoatTraLoi.jsp"/>
+    </action>
+    <action name="DTSoatForm" path="/xacnhandtshoinhtm" parameter="updateExc" scope="request" type="com.seatech.ttsp.dts.action.DTSoatHoiTuNHAction">
+      <forward name="success" path="/pages/dts/XuLyDTSoatHoiTuNHTM.jsp"/>
+      <forward name="failure" path="/pages/main/main.jsp"/>
+    </action>
+    <action name="DTSoatForm" path="/traloidtsoathoitunhtm" parameter="addExc" scope="request" type="com.seatech.ttsp.dts.action.NhapDTSoatTraLoiAction">
+      <forward name="success" path="/pages/dts/XuLyDTSoatHoiTuNHTM.jsp"/>
+      <forward name="failure" path="/pages/main/main.jsp"/>
+    </action>
+    <action name="DTSoatForm" path="/xulydtsoattraloiView" parameter="list" scope="request" type="com.seatech.ttsp.dts.action.XuLyDTSoatTraLoiAction">
+      <forward name="success" path="/pages/dts/XuLyDTSoatTraLoi.jsp"/>
+      <forward name="failure" path="/pages/dts/XuLyDTSoatTraLoi.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action name="DTSoatForm" path="/updatedtstraloi" parameter="updateExc" scope="request" type="com.seatech.ttsp.dts.action.XuLyDTSoatTraLoiAction">
+      <forward name="success" path="/pages/dts/XuLyDTSoatTraLoi.jsp"/>
+      <forward name="failure" path="/pages/main/main.jsp"/>
+    </action>
+    <action name="ChungThuSoForm" path="/dangkycts" scope="request" type="com.seatech.ttsp.chungthuso.action.DangKyCTSAction">
+      <forward name="success" path="/pages/cts/DangKyChungThuSo.jsp"/>
+      <forward name="failure" path="/pages/main/main.jsp"/>
+    </action>
+    <action name="ChungThuSoForm" path="/dangkyctsExc" scope="request" parameter="addExc" type="com.seatech.ttsp.chungthuso.action.DangKyCTSAction">
+      <forward name="success" path="/pages/cts/DangKyChungThuSo.jsp"/>
+    </action>
+    <action name="ChungThuSoForm" path="/quanlydangkycts" scope="request" type="com.seatech.ttsp.chungthuso.action.QuanLyDKyCTSAction">
+      <forward name="success" path="/pages/cts/DanhSachDkyChungThuSo.jsp"/>
+      <forward name="failure" path="/pages/main/main.jsp"/>
+    </action>
+    <action name="ChungThuSoForm" path="/duyetctsExc" scope="request" parameter="updateExc" type="com.seatech.ttsp.chungthuso.action.QuanLyDKyCTSAction">
+      <forward name="success" path="/pages/cts/DuyetSuccessfull.jsp"/>
+      <forward name="failure" path="/pages/cts/DanhSachDkyChungThuSo.jsp"/>
+    </action>
+     <action name="ChungThuSoForm" path="/tracuucts" scope="request" type="com.seatech.ttsp.chungthuso.action.TraCuuChungThuSoAction">
+      <forward name="success" path="/pages/cts/TraCuuChungThuSo.jsp"/>
+      <forward name="failure" path="/pages/main/main.jsp"/>
+    </action>
+    <action name="ChungThuSoForm" path="/viewdetailcts" scope="request" parameter="view" type="com.seatech.ttsp.chungthuso.action.TraCuuChungThuSoAction">
+      <forward name="success" path="/pages/cts/TraCuuChungThuSo.jsp"/>
+      <forward name="failure" path="/pages/main/main.jsp"/>
+    </action>
+    <action name="ChungThuSoForm" path="/suatgianhieuluc" scope="request" parameter="updateExc" type="com.seatech.ttsp.chungthuso.action.TraCuuChungThuSoAction">
+      <forward name="success" path="/pages/cts/SuaSuccessfull.jsp"/>
+      <forward name="failure" path="/pages/cts/TraCuuChungThuSo.jsp"/>
+    </action>
+    <!-- Tra Cuu LTT Toan Quoc -->
+    <action name="TraCuuDTSoatForm" path="/TraCuuDTSToanQuoc" scope="request"
+            type="com.seatech.ttsp.dts.action.TraCuuDTSToanQuocAction">
+      <forward name="success" path="/pages/dts/TraCuuDTSToanQuoc.jsp"/>
+      <forward name="failure" path="/pages/dts/TraCuuDTSToanQuoc.jsp"/>
+    </action>
+    <action name="TraCuuDTSoatForm" path="/TraCuuDTSToanQuocList" scope="request" parameter="list"
+            type="com.seatech.ttsp.dts.action.TraCuuDTSToanQuocAction">
+      <forward name="success" path="/pages/dts/TraCuuDTSToanQuoc.jsp"/>
+       <forward name="failure" path="/pages/dts/TraCuuDTSToanQuoc.jsp"/>
+    </action>
+    <action name="TraCuuDTSoatForm" path="/TraCuuDTSToanQuocView" scope="request" parameter="view"
+            type="com.seatech.ttsp.dts.action.TraCuuDTSToanQuocAction">
+      <forward name="success" path="/pages/dts/TraCuuDTSToanQuoc.jsp"/>
+      <forward name="failure" path="/pages/dts/TraCuuDTSToanQuoc.jsp"/>
+    </action>
+    
+      <action  name="DTSoatForm" path="/resendDTSListAction" scope="request"
+            type="com.seatech.ttsp.dts.action.resendDTSAction"
+            parameter="list">
+      <forward name="success" path="/pages/resend/resendDTS.jsp"/>
+      <forward name="failure" path="/pages/resend/resendDTS.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    
+    
+  </action-mappings>
+  <controller nocache="true" processorClass="org.apache.struts.action.RequestProcessor" contentType="text/html;charset=UTF-8" locale="false"/>
+</struts-config>

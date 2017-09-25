@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+  <form-beans>
+    <form-bean name="lTTForm" type="com.seatech.ttsp.ltt.form.LTTForm"></form-bean>
+    <form-bean name="thLTTDiReportForm"
+               type="com.seatech.ttsp.ltt.form.ThLTTDiReportForm"></form-bean>
+    <form-bean name="lTTToanQuocForm"
+                type="com.seatech.ttsp.ltt.form.LTTToanQuoc"></form-bean>
+    <form-bean name="duyetLTTForm"
+                type="com.seatech.ttsp.duyetLTT.form.duyetLTTForm"></form-bean>
+    <form-bean name="duyetLTTTWForm"
+                type="com.seatech.ttsp.duyetLTT.form.duyetLTTTWForm"></form-bean>
+    <form-bean name="duyetLTTTinhForm"
+                type="com.seatech.ttsp.duyetLTT.form.duyetLTTTinhForm"></form-bean>
+    <form-bean name="tsoTabmisForm"
+                type="com.seatech.ttsp.tsotabmis.form.tsoTabmisForm"></form-bean>
+    <form-bean name="TCuuDHVForm"
+               type="com.seatech.ttsp.tcuuDHV.form.TCuuDHVForm"/>
+               
+  </form-beans>
+  <action-mappings>
+    <!-- Begin LTT di -->
+    <action path="/listLttAdd" name="lTTForm" parameter="list" scope="request"
+            type="com.seatech.ttsp.ltt.action.LTTDiAction">
+      <forward name="success" path="/pages/ltt/lttDiAdd.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDiAdd.jsp"/>
+    </action>
+    <action path="/truyenlaiLTT" name="lTTForm" parameter="add" scope="request"
+            type="com.seatech.ttsp.ltt.action.LTTDiAction">
+      <forward name="success" path="/pages/ltt/lttDiAdd.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDiAdd.jsp"/>
+    </action>
+    <action path="/checkBeforeUpdate" name="lTTForm" parameter="view" scope="request"
+            type="com.seatech.ttsp.ltt.action.LTTDiAction">
+      <forward name="success" path="/pages/ltt/lttDiAdd.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDiAdd.jsp"/>
+    </action>
+    <action path="/fillTenFromCOAAction" name="lTTForm" parameter="fillTenFromCOA" scope="request"
+            type="com.seatech.ttsp.ltt.action.LTTDiAction">
+      <forward name="success" path="/pages/ltt/lttDiAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDiAdd.jsp"/>
+    </action>
+    <action path="/lttDiAdd" parameter="lttDiAdd"
+            type="com.seatech.ttsp.ltt.action.LTTDiAction">
+      <forward name="success" path="/pages/ltt/lttAdd.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttAdd.jsp"/>
+    </action>
+    <action path="/lttDiAddExc" name="lTTForm" parameter="lttDiAddExc"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDiAction">
+      <forward name="success" path="/pages/ltt/lttAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttAdd.jsp"/>
+    </action>
+    <action path="/checkPhanDoanCOA" name="lTTForm" parameter="checkPhanDoanCOA"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDiAction">
+      <forward name="success" path="/pages/ltt/lttAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttAdd.jsp"/>
+    </action>
+    <action path="/checkExistsCOA" name="lTTForm" parameter="checkPhanDoanCOA"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDenAction">
+      <forward name="success" path="/pages/ltt/lttDenAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDenAdd.jsp"/>
+    </action>
+    <action path="/COAFromSOTC" name="lTTForm" parameter="view"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDenAction">
+      <forward name="success" path="/pages/ltt/lttDenAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDenAdd.jsp"/>
+    </action>
+    <action path="/lttAddExc" name="lTTForm" parameter="addExc" scope="request"
+            type="com.seatech.ttsp.ltt.action.LTTDiAction">
+      <forward name="success" path="/pages/ltt/lttDiAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDiAdd.jsp"/>
+    </action>
+    <action path="/lttUpdateExc" name="lTTForm" parameter="updateExc"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDiAction">
+      <forward name="success" path="/pages/ltt/lttDiAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDiAdd.jsp"/>
+    </action>
+    <action path="/lttReject" name="lTTForm" parameter="rejectLttExc"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDiAction">
+      <forward name="success" path="/pages/ltt/lttDiAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDiAdd.jsp"/>
+    </action>
+    <action path="/lttApproved" name="lTTForm" parameter="approvedLttExc"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDiAction">
+      <forward name="success" path="/pages/ltt/lttDiAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDiAdd.jsp"/>
+    </action>
+    <action path="/lttCancel" name="lTTForm" parameter="cancelLttExc"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDiAction">
+      <forward name="success" path="/pages/ltt/lttDiAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDiAdd.jsp"/>
+    </action>
+    <action path="/lttComplete" name="lTTForm" parameter="completeLttExc"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDiAction">
+      <forward name="success" path="/pages/ltt/lttDiAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDiAdd.jsp"/>
+    </action>
+    <action path="/lttSearch" name="lTTForm" parameter="searchLttDi"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDiAction">
+      <forward name="success" path="/listLttAdd.do" redirect="true"/>
+      <forward name="failure" path="/pages/ltt/lttDiAdd.jsp"/>
+    </action>
+    <action path="/lttSearchExc" name="lTTForm" parameter="searchLttDiExc"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDiAction">
+      <forward name="success" path="/listLttAdd.do" redirect="true"/>
+      <forward name="failure" path="/pages/ltt/lttDiAdd.jsp"/>
+    </action>
+    <action name="lTTForm" path="/loadLTTDiJsonAction" scope="request"
+            type="com.seatech.ttsp.ltt.action.LoadLTTDiJsonAction">
+      <forward name="success" path="/pages/ltt/lttDiAdd.jsp"/>
+    </action>
+    <!-- End thanh toan di -->
+    <!-- Lenh thanh toan den -->
+    <action path="/listLttDenAdd" name="lTTForm" parameter="list"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDenAction">
+      <forward name="success" path="/pages/ltt/lttDenAdd.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDenAdd.jsp"/>
+    </action>
+    <action path="/lttDenUpdateExc" name="lTTForm" parameter="updateExc"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDenAction">
+      <forward name="success" path="/pages/ltt/lttDenAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDenAdd.jsp"/>
+    </action>
+    <action path="/lttDenReject" name="lTTForm" parameter="rejectLttExc"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDenAction">
+      <forward name="success" path="/pages/ltt/lttDenAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDenAdd.jsp"/>
+    </action>
+    <action path="/lttDenApproved" name="lTTForm" parameter="approvedLttExc"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDenAction">
+      <forward name="success" path="/pages/ltt/lttDenAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDenAdd.jsp"/>
+    </action>
+    <action path="/lttDenComplete" name="lTTForm" parameter="completeLttExc"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDenAction">
+      <forward name="success" path="/pages/ltt/lttDenAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDenAdd.jsp"/>
+    </action>
+    <action path="/lttDenSearch" name="lTTForm" parameter="searchLttDen"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDenAction">
+      <forward name="success" path="/listLttDenAdd.do" redirect="true"/>
+      <forward name="failure" path="/pages/ltt/lttDenAdd.jsp"/>
+    </action>
+    <action path="/lttDenSearchExc" name="lTTForm" parameter="searchLttDenExc"
+            scope="request" type="com.seatech.ttsp.ltt.action.LTTDenAction">
+      <forward name="success" path="/listLttDenAdd.do" redirect="true"/>
+      <forward name="failure" path="/pages/ltt/lttDenAdd.jsp"/>
+    </action>
+    <action name="lTTForm" path="/loadLTTDenJsonAction" scope="request"
+            type="com.seatech.ttsp.ltt.action.LoadLTTDenJsonAction">
+      <forward name="success" path="/pages/ltt/lttDenAdd.jsp"/>
+    </action>
+    <action name="lTTForm" path="/inLTTDenJsonAction" scope="request"
+            parameter="view"
+            type="com.seatech.ttsp.ltt.action.LoadLTTDenJsonAction">
+      <forward name="success" path="/pages/ltt/lttDenAdd.jsp"/>
+    </action>
+    <!-- Tra Cuu LTT Toan Quoc -->
+    <action name="lTTToanQuocForm" path="/TraCuuLTTToanQuoc" scope="request"
+            type="com.seatech.ttsp.ltt.action.TraCuuLTTToanQuoc">
+      <forward name="success" path="/pages/ltt/TraCuuLTTToanQuoc.jsp"/>
+    </action>
+    <action name="lTTToanQuocForm" path="/TraCuuLTTToanQuocList" scope="request" parameter="list"
+            type="com.seatech.ttsp.ltt.action.TraCuuLTTToanQuoc">
+      <forward name="success" path="/pages/ltt/TraCuuLTTToanQuoc.jsp"/>
+       <forward name="failure" path="/pages/ltt/TraCuuLTTToanQuoc.jsp"/>
+    </action>
+    <action parameter="view" name="lTTToanQuocForm"  path="/getDMucKBTCuuLTT" scope="request"
+      type="com.seatech.ttsp.ltt.action.TraCuuLTTToanQuoc">
+          <forward name="success" path="/pages/ltt/TraCuuLTTToanQuoc.jsp"/>
+          <forward name="failure" path="/pages/ltt/TraCuuLTTToanQuoc.jsp"/>
+    </action>
+    <!-- End Lenh thanh toan den -->
+    
+    <!-- Begin Chung tu giao dien -->
+    <action parameter="traCuuCTGD" path="/traCuuCTGD" name="lTTForm"
+            scope="request"
+            type="com.seatech.ttsp.tracuuctgd.action.TraCuuCTGDAction">
+      <forward name="success" path="/pages/tracuuctgd/traCuuChungTuGD.jsp"/>
+    </action>
+    <!-- End Chung tu giao dien -->   
+    <action name="lTTForm" path="/loadQuyetToanAction" scope="request"
+            type="com.seatech.ttsp.ltt.action.LoadLTTDenJsonAction">
+      <forward name="success" path="/pages/quyettoan/quyettoan.jsp"/>
+    </action>
+    <!-- End Quyet Toan -->
+    <action path="/thLTTDiReport"
+            type="com.seatech.ttsp.ltt.action.ThLTTDiReportAction"
+            name="thLTTDiReportForm" scope="request"
+            input="/pages/ltt/thLTTDi.jsp"></action>
+            
+     <!-- Duyet LTT theo lo -->       
+    <action parameter="list" name="duyetLTTForm" path="/loadDuyetLTT" scope="request"
+            type="com.seatech.ttsp.duyetLTT.action.duyetLTTAction">
+      <forward name="success" path="/pages/duyetLTT/duyetLTTmain.jsp"/>
+    </action>
+    <!--<action parameter="search" name="duyetLTTForm" path="/findDuyetLTT" scope="request"
+            type="com.seatech.ttsp.duyetLTT.action.duyetLTTAction">
+      <forward name="success" path="/pages/duyetLTT/duyetLTTmain.jsp"/>
+    </action> -->
+    <action parameter="update" name="duyetLTTForm" path="/updateDuyetLTT" scope="request"
+            type="com.seatech.ttsp.duyetLTT.action.duyetLTTAction">
+      <forward name="success" path="/loadDuyetLTT.do"/>
+      <forward name="failure" path="/pages/duyetLTT/duyetLTTmain.jsp"/>
+    </action>
+     <!-- Duyet LTT TW -->       
+    <action parameter="list" name="duyetLTTTWForm" path="/loadDuyetLTTTW" scope="request"
+            type="com.seatech.ttsp.duyetLTT.action.duyetLTTTWAction">
+      <forward name="success" path="/pages/duyetLTT/duyetLTTTWmain.jsp"/>
+    </action>
+    <action parameter="executeAction" name="duyetLTTTWForm" path="/getDMKBLTTTW" scope="request"
+            type="com.seatech.ttsp.duyetLTT.action.duyetLTTTWAction">
+      <forward name="success" path="/pages/duyetLTT/duyetLTTTWmain.jsp"/>
+    </action>
+        <action parameter="update" name="duyetLTTTWForm" path="/updateDuyetLTTTW" scope="request"
+            type="com.seatech.ttsp.duyetLTT.action.duyetLTTTWAction">
+      <forward name="success" path="/loadDuyetLTTTW.do"/>
+      <forward name="failure" path="/pages/duyetLTT/duyetLTTTWmain.jsp"/>
+    </action>
+    
+    <!-- Duyet LTT Tinh -->       
+    <action parameter="list" name="duyetLTTTinhForm" path="/loadDuyetLTTTinh" scope="request"
+            type="com.seatech.ttsp.duyetLTT.action.duyetLTTTinhAction">
+      <forward name="success" path="/pages/duyetLTT/duyetLTTTinh.jsp"/>
+    </action>
+        <action parameter="update" name="duyetLTTTinhForm" path="/updateDuyetLTTTinh" scope="request"
+            type="com.seatech.ttsp.duyetLTT.action.duyetLTTTinhAction">
+      <forward name="success" path="/loadDuyetLTTTinh.do"/>
+      <forward name="failure" path="/pages/duyetLTT/duyetLTTTinh.jsp"/>
+    </action>
+    
+    <!-- Tcuu DHV -->       
+    <action parameter="view" name="TCuuDHVForm" path="/loadTCuuDHV" scope="request"
+            type="com.seatech.ttsp.tcuuDHV.action.TCuuDHVAction">
+      <forward name="success" path="/pages/tcuuDHV/TCuuDHV.jsp"/>
+    </action>
+        <action parameter="list" name="TCuuDHVForm" path="/listTCuuDHV" scope="request"
+            type="com.seatech.ttsp.tcuuDHV.action.TCuuDHVAction">
+      <forward name="success" path="/pages/tcuuDHV/TCuuDHV.jsp"/>
+    </action>
+    
+    <!-- tham so tabmis -->
+     <action parameter="list" name="tsoTabmisForm" path="/loadTSoTabmis" scope="request"
+            type="com.seatech.ttsp.tsotabmis.action.tsoTabmisAction">
+      <forward name="success" path="/pages/tsotabmis/tsoTabmis.jsp"/>
+      <forward name="failure" path="/pages/tsotabmis/tsoTabmis.jsp"/>
+    </action>
+    <action parameter="update" name="tsoTabmisForm" path="/updateTSoTabmis" scope="request"
+            type="com.seatech.ttsp.tsotabmis.action.tsoTabmisAction">
+      <forward name="success" path="/pages/tsotabmis/updateTSo.jsp"/>
+      <forward name="failure" path="/pages/tsotabmis/tsoTabmis.jsp"/>
+    </action>
+    <action parameter="updateExc" name="tsoTabmisForm" path="/excUpdateTSoTabmis" scope="request"
+            type="com.seatech.ttsp.tsotabmis.action.tsoTabmisAction">
+      <forward name="success" path="/loadTSoTabmis.do"/>
+      <forward name="failure" path="/pages/tsotabmis/tsoTabmis.jsp"/>
+    </action>
+    <action parameter="view" name="tsoTabmisForm" path="/excUpdateTSoTabmisHaveCheck" scope="request"
+            type="com.seatech.ttsp.tsotabmis.action.tsoTabmisAction">
+      <forward name="success" path="/loadTSoTabmis.do"/>
+      <forward name="failure" path="/pages/tsotabmis/tsoTabmis.jsp"/>
+    </action>
+    <action parameter="view" name="lTTForm" path="/getTongMonTongTienAction" scope="request"
+            type="com.seatech.ttsp.ltt.action.LoadLTTDiAction">
+      <forward name="success" path="/pages/ltt/lttDiAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDiAdd.jsp"/>
+    </action>
+    <action parameter="view" name="lTTForm" path="/getTgMonTgTienLTTDenAction" scope="request"
+            type="com.seatech.ttsp.ltt.action.LoadLTTDiAction">
+      <forward name="success" path="/pages/ltt/lttDenAdd.jsp"/>
+      <forward name="failure" path="/pages/ltt/lttDenAdd.jsp"/>
+    </action>
+  </action-mappings>
+</struts-config>

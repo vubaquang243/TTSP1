@@ -1,0 +1,179 @@
+<?xml version = '1.0' encoding = 'windows-1252'?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+  <form-beans>
+    <form-bean name="DTSoatTLoiForm"
+               type="com.seatech.ttsp.dts.form.DTSoatForm"/>
+    <form-bean name="NgayNghiForm"
+               type="com.seatech.ttsp.ngaynghi.form.NgayNghiForm"/>
+    <form-bean name="TKNHKBForm"
+               type="com.seatech.ttsp.tknhkb.form.TKNHKBacForm"/>
+    <form-bean name="DMKB_Form" type="com.seatech.ttsp.dmkb.form.DMKBacForm"/>
+    <form-bean name="LSuTacNghiep_Form"
+               type="com.seatech.ttsp.lsutacnghiep.form.LSuTacNghiepForm"/>
+    
+  </form-beans>
+  <action-mappings>
+    <action name="DTSoatTLoiForm" path="/dtsoattloiView" parameter="list"
+            scope="request"
+            type="com.seatech.ttsp.dts.action.DTSoatTraLoiAction">
+      <forward name="success" path="/pages/dts/DTSoatTLoi.jsp"/>
+      <forward name="failure" path="/pages/main/main.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="timeout" path="/login.jsp"/>
+    </action>
+    <action name="DTSoatTLoiForm" path="/checkstatebudtstloi" scope="request"
+            type="com.seatech.ttsp.dts.action.DTSoatTraLoiAction">
+      <forward name="success" path="/pages/dts/DTSoatTLoi.jsp"/>
+      <forward name="failure" path="/pages/main/main.jsp"/>
+    </action>
+    <action name="DTSoatTLoiForm" path="/updatedtstrloi" parameter="updateExc"
+            scope="request"
+            type="com.seatech.ttsp.dts.action.DTSoatTraLoiAction">
+      <forward name="success" path="/pages/dts/DTSoatTLoi.jsp"/>
+      <forward name="failure" path="/pages/dts/DTSoatTLoi.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action name="DTSoatTLoiForm" path="/tracuudtstraloi" parameter="view"
+            scope="request"
+            type="com.seatech.ttsp.dts.action.DTSoatTraLoiAction">
+      <forward name="success" path="/pages/dts/TraCuuDTSTLoi.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action name="DMNHForm" path="/loadDVTSAction" scope="request"
+            type="com.seatech.ttsp.dmnh.action.LoadTenNHangAction">
+      <forward name="success" path="/pages/dts/TraCuuDTSTLoi.jsp"/>
+    </action>
+    <action name="NgayNghiForm" path="/tracuuNgayNghi" parameter="view"
+            scope="request"
+            type="com.seatech.ttsp.ngaynghi.action.QuanLyNgayNghiAction">
+      <forward name="success" path="/pages/ngaynghi/QLyNgayNghi.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action name="NgayNghiForm" path="/xemNgayNghi" parameter="list"
+            scope="request"
+            type="com.seatech.ttsp.ngaynghi.action.QuanLyNgayNghiAction">
+      <forward name="success" path="/pages/ngaynghi/QLyNgayNghi.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action name="NgayNghiForm" path="/ghiNgayNghi" parameter="addExc"
+            scope="request"
+            type="com.seatech.ttsp.ngaynghi.action.QuanLyNgayNghiAction">
+      <forward name="success" path="/pages/ngaynghi/QLyNgayNghi.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action name="NgayNghiForm" path="/inNgayNghi" parameter="print"
+            scope="request"
+            type="com.seatech.ttsp.ngaynghi.action.QuanLyNgayNghiAction">
+      <forward name="success" path="/pages/ngaynghi/QLyNgayNghi.jsp"/>
+      <forward name="failure" path="/pages/ngaynghi/QLyNgayNghi.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    
+    <!-- still work -->
+    <action name="TKNHKBForm" path="/tracuuTKNHKB" parameter="list"
+            scope="request"
+            type="com.seatech.ttsp.tknhkb.action.TKNHKBacAction">
+      <forward name="success" path="/pages/tknhkb/tracuutknhkb.jsp"/>
+      <forward name="failure" path="/pages/tknhkb/tracuutknhkb.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    
+    <action name="TKNHKBForm" path="/lstTKNHKB" parameter="view"
+            scope="request"
+            type="com.seatech.ttsp.tknhkb.action.TKNHKBacAction">
+      <forward name="success" path="/pages/tknhkb/tracuutknhkb.jsp"/>
+      <forward name="failure" path="/pages/tknhkb/tracuutknhkb.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    
+    <action name="TKNHKBForm" path="/inTKNHKB" parameter="print"
+            scope="request"
+            type="com.seatech.ttsp.tknhkb.action.TKNHKBacAction">
+      <forward name="success" path="/pages/tknhkb/tracuutknhkb.jsp"/>
+      <forward name="failure" path="/pages/tknhkb/tracuutknhkb.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action name="TKNHKBForm" path="/xoaTKNHKB" parameter="delete"
+            scope="request"
+            type="com.seatech.ttsp.tknhkb.action.TKNHKBacAction">
+      <forward name="success" path="/pages/tknhkb/tracuutknhkb.jsp"/>
+      <forward name="failure" path="/pages/tknhkb/tracuutknhkb.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action name="TKNHKBForm" path="/themtaikhoan" scope="request"
+            type="com.seatech.ttsp.tknhkb.action.TKNHKBacAction">
+      <forward name="success" path="/pages/tknhkb/themmoitknhkb.jsp"/>
+      <forward name="failure" path="/pages/tknhkb/themmoitknhkb.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action name="TKNHKBForm" path="/ghitknhkb" parameter="addExc"
+            scope="request"
+            type="com.seatech.ttsp.tknhkb.action.TKNHKBacAction">
+      <forward name="success" path="/pages/tknhkb/tracuutknhkb.jsp"/>
+      <forward name="failure" path="/themtaikhoan.do"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action name="TKNHKBForm" path="/suatknhkb" parameter="updateExc"
+            scope="request"
+            type="com.seatech.ttsp.tknhkb.action.TKNHKBacAction">
+      <forward name="success" path="/pages/tknhkb/tracuutknhkb.jsp"/>
+      <forward name="failure" path="/pages/tknhkb/themmoitknhkb.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action name="TKNHKBForm" path="/thoatghitknhkb" parameter="list"
+            scope="request"
+            type="com.seatech.ttsp.tknhkb.action.TKNHKBacAction">
+      <forward name="success" path="/pages/tknhkb/tracuutknhkb.jsp"/>
+      <forward name="failure" path="/pages/tknhkb/tracuutknhkb.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action name="LSuTacNghiep_Form" path="/loadLSuTacNghiep" parameter="list"
+            scope="request"
+            type="com.seatech.ttsp.lsutacnghiep.action.TraCuuLSuTacNghiepAction">
+      <forward name="success"
+               path="/pages/lsu_tacnghiep/TraCuuLSuTacNghiep.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action name="LSuTacNghiep_Form" path="/tracuuLSuTacNghiep" parameter="view"
+            scope="request"
+            type="com.seatech.ttsp.lsutacnghiep.action.TraCuuLSuTacNghiepAction">
+      <forward name="success"
+               path="/pages/lsu_tacnghiep/TraCuuLSuTacNghiep.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/lsu_tacnghiep/TraCuuLSuTacNghiep.jsp"/>
+    </action>
+    <action name="LSuTacNghiep_Form" path="/inLSuTacNghiep" parameter="print"
+            scope="request"
+            type="com.seatech.ttsp.lsutacnghiep.action.TraCuuLSuTacNghiepAction">
+      <forward name="success"
+               path="/pages/lsu_tacnghiep/TraCuuLSuTacNghiep.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/lsu_tacnghiep/TraCuuLSuTacNghiep.jsp"/>
+    </action>
+    <action name="DMNHForm" path="/loadTenDMNH" scope="request"
+            type="com.seatech.ttsp.dmnh.action.LoadTenNHangAction">
+      <forward name="success" path="/pages/tknhkb/themmoitknhkb.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action name="DMKB_Form" path="/loadTenDMKB" scope="request"
+            type="com.seatech.ttsp.dmkb.action.LoadTenKBacAction">
+      <forward name="success" path="/pages/tknhkb/themmoitknhkb.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    
+    <action name="DMKB_Form" path="/loadTenDMKB8So" scope="request"  parameter="list"
+            type="com.seatech.ttsp.dmkb.action.LoadTenKBacAction">
+    </action>
+   
+    <action name="DMKB_Form" path="/loadTenKB" scope="request"
+            type="com.seatech.ttsp.dmkb.action.LoadTenKBacAction">
+      <forward name="success" path="/pages/doichieu/TheoDoiDC.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action path="/thoat" parameter="/pages/main/main.jsp"
+            type="org.apache.struts.actions.ForwardAction"/>
+  </action-mappings>
+</struts-config>

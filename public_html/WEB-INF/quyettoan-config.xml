@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+  <form-beans>
+    <form-bean name="QuyetToanForm" type="com.seatech.ttsp.quyettoan.form.QuyetToanForm"></form-bean>
+    <form-bean name="QuyetToanToanQuocForm" type="com.seatech.ttsp.quyettoan.form.QuyetToanToanQuocForm"></form-bean>
+    <form-bean name="BKE_QuyetToanForm" type="com.seatech.ttsp.quyettoan.form.BKE_QuyetToanForm"></form-bean>
+    <form-bean name="TCuuBKeQToanForm" type="com.seatech.ttsp.quyettoan.form.TCuuBKeQToanForm"></form-bean>
+  </form-beans>
+  <action-mappings>
+    <action parameter="list" path="/XuLyLenhQuyetToanList"
+            name="QuyetToanForm" scope="request"
+            type="com.seatech.ttsp.quyettoan.action.XuLyLenhQuyetToanAction">
+      <forward name="success"
+               path="/pages/quyettoan/XuLyLenhQuyetToan.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/XuLyLenhQuyetToan.jsp"/>
+    </action>
+    <action parameter="view" path="/XuLyLenhQuyetToanView"
+            name="QuyetToanForm" scope="request"
+            type="com.seatech.ttsp.quyettoan.action.XuLyLenhQuyetToanAction">
+      <forward name="success"
+               path="/pages/quyettoan/XuLyLenhQuyetToan.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/XuLyLenhQuyetToan.jsp"/>
+    </action>
+    <action  path="/XuLyLenhQuyetToan"
+            name="QuyetToanForm" scope="request"
+            type="com.seatech.ttsp.quyettoan.action.XuLyLenhQuyetToanAction">
+      <forward name="success"
+               path="/pages/quyettoan/XuLyLenhQuyetToan.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/XuLyLenhQuyetToan.jsp"/>
+    </action>
+    <action parameter="updateExc" path="/XuLyLenhQuyetToanUpdateExc"
+            name="QuyetToanForm" scope="request"
+            type="com.seatech.ttsp.quyettoan.action.XuLyLenhQuyetToanAction">
+      <forward name="success"
+               path="/pages/quyettoan/XuLyLenhQuyetToan.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/XuLyLenhQuyetToan.jsp"/>
+    </action>
+    <action path="/QuyetToanToanQuoc"
+            name="QuyetToanToanQuocForm" scope="request"
+            type="com.seatech.ttsp.quyettoan.action.QuyetToanToanQuocAction">
+      <forward name="success"
+               path="/pages/quyettoan/QuyetToanToanQuoc.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/QuyetToanToanQuoc.jsp"/>
+    </action>
+    <action path="/QuyetToanToanQuocList"
+            name="QuyetToanToanQuocForm" scope="request" parameter="list"
+            type="com.seatech.ttsp.quyettoan.action.QuyetToanToanQuocAction">
+      <forward name="success"
+               path="/pages/quyettoan/QuyetToanToanQuoc.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/QuyetToanToanQuoc.jsp"/>
+    </action>
+    <action path="/QuyetToanToanQuocUpdateExc"
+            name="QuyetToanToanQuocForm" scope="request" parameter="updateExc"
+            type="com.seatech.ttsp.quyettoan.action.QuyetToanToanQuocAction">
+      <forward name="success"
+               path="/pages/quyettoan/QuyetToanToanQuoc.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/QuyetToanToanQuoc.jsp"/>
+    </action>
+    <action path="/QuyetToanToanQuocUpdate"
+            name="QuyetToanToanQuocForm" scope="request" parameter="update"
+            type="com.seatech.ttsp.quyettoan.action.QuyetToanToanQuocAction">
+      <forward name="success"
+               path="/pages/quyettoan/QuyetToanToanQuoc.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/QuyetToanToanQuoc.jsp"/>
+    </action>
+    <action path="/XuLyQToanTQuoc"
+            name="BKE_QuyetToanForm" scope="request"
+            type="com.seatech.ttsp.quyettoan.action.XuLyQToanTQAction">
+      <forward name="success"
+               path="/pages/quyettoan/XuLyQToanTQ.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/XuLyQToanTQ.jsp"/>
+    </action>
+    <action path="/XuLyQToanTQuocView" parameter="view"
+            name="BKE_QuyetToanForm" scope="request"
+            type="com.seatech.ttsp.quyettoan.action.XuLyQToanTQAction">
+      <forward name="success"
+               path="/pages/quyettoan/XuLyQToanTQ.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/XuLyQToanTQ.jsp"/>
+    </action>
+    <action path="/XuLyQToanTQuocUpdateExc" parameter="updateExc"
+            name="BKE_QuyetToanForm" scope="request"
+            type="com.seatech.ttsp.quyettoan.action.XuLyQToanTQAction">
+      <forward name="success"
+               path="/pages/quyettoan/XuLyQToanTQ.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/XuLyQToanTQ.jsp"/>
+    </action>
+    <action path="/TraCuuQToan"
+            name="QuyetToanToanQuocForm" scope="request"
+            type="com.seatech.ttsp.quyettoan.action.TraCuuLQTAction">
+      <forward name="success"
+               path="/pages/quyettoan/TraCuuLenhQuyetToan.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/TraCuuLenhQuyetToan.jsp"/>
+    </action>
+    <action path="/TraCuuQToanList"
+            name="QuyetToanToanQuocForm" scope="request" parameter="list"
+            type="com.seatech.ttsp.quyettoan.action.TraCuuLQTAction">
+      <forward name="success"
+               path="/pages/quyettoan/TraCuuLenhQuyetToan.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/TraCuuLenhQuyetToan.jsp"/>
+    </action>
+    <action path="/DSachKBHuyen"
+            name="QuyetToanToanQuocForm" scope="request" parameter="view"
+            type="com.seatech.ttsp.quyettoan.action.TraCuuLQTAction">
+      <forward name="success"
+               path="/pages/quyettoan/TraCuuLenhQuyetToan.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/TraCuuLenhQuyetToan.jsp"/>
+    </action>
+    <!-- tra cuu BKe -->
+    
+        <action path="/TCuuBKeQToanList"
+            name="TCuuBKeQToanForm" scope="request" parameter="list"
+            type="com.seatech.ttsp.quyettoan.action.TCuuBKeQToanAction">
+      <forward name="success"
+               path="/pages/quyettoan/TCuuBKeQToan.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/TraCuuLenhQuyetToan.jsp"/>
+    </action>
+            <action path="/ViewTCuuBKeQToan"
+            name="TCuuBKeQToanForm" scope="request" parameter="view"
+            type="com.seatech.ttsp.quyettoan.action.TCuuBKeQToanAction">
+      <forward name="success"
+               path="/pages/quyettoan/TCuuBKeQToan.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/TCuuBKeQToan.jsp"/>
+    </action>
+
+    <action path="/ViewDetailBKeQToan" parameter="executeAction"
+            name="BKE_QuyetToanForm" scope="request"
+            type="com.seatech.ttsp.quyettoan.action.TCuuBKeQToanAction">
+      <forward name="success"
+               path="/pages/quyettoan/XuLyQToanTQ.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/TCuuBKeQToan.jsp"/>
+    </action>
+  <!-- resend LQT -->
+  <action  name="QuyetToanForm" path="/resendLQTListAction" scope="request"
+            type="com.seatech.ttsp.quyettoan.action.resendLQTAction"
+            parameter="list">
+      <forward name="success" path="/pages/resend/resendLQT.jsp"/>
+      <forward name="failure" path="/pages/resend/resendLQT.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+  </action>
+  
+  <action  name="BKE_QuyetToanForm" path="/resendBKLQTListAction" scope="request"
+            type="com.seatech.ttsp.quyettoan.action.resendBKLQTAction"
+            parameter="list">
+      <forward name="success" path="/pages/resend/resendBKLQT.jsp"/>
+      <forward name="failure" path="/pages/resend/resendBKLQT.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+  </action>
+    
+  </action-mappings>
+</struts-config>
