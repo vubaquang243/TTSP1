@@ -109,7 +109,6 @@ public class TheoDoiQT066Action extends AppAction {
             DNQTVO dnqtVO = new DNQTVO();
             Collection colLst066 = new ArrayList();
 
-
             String kb_code =
                 session.getAttribute(AppConstants.APP_KB_CODE_SESSION).toString();
             String kb_id =
@@ -177,7 +176,14 @@ public class TheoDoiQT066Action extends AppAction {
           String so_dnqt =
               frm.getId() == null ? "" : frm.getId();
             String loai_tien = frm.getLoai_tien() == null ? "" : frm.getLoai_tien();
-
+            String so_tien = frm.getSo_tien() == null ? "" : frm.getSo_tien();
+            String soTien = "";
+            if(!so_tien.equals(""))
+            if(loai_tien.equals("VND")){
+                soTien = so_tien.replace(".", "");
+            }else{
+              soTien = so_tien.replace(",", "");
+            }
             String strNgayQT = "";
             String strLst066 = "";
             String char_dngay = "";
@@ -194,6 +200,9 @@ public class TheoDoiQT066Action extends AppAction {
             }
             if (loai_tien != null && !"".equals(loai_tien)) {
                 strLst066 += " AND a.loai_tien='" + loai_tien+"'";
+            }
+            if(soTien != null && !soTien.equals("")){
+                strLst066 += " AND (a.qtoan_chi="+ soTien +" OR a.qtoan_thu="+soTien+")";
             }
           if (ma_dv != null && !"".equals(ma_dv)) {
               strLst066 += " and substr(a.nhkb_nhan,3,3) = '" + ma_dv + "'";
@@ -251,8 +260,8 @@ public class TheoDoiQT066Action extends AppAction {
                     dao.getLst066(strLst066,  null, currentPage, numberRowOnPage,
                                   totalCount);
             request.setAttribute("colLst066", colLst066);
-          request.setAttribute("kb_huyen", inKB);
-          request.setAttribute("ngan_hang", inNH);
+            request.setAttribute("kb_huyen", inKB);
+            request.setAttribute("ngan_hang", inNH);
             PagingBean pagingBean = new PagingBean();
             pagingBean.setCurrentPage(currentPage);
             pagingBean.setNumberOfRow(totalCount[0].intValue());

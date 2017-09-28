@@ -49,6 +49,40 @@
       modal: true
     });    
   });
+  
+  //chuyen doi dinh dang ngoai te
+  function changeForeignCurrency(nStr){
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+       var rgx = /(\d+)(\d{3})/;
+       while (rgx.test(x1)) {
+          x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+      }
+      
+  //xu ly dinh dang tien te viet nam
+  function changeVNDCurrency(nStr){
+    nStr += '';
+    x1 = nStr;
+      x1 = x1.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+    return x1;
+  } 
+    function resetInput(){
+     jQuery('#so_tien').val("");
+    }
+    
+    function changeCurrency(str){
+    var cateCurrency = jQuery('#loai_tien').val();
+    if(cateCurrency != ""){
+    if(cateCurrency == "VND"){
+      str.value = changeVNDCurrency(str.value);
+    }else{
+      str.value = changeForeignCurrency(str.value);
+    }}
+  }
 </script>
 
 <div class="app_error">
@@ -169,6 +203,7 @@
                       <html:option value="">---Ch&#7885;n lo&#7841;i &#273;&#7889;i chi&#7871;u---</html:option>
                       <html:option value="01">QT tự động</html:option>
                       <html:option value="02">QT lập mới</html:option>
+                      <html:option value="07">QT loại khác</html:option>
                   </html:select>                 
                   </td>
                 </tr> 
@@ -219,12 +254,14 @@
                 <tr>
                   <td align="right">Loại tiền</td>
                   <td>
-                    <html:select property="loai_tien" styleId="loai_tien" onkeydown="if(event.keyCode==13) event.keyCode=9;">  
+                    <html:select property="loai_tien" styleId="loai_tien" onkeydown="if(event.keyCode==13) event.keyCode=9;" onblur="resetInput();">  
                         <html:option value="">---Chọn---</html:option>  
                         <html:option value="VND">VND</html:option>
                         <html:optionsCollection name="dmTienTe" value="ma" label="ma"/>
                     </html:select>
                   </td>
+                  <td align="right">Số tiền</td>
+                  <td><html:text property="so_tien" styleId="so_tien" onkeydown="if(event.keyCode==13) event.keyCode=9;" onblur="changeCurrency(this);" />(QT thu/chi)</td>
                 </tr>
              </table>
            </div>

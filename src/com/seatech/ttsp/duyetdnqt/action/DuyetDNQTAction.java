@@ -45,7 +45,6 @@ public class DuyetDNQTAction extends AppAction {
      * Hàm main
      *
      * */
-
     public ActionForward executeAction(ActionMapping mapping, ActionForm form,
                                        HttpServletRequest request,
                                        HttpServletResponse response) throws Exception {

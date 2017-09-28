@@ -468,7 +468,7 @@
                       <%
                       }else{
                       %>
-                      <html:option value=""><fmt:message key="SaoKe.page.label.tracuu.loaitien"/></html:option>
+                      <html:option value=""><fmt:message key="SaoKe.page.label.tracuu.tk"/></html:option>
                       <%
                       }
                       %>

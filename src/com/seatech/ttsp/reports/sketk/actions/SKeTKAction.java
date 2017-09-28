@@ -1053,6 +1053,8 @@ public class SKeTKAction extends AppAction {
                     request.setAttribute("lstDSKBHuyen", lstDSKBHuyen);
                     request.setAttribute("lstDSNHang", lstDSNHang);
                     request.setAttribute("lstTKNHang", lstTKNHang);
+                  throw TTSPException.createException("TTSP-9999",
+                                                      "Update thành công");
                 }
             } else {
                 throw TTSPException.createException("TTSP-9999",

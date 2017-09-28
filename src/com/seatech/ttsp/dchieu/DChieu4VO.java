@@ -3,7 +3,7 @@ package com.seatech.ttsp.dchieu;
 
 import com.seatech.framework.strustx.AppForm;
 
-public class DChieu3VO extends AppForm {
+public class DChieu4VO extends AppForm {
   private  String id;           
   private  String lan_dc;       
   private  String ngay_dc;        

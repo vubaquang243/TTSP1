@@ -37,7 +37,7 @@ private String nhkb_tinh;
   private String thu_chi;
   private String ngan_hang;
   private String loai_tien;
-
+  private String so_tien;
 
     public void setNhkb_tinh(String nhkb_tinh) {
         this.nhkb_tinh = nhkb_tinh;
@@ -301,5 +301,13 @@ private String nhkb_tinh;
 
     public String getLoai_tien() {
         return loai_tien;
+    }
+
+    public void setSo_tien(String so_tien) {
+        this.so_tien = so_tien;
+    }
+
+    public String getSo_tien() {
+        return so_tien;
     }
 }

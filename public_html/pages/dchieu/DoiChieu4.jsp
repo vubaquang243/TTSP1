@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" media="screen" href="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/css/jquery-ui-1.8.2.custom.css"/>
 <link rel="stylesheet"  type="text/css" media="screen" href="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/css/tabber.css"/>
 <script type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/tabber.js"></script>
-<script type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/DChieu3.js"></script>
+<script type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/DChieu4.js"></script>
 <script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/jquery-ui-1.8.11.custom.min.js"  type="text/javascript"></script>
         
 <%@ page import="com.seatech.framework.common.jsp.PagingBean"%>
@@ -62,31 +62,6 @@
             }
          }
         });
-        //***************************dialog confirm message	*********************************************
-//        
-//						dialog_confirm.dialog({
-//							autoOpen: false,
-//              resizable: false,
-//							height:200,
-//							width:380,
-//							modal: true,
-//							buttons: {
-//								"Có": function() {
-//                  if   (jQuery('#eventAction').val()=='create')
-//                    TaoXacNhan();
-//                  else{
-//                      jQuery('#frmBangKeDC3').attr({action:'thoatView.do'});
-//                      jQuery('#frmBangKeDC3').submit();
-//                  }
-////                  jQuery( this ).dialog( "close" );
-//                },
-//								"Không": function() {
-//                   jQuery( this ).dialog( "close" );
-//                }
-//							}
-//						});
-				
-      
       });
       
 </script>
@@ -103,7 +78,7 @@
           <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/T1.jpg" width="13" height="30"/>
         </td>
         <td background="<%=request.getContextPath()%>/styles/images/T2.jpg" width="75%">
-          <span class="title2"><fmt:message key="doi_chieu.page.title2"/></span>
+          <span class="title2">Đối chiếu thủ công ngoại tệ toàn quốc</span>
         </td>
         <td width="62">
           <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/T3.jpg" width="62" height="30"/>
@@ -140,19 +115,22 @@
               <thead>
                 <tr>
                   <th width="25%" class="ui-state-default ui-th-column">
-                    <fmt:message key="doi_chieu.page.lable.nhang"/>
+                    Ngân hàng
                   </th>
                    <th width="20%" class="ui-state-default ui-th-column">
                     Ngày ĐC
                   </th>
                   <th width="10%" class="ui-state-default ui-th-column">
+                    Loại tiền
+                  </th>
+                  <th width="10%" class="ui-state-default ui-th-column">
                     Lần
                   </th>
-                  <th width="30%" class="ui-state-default ui-th-column">
-                    <fmt:message key="doi_chieu.page.lable.tthai"/>
+                  <th width="20%" class="ui-state-default ui-th-column">
+                    Trạng thái
                   </th>
                   <th width="15%" class="ui-state-default ui-th-column">
-                    <fmt:message key="doi_chieu.page.lable.tthai_ttin"/>
+                    Trạng thái TTin
                   </th>
                 </tr>
               </thead>
@@ -169,7 +147,7 @@
                        <tr style="width:100%;" class="ui-widget-content jqgrow ui-row-ltr"
                             id="row_dts_<bean:write name="index"/>"                                                   
                             ondblclick="rowSelectedFocus('row_dts_<bean:write name="index"/>');" 
-                            onclick="rowSelectedFocus('row_dts_<bean:write name="index"/>');DChieu3Detail('<bean:write name="bangkelist" property="id"/>');">
+                            onclick="rowSelectedFocus('row_dts_<bean:write name="index"/>');DChieu4Detail('<bean:write name="bangkelist" property="id"/>');">
                           <td  width="25%" align="center" id="td_dts_<bean:write name="index"/>">
                             <input size="8" tabindex="100" name="row_item" id="<bean:write name="index"/>" 
                             type="text" style="border:0px;" value="<bean:write name="bangkelist" property="send_bank"/>" 
@@ -179,9 +157,12 @@
                             <bean:write name="bangkelist" property="ngay_dc"/>
                           </td>
                           <td width="10%" align="center">
+                            <bean:write name="bangkelist" property="loai_tien"/>
+                          </td>
+                          <td width="10%" align="center">
                             <bean:write name="bangkelist" property="lan_dc"/>
                           </td>
-                          <td align="center" width="30%">
+                          <td align="center" width="20%">
                             <logic:equal value="00" name="bangkelist"
                                          property="trang_thai">Chưa đối chiếu</logic:equal>
                              
@@ -249,7 +230,7 @@
 
       <td>
         <fieldset>
-          <legend>T&#7893;ng h&#7907;p b&#7843;ng k&#234;</legend>
+          <legend>Thông tin bảng kê</legend>
           <div style="height:200px;">
             <html:hidden property="id"  styleId="id"/>
             <html:hidden property="send_bank" styleId="send_bank"/>
@@ -263,7 +244,7 @@
                      style="BORDER-COLLAPSE: collapse" height="198px;">
                 <tr>
                   <td width="70%">
-                    <fmt:message key="doi_chieu.page.lagle.sdutkdaungay"/>
+                    Số dư tài khoản đầu ngày
                   </td>
                   <td>
                     <html:text property="sodu_daungay" style="border:1px"
@@ -274,7 +255,7 @@
                 </tr>                 
                 <tr>
                   <td>
-                    <fmt:message key="doi_chieu.page.lagle.tongchitrongngay"/>
+                    Tổng quyết toán chi toàn quốc
                   </td>
                   <td>
                     <html:text property="tong_chi" style="border:0px;"
@@ -285,7 +266,7 @@
                  
                 <tr>
                   <td>
-                    <fmt:message key="doi_chieu.page.lagle.tongthutrongngay"/>
+                    Tổng quyết toán thu toàn quốc
                   </td>
                   <td>
                     <html:text property="tong_thu" maxlength="20"
@@ -296,7 +277,7 @@
                  
                 <tr>
                   <td>
-                    <fmt:message key="doi_chieu.page.lagle.sdutkcuoingay"/>
+                    Số dư cuối ngày
                   </td>
                   <td>
                     <html:text property="so_du_cuoi_ngay" style="border:0px;"
@@ -315,8 +296,8 @@
        <button type="button" accesskey="t" style="width:170px" id="btnInBKDC" onclick="check('print')" >
          In kết quả đối chiếu
         </button>
-        <button type="button" accesskey="t" style="width:170px" id="btnDC" onclick="SubmitDC3('frmBangKeDC3')">
-          <fmt:message key="doi_chieu.page.button.thuc_hien"/>
+        <button type="button" accesskey="t" style="width:170px" id="btnDC" onclick="SubmitDC4('frmBangKeDC4')">
+          Thực hiện đối chiếu
         </button>
       </td>
     </tr>
@@ -326,10 +307,10 @@
     <tr>
       <td colspan="2">
         <fieldset>
-          <legend>Chi ti&#7871;t ch&#234;nh l&#7879;ch</legend>
+          <legend>Chi tiết chênh lệch</legend>
            <div class="tabber" id="mytabber1" >
             <div class="tabbertab" style="height:300;overflow-y: scroll;">
-              <h2><fmt:message key="doi_chieu.page.lagle.dienmt900"/></h2> 
+              <h2>Quyết toán thu</h2> 
                <table width="100%" cellspacing="0" cellpadding="1" 
                    bordercolor="#e1e1e1" border="1" align="center"
                    style="BORDER-COLLAPSE: collapse" id="tblMT900">
@@ -337,42 +318,32 @@
                 <tr>
                   <th class="promptText" bgcolor="#f0f0f0">
                     <div align="center">
-                      <fmt:message key="doi_chieu.page.lagle.solenhqt"/>
-                    </div>
-                  </th>
-                  <!--<th class="promptText" bgcolor="#f0f0f0">
-                      <div align="center">
-                          <fmt:message key="doi_chieu.page.lable.nhkbchuyen"/>
-                      </div>
-                  </th>
-                  <th class="promptText" bgcolor="#f0f0f0">
-                      <div align="center">
-                        <fmt:message key="doi_chieu.page.lable.tennhkbchuyen"/>
-                      </div>
-                  </th>-->
-                  <th class="promptText" bgcolor="#f0f0f0">
-                    <div align="center">
-                      <fmt:message key="doi_chieu.page.lable.nhkbnhan"/>
+                      Số lệnh quyết toán
                     </div>
                   </th>
                   <th class="promptText" bgcolor="#f0f0f0">
                     <div align="center">
-                      <fmt:message key="doi_chieu.page.lable.tennhkbnhan"/>
+                      NH/KB nhận
                     </div>
                   </th>
                   <th class="promptText" bgcolor="#f0f0f0">
                     <div align="center">
-                      <fmt:message key="doi_chieu.page.lagle.ngayct"/>
+                      Tên NH/KB nhận
                     </div>
                   </th>
                   <th class="promptText" bgcolor="#f0f0f0">
                     <div align="center">
-                      <fmt:message key="doi_chieu.page.lable.stien"/>
+                      Ngày chứng từ
+                    </div>
+                  </th>
+                  <th class="promptText" bgcolor="#f0f0f0">
+                    <div align="center">
+                      Số tiền
                     </div>
                   </th>
                   <th class="promptText" bgcolor="#f0f0f0">
                     <div align="center">          
-                      <fmt:message key="doi_chieu.page.lable.tthai"/>
+                      Trạng thái
                     </div>
                   </th>
                 </tr> 
@@ -384,12 +355,6 @@
                    <td align="center">
                     <bean:write name="items" property="mt_id"/>
                   </td>
-                  <!--<td align="center">
-                    aaaaaaaaaaaaaaaa
-                  </td>
-                  <td align="center">
-                    <bean:write name="items" property="ten_receive_bank"/>
-                  </td>-->
                   <td align="center">
                     <bean:write name="items" property="ma_kb"/>
                   </td>
@@ -400,7 +365,7 @@
                     <bean:write name="items" property="ngay_ct"/>
                   </td>
                   <td align="center">
-                  <fmt:setLocale value="vi_VI"/>
+                  <fmt:setLocale value="us_US"/>
                   <fmt:formatNumber maxFractionDigits="5"  type="currency"  currencySymbol="">
                     <bean:write name="items" property="so_tien"/>
                     </fmt:formatNumber>
@@ -421,7 +386,7 @@
         </table>
         </div>   
             <div class="tabbertab">
-              <h2><fmt:message key="doi_chieu.page.lagle.dienmt910"/></h2> 
+              <h2>Quyết toán chi</h2> 
               <table width="100%" cellspacing="0" cellpadding="1" 
                    bordercolor="#e1e1e1" border="1" align="center"
                    style="BORDER-COLLAPSE: collapse" id="tblMT910">
@@ -429,42 +394,32 @@
                 <tr>
                   <th class="promptText" bgcolor="#f0f0f0">
                     <div align="center">
-                      <fmt:message key="doi_chieu.page.lagle.solenhqt"/>
-                    </div>
-                  </th>
-                  <!--<th class="promptText" bgcolor="#f0f0f0">
-                      <div align="center">
-                          <fmt:message key="doi_chieu.page.lable.nhkbchuyen"/>
-                      </div>
-                  </th>
-                  <th class="promptText" bgcolor="#f0f0f0">
-                      <div align="center">
-                        <fmt:message key="doi_chieu.page.lable.tennhkbchuyen"/>
-                      </div>
-                  </th>-->
-                  <th class="promptText" bgcolor="#f0f0f0">
-                    <div align="center">
-                      <fmt:message key="doi_chieu.page.lable.nhkbnhan"/>
+                      Số lệnh quyết toán
                     </div>
                   </th>
                   <th class="promptText" bgcolor="#f0f0f0">
                     <div align="center">
-                      <fmt:message key="doi_chieu.page.lable.tennhkbnhan"/>
+                      NH/KB nhận
                     </div>
                   </th>
                   <th class="promptText" bgcolor="#f0f0f0">
                     <div align="center">
-                      <fmt:message key="doi_chieu.page.lagle.ngayct"/>
+                      Tên NH/KB nhận
                     </div>
                   </th>
                   <th class="promptText" bgcolor="#f0f0f0">
                     <div align="center">
-                      <fmt:message key="doi_chieu.page.lable.stien"/>
+                      Ngày chứng từ
+                    </div>
+                  </th>
+                  <th class="promptText" bgcolor="#f0f0f0">
+                    <div align="center">
+                      Số tiền
                     </div>
                   </th>
                   <th class="promptText" bgcolor="#f0f0f0">
                     <div align="center">          
-                      <fmt:message key="doi_chieu.page.lable.tthai"/>
+                      Trạng thái
                     </div>
                   </th>
                 </tr>
@@ -476,12 +431,6 @@
                   <td align="center">
                     <bean:write name="items" property="mt_id"/>
                   </td>
-                  <!--<td align="center">
-                   aaaaaaaaaaaaaaaaaaaaaaaaaaaaaadddddddddd
-                  </td>
-                  <td align="center">
-                    <bean:write name="items" property="ten_receive_bank"/>
-                  </td>-->
                   <td align="center">
                     <bean:write name="items" property="ma_kb"/>
                   </td>
@@ -492,7 +441,7 @@
                     <bean:write name="items" property="ngay_ct"/>
                   </td>
                   <td align="center">
-                  <fmt:setLocale value="vi_VI"/>
+                  <fmt:setLocale value="us_US"/>
                   <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
                     <bean:write name="items" property="so_tien"/>
                   </fmt:formatNumber>
@@ -521,14 +470,10 @@
       <td align="right" colspan="3">
         <input type="hidden" id="eventAction"/>
         <button type="button" onclick="confirmTaoDXNhan(); check('duyet')" id="btnTaoDXN" accesskey="t">
-          <span class="sortKey">T</span>
-          ạo điện X&aacute;c nhận
+          <span class="sortKey">D</span>
+          uyệt
         </button>
          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-        <button  type="button" onclick="check('view')" accesskey="i">
-              Ch<span class="sortKey">i</span> ti&#7871;t b&#7843;ng k&#234;
-            </button>
-             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
         <button type="button" onclick="check('close')" accesskey="o">
           Th
           <span class="sortKey">o</span>
@@ -548,12 +493,11 @@
      title='<fmt:message key="doi_chieu.page.title.dialog_confirm"/>'>
   <p>
      
-    
   </p>
 </div>
 <%@ include file="/includes/ttsp_bottom.inc"%>
 <script type="text/javascript">
-  function SubmitDC3(fname) {
+  function SubmitDC4(fname) {
     var f = document.forms[fname];
       f.submit();
   }
@@ -561,7 +505,7 @@
   function check(type) {  
   var f = document.forms[0];	
       if (type == 'print') {
-        f.action = 'PrintDChieu3Action.do';    
+        f.action = 'PrintDChieu4Action.do';    
                 var params = ['scrollbars=1,height='+(screen.height-100),'width='+screen.width].join(',');            
         newDialog = window.open('', '_form', params);  
         f.target='_form';
@@ -574,7 +518,7 @@
       if (type == 'view') {
         var bk_id= jQuery("#id").val();
         var idxNH = jQuery('#abc option:selected').index();
-         f.action = 'CTietBKeDChieu3.do?type=bk&bk_id='+bk_id+"&idxNH="+idxNH;
+         f.action = 'CTietBKeDChieu4.do?type=bk&bk_id='+bk_id+"&idxNH="+idxNH;
 
       }
        if (type == 'close') {
@@ -589,7 +533,7 @@
       ma=jQuery('#abc').val();
 //      alert(ma);
       if(ma!=null && ''!=ma){
-       frm.action = 'DChieu3Action.do?nhkb_nhan='+ma;
+       frm.action = 'DChieu4Action.do?nhkb_nhan='+ma;
       }
        frm.submit();
   } 

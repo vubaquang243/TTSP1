@@ -2513,9 +2513,6 @@ public class DChieu1DAO extends AppDAO {
         return reval;
     }
 
-
-
-
     public Collection getLst066(String strWhere,
                                 Vector vParam, Integer page, Integer count,
                                 Integer[] totalCount) throws Exception {

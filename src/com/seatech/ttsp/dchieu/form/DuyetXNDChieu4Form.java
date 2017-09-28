@@ -1,9 +1,10 @@
-package com.seatech.ttsp.dchieu;
+package com.seatech.ttsp.dchieu.form;
 
 
-import com.seatech.framework.strustx.AppForm;
+import org.apache.struts.action.ActionForm;
 
-public class DChieu3VO extends AppForm {
+
+public class DuyetXNDChieu4Form extends ActionForm {
   private  String id;           
   private  String lan_dc;       
   private  String ngay_dc;        
@@ -13,37 +14,34 @@ public class DChieu3VO extends AppForm {
   private  String created_date;   
   private  String manager;      
   private  String verified_date;  
-  private  Long sodu_daungay;   
-  private  Long tong_thu;       
-  private  Long tong_chi;       
-  private  Long so_du_cuoi_ngay;
+  private  long sodu_daungay;   
+  private  long tong_thu;       
+  private  long tong_chi;       
+  private  long so_du_cuoi_ngay;
   private  String msg_id;       
   private  String trang_thai;
   //out
-  private String ngay_ct;   
-  private String mt_id;      
-  private  Long so_tien;   
-  private  Long ma_kb;       
-  private  Long mt900kbnn;       
-  private  Long mt910kbnn;
-  private  Long mt900nhtm;       
-  private  Long mt910nhtm;
-  private  Long chikbnn ;       
-  private  Long thukbnn;
+  private  String ngay_ct;   
+  private  String mt_id;      
+  private  long so_tien;   
+  private  long ma_kb;       
+  private  long mt900kbnn;       
+  private  long mt910kbnn;
+  private  long mt900nhtm;       
+  private  long mt910nhtm;
+  private  long chikbnn ;       
+  private  long thukbnn;
   private String bk_id; 
   private String kq_id; 
   private String ket_qua; 
-  private String ngay_thien_dc; 
-  private String trang_thai_bk;
-  private String trang_thai_kq;
-  private String loai_tien;
-  
-  private Long mt900_thua;
-  private Long mt910_thua;
-  private Long mt900_thieu;
-  private Long mt910_thieu;
-private String ma_nh;
-  private String tthai_ttin;
+  private String ngay_thien_dc;
+  private String chuky_ktt;
+  private String noi_dung_ky;
+  private String certserial;
+  private String nhkb_nhan;
+  private String ma_nh;
+  private String ten_nh;
+
 
     public void setId(String id) {
         this.id = id;
@@ -117,35 +115,35 @@ private String ma_nh;
         return verified_date;
     }
 
-    public void setSodu_daungay(Long sodu_daungay) {
+    public void setSodu_daungay(long sodu_daungay) {
         this.sodu_daungay = sodu_daungay;
     }
 
-    public Long getSodu_daungay() {
+    public long getSodu_daungay() {
         return sodu_daungay;
     }
 
-    public void setTong_thu(Long tong_thu) {
+    public void setTong_thu(long tong_thu) {
         this.tong_thu = tong_thu;
     }
 
-    public Long getTong_thu() {
+    public long getTong_thu() {
         return tong_thu;
     }
 
-    public void setTong_chi(Long tong_chi) {
+    public void setTong_chi(long tong_chi) {
         this.tong_chi = tong_chi;
     }
 
-    public Long getTong_chi() {
+    public long getTong_chi() {
         return tong_chi;
     }
 
-    public void setSo_du_cuoi_ngay(Long so_du_cuoi_ngay) {
+    public void setSo_du_cuoi_ngay(long so_du_cuoi_ngay) {
         this.so_du_cuoi_ngay = so_du_cuoi_ngay;
     }
 
-    public Long getSo_du_cuoi_ngay() {
+    public long getSo_du_cuoi_ngay() {
         return so_du_cuoi_ngay;
     }
 
@@ -181,67 +179,67 @@ private String ma_nh;
         return mt_id;
     }
 
-    public void setSo_tien(Long so_tien) {
+    public void setSo_tien(long so_tien) {
         this.so_tien = so_tien;
     }
 
-    public Long getSo_tien() {
+    public long getSo_tien() {
         return so_tien;
     }
 
-    public void setMa_kb(Long ma_kb) {
+    public void setMa_kb(long ma_kb) {
         this.ma_kb = ma_kb;
     }
 
-    public Long getMa_kb() {
+    public long getMa_kb() {
         return ma_kb;
     }
 
-    public void setMt900kbnn(Long mt900kbnn) {
+    public void setMt900kbnn(long mt900kbnn) {
         this.mt900kbnn = mt900kbnn;
     }
 
-    public Long getMt900kbnn() {
+    public long getMt900kbnn() {
         return mt900kbnn;
     }
 
-    public void setMt910kbnn(Long mt910kbnn) {
+    public void setMt910kbnn(long mt910kbnn) {
         this.mt910kbnn = mt910kbnn;
     }
 
-    public Long getMt910kbnn() {
+    public long getMt910kbnn() {
         return mt910kbnn;
     }
 
-    public void setMt900nhtm(Long mt900nhtm) {
+    public void setMt900nhtm(long mt900nhtm) {
         this.mt900nhtm = mt900nhtm;
     }
 
-    public Long getMt900nhtm() {
+    public long getMt900nhtm() {
         return mt900nhtm;
     }
 
-    public void setMt910nhtm(Long mt910nhtm) {
+    public void setMt910nhtm(long mt910nhtm) {
         this.mt910nhtm = mt910nhtm;
     }
 
-    public Long getMt910nhtm() {
+    public long getMt910nhtm() {
         return mt910nhtm;
     }
 
-    public void setChikbnn(Long chikbnn) {
+    public void setChikbnn(long chikbnn) {
         this.chikbnn = chikbnn;
     }
 
-    public Long getChikbnn() {
+    public long getChikbnn() {
         return chikbnn;
     }
 
-    public void setThukbnn(Long thukbnn) {
+    public void setThukbnn(long thukbnn) {
         this.thukbnn = thukbnn;
     }
 
-    public Long getThukbnn() {
+    public long getThukbnn() {
         return thukbnn;
     }
 
@@ -277,52 +275,37 @@ private String ma_nh;
         return ngay_thien_dc;
     }
 
-    public void setTrang_thai_bk(String trang_thai_bk) {
-        this.trang_thai_bk = trang_thai_bk;
+    public void setChuky_ktt(String chuky_ktt) {
+        this.chuky_ktt = chuky_ktt;
     }
 
-    public String getTrang_thai_bk() {
-        return trang_thai_bk;
+    public String getChuky_ktt() {
+        return chuky_ktt;
     }
 
-    public void setTrang_thai_kq(String trang_thai_kq) {
-        this.trang_thai_kq = trang_thai_kq;
+
+    public void setNoi_dung_ky(String noi_dung_ky) {
+        this.noi_dung_ky = noi_dung_ky;
     }
 
-    public String getTrang_thai_kq() {
-        return trang_thai_kq;
+    public String getNoi_dung_ky() {
+        return noi_dung_ky;
     }
 
-    public void setMt900_thua(Long mt900_thua) {
-        this.mt900_thua = mt900_thua;
+    public void setCertserial(String certserial) {
+        this.certserial = certserial;
     }
 
-    public Long getMt900_thua() {
-        return mt900_thua;
+    public String getCertserial() {
+        return certserial;
     }
 
-    public void setMt910_thua(Long mt910_thua) {
-        this.mt910_thua = mt910_thua;
+    public void setNhkb_nhan(String nhkb_nhan) {
+        this.nhkb_nhan = nhkb_nhan;
     }
 
-    public Long getMt910_thua() {
-        return mt910_thua;
-    }
-
-    public void setMt900_thieu(Long mt900_thieu) {
-        this.mt900_thieu = mt900_thieu;
-    }
-
-    public Long getMt900_thieu() {
-        return mt900_thieu;
-    }
-
-    public void setMt910_thieu(Long mt910_thieu) {
-        this.mt910_thieu = mt910_thieu;
-    }
-
-    public Long getMt910_thieu() {
-        return mt910_thieu;
+    public String getNhkb_nhan() {
+        return nhkb_nhan;
     }
 
     public void setMa_nh(String ma_nh) {
@@ -333,19 +316,11 @@ private String ma_nh;
         return ma_nh;
     }
 
-    public void setTthai_ttin(String tthai_ttin) {
-        this.tthai_ttin = tthai_ttin;
+    public void setTen_nh(String ten_nh) {
+        this.ten_nh = ten_nh;
     }
 
-    public String getTthai_ttin() {
-        return tthai_ttin;
-    }
-
-    public void setLoai_tien(String loai_tien) {
-        this.loai_tien = loai_tien;
-    }
-
-    public String getLoai_tien() {
-        return loai_tien;
+    public String getTen_nh() {
+        return ten_nh;
     }
 }
