@@ -38,10 +38,10 @@ public class DChieu4DAO extends AppDAO {
             strSQL +=
                     "  SELECT a.id, c.id kq_id, to_char(a.ngay_dc,'dd/MM/yyyy') as ngay_dc, a.send_bank, a.receive_bank, " + 
                     " a.creator, a.created_date, a.manager, a.verified_date, c.tthai_ttin, c.ket_qua, a.loai_tien, " + 
-                    " a.sodu_daungay, a.tong_thu, a.tong_chi, a.so_du_cuoi_ngay,  " + 
+                    " a.sodu_daungay, a.tong_thu, a.tong_chi, a.so_du_cuoi_ngay, a.mt_id,  " + 
                     " a.msg_id, a.trang_thai, a.lan_dc, to_char(a. ngay_thien_dc,'dd/MM/yyyy') as ngay_thien_dc,c.trang_thai trang_thai_kq " + 
                     " FROM sp_bk_dc3_ngoai_te a, sp_kq_dc3_ngoai_te c" + 
-                    "	WHERE   a.id = c.bk_id(+)";
+                    "	WHERE   a.mt_id = c.bk_id(+)";
 
             strSQL +=
                     strWhere + " ORDER BY   a.send_bank, a.ngay_dc, a.lan_dc DESC";
@@ -52,7 +52,6 @@ public class DChieu4DAO extends AppDAO {
             DAOException daoEx =
                 new DAOException(strValueObjectVO + ".getDChieu4List(): " +
                                  ex.getMessage(), ex);
-//            daoEx.printStackTrace();
             throw daoEx;
         }
         return reval;
@@ -259,7 +258,7 @@ public class DChieu4DAO extends AppDAO {
         int exc = 0;
         Vector v_param = new Vector();
         StringBuffer sqlBuff = new StringBuffer();
-        sqlBuff.append(" update SP_KQ_DC4 set ");
+        sqlBuff.append(" update SP_KQ_DC3_NGOAI_TE set ");
         if (vo.getLan_dc() != null) {
             sqlBuff.append(" LAN_DC=?,");
             v_param.add(new Parameter(vo.getLan_dc(), true));
@@ -346,6 +345,22 @@ public class DChieu4DAO extends AppDAO {
                                ex.getMessage(), ex);
 //          daoEx.printStackTrace();
           throw daoEx;
+      }
+  }
+  
+  public Collection getTTBangKe(String strWhere, Vector vParams) throws Exception{
+      
+      try{
+        String strQuery = "SELECT DISTINCT(a.sodu_daungay), a.tong_thu, a.tong_chi, a.so_du_cuoi_ngay, " +
+            "a.loai_tien FROM sp_bk_dc3_ngoai_te a JOIN sp_bk_dc3_ngoai_te_ctiet b ON a.mt_id = b.bk_id " +
+            "WHERE 1=1 ";
+          if(strWhere != "") strQuery += strWhere;
+        return executeSelectStatement(strQuery, vParams, strValueObjectVO, conn); 
+      }catch(Exception e){
+        DAOException daoEx =
+            new DAOException(strValueObjectVO + ".getDChieu4List(): " +
+                             e.getMessage(), e);
+        throw daoEx;
       }
   }
 

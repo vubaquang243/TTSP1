@@ -180,6 +180,5 @@
       <forward name="failure" path="/pages/resend/resendBKLQT.jsp"/>
       <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
   </action>
-    
   </action-mappings>
 </struts-config>

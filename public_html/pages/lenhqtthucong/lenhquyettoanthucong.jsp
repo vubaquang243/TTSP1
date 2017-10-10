@@ -22,13 +22,11 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    document.getElementById("maNHKBNhan").readonly = true;
-    $('#maNHKBNhan').attr('disabled','disabled');
-    $('#ngayHachToan').attr('disabled',true);
-    $('#ngayQuyetToan').attr('disabled',true);
-    $('#tenTaiKhoanNhanLenh').attr('disabled','disabled');
-    $('#taiKhoanNhanLenh').attr('disabled','disabled');
-    $('#maNHNhanLenh').attr('disabled','disabled');
+   //$('#ngayHachToan').prop('readonly',true);
+  //  $('#ngayQuyetToan').attr('readonly',true);
+  //  $('#tenTaiKhoanNhanLenh').attr('readonly','disabled');
+  //  $('#taiKhoanNhanLenh').attr('readonly','disabled');
+  //  $('#maNHNhanLenh').attr('readonly','disabled');
   });
   
   $('input.blur').focus(function(){
@@ -159,6 +157,7 @@
   
   function validateData(){
      var nhkbChuyen = $('#maNHKBChuyen').val();
+     var nhkbNhan = $('#maNHKBNhan').val();
      var ngayHachToan = $('#ngayHachToan').val();
      var ngayQuyetToan = $('#ngayQuyetToan').val();
      var loaiQuyetToan = $('#loaiQuyetToan').val();
@@ -170,6 +169,7 @@
      var maNHPhatLenh = $('#maNHPhatLenh').val();
      var taiKhoanPhatLenh = $('#taiKhoanPhatLenh').val();
      var tenTaiKhoanPhatLenh = $('#tenTaiKhoanPhatLenh').val();
+     console.log(nhkbNhan);
      if(nhkbChuyen == ""){
       alert("Trường ngân hàng kho bạc chuyển không được để trống");
       return false;
@@ -253,7 +253,7 @@
       </tr>
     </tbody>
     </table>
-  <html:form action="addLenhQuyetToanThuCong.do" method="POST">
+  <html:form action="addLenhQuyetToanThuCong.do">
   <div class="form-control-input">
     <fieldset>
       <legend>Thông tin chung từ Ngân hàng</legend>
@@ -279,7 +279,7 @@
              </html:select> <a id="maNHSL"></a> <span style="color : red"> (*)</span></td>
             <td id="label" style="text-align : right;" >NH/KB Nhận </td>
             <td><html:text property="maNHKBNhan" styleClass="blur" styleId="maNHKBNhan"
-               onkeydown="if(event.keyCode==13) event.keyCode=9;" readonly="true" style="width : 30%" value="<%= id %>" /> <%= name %></td>
+               onkeydown="if(event.keyCode==13) event.keyCode=9;" style="width : 30%" value="<%= id %>" /> <%= name %></td>
         </tr>
         <tr style="height : 30px;">
             <td id="label" style="text-align : right;" >Ngày hạch toán </td>
@@ -289,7 +289,7 @@
                        onmouseover="Tip(this.value)"
                        onblur="javascript:mask(this.value,this,'2,5','/');"
                        onkeydown="if(event.keyCode==13) event.keyCode=9;"
-                       style="WIDTH: 30%;" readonly="true" />
+                       style="WIDTH: 30%;" />
              &nbsp; 
             <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/calendar/calbtn.gif"
                  border="0" id="ngay_hach_toan" width="20"

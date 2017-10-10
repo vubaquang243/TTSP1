@@ -91,7 +91,7 @@
       </tr> 
     </tbody> 
   </table>
-  <html:form action="THienDChieu3Action.do" method="post" styleId="frmBangKeDC3">
+  <html:form action="THienDChieu4Action.do" method="post" styleId="frmBangKeDC4">
 
   <table style="BORDER-COLLAPSE: collapse" border="0" cellspacing="0" class="tableBound" bordercolor="#999999" width="100%">
   <tr>
@@ -120,16 +120,13 @@
                    <th width="20%" class="ui-state-default ui-th-column">
                     Ngày ĐC
                   </th>
-                  <th width="10%" class="ui-state-default ui-th-column">
-                    Loại tiền
-                  </th>
-                  <th width="10%" class="ui-state-default ui-th-column">
+                  <th width="15%" class="ui-state-default ui-th-column">
                     Lần
                   </th>
                   <th width="20%" class="ui-state-default ui-th-column">
                     Trạng thái
                   </th>
-                  <th width="15%" class="ui-state-default ui-th-column">
+                  <th width="20%" class="ui-state-default ui-th-column">
                     Trạng thái TTin
                   </th>
                 </tr>
@@ -144,22 +141,21 @@
                 <tbody>
                   <logic:present name="colBangKe">
                     <logic:iterate id="bangkelist" name="colBangKe" indexId="index">                       
-                       <tr style="width:100%;" class="ui-widget-content jqgrow ui-row-ltr"
+                       <tr style="width:100%;" class="ui-widget-content jqgrow ui-row-ltr select-row-table"
                             id="row_dts_<bean:write name="index"/>"                                                   
                             ondblclick="rowSelectedFocus('row_dts_<bean:write name="index"/>');" 
-                            onclick="rowSelectedFocus('row_dts_<bean:write name="index"/>');DChieu4Detail('<bean:write name="bangkelist" property="id"/>');">
+                            onclick="rowSelectedFocus('row_dts_<bean:write name="index"/>');DChieu4Detail('<bean:write name="bangkelist" property="id"/>'); getTTBangKe();">
                           <td  width="25%" align="center" id="td_dts_<bean:write name="index"/>">
                             <input size="8" tabindex="100" name="row_item" id="<bean:write name="index"/>" 
                             type="text" style="border:0px;" value="<bean:write name="bangkelist" property="send_bank"/>" 
                             onkeydown="arrowUpDown(event)" readonly="true"/>        
                             <input align="center" type="hidden" id="id_<bean:write name="index"/>" value="<bean:write name="bangkelist" property="id"/>"/> 
+                            <input type="hidden" id="mt_id" value="<bean:write name="bangkelist" property="mt_id" />" />
+                            <input type="hidden" id="ngay_dc" value="<bean:write name="bangkelist" property="ngay_dc" />" />
                           <td width="20%" align="center">
                             <bean:write name="bangkelist" property="ngay_dc"/>
                           </td>
-                          <td width="10%" align="center">
-                            <bean:write name="bangkelist" property="loai_tien"/>
-                          </td>
-                          <td width="10%" align="center">
+                          <td width="15%" align="center">
                             <bean:write name="bangkelist" property="lan_dc"/>
                           </td>
                           <td align="center" width="20%">
@@ -198,7 +194,7 @@
                               </logic:equal>
                             </logic:equal>
                           </td>
-                          <td align="center" width="15%">
+                          <td align="center" width="20%">
                    <logic:equal name="bangkelist" property="trang_thai_kq" value="02">                  
                         <logic:equal name="bangkelist" property="tthai_ttin" value="01">
                            &#272;&#227; g&#7917;i NH
@@ -217,7 +213,7 @@
                   <logic:empty name="colBangKe">
                   <tr>
                   <td colspan="5">
-                    <font color="Red"> Kh&#244;ng c&#243; th&#244;ng tin b&#7843;ng k&#234;</font>
+                    <font color="Red">Kh&#244;ng c&#243; th&#244;ng tin b&#7843;ng k&#234;</font>
                   </td>
                   </tr>
                   </logic:empty>
@@ -231,64 +227,31 @@
       <td>
         <fieldset>
           <legend>Thông tin bảng kê</legend>
-          <div style="height:200px;">
-            <html:hidden property="id"  styleId="id"/>
+          <div>
+           <!-- <html:hidden property="id"  styleId="id"/>
             <html:hidden property="send_bank" styleId="send_bank"/>
             <html:hidden property="ngay_dc"  styleId="ngay_dc"/>
             <html:hidden property="trang_thai_in"  styleId="trang_thai_in"/>
             <html:hidden property="kq_id"  styleId="kq_id"/>
-            <html:hidden property="lan_dc"  styleId="lan_dc"/>
+            <html:hidden property="lan_dc"  styleId="lan_dc"/> -->
             
-              <table width="99%" cellspacing="0" cellpadding="1"
-                     bordercolor="#e1e1e1" border="1" align="center"
-                     style="BORDER-COLLAPSE: collapse" height="198px;">
-                <tr>
-                  <td width="70%">
-                    Số dư tài khoản đầu ngày
-                  </td>
-                  <td>
-                    <html:text property="sodu_daungay" style="border:1px"
-                               styleId="sodu_daungay"
-                               styleClass="fieldTextRight" maxlength="20"
-                               readonly="true" size="30px"/>
-                  </td>
-                </tr>                 
-                <tr>
-                  <td>
-                    Tổng quyết toán chi toàn quốc
-                  </td>
-                  <td>
-                    <html:text property="tong_chi" style="border:0px;"
-                               styleClass="fieldTextRight" maxlength="20"
-                               styleId="tong_chi" readonly="true"/>
-                  </td>
-                </tr>
-                 
-                <tr>
-                  <td>
-                    Tổng quyết toán thu toàn quốc
-                  </td>
-                  <td>
-                    <html:text property="tong_thu" maxlength="20"
-                               style="border:0px;" styleClass="fieldTextRight"
-                               styleId="tong_thu" readonly="true"/>
-                  </td>
-                </tr>
-                 
-                <tr>
-                  <td>
-                    Số dư cuối ngày
-                  </td>
-                  <td>
-                    <html:text property="so_du_cuoi_ngay" style="border:0px;"
-                               styleClass="fieldTextRight" maxlength="20"
-                               styleId="so_du_cuoi_ngay" readonly="true"/>
-                  </td>
+              <table width="100%" cellspacing="0">
+                <tr style="height : 30px">
+                  <th>Số dư tài khoản đầu ngày</th>
+                  <th>Tổng quyết toán chi toàn quốc</th>
+                  <th>Tổng quyết toán thu toàn quốc</th>
+                  <th>Số dư cuối ngày</th>
+                  <th>Loại tiền</th>
                 </tr>
               </table>
           </div>
+          <div style="height:200px;" class="ui-jqgrid-bdiv ui-widget-content">
+            <table width="99%" cellspacing="0" cellpadding="1"
+                     bordercolor="#e1e1e1" border="1" align="center"
+                     style="BORDER-COLLAPSE: collapse" height="198px;" id="thong_tin_bang_ke">
+            </table>
+          </div>
         </fieldset>
-        
          </td>
      </tr>
     <tr>
@@ -465,15 +428,18 @@
         </fieldset>
       </td>
     </tr>
-     
     <tr>
       <td align="right" colspan="3">
         <input type="hidden" id="eventAction"/>
         <button type="button" onclick="confirmTaoDXNhan(); check('duyet')" id="btnTaoDXN" accesskey="t">
-          <span class="sortKey">D</span>
-          uyệt
+          <span class="sortKey">T</span>
+          ạo điện X&aacute;c nhận
         </button>
          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        <button  type="button" onclick="check('view')" accesskey="i">
+              Ch<span class="sortKey">i</span> ti&#7871;t b&#7843;ng k&#234;
+            </button>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
         <button type="button" onclick="check('close')" accesskey="o">
           Th
           <span class="sortKey">o</span>
@@ -487,13 +453,13 @@
       <p>
         <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
         <span id="message"></span>
+        <p>
+        
+        </p>
       </p>
   </div>
 <div id="dialog-confirm"
      title='<fmt:message key="doi_chieu.page.title.dialog_confirm"/>'>
-  <p>
-     
-  </p>
 </div>
 <%@ include file="/includes/ttsp_bottom.inc"%>
 <script type="text/javascript">
@@ -512,7 +478,7 @@
         
       }
       else if (type == 'duyet') {      
-        f.action = 'TaoXacNhanDCAction.do';
+        f.action = 'TaoXacNhanDCNTAction.do';
         document.getElementById("btnTaoDXN").disabled=true;
       }
       if (type == 'view') {
@@ -531,11 +497,49 @@
       
       var frm = document.forms[0];
       ma=jQuery('#abc').val();
-//      alert(ma);
       if(ma!=null && ''!=ma){
        frm.action = 'DChieu4Action.do?nhkb_nhan='+ma;
       }
        frm.submit();
   } 
   
+  function changeForeignCurrency(nStr){
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+       var rgx = /(\d+)(\d{3})/;
+       while (rgx.test(x1)) {
+          x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+      }
+  
+  function getTTBangKe(){
+    var ngay_doi_chieu = jQuery('table#data-grid tr.ui-state-highlight').find('#ngay_dc').val();
+    var mt_id = jQuery('table#data-grid tr.ui-state-highlight').find('#mt_id').val();
+    jQuery.ajax({
+      type : "POST",
+      url : "loadChiTietBangKe.do",
+      data : {'ngay_doi_chieu' : ngay_doi_chieu, 'mt_id' :mt_id},
+      success : function(data, textstatus){
+          var strValue = new Object();
+          strValue = JSON.parse(data[0]);
+          var strTable = "";
+          if(strValue.size() != 0){
+          jQuery('table#thong_tin_bang_ke tr.ui-row-ltr').remove();
+            for(var i = 0; i < strValue.size(); i++){
+              strTable = "<tr class='ui-widget-content ui-row-ltr'><td>" + changeForeignCurrency(strValue[i].sodu_daungay) + "<\/td>";
+              strTable += "<td>" + changeForeignCurrency(strValue[i].tong_chi) + "<\/td>";
+              strTable += "<td>" + changeForeignCurrency(strValue[i].tong_thu) + "<\/td>";
+              strTable += "<td>" + changeForeignCurrency(strValue[i].so_du_cuoi_ngay) + "<\/td>";
+              strTable += "<td>" + strValue[i].loai_tien + "<\/td><\/tr>";
+            }
+            jQuery('table#thong_tin_bang_ke').append(strTable);
+          }else{
+              strTable="Không có dữ liệu";
+          }
+      }
+    });
+  }
 </script>

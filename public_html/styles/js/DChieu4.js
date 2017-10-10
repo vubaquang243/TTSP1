@@ -1,4 +1,4 @@
-function DChieu3Detail(id){ 
+function DChieu4Detail(id){ 
     if (id != null && "" != id) {
         jQuery.ajax( {
             type : "POST", url : "DChieu4Detail.do", data :  {
@@ -192,12 +192,7 @@ function MT910CTiet() {
         }
     });
 }
-/*
-   * defaultRowSelectedDC()
-   * Lua chon ban ghi dau tin o master
-   * Su dung khi refresh/find/load page
-   * Cung su dung sua khi thao tac xong duyet/huy/sua...
-   */
+
 function defaultRowSelectedDC4(chucdanh) {
     var row_default = "row_dts_0", input_default = jQuery('#' + row_default).find('input');
     if (jQuery("#" + row_default).html() != null && jQuery("#" + row_default).html() != 'null') {

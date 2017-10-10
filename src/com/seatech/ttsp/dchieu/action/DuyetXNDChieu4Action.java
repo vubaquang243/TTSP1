@@ -6,20 +6,13 @@ import com.seatech.framework.datamanager.Parameter;
 import com.seatech.framework.exception.TTSPException;
 import com.seatech.framework.strustx.AppAction;
 import com.seatech.framework.utils.TTSPUtils;
-import com.seatech.ttsp.dchieu.DChieu3DAO;
-import com.seatech.ttsp.dchieu.DChieu3VO;
 import com.seatech.ttsp.dchieu.DChieu4DAO;
 import com.seatech.ttsp.dchieu.DChieu4VO;
-import com.seatech.ttsp.dchieu.KQDChieu3CTietDAO;
-import com.seatech.ttsp.dchieu.KQDChieu3DAO;
-import com.seatech.ttsp.dchieu.KQDChieu3VO;
 import com.seatech.ttsp.dchieu.KQDChieu4CTietDAO;
 import com.seatech.ttsp.dchieu.KQDChieu4DAO;
 import com.seatech.ttsp.dchieu.KQDChieu4VO;
-import com.seatech.ttsp.dchieu.form.DuyetXNDChieu3Form;
 import com.seatech.ttsp.dchieu.form.DuyetXNDChieu4Form;
 import com.seatech.ttsp.proxy.giaodien.SendKQDC1;
-import com.seatech.ttsp.proxy.pki.PKIService;
 import com.seatech.ttsp.ttthanhtoan.TTThanhToanDAO;
 
 import java.sql.Connection;
@@ -49,7 +42,7 @@ public class DuyetXNDChieu4Action extends AppAction {
         Connection conn = null;
         try {
             conn = getConnection(request);
-//            HttpSession session = request.getSession();
+            //            HttpSession session = request.getSession();
             DChieu4DAO dao = new DChieu4DAO(conn);
             KQDChieu4CTietDAO dchieu4CtietDAO = new KQDChieu4CTietDAO(conn);
             DChieu4VO vo = new DChieu4VO();
@@ -61,18 +54,19 @@ public class DuyetXNDChieu4Action extends AppAction {
             Vector vParam = new Vector();
             DChieu4DAO dchieu4DAO = new DChieu4DAO(conn);
             vo = dchieu4DAO.getMaSGD(null, null);
-//          String kb_nhan = vo.getMa_nh();
+            //          String kb_nhan = vo.getMa_nh();
             TTThanhToanDAO TTdao = new TTThanhToanDAO(conn);
             List dmucNH = null;
-            dmucNH = (List)TTdao.getDMucNH(null,null);
+            dmucNH = (List)TTdao.getDMucNH(null, null);
             request.setAttribute("dmucNH", dmucNH);
 
             String strWhere =
                 " and (b.trang_thai = '01' or ( b.trang_thai <> '01' and to_date(b.ngay_thien_dc)= to_date(sysdate)))";
 
-          String send_bank = f.getNhkb_nhan();
-            if(send_bank!=null && ""!=send_bank && !"000".equals(send_bank)){
-              strWhere +=" and a.send_bank='"+send_bank+"'";
+            String send_bank = f.getNhkb_nhan();
+            if (send_bank != null && "" != send_bank &&
+                !"000".equals(send_bank)) {
+                strWhere += " and a.send_bank='" + send_bank + "'";
             }
             ArrayList<DChieu4VO> colList =
                 (ArrayList<DChieu4VO>)dao.getDuyetDChieu4List(strWhere, null);
@@ -132,9 +126,9 @@ public class DuyetXNDChieu4Action extends AppAction {
     public ActionForward update(ActionMapping mapping, ActionForm form,
                                 HttpServletRequest request,
                                 HttpServletResponse response) throws Exception {
-        if (!checkPermissionOnFunction(request, "DCHIEU.DUYETDCHIEU3")) {
-            return mapping.findForward("notRight");
-        }
+       // if (!checkPermissionOnFunction(request, "DCHIEU.DUYETDCHIEU4")) {
+        //    return mapping.findForward("notRight");
+      //  }
 
         Connection conn = null;
         try {
@@ -146,8 +140,8 @@ public class DuyetXNDChieu4Action extends AppAction {
                 boolean bVerifySignature = false;
                 String strSign = f.getChuky_ktt();
                 String[] arrResultKy = new String[2];
-                arrResultKy[0]="VALID";
-                
+                arrResultKy[0] = "VALID";
+
                 if (arrResultKy != null && arrResultKy.length == 2) {
                     if (arrResultKy[0].equalsIgnoreCase("VALID")) {
                         bVerifySignature = true;
@@ -169,15 +163,16 @@ public class DuyetXNDChieu4Action extends AppAction {
                     kqDChieu4VO.setTrang_thai("02");
                     kqDChieu4VO.setTthai_ttin("01");
                     kqDChieu4VO.setChuky_ktt(strSign);
-                    
+
                     String user_id =
                         session.getAttribute(AppConstants.APP_USER_CODE_SESSION).toString();
-                    String msg_id =  send.sendMessageDC3(kq_id, user_id);
-                  kqDChieu4VO.setMsg_id(msg_id);
-                  kqDChieu4DAO.updateKQDC4(kqDChieu4VO);
+                    String msg_id = send.sendMessageDC3(kq_id, user_id);
+                    kqDChieu4VO.setMsg_id(msg_id);
+                    kqDChieu4DAO.updateKQDC4(kqDChieu4VO);
                     conn.commit();
                     request.setAttribute("duyettcong", "duyettcong");
-                }else request.setAttribute("duyettcong", "");
+                } else
+                    request.setAttribute("duyettcong", "");
             }
             resetToken(request);
             saveToken(request);

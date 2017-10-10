@@ -64,6 +64,25 @@
        });
     });
   });  
+  
+  function changeForeignCurrency(nStr){
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+      x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+  }
+  //xu ly dinh dang tien te viet nam
+  function changeVNDCurrency(nStr){
+    nStr += '';
+    x1 = nStr;
+      x1 = x1.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+    return x1;
+  }
 </script>
 <div id="body">
     <table border="0" cellspacing="0" cellpadding="0" width="100%"
@@ -86,7 +105,7 @@
     <fieldset style="width:auto;">
     <legend><a style="text-color : blue;" >Danh sách đề nghị quyết toán</a></legend>
     <span id="message" style="color : red;"></span>
-    <table cellpadding="0" cellspacing="0" border="1px" width="100%" id="listQT" >
+    <table cellpadding="0" cellspacing="3" border="1px" width="100%" id="listQT" >
     <thead>
     <tr style="text-align:center; height : 20px;" >
       <th width="3%" >STT</th>
@@ -122,8 +141,14 @@
           <td align="center" ><%= i+1 %></td>
           <td align="center" class="soLenh" ><%= items.getSolenh() %></td>
           <td class="tenNH" ><%= items.getTennh()%></td>
-          <td align="center" class="QTthu" ><%= items.getQuyettoanthu() %></td>
-          <td align="center" class="QTchi numbers" ><%= items.getQuyettoanchi() %></td>
+          <td align="center" class="QTthu" >
+              <% if(items.getLoaitien().equals("VND"))%><%= items.getQuyettoanthu() %>
+              <% if(!items.getLoaitien().equals("VND"))%><%= items.getQuyettoanthu() %>
+          </td>
+          <td align="center" class="QTchi numbers" >
+              <% if(items.getLoaitien().equals("VND"))%><%= items.getQuyettoanchi() %>
+              <% if(!items.getLoaitien().equals("VND"))%><%= items.getQuyettoanchi() %>
+           </td>
           <td align="center" class="loaiTien numbers" ><%= items.getLoaitien() %></td>
           <td align="center" class="loaiQT" >
                <% if(items.getLoaiquyettoan().equals("01")){ %>Điện tử
@@ -131,7 +156,7 @@
                <% }if(items.getLoaiquyettoan().equals("03")){ %>Quyết toán bù
                <% }if(items.getLoaiquyettoan().equals("04")){ %>Bù chi ngày lỗi
                <% }if(items.getLoaiquyettoan().equals("05")){ %>Thấu chi
-               <% }if(items.getLoaiquyettoan().equals("06")){ %>Thu chi ngày lỗi
+               <% }if(items.getLoaiquyettoan().equals("06")){ %>Thu ngày lỗi
                <% }if(items.getLoaiquyettoan().equals("07")){ %>Loại khác <%}%>
           </td>
           <td align="center" class="noidung" ><%= items.getNoidung() %></td>

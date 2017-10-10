@@ -21,13 +21,15 @@ public class KQDChieu4DAO extends AppDAO {
     public KQDChieu4DAO(Connection conn) {
         this.conn = conn;
     }
-    public KQDChieu3VO getKQDChieu3(String strWhereClause) throws Exception{
-      String strSQL ="SELECT a.id, a.bk_id, a.lan_dc, a.ngay_dc, a.send_bank, a.receive_bank,\n" + 
-      "       a.creator, a.manager, a.created_date, a.verified_date, a.msg_id,\n" + 
-      "       a.insert_date, a.so_du_kbnn, a.chenh_lech, a.trang_thai,\n" + 
-      "       a.ket_qua\n" + 
-      "  FROM sp_kq_dc3_ngoai_te a where (1=1) "+ strWhereClause;
-      return (KQDChieu3VO)findByPK(strSQL, strValueObjectVO, conn);
+
+    public KQDChieu4VO getKQDChieu4(String strWhereClause) throws Exception {
+        String strSQL =
+            "SELECT a.id, a.bk_id, a.lan_dc, a.ngay_dc, a.send_bank, a.receive_bank,\n" +
+            "       a.creator, a.manager, a.created_date, a.verified_date, a.msg_id,\n" +
+            "       a.insert_date, a.so_du_kbnn, a.chenh_lech, a.trang_thai,\n" +
+            "       a.ket_qua\n" +
+            "  FROM sp_kq_dc3_ngoai_te a where (1=1) " + strWhereClause;
+        return (KQDChieu4VO)findByPK(strSQL, strValueObjectVO, conn);
     }
 
     public Collection getDChieuList(String strWhere,
@@ -63,7 +65,7 @@ public class KQDChieu4DAO extends AppDAO {
         Vector v_param = new Vector();
         StringBuffer sqlBuff = new StringBuffer("");
         sqlBuff.append(" UPDATE sp_kq_dc3_ngoai_te SET ngay_thien_dc= sysdate ,");
-       
+
         if (vo.getLan_dc() != null) {
             sqlBuff.append(" LAN_DC=?,");
             v_param.add(new Parameter(vo.getLan_dc(), true));
@@ -116,78 +118,78 @@ public class KQDChieu4DAO extends AppDAO {
             sqlBuff.append(" TRANG_THAI=?,");
             v_param.add(new Parameter(vo.getTrang_thai(), true));
         }
-      if (vo.getTthai_ttin() != null) {
-          sqlBuff.append(" tthai_ttin=?,");
-          v_param.add(new Parameter(vo.getTthai_ttin(), true));
-      }
-        if (vo.getKet_qua() != null) {
-            sqlBuff.append(" KET_QUA=?,");
-            v_param.add(new Parameter(vo.getKet_qua(), true));
+        if (vo.getTthai_ttin() != null) {
+            sqlBuff.append(" tthai_ttin=?,");
+            v_param.add(new Parameter(vo.getTthai_ttin(), true));
         }
         if (vo.getKet_qua() != null) {
             sqlBuff.append(" KET_QUA=?,");
             v_param.add(new Parameter(vo.getKet_qua(), true));
         }
-      if (vo.getChuky_ktt() != null) {
-          sqlBuff.append(" CHUKY_KTT=?,");
-          v_param.add(new Parameter(vo.getChuky_ktt(), true));
-      }
-      sqlBuff=sqlBuff.deleteCharAt(sqlBuff.length()-1);
-      if (vo.getBk_id() != null) {
-          sqlBuff.append(" WHERE BK_ID=? ");
-          v_param.add(new Parameter(vo.getBk_id(), true));
-      }
-      if (vo.getId() != null) {
-          sqlBuff.append(" WHERE ID=? ");
-          v_param.add(new Parameter(vo.getId(), true));
-      }   
+        if (vo.getKet_qua() != null) {
+            sqlBuff.append(" KET_QUA=?,");
+            v_param.add(new Parameter(vo.getKet_qua(), true));
+        }
+        if (vo.getChuky_ktt() != null) {
+            sqlBuff.append(" CHUKY_KTT=?,");
+            v_param.add(new Parameter(vo.getChuky_ktt(), true));
+        }
+        sqlBuff = sqlBuff.deleteCharAt(sqlBuff.length() - 1);
+        if (vo.getBk_id() != null) {
+            sqlBuff.append(" WHERE BK_ID=? ");
+            v_param.add(new Parameter(vo.getBk_id(), true));
+        }
+        if (vo.getId() != null) {
+            sqlBuff.append(" WHERE ID=? ");
+            v_param.add(new Parameter(vo.getId(), true));
+        }
         exc = executeStatement(sqlBuff.toString(), v_param, conn);
         return exc;
     }
 
-  public KQDChieu4VO getTenNH(String whereClause,
-                              Vector params) throws Exception {
-      try {
-          String strSQL = "";
-          strSQL +=
-                  "select distinct b.ten ten_kb, c.ten ten from" +
-                  " sp_tknh_kb a, sp_dm_htkb b, sp_dm_ngan_hang c where a.kb_id=b.id and a.nh_id=c.id and c.ma_nh= " + whereClause;
-          KQDChieu3VO phtVO =
-              (KQDChieu3VO)findByPK(strSQL.toString(), params,
-                                    strValueObjectVO, conn);
-          return phtVO;
-      } catch (Exception ex) {
-          DAOException daoEx =
-              new DAOException(strValueObjectVO + ".getTenNH(): " +
-                               ex.getMessage(), ex);
-          throw daoEx;
-      }
-  }
-  
-  public KQDChieu4VO getKQDC4(String strWhere,
-                                   Vector vParam) throws Exception {
+    public KQDChieu4VO getTenNH(String whereClause,
+                                Vector params) throws Exception {
+        try {
+            String strSQL = "";
+            strSQL +=
+                    "select distinct b.ten ten_kb, c.ten ten from" + " sp_tknh_kb a, sp_dm_htkb b, sp_dm_ngan_hang c where a.kb_id=b.id and a.nh_id=c.id and c.ma_nh= " +
+                    whereClause;
+            KQDChieu4VO phtVO =
+                (KQDChieu4VO)findByPK(strSQL.toString(), params,
+                                      strValueObjectVO, conn);
+            return phtVO;
+        } catch (Exception ex) {
+            DAOException daoEx =
+                new DAOException(strValueObjectVO + ".getTenNH(): " +
+                                 ex.getMessage(), ex);
+            throw daoEx;
+        }
+    }
 
-      //      Collection reval = null;
-      try {
+    public KQDChieu4VO getKQDC4(String strWhere,
+                                Vector vParam) throws Exception {
 
-          String strSQL = "";
-          strSQL +=
-                  "SELECT	a.id, a.bk_id, a.lan_dc, to_char(a.ngay_dc,'DD/MM/YYYY') ngay_dc, a.send_bank, a.receive_bank," + 
-                  " a.creator, a.manager, to_char(a.created_date,'DD-MM-YYYY HH24:mi:ss') created_date, a.verified_date, a.msg_id," + 
-                  " a.insert_date, a.so_du_kbnn, a.chenh_lech, a.trang_thai, a.ket_qua," + 
-                  " a.ngay_thien_dc, b.ma_nsd, a.msg_refid " + 
-                  " FROM	sp_kq_dc3_ngoai_te a, sp_nsd b WHERE	a.creator = b.id" + strWhere;
-          KQDChieu4VO dcVO =
-              (KQDChieu4VO)findByPK(strSQL.toString(), vParam,
-                                         strValueObjectVO, conn);
-          return dcVO;
-      } catch (Exception ex) {
-          DAOException daoEx =
-              new DAOException(strValueObjectVO + ".getKQDC4(): " +
-                               ex.getMessage(), ex);
-          throw daoEx;
-      }
-  }
+        //      Collection reval = null;
+        try {
 
-  
+            String strSQL = "";
+            strSQL +=
+                    "SELECT	a.id, a.bk_id, a.lan_dc, to_char(a.ngay_dc,'DD/MM/YYYY') ngay_dc, a.send_bank, a.receive_bank," +
+                    " a.creator, a.manager, to_char(a.created_date,'DD-MM-YYYY HH24:mi:ss') created_date, a.verified_date, a.msg_id," +
+                    " a.insert_date, a.so_du_kbnn, a.chenh_lech, a.trang_thai, a.ket_qua," +
+                    " a.ngay_thien_dc, b.ma_nsd, a.msg_refid " +
+                    " FROM	sp_kq_dc3_ngoai_te a, sp_nsd b WHERE	a.creator = b.id" +
+                    strWhere;
+            KQDChieu4VO dcVO =
+                (KQDChieu4VO)findByPK(strSQL.toString(), vParam, strValueObjectVO,
+                                      conn);
+            return dcVO;
+        } catch (Exception ex) {
+            DAOException daoEx =
+                new DAOException(strValueObjectVO + ".getKQDC4(): " +
+                                 ex.getMessage(), ex);
+            throw daoEx;
+        }
+    }
+
 }

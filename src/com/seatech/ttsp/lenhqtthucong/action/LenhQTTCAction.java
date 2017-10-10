@@ -13,6 +13,7 @@ import com.seatech.framework.utils.TTSPUtils;
 import com.seatech.ttsp.lenhqtthucong.LenhQTTCDAO;
 import com.seatech.ttsp.lenhqtthucong.LenhQTTCVO;
 
+import com.seatech.ttsp.lenhqtthucong.form.LenhQTTCForm;
 import com.seatech.ttsp.tknhkb.TKNHKBacDAO;
 
 import java.io.PrintWriter;
@@ -98,6 +99,7 @@ public class LenhQTTCAction extends AppAction {
             params2 = new Vector();
             LenhQTTCDAO dao = new LenhQTTCDAO(conn);
             HttpSession session = request.getSession();
+            LenhQTTCForm f = (LenhQTTCForm)form;
             LenhQTTCVO lenhQT = init(request, dao, session, params);
             if (lenhQT != null) {
                 int result = dao.insert(lenhQT, params);
@@ -143,15 +145,24 @@ public class LenhQTTCAction extends AppAction {
             HttpSession session = request.getSession();
             TKNHKBacDAO tkbhkbDAO = new TKNHKBacDAO(conn);
             String NHKBChuyen =
-              session.getAttribute(AppConstants.APP_KB_ID_SESSION) == null ?
-              "" :
-              session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
-
+                session.getAttribute(AppConstants.APP_KB_ID_SESSION) == null ?
+                "" :
+                session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
+            String nhkbNhan_id =
+                session.getAttribute(AppConstants.APP_NHKB_CODE_SESSION) ==
+                null ? "" :
+                session.getAttribute(AppConstants.APP_NHKB_CODE_SESSION).toString();
+            String nhkbNhan_name =
+                session.getAttribute(AppConstants.APP_NHKB_NAME_SESSION) ==
+                null ? "" :
+                session.getAttribute(AppConstants.APP_NHKB_NAME_SESSION).toString();
             String strQuery = "and a.kb_id = " + NHKBChuyen;
             Collection dmNH = tkbhkbDAO.getNH_KB(strQuery, params2);
             request.setAttribute("dmNH", dmNH);
+            request.setAttribute("nhkbNhan_id", nhkbNhan_id);
+            request.setAttribute("nhkbNhan_name", nhkbNhan_name);
             throw new Exception(e.getMessage());
-//            request.setAttribute("msg", "Thêm mới không thành công");
+            //            request.setAttribute("msg", "Thêm mới không thành công");
         } finally {
             close(conn);
         }
@@ -315,45 +326,7 @@ public class LenhQTTCAction extends AppAction {
             } else {
                 soTien = soTien.replace(",", "");
             }
-            if (maNHKBChuyen.trim().length() == 0) {
-                return null;
-            }
-            if (maNHKBNhan.trim().length() == 0)
-                return null;
-            if (ngayHachToan.trim().length() == 0)
-                return null;
-            if (ngayQuyetToan.trim().length() == 0)
-                return null;
-            if (loaiQuyetToan.trim().length() == 0)
-                return null;
-            if (soLenhQuyetToan.trim().length() == 0)
-                return null;
-            if (soTien.trim().length() == 0)
-                return null;
-            if (loaiTien.trim().length() == 0)
-                return null;
-            if (ngayKiemSoat.trim().length() == 0)
-                return null;
-            if (tenTaiKhoanPhatLenh.trim().length() == 0)
-                return null;
-            if (taiKhoanPhatLenh.trim().length() == 0)
-                return null;
-            if (maNHPhatLenh.trim().length() == 0)
-                return null;
-            if (tenNHPhatLenh.trim().length() == 0)
-                return null;
-            if (tenTaiKhoanNhanLenh.trim().length() == 0)
-                return null;
-            if (taiKhoanNhanLenh.trim().length() == 0)
-                return null;
-            if (maNHNhanLenh.trim().length() == 0)
-                return null;
-            if (tenNHNhanLenh.trim().length() == 0)
-                return null;
-            if (phuongAnHachToan.trim().length() == 0)
-                return null;
 
-            
             String strWhere =
                 " AND d.ma_nh = " + maNHKBNhan + " AND a.ma_nt = '" +
                 loaiTien + "' AND c.ma_nh = " + maNHPhatLenh + "";
@@ -403,7 +376,7 @@ public class LenhQTTCAction extends AppAction {
             lenhQT.setTTVChuyenKS(ttvChuyenKS);
 
         } catch (Exception e) {
-           throw e;
+            throw e;
         }
         return lenhQT;
     }

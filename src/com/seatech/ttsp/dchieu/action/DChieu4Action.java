@@ -2,6 +2,7 @@ package com.seatech.ttsp.dchieu.action;
 
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -13,15 +14,13 @@ import com.seatech.framework.datamanager.ReportUtility;
 import com.seatech.framework.exception.TTSPException;
 import com.seatech.framework.strustx.AppAction;
 import com.seatech.framework.utils.StringUtil;
-import com.seatech.ttsp.dchieu.DChieu3DAO;
-import com.seatech.ttsp.dchieu.DChieu3VO;
+import com.seatech.ttsp.dchieu.DChieu4CTietDAO;
 import com.seatech.ttsp.dchieu.DChieu4DAO;
 import com.seatech.ttsp.dchieu.DChieu4VO;
-import com.seatech.ttsp.dchieu.KQDChieu3CTietDAO;
-import com.seatech.ttsp.dchieu.KQDChieu3CTietVO;
-import com.seatech.ttsp.dchieu.KQDChieu3DAO;
-import com.seatech.ttsp.dchieu.KQDChieu3VO;
-import com.seatech.ttsp.dchieu.form.DChieu3Form;
+import com.seatech.ttsp.dchieu.KQDChieu4CTietDAO;
+import com.seatech.ttsp.dchieu.KQDChieu4CTietVO;
+import com.seatech.ttsp.dchieu.KQDChieu4DAO;
+import com.seatech.ttsp.dchieu.KQDChieu4VO;
 import com.seatech.ttsp.dchieu.form.DChieu4Form;
 import com.seatech.ttsp.ttthanhtoan.TTThanhToanDAO;
 
@@ -64,44 +63,45 @@ public class DChieu4Action extends AppAction {
     public ActionForward list(ActionMapping mapping, ActionForm form,
                               HttpServletRequest request,
                               HttpServletResponse response) throws Exception {
-       // if (!checkPermissionOnFunction(request, "DCHIEU.DC4")) {
-         //   return mapping.findForward("errorQuyen");
-       // }
+        // if (!checkPermissionOnFunction(request, "DCHIEU.DC4")) {
+        //   return mapping.findForward("errorQuyen");
+        // }
         Connection conn = null;
         Collection lisBangKe = null;
         try {
             conn = getConnection(request);
-//          HttpSession session = request.getSession();
-          DChieu4DAO dchieu4DAO = new DChieu4DAO(conn);
-          
-           DChieu3VO vo = new DChieu3VO();
-            vo=dchieu4DAO.getMaSGD(null, null);
+            //          HttpSession session = request.getSession();
+            DChieu4DAO dchieu4DAO = new DChieu4DAO(conn);
+
+            DChieu4VO vo = new DChieu4VO();
+            vo = dchieu4DAO.getMaSGD(null, null);
             DChieu4Form f = (DChieu4Form)form;
-          String idxNH= request.getParameter("idxNH")==null?"":request.getParameter("idxNH");
-          
-          if(idxNH!=null&&!"".equals(idxNH)){
-            request.setAttribute("idxNH", idxNH);
-          }
-            
+            String idxNH =
+                request.getParameter("idxNH") == null ? "" : request.getParameter("idxNH");
+
+            if (idxNH != null && !"".equals(idxNH)) {
+                request.setAttribute("idxNH", idxNH);
+            }
+
             TTThanhToanDAO TTdao = new TTThanhToanDAO(conn);
             List dmucNH = null;
-            dmucNH = (List)TTdao.getDMucNH(null,null);
+            dmucNH = (List)TTdao.getDMucNH(null, null);
             request.setAttribute("dmucNH", dmucNH);
-          
-            
-            String strWhere = " AND ( (TRUNC (a.ngay_dc) < TRUNC (SYSDATE)" + 
-            " AND ( (c.ket_qua = '01' OR a.trang_thai = '00')" + 
-            " AND a.id IN (  SELECT   MAX (id) FROM   sp_bk_dc3_ngoai_te" + 
-            " WHERE   TO_DATE (ngay_dc) < TO_DATE (SYSDATE) GROUP BY   ngay_dc, send_bank))" + 
-            " OR a.trang_thai IS NULL) OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE)" + 
-            " AND a.id IN (  SELECT   MAX (id)" + 
-            " FROM   sp_bk_dc3_ngoai_te WHERE   TO_DATE (ngay_dc) = TO_DATE (SYSDATE) " + 
-            " GROUP BY   ngay_dc, send_bank))" + 
-            " OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE) AND a.trang_thai <> '00')" + 
-            " OR (TRUNC (a.ngay_thien_dc) = TRUNC (SYSDATE)))";
-          String send_bank = f.getNhkb_nhan();
-            if(send_bank!=null && ""!=send_bank && !"000".equals(send_bank)){
-              strWhere +=" and a.send_bank='"+send_bank+"'";
+
+            String strWhere =
+                " AND ( (TRUNC (a.ngay_dc) < TRUNC (SYSDATE)" + " AND ( (c.ket_qua = '01' OR a.trang_thai = '00')" +
+                " AND a.mt_id IN (  SELECT   MAX (mt_id) FROM   sp_bk_dc3_ngoai_te" +
+                " WHERE   TO_DATE (ngay_dc) < TO_DATE (SYSDATE) GROUP BY   ngay_dc, send_bank))" +
+                " OR a.trang_thai IS NULL) OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE)" +
+                " AND a.mt_id IN (  SELECT   MAX (mt_id)" +
+                " FROM   sp_bk_dc3_ngoai_te WHERE   TO_DATE (ngay_dc) = TO_DATE (SYSDATE) " +
+                " GROUP BY   ngay_dc, send_bank))" +
+                " OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE) AND a.trang_thai <> '00')" +
+                " OR (TRUNC (a.ngay_thien_dc) = TRUNC (SYSDATE)))";
+            String send_bank = f.getNhkb_nhan();
+            if (send_bank != null && "" != send_bank &&
+                !"000".equals(send_bank)) {
+                strWhere += " and a.send_bank='" + send_bank + "'";
             }
             Vector vParam = null;
             lisBangKe = dchieu4DAO.getDChieu4List(strWhere, vParam);
@@ -260,11 +260,11 @@ public class DChieu4Action extends AppAction {
             conn = getConnection(request);
             DChieu4Form doiChieu4Form = (DChieu4Form)form;
             String strBKeID = doiChieu4Form.getId();
-          HttpSession session = request.getSession();
-          DChieu4DAO dchieu4DAO = new DChieu4DAO(conn);
-          DChieu4VO vo = new DChieu4VO();
-           vo=dchieu4DAO.getMaSGD(null, null);
-//          String kb_nhan = vo.getMa_nh();
+            HttpSession session = request.getSession();
+            DChieu4DAO dchieu4DAO = new DChieu4DAO(conn);
+            DChieu4VO vo = new DChieu4VO();
+            vo = dchieu4DAO.getMaSGD(null, null);
+
             if (isTokenValid(request)) {
 
                 CallableStatement cs = null;
@@ -279,13 +279,13 @@ public class DChieu4Action extends AppAction {
                 cs.setString(2, p_ngay_dc);
                 cs.setLong(3, p_nguoi_tao_id);
                 cs.setLong(4, p_nguoi_tao_id);
-                cs.setString(5, p_loai_dc);//thuongdt-20170309
+                cs.setString(5, p_loai_dc);
                 cs.registerOutParameter(6, java.sql.Types.VARCHAR);
                 cs.registerOutParameter(7, java.sql.Types.VARCHAR);
                 cs.registerOutParameter(8, java.sql.Types.VARCHAR);
                 cs.execute();
-                strKQuaID = cs.getString(5);
-                errorCode = cs.getString(6);
+                strKQuaID = cs.getString(6);
+                errorCode = cs.getString(7);
             }
             if ("".equals(strKQuaID)) {
                 String strWhereClause =
@@ -351,30 +351,31 @@ public class DChieu4Action extends AppAction {
                 request.setAttribute("msgNote", strMsg);
             }
 
-          String strLst = " AND ( (TRUNC (a.ngay_dc) < TRUNC (SYSDATE)" + 
-            " AND ( (c.ket_qua = '01' OR a.trang_thai = '00')" + 
-            " AND a.id IN (  SELECT   MAX (id) FROM   sp_bk_dc3_ngoai_te" + 
-            " WHERE   TO_DATE (ngay_dc) < TO_DATE (SYSDATE) GROUP BY   ngay_dc, send_bank))" + 
-            " OR a.trang_thai IS NULL) OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE)" + 
-            " AND a.id IN (  SELECT   MAX (id)" + 
-            " FROM   sp_bk_dc3_ngoai_te WHERE   TO_DATE (ngay_dc) = TO_DATE (SYSDATE) " + 
-            " GROUP BY   ngay_dc, send_bank))" + 
-            " OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE) AND a.trang_thai <> '00')" + 
-            " OR (TRUNC (a.ngay_thien_dc) = TRUNC (SYSDATE)))";
-          
-          String send_bank = doiChieu4Form.getNhkb_nhan();
-            if(send_bank!=null && ""!=send_bank && !"000".equals(send_bank)){
-              strLst +=" and a.send_bank='"+send_bank+"'";
+            String strLst =
+                " AND ( (TRUNC (a.ngay_dc) < TRUNC (SYSDATE)" + " AND ( (c.ket_qua = '01' OR a.trang_thai = '00')" +
+                " AND a.mt_id IN (  SELECT   MAX (mt_id) FROM   sp_bk_dc3_ngoai_te" +
+                " WHERE   TO_DATE (ngay_dc) < TO_DATE (SYSDATE) GROUP BY   ngay_dc, send_bank))" +
+                " OR a.trang_thai IS NULL) OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE)" +
+                " AND a.mt_id IN (  SELECT   MAX (mt_id)" +
+                " FROM   sp_bk_dc3_ngoai_te WHERE   TO_DATE (ngay_dc) = TO_DATE (SYSDATE) " +
+                " GROUP BY   ngay_dc, send_bank))" +
+                " OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE) AND a.trang_thai <> '00')" +
+                " OR (TRUNC (a.ngay_thien_dc) = TRUNC (SYSDATE)))";
+
+            String send_bank = doiChieu4Form.getNhkb_nhan();
+            if (send_bank != null && "" != send_bank &&
+                !"000".equals(send_bank)) {
+                strLst += " and a.send_bank='" + send_bank + "'";
             }
             Collection lisBangKe = dchieu4DAO.getDChieu4List(strLst, null);
             request.setAttribute("colBangKe", lisBangKe);
-          TTThanhToanDAO TTdao = new TTThanhToanDAO(conn);
-          List dmucNH = null;
-          dmucNH = (List)TTdao.getDMucNH(null,null);
-          request.setAttribute("dmucNH", dmucNH);
-            
+            TTThanhToanDAO TTdao = new TTThanhToanDAO(conn);
+            List dmucNH = null;
+            dmucNH = (List)TTdao.getDMucNH(null, null);
+            request.setAttribute("dmucNH", dmucNH);
+
             resetToken(request);
-          saveToken(request);
+            saveToken(request);
         } catch (TTSPException e) {
             throw e;
         } catch (Exception e) {
@@ -396,9 +397,9 @@ public class DChieu4Action extends AppAction {
         String strMsg = "";
         try {
             DChieu4Form doiChieu4Form = (DChieu4Form)form;
-          DChieu4DAO dchieu4DAO = new DChieu4DAO(conn);
-          DChieu4VO vo = new DChieu4VO();
-           vo=dchieu4DAO.getMaSGD(null, null);
+            DChieu4DAO dchieu4DAO = new DChieu4DAO(conn);
+            DChieu4VO vo = new DChieu4VO();
+            vo = dchieu4DAO.getMaSGD(null, null);
             //if (isTokenValid(request)) {
             if (1 == 1) {
                 conn = getConnection(request);
@@ -435,28 +436,29 @@ public class DChieu4Action extends AppAction {
                 request.setAttribute("TongKQBK", listTongKQBK);
                 request.setAttribute("msgNote", strMsg);
             }
-            
-          String strLst = " AND ( (TRUNC (a.ngay_dc) < TRUNC (SYSDATE)" + 
-            " AND ( (c.ket_qua = '01' OR a.trang_thai = '00')" + 
-            " AND a.id IN (  SELECT   MAX (id) FROM   sp_bk_dc3_ngoai_te" + 
-            " WHERE   TO_DATE (ngay_dc) < TO_DATE (SYSDATE) GROUP BY   ngay_dc, send_bank))" + 
-            " OR a.trang_thai IS NULL) OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE)" + 
-            " AND a.id IN (  SELECT   MAX (id)" + 
-            " FROM   sp_bk_dc3_ngoai_te WHERE   TO_DATE (ngay_dc) = TO_DATE (SYSDATE) " + 
-            " GROUP BY   ngay_dc, send_bank))" + 
-            " OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE) AND a.trang_thai <> '00')" + 
-            " OR (TRUNC (a.ngay_thien_dc) = TRUNC (SYSDATE)))";   
-            
-          String send_bank = doiChieu4Form.getNhkb_nhan();
-            if(send_bank!=null && ""!=send_bank && !"000".equals(send_bank)){
-              strLst +=" and a.send_bank='"+send_bank+"'";
+
+            String strLst =
+                " AND ( (TRUNC (a.ngay_dc) < TRUNC (SYSDATE)" + " AND ( (c.ket_qua = '01' OR a.trang_thai = '00')" +
+                " AND a.mt_id IN (  SELECT   MAX (mt_id) FROM   sp_bk_dc3_ngoai_te" +
+                " WHERE   TO_DATE (ngay_dc) < TO_DATE (SYSDATE) GROUP BY   ngay_dc, send_bank))" +
+                " OR a.trang_thai IS NULL) OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE)" +
+                " AND a.mt_id IN (  SELECT   MAX (mt_id)" +
+                " FROM   sp_bk_dc3_ngoai_te WHERE   TO_DATE (ngay_dc) = TO_DATE (SYSDATE) " +
+                " GROUP BY   ngay_dc, send_bank))" +
+                " OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE) AND a.trang_thai <> '00')" +
+                " OR (TRUNC (a.ngay_thien_dc) = TRUNC (SYSDATE)))";
+
+            String send_bank = doiChieu4Form.getNhkb_nhan();
+            if (send_bank != null && "" != send_bank &&
+                !"000".equals(send_bank)) {
+                strLst += " and a.send_bank='" + send_bank + "'";
             }
             Collection lisBangKe = dchieu4DAO.getDChieu4List(strLst, null);
             request.setAttribute("colBangKe", lisBangKe);
-          TTThanhToanDAO TTdao = new TTThanhToanDAO(conn);
-          List dmucNH = null;
-          dmucNH = (List)TTdao.getDMucNH(null,null);
-          request.setAttribute("dmucNH", dmucNH);
+            TTThanhToanDAO TTdao = new TTThanhToanDAO(conn);
+            List dmucNH = null;
+            dmucNH = (List)TTdao.getDMucNH(null, null);
+            request.setAttribute("dmucNH", dmucNH);
             resetToken(request);
             saveToken(request);
 
@@ -474,19 +476,18 @@ public class DChieu4Action extends AppAction {
     public ActionForward update(ActionMapping mapping, ActionForm form,
                                 HttpServletRequest request,
                                 HttpServletResponse response) throws Exception {
-        //if (!checkPermissionOnFunction(request, "DCHIEU.DC4")) {
-          //  return mapping.findForward("errorQuyen");
-        //}
+        // if (!checkPermissionOnFunction(request, "DCHIEU.DC4")) {
+        //  return mapping.findForward("errorQuyen");
+        // }
 
         Connection conn = null;
         Collection lisBangKe = null;
         try {
             conn = getConnection(request);
             DChieu4Form doiChieu4Form = (DChieu4Form)form;
-            String strID = doiChieu4Form.getId(); //request.getParameter("id");
-            //xem chi tiet
-            KQDChieu4DAO kqDChieu4DAO = new KQDChieu3DAO(conn);
-            KQDChieu4VO kqDChieu4VO = new KQDChieu3VO();
+            String strID = doiChieu4Form.getId();
+            KQDChieu4DAO kqDChieu4DAO = new KQDChieu4DAO(conn);
+            KQDChieu4VO kqDChieu4VO = new KQDChieu4VO();
             kqDChieu4VO.setBk_id(strID);
             kqDChieu4VO.setTrang_thai("01");
             kqDChieu4VO.setNgay_thien_dc(StringUtil.DateToString(new Date(),
@@ -501,6 +502,10 @@ public class DChieu4Action extends AppAction {
             request.setAttribute("colMT900", null);
             request.setAttribute("colMT910", null);
             request.setAttribute("TongKQBK", null);
+            TTThanhToanDAO TTdao = new TTThanhToanDAO(conn);
+            List dmucNH = null;
+            dmucNH = (List)TTdao.getDMucNH(null, null);
+            request.setAttribute("dmucNH", dmucNH);
 
             conn.commit();
             saveToken(request);
@@ -508,7 +513,7 @@ public class DChieu4Action extends AppAction {
             throw ttspEx;
         } catch (Exception ex) {
             throw TTSPException.createException("TTSP-1000", ex.toString());
-        } finally { 
+        } finally {
             close(conn);
         }
         return mapping.findForward(AppConstants.SUCCESS);
@@ -517,7 +522,6 @@ public class DChieu4Action extends AppAction {
 
     public static final String REPORT_DIRECTORY = "/report";
     public static final String strFontTimeRoman = "/font/times.ttf";
-//    public static final String fileName = "/rpt_DChieu_KQua_TGui";
 
     public ActionForward printAction(ActionMapping mapping, ActionForm form,
                                      HttpServletRequest request,
@@ -531,42 +535,39 @@ public class DChieu4Action extends AppAction {
             DChieu4Form f = (DChieu4Form)form;
             KQDChieu4DAO kqDChieu4DAO = new KQDChieu4DAO(conn);
             KQDChieu4VO kqDChieu4VO = new KQDChieu4VO();
-            // l� ng d�ng dang su dung   f.getG_nsd_id()
-            //Khai bao bien find.
-//            HttpSession session = request.getSession();
             String ngay_dc = f.getNgay_dc();
-            String trang_thai=f.getTrang_thai_in();
+            String trang_thai = f.getTrang_thai_in();
             String lan_dc = f.getLan_dc();
             ngay_dc = ngay_dc.replace("/", "-");
             String send_bank = f.getSend_bank();
             String strW = "'" + send_bank + "'";
             kqDChieu4VO = kqDChieu4DAO.getTenNH(strW, null);
             String tenNH = kqDChieu4VO.getTen();
-            
+
             if (ngay_dc != null && !"".equals(ngay_dc)) {
                 sbSubHTML.append("<input type=\"hidden\" name=\"lan_dc\" value=\"" +
                                  lan_dc + "\" id=\"lan_dc\"></input>");
-              sbSubHTML.append("<input type=\"hidden\" name=\"ngay_dc\" value=\"" +
-                               ngay_dc + "\" id=\"ngay_dc\"></input>");
+                sbSubHTML.append("<input type=\"hidden\" name=\"ngay_dc\" value=\"" +
+                                 ngay_dc + "\" id=\"ngay_dc\"></input>");
                 sbSubHTML.append("<input type=\"hidden\" name=\"send_bank\" value=\"" +
                                  send_bank + "\" id=\"send_bank\"></input>");
                 sbSubHTML.append("<input type=\"hidden\" name=\"tenNH\" value=\"" +
                                  tenNH + "\" id=\"tenNH\"></input>");
-              sbSubHTML.append("<input type=\"hidden\" name=\"lan_dc\" value=\"" +
-                               f.getLan_dc() + "\" id=\"lan_dc\"></input>");
-              sbSubHTML.append("<input type=\"hidden\" name=\"kq_id\" value=\"" +
-                               f.getKq_id() + "\" id=\"kq_id\"></input>");
-              sbSubHTML.append("<input type=\"hidden\" name=\"trang_thai_in\" value=\"" +
-                               trang_thai + "\" id=\"trang_thai_in\"></input>");
+                sbSubHTML.append("<input type=\"hidden\" name=\"lan_dc\" value=\"" +
+                                 f.getLan_dc() + "\" id=\"lan_dc\"></input>");
+                sbSubHTML.append("<input type=\"hidden\" name=\"kq_id\" value=\"" +
+                                 f.getKq_id() + "\" id=\"kq_id\"></input>");
+                sbSubHTML.append("<input type=\"hidden\" name=\"trang_thai_in\" value=\"" +
+                                 trang_thai +
+                                 "\" id=\"trang_thai_in\"></input>");
                 JasperPrint jasperPrint = null;
                 HashMap parameterMap = new HashMap();
                 ReportUtility rpUtilites = new ReportUtility();
-              String fileName="";
-                if (trang_thai.equals("02")){
-                  fileName = "/rpt_DChieu_KQua_TGui_kd";
-                }
-                else if(trang_thai.equals("01")){
-                  fileName = "/rpt_DChieu_KQua_TGui_kl";
+                String fileName = "";
+                if (trang_thai.equals("02")) {
+                    fileName = "/rpt_DChieu_KQua_TGui_kd";
+                } else if (trang_thai.equals("01")) {
+                    fileName = "/rpt_DChieu_KQua_TGui_kl";
                 }
                 reportStream =
                         getServlet().getServletConfig().getServletContext().getResourceAsStream(REPORT_DIRECTORY +
@@ -577,13 +578,13 @@ public class DChieu4Action extends AppAction {
                 parameterMap.put("p_NGAY", ngay_dc);
                 parameterMap.put("p_MA_NH", send_bank);
                 parameterMap.put("p_TEN_NH", tenNH);
-                
-              parameterMap.put("REPORT_LOCALE",
-                                             new java.util.Locale("us", "US"));
+
+                parameterMap.put("REPORT_LOCALE",
+                                 new java.util.Locale("us", "US"));
                 jasperPrint =
                         JasperFillManager.fillReport(reportStream, parameterMap,
                                                      conn);
-              
+
                 String strTypePrintAction =
                     request.getParameter(AppConstants.REQUEST_ACTION) == null ?
                     "" :
@@ -605,12 +606,47 @@ public class DChieu4Action extends AppAction {
             try {
                 reportStream.close();
             } catch (Exception e) {
-//                e.printStackTrace();
+                e.printStackTrace();
             }
             close(conn);
         }
         return mapping.findForward("success");
     }
 
+    public ActionForward add(ActionMapping mapping, ActionForm form,
+                             HttpServletRequest request,
+                             HttpServletResponse response) throws Exception {
+        Connection conn = null;
+        JsonObject jsonObj = new JsonObject();
+        String strJson = "";
+        Gson gson = null;
+        Vector params = null;
+        try {
+            conn = getConnection();
+            params = new Vector();
+            String ngay_doi_chieu =
+                request.getParameter("ngay_doi_chieu").toString();
+            String mt_id = request.getParameter("mt_id").toString();
+            DChieu4DAO dao = new DChieu4DAO(conn);
+            String strWhere = " AND a.mt_id = '" + mt_id +"' AND a.ngay_dc = TO_DATE('"+ngay_doi_chieu+"','dd/mm/yyyy') ";
+            Collection lstChiTietBangKe = dao.getTTBangKe(strWhere, params);
+            gson = new GsonBuilder().setVersion(1.0).create();
+            strJson = gson.toJson(lstChiTietBangKe);
+            jsonObj.addProperty("lstChiTietBangKe", strJson);
+            JsonArray jsonArr = new JsonArray();
+            JsonElement jsonEle = jsonObj.get("lstChiTietBangKe");
+            jsonArr.add(jsonEle);
+            response.setContentType(AppConstants.CONTENT_TYPE_JSON);
+            PrintWriter out = response.getWriter();
+            out.println(jsonArr.getAsJsonArray().toString());
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            throw e;
+        }finally{
+            close(conn);
+        }
+        return mapping.findForward("success");
+    }
 
 }

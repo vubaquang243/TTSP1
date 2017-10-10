@@ -20,11 +20,6 @@
 <script type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/ltt.quyettoan.check.valid.js"></script>
 <script type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/lov.js"></script>
 
-<!--
-<script type="text/javascript" charset="utf-8" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/ltt.quyettoan.check.valid.js"></script>
-<script type="text/javascript" charset="utf-8" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/LenhThanhToan.js"></script>
-<script type="text/javascript" charset="utf-8" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/date.format.js"></script>
- -->
 <style type="text/css">
   #input-form{
     height:23px;
@@ -301,7 +296,7 @@
           <tr id="input-form">
             <td width="20%">Ngày quyết toán</td>
             <td width="30%">
-              <html:text property="ngayQT" styleId="ngayQT" style="width: 200px;" onkeydown="if(event.keyCode==13) event.keyCode=9;" disabled="disabled" readonly="true" />
+              <html:text property="ngayQT" styleId="ngayQT" style="width: 200px;" disabled="disabled" readonly="true" />
             </td>
           </tr>
           <tr id="input-form">

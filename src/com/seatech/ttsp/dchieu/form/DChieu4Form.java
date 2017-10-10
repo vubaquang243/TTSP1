@@ -33,6 +33,9 @@ public class DChieu4Form extends AppForm {
   private String nhkb_nhan;
   private String ma_nh;
   private String ten_nh;
+  private String loai_tien;
+  private String mt_id;
+  private String ngay_doi_chieu;
 
     public void setId(String id) {
         this.id = id;
@@ -256,5 +259,29 @@ public class DChieu4Form extends AppForm {
 
     public String getTen_nh() {
         return ten_nh;
+    }
+
+    public void setLoai_tien(String loai_tien) {
+        this.loai_tien = loai_tien;
+    }
+
+    public String getLoai_tien() {
+        return loai_tien;
+    }
+
+    public void setMt_id(String mt_id) {
+        this.mt_id = mt_id;
+    }
+
+    public String getMt_id() {
+        return mt_id;
+    }
+
+    public void setNgay_doi_chieu(String ngay_doi_chieu) {
+        this.ngay_doi_chieu = ngay_doi_chieu;
+    }
+
+    public String getNgay_doi_chieu() {
+        return ngay_doi_chieu;
     }
 }
