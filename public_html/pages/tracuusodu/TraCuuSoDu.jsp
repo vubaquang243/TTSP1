@@ -77,8 +77,7 @@
               if(data != null){
                 var result = new Object();
                 result = JSON.parse(data[0]);
-                if(result == "success"){
-                alert("Xóa bản ghi thành công");
+                if(result == "success"){                
                   jQuery('table#table_ket_qua tr.delete').remove();
                 }else{
                   alert("Xóa bản ghi không thành công");
@@ -136,6 +135,9 @@
       vform.submit();            
   }
   
+  function myFunction(){
+    return confirm("Bạn có chắc muốn xóa bản ghi này không ?");
+  }
   function changeForeignCurrency(nStr){
         nStr += '';
         x = nStr.split('.');
@@ -277,10 +279,11 @@
 </table> 
 <html:form styleId="frmTraCuuSoDu" action="/traCuuSoDu.do">
 <font color="red"><html:errors/></font>
+<fieldset>
 <table cellspacing="0" cellpadding="3" width="100%">
   <tr>
     <td width="5%" align="right">Kho bạc tỉnh</td>
-    <td width="10%"><html:select property="id_kho_bac_tinh" styleId="id_kho_bac_tinh" onblur="getThongTinKB();" style="width : 170px;" onkeydown="if(event.keyCode==13) event.keyCode=9;">
+    <td width="8%"><html:select property="id_kho_bac_tinh" styleId="id_kho_bac_tinh" onblur="getThongTinKB();" style="width : 170px;" onkeydown="if(event.keyCode==13) event.keyCode=9;">
           <option value="">Chọn thông tin tra cứu</option>
           <logic:notEmpty name="lstNHKBTinh">
           <html:optionsCollection name="lstNHKBTinh" label="ten" value="ma" />
@@ -288,7 +291,7 @@
         </html:select>
     </td>
     <td width="5%" align="right">Kho bạc huyện</td>
-    <td width="6%"><html:select property="id_kho_bac_huyen" styleId="id_kho_bac_huyen" onblur="getThongTinNganHang();" style="width : 170px;" onkeydown="if(event.keyCode==13) event.keyCode=9;">
+    <td width="8%"><html:select property="id_kho_bac_huyen" styleId="id_kho_bac_huyen" onblur="getThongTinNganHang();" style="width : 170px;" onkeydown="if(event.keyCode==13) event.keyCode=9;">
           <option value="">Chọn thông tin tra cứu</option>
         </html:select>
     </td>
@@ -363,8 +366,11 @@
   </td>
   </tr>
 </table>
-<div style="width : 100%; height : 4px;"></div>
-<table cellpadding="0" cellspacing="0" border="1" id="table_ket_qua">
+</fieldset>
+<div style="width : 100%; height : 20px;"></div>
+<fieldset>
+<legend><font color="Blue" size="2">Kết quả truy vấn</font></legend>
+<table cellpadding="0" cellspacing="0" border="1" id="table_ket_qua" class="table">
   <thead>
   <tr>
   <th width="4%" align="center">STT</th>
@@ -456,6 +462,7 @@
   <html:hidden property="pageNumber" value="1" styleId="pageNumber"/>
   </logic:notEmpty>
 </table>
+</fieldset>
 </html:form>
 <div id="dialog-form-lov-dm" title="Tra c&#7913;u danh m&#7909;c Kho b&#7841;c">
   <p class="validateTips"></p>

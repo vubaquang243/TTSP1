@@ -178,7 +178,6 @@
      var maNHPhatLenh = $('#maNHPhatLenh').val();
      var taiKhoanPhatLenh = $('#taiKhoanPhatLenh').val();
      var tenTaiKhoanPhatLenh = $('#tenTaiKhoanPhatLenh').val();
-     console.log(nhkbNhan);
      if(nhkbChuyen == ""){
       alert("Trường ngân hàng kho bạc chuyển không được để trống");
       return false;
