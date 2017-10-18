@@ -13,9 +13,20 @@
       href="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/css/ui.jqgrid.css"/>
 <link rel="stylesheet" type="text/css" media="screen"
       href="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/css/jquery-ui-1.8.2.custom.css"/>
-<script src="src">
-"<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/jquery-ui-1.8.11.custom.min.js"
-  type = "text/javascript"
+<script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/jquery-ui-1.8.11.custom.min.js"
+        type="text/javascript">
+ / styles / js / jquery - ui - 1.8.11.custom.min.js" type="
+  text / javascript"></script>
+<script src="
+</script>
+<script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/quyettoan.js"
+        type="text/javascript">
+">/styles/js/quyettoan.js"
+  type = "text/javascript" > 
+</script>
+<script type="text/javascript"
+        src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/lov1.js">
+ / styles / js / lov1.js"></script>
 </script>
 <%@ page import="com.seatech.framework.common.jsp.PagingBean"%>
 <%@ page import="com.seatech.framework.AppConstants"%>
@@ -28,6 +39,16 @@
       f.action = 'listSoDuAction.do?pageNumber=' + page;
       jQuery("#TCuuDMuc").submit();
   }
+  function callLov(){
+      jQuery("#loai_lov").val("DMKBTCUUQT");
+      jQuery("#ma_field_id_lov").val("ma_nhkb_nhan");
+      jQuery("#ten_field_id_lov").val("ten_nhkb_nhan");
+      jQuery("#id_field_id_lov").val("id_nhkb_huyen");
+      jQuery("#ma_cha_field_id_lov").val("id_nhkb_tinh");
+      jQuery("#dialog-form-lov-dm").dialog( "open" );
+      //jQuery('#dialog-form-lov-dm').attr("style","display:block");
+    }
+
 
   function check(type) {
       var f = document.forms[0];
@@ -43,6 +64,18 @@
 
   jQuery(document).ready(function () {
       jQuery('#ma_kb').focus();
+      
+       jQuery("#dialog-form-lov-dm").dialog({
+          autoOpen: false,resizable : false,
+          maxHeight: "700px",
+          width: "550px",
+          modal: true
+      });
+      if(jQuery("#kb_tinh").val() == '0003'){
+          try{
+            jQuery("#kb_huyen").val("0003");
+          }catch(ex){}
+      }
   });
 
   
@@ -136,6 +169,15 @@
                  
               <html:hidden property="id_nhkb_nhan" styleId="id_nhkb_nhan" value=""/>
               </td>
+              
+               <td rowspan="3" width="9">
+                <button type="button" style="width:100%" onclick="callLov();"
+                        class="ButtonCommon" accesskey="t">
+                  <span class="sortKey">D</span>
+                  anh m?c KB
+                </button>
+              </td>
+              
               <td align="right" width="10%">Số dư</td>
               <td align="left" width="20%">
                 <html:text property="so_du" styleId="so_du" size="20%"
@@ -205,6 +247,18 @@
                   <html:option value="VND">VND</html:option>
                   <html:optionsCollection value="ma" label="ma"
                                           name="lstLoaiTien"/>
+                </html:select>
+              </td>
+            </tr>
+            
+             <tr>
+              <td align="right">Loại tài khoản</td>
+              <td align="left">
+                <html:select property="loai_tai_khoan" styleId="loai_tai_khoan"
+                             style="width:80%;height:20px">
+                  <html:option value="thanh_toan">Thanh toán</html:option>
+                  <html:option value="tien_gui">Tiền gửi</html:option>
+                  <html:option value="chuyen_thu">Chuyên thu</html:option>
                 </html:select>
               </td>
             </tr>
@@ -398,5 +452,18 @@
     </table>
     <%-- ************************************--%>
   </html:form>
+</div>
+<div id="dialog-confirm"
+     title='<fmt:message key="XuLyLenhQT.page.title.dialog_confirm"/>'>
+  <p>
+    <span class="
+    icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+     
+    <span id="message_confirm"></span>
+  </p>
+</div>
+<div id="dialog-form-lov-dm" title="Tra cứu danh mục kho bạc">
+  <p class="validateTips"></p>
+  <%@ include file="/pages/lov/lovDMKBTCUULTT.jsp"%>
 </div>
 <%@ include file="/includes/ttsp_bottom.inc"%>

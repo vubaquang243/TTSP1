@@ -430,6 +430,8 @@ public class LenhQTTCAction extends AppAction {
             out.println(jsonArr.getAsJsonArray().toString());
             out.flush();
             out.close();
+        } finally {
+            close(conn);
         }
         return mapping.findForward(AppConstants.SUCCESS);
     }

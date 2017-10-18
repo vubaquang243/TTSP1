@@ -63,9 +63,9 @@ public class DChieu4Action extends AppAction {
     public ActionForward list(ActionMapping mapping, ActionForm form,
                               HttpServletRequest request,
                               HttpServletResponse response) throws Exception {
-        // if (!checkPermissionOnFunction(request, "DCHIEU.DC4")) {
-        //   return mapping.findForward("errorQuyen");
-        // }
+        if (!checkPermissionOnFunction(request, "DCHIEU.DC4")) {
+           return mapping.findForward("errorQuyen");
+           }
         Connection conn = null;
         Collection lisBangKe = null;
         try {
@@ -274,18 +274,17 @@ public class DChieu4Action extends AppAction {
                 Long p_nguoi_tao_id =
                     new Long(session.getAttribute(AppConstants.APP_USER_ID_SESSION).toString());
                 cs =
- conn.prepareCall("{call SP_DOI_CHIEU_3_NGOAITE_PKG.proc_doi_chieu_lan_3_ngoaite(?,?,?,?,?,?,?,?)}");
+ conn.prepareCall("{call SP_DOI_CHIEU_3_NGOAITE_PKG.proc_doi_chieu_lan_3_ngoaite(?,?,?,?,?,?,?)}");
                 cs.setString(1, strBKeID);
                 cs.setString(2, p_ngay_dc);
                 cs.setLong(3, p_nguoi_tao_id);
-                cs.setLong(4, p_nguoi_tao_id);
-                cs.setString(5, p_loai_dc);
+                cs.setString(4, p_loai_dc);
+                cs.registerOutParameter(5, java.sql.Types.VARCHAR);
                 cs.registerOutParameter(6, java.sql.Types.VARCHAR);
                 cs.registerOutParameter(7, java.sql.Types.VARCHAR);
-                cs.registerOutParameter(8, java.sql.Types.VARCHAR);
                 cs.execute();
-                strKQuaID = cs.getString(6);
-                errorCode = cs.getString(7);
+                strKQuaID = cs.getString(5);
+                errorCode = cs.getString(6);
             }
             if ("".equals(strKQuaID)) {
                 String strWhereClause =
@@ -476,9 +475,9 @@ public class DChieu4Action extends AppAction {
     public ActionForward update(ActionMapping mapping, ActionForm form,
                                 HttpServletRequest request,
                                 HttpServletResponse response) throws Exception {
-        // if (!checkPermissionOnFunction(request, "DCHIEU.DC4")) {
-        //  return mapping.findForward("errorQuyen");
-        // }
+        if (!checkPermissionOnFunction(request, "DCHIEU.DC4")) {
+            return mapping.findForward("errorQuyen");
+         }
 
         Connection conn = null;
         Collection lisBangKe = null;

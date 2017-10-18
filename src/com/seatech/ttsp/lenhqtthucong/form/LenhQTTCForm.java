@@ -50,6 +50,8 @@ public class LenhQTTCForm extends AppForm{
     private String tenNHPhatLenh;
     
     private String tenNHNhanLenh;
+    
+    private String ma_nh;
     public void setMaNHKBChuyen(String maNHKBChuyen) {
         this.maNHKBChuyen = maNHKBChuyen;
     }
@@ -240,5 +242,13 @@ public class LenhQTTCForm extends AppForm{
 
     public String getTenNHNhanLenh() {
         return tenNHNhanLenh;
+    }
+
+    public void setMa_nh(String ma_nh) {
+        this.ma_nh = ma_nh;
+    }
+
+    public String getMa_nh() {
+        return ma_nh;
     }
 }

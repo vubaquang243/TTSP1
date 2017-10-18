@@ -105,7 +105,7 @@
     <fieldset style="width:auto;">
     <legend><a style="text-color : blue;" >Danh sách đề nghị quyết toán</a></legend>
     <span id="message" style="color : red;"></span>
-    <table cellpadding="0" cellspacing="3" border="1px" width="100%" id="listQT" >
+    <table cellpadding="0" cellspacing="0" border="1px" width="100%" id="listQT" >
     <thead>
     <tr style="text-align:center; height : 20px;" >
       <th width="3%" >STT</th>
@@ -142,12 +142,30 @@
           <td align="center" class="soLenh" ><%= items.getSolenh() %></td>
           <td class="tenNH" ><%= items.getTennh()%></td>
           <td align="center" class="QTthu" >
-              <% if(items.getLoaitien().equals("VND"))%><%= items.getQuyettoanthu() %>
-              <% if(!items.getLoaitien().equals("VND"))%><%= items.getQuyettoanthu() %>
+              <% if(items.getLoaitien().equals("VND")){%>
+              <fmt:setLocale value="vi_VI"/>
+              <fmt:formatNumber type="currency" currencySymbol="">
+              <%= items.getQuyettoanthu() %>
+              </fmt:formatNumber>
+              <!-- dinh dang tien te -->
+             <% }if(!items.getLoaitien().equals("VND")){%>
+              <fmt:setLocale value="en_US"/>
+              <fmt:formatNumber type="currency" currencySymbol="">
+              <%= items.getQuyettoanthu() %>
+              </fmt:formatNumber><%}%>
           </td>
           <td align="center" class="QTchi numbers" >
-              <% if(items.getLoaitien().equals("VND"))%><%= items.getQuyettoanchi() %>
-              <% if(!items.getLoaitien().equals("VND"))%><%= items.getQuyettoanchi() %>
+              <% if(items.getLoaitien().equals("VND")){%>
+              <fmt:setLocale value="vi_VI"/>
+              <fmt:formatNumber type="currency" currencySymbol="">
+              <%= items.getQuyettoanchi() %>
+              </fmt:formatNumber>
+              <!-- dinh dang tien te -->
+           <% }if(!items.getLoaitien().equals("VND")){%>
+              <fmt:setLocale value="en_US"/>
+              <fmt:formatNumber type="currency" currencySymbol="">
+              <%= items.getQuyettoanchi() %>
+              </fmt:formatNumber><%}%>
            </td>
           <td align="center" class="loaiTien numbers" ><%= items.getLoaitien() %></td>
           <td align="center" class="loaiQT" >

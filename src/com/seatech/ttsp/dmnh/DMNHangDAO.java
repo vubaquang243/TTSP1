@@ -268,7 +268,7 @@ public class DMNHangDAO extends AppDAO {
                                 Vector params) throws Exception {
       try {
           StringBuffer strSQL = new StringBuffer();
-          strSQL.append(" SELECT id, ma_nh,ten,tinh_trang FROM (");
+          strSQL.append(" SELECT DISTINCT id, ma_nh,ten,tinh_trang FROM (");
           strSQL.append(" SELECT id, ma_nh,ten, tinh_trang ");
           strSQL.append(" FROM sp_dm_ngan_hang ");
           strSQL.append(" UNION ALL");

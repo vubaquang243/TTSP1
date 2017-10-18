@@ -119,14 +119,17 @@ public class QuanLyDKyCTSAction extends AppAction {
                 }
             }
 
+            String id_kb =
+                session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
             DMKBacDAO dmkbDAO = new DMKBacDAO(conn);
-            colMaKhoBac = dmkbDAO.getDMKBList(null, null);
+            String strWhere = " a.id_cha = '" + id_kb + "'";
+            colMaKhoBac = dmkbDAO.getDMKBList(strWhere, null);
             request.setAttribute("listKhoBac", colMaKhoBac);
             request.setAttribute("listCTSChuaDuyet", colCTS);
 
 
         } catch (Exception e) {
-//            e.printStackTrace();
+            //            e.printStackTrace();
         } finally {
             close(conn);
         }

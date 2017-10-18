@@ -79,13 +79,24 @@ public class XuLyQToanTQAction extends AppAction {
                 // end
                 String strUserInfo =
                     (String)session.getAttribute(AppConstants.APP_ROLE_LIST_SESSION);
-                if (strUserInfo.indexOf(AppConstants.NSD_TTV) != -1) {
+//******************************************************************************
+//ManhNV-20170909-sua dap ung thay doi don vi quan ly TK TT tong hop-BEGIN
+                /*if (strUserInfo.indexOf(AppConstants.NSD_TTV) != -1) {
                     request.setAttribute("chucdanh", strUserInfo);
                 } else if (strUserInfo.indexOf(AppConstants.NSD_KTT) != -1) {
                     request.setAttribute("chucdanh", strUserInfo);
                 } else {
                     request.setAttribute("chucdanh", strUserInfo);
+                }*/
+                if(strUserInfo.indexOf(AppConstants.NSD_CBPT_PTTT) != -1) {
+                    request.setAttribute("chucdanh", "KTT");
+                }else if(strUserInfo.indexOf(AppConstants.NSD_CB_TTTT) != -1) {
+                    request.setAttribute("chucdanh", "TTV");
+                }else{
+                    request.setAttribute("chucdanh", strUserInfo);
                 }
+//ManhNV-20170909-sua dap ung thay doi don vi quan ly TK TT tong hop-END
+//******************************************************************************
                 params = new Vector();
                 qtDAO = new QuyetToanDAO(conn);
                 strWhereClause =
@@ -193,7 +204,19 @@ public class XuLyQToanTQAction extends AppAction {
             //                if (strUserInfo.indexOf(AppConstants.NSD_TTV) != -1) {
             //                    request.setAttribute("chucdanh", strUserInfo);
             //                } else if (strUserInfo.indexOf(AppConstants.NSD_KTT) != -1) {
-            request.setAttribute("chucdanh", strUserInfo);
+//******************************************************************************
+//ManhNV-20170909-sua dap ung thay doi don vi quan ly TK TT tong hop-BEGIN                           
+            if(strUserInfo.indexOf(AppConstants.NSD_CBPT_PTTT) != -1) {
+                request.setAttribute("chucdanh", "KTT");
+            }else if(strUserInfo.indexOf(AppConstants.NSD_CB_TTTT) != -1) {
+                request.setAttribute("chucdanh", "TTV");
+            }else{
+                request.setAttribute("chucdanh", strUserInfo);
+            }
+//          request.setAttribute("chucdanh", strUserInfo);
+//ManhNV-20170909-sua dap ung thay doi don vi quan ly TK TT tong hop-END
+//******************************************************************************            
+            
             //                }else{
             //
             //                }
@@ -482,29 +505,33 @@ public class XuLyQToanTQAction extends AppAction {
                     AppConstants.REPORT_DIRECTORY +
                     AppConstants.FONT_FOR_REPORT;
                 parameterMap = new HashMap();
-
-                String p_MA_KB = AppConstants.KBNN_SGD_BANK_CODE;
-
+//******************************************************************************
+//ManhNV-20170909-sua dap ung thay doi don vi quan ly TK TT tong hop-BEGIN  
+//                String p_MA_KB = AppConstants.KBNN_SGD_BANK_CODE;//20170909
+               
                 DMNHangDAO dmnhDAO = new DMNHangDAO(conn);
-                String whereClauseHO = " a.ma_nh=?";
+                String whereClauseHO = " and a.ma_dv=?";
+                //Lay thong tin KB
                 Vector paramHO = new Vector();
-                paramHO.add(new Parameter(p_MA_KB, true));
-                DMNHangVO nhVO = dmnhDAO.getDMNH(whereClauseHO, paramHO);
-                String strMa_KB = nhVO.getMa_nh();
-                String strTen_KB = nhVO.getTen();
-
+                paramHO.add(new Parameter("701", true));//20170909
+                DMNHangHOVO nhVO = dmnhDAO.getDMNHangHO(whereClauseHO, paramHO);//20170909
+                String strMa_KB = nhVO.getMa_nh();//20170909
+                String strTen_KB = nhVO.getTen_nh();//20170909
+                //Lay thong tin NH
                 String strMaNH = bkVO.getTcg_ngan_hang();
-                whereClauseHO = " and a.ma_dv=?";
-                paramHO = new Vector();
+//                whereClauseHO = " and a.ma_dv=?";
+                paramHO = new Vector();//20170909
                 paramHO.add(new Parameter(strMaNH, true));
                 DMNHangHOVO nhHOVO =
-                    dmnhDAO.getDMNHangBKLTT(whereClauseHO, paramHO);
+                    dmnhDAO.getDMNHangHO(whereClauseHO, paramHO);
                 String p_MA_NH = "";
                 String p_TEN_NH = "";
                 if (nhHOVO != null) {
                     p_MA_NH = nhHOVO.getMa_nh();
                     p_TEN_NH = nhHOVO.getTen_nh();
                 }
+//ManhNV-20170909-sua dap ung thay doi don vi quan ly TK TT tong hop-END
+//******************************************************************************
                 parameterMap.put("p_NGAY", bkVO.getNgay_htoan());
                 parameterMap.put("p_MA_KB", strMa_KB);
                 parameterMap.put("p_TEN_KB", strTen_KB);

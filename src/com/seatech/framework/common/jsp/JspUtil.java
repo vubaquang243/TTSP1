@@ -20,13 +20,13 @@ public class JspUtil {
         } else {
             prePage = currentPage - 1;
             nextPage = currentPage + 1;
-            strHTML.append(" <a onclick=\"goPage(" + prePage +
+            strHTML.append(" <a id=\"previous\" onclick=\"goPage(" + prePage +
                            ")\" style=\"cursor: hand; color: " + color +
                            "; text-decoration: none\" ");
             strHTML.append(" onmouseover=\"this.style.color='#0000ff';this.style.textDecoration = 'underline'\" ");
             strHTML.append(" onmouseout=\"this.style.color='" + color +
                            "';this.style.textDecoration = 'none'\">\n << Trang tr&#432;&#7899;c\n </a>&nbsp;|&nbsp;\n ");
-            strHTML.append(" Trang <select onchange=\"goPage(this.value)\" style=\"width: 45px; font-family: Tahoma; font-size:8pt\">\n");
+            strHTML.append(" Trang <select id=\"selectPage\" onchange=\"goPage(this.value)\" style=\"width: 45px; font-family: Tahoma; font-size:8pt\">\n");
             for (int i = 1; i <= numberOfPage; ++i) {
                 strHTML.append(" <option value=\"" + i + "\">" + i +
                                "</option>\n");
@@ -34,7 +34,7 @@ public class JspUtil {
             strHTML.append("</select>\n");
 
             if (currentPage < numberOfPage) {
-                strHTML.append(" &nbsp;|&nbsp;<a onclick=\"goPage(" +
+                strHTML.append(" &nbsp;|&nbsp;<a id=\"next\" onclick=\"goPage(" +
                                nextPage + ")\" style=\"cursor: hand; color: " +
                                color + "; text-decoration: none\" ");
                 strHTML.append(" onmouseover=\"this.style.color='#0000ff';this.style.textDecoration = 'underline'\" ");

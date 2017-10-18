@@ -93,7 +93,6 @@ public class TraCuuChungThuSoAction extends AppAction {
             if (session != null) {
                 strWSDL = getThamSoHThong("WSDL_PKI", session);
                 strAppID = getThamSoHThong("APP_ID", session);
-                  
                 PKIService pkiService = new PKIService(strWSDL);
 //                if (frmCTS.getSearch_cts() != null && frmCTS.getSearch_cts()) {
                     temColCTS = (Collection)pkiService.getCerts(true, strAppID);
@@ -147,13 +146,15 @@ public class TraCuuChungThuSoAction extends AppAction {
                     }
                 }
             }
-            
+          String id_kb =
+            session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
             DMKBacDAO dmkbDAO = new DMKBacDAO(conn);
-            colMaKhoBac = dmkbDAO.getDMKBList(null, null);
+            String strWhere = " a.id_cha = '" + id_kb + "'";
+            colMaKhoBac = dmkbDAO.getDMKBList(strWhere, null);
             request.setAttribute("listKhoBac", colMaKhoBac);
             request.setAttribute("listCTSChuaDuyet", colCTS);
         } catch (Exception e) {
-//            e.printStackTrace();
+            throw e;
         } finally {
             close(conn);
         }

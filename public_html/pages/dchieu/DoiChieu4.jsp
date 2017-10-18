@@ -235,20 +235,20 @@
             <html:hidden property="kq_id"  styleId="kq_id"/>
             <html:hidden property="lan_dc"  styleId="lan_dc"/> -->
             
-              <table width="100%" cellspacing="0">
+              <table width="99%" cellspacing="0" border="0.5">
                 <tr style="height : 30px">
-                  <th>Số dư tài khoản đầu ngày</th>
-                  <th>Tổng quyết toán chi toàn quốc</th>
-                  <th>Tổng quyết toán thu toàn quốc</th>
-                  <th>Số dư cuối ngày</th>
-                  <th>Loại tiền</th>
+                  <th width="22%">Số dư tài khoản đầu ngày</th>
+                  <th width="22%">Tổng quyết toán chi toàn quốc</th>
+                  <th width="22%">Tổng quyết toán thu toàn quốc</th>
+                  <th width="22%">Số dư cuối ngày</th>
+                  <th width="10%">Loại tiền</th>
                 </tr>
               </table>
           </div>
           <div style="height:200px;" class="ui-jqgrid-bdiv ui-widget-content">
             <table width="99%" cellspacing="0" cellpadding="1"
                      bordercolor="#e1e1e1" border="1" align="center"
-                     style="BORDER-COLLAPSE: collapse" height="198px;" id="thong_tin_bang_ke">
+                     style="BORDER-COLLAPSE: collapse" id="thong_tin_bang_ke">
             </table>
           </div>
         </fieldset>
@@ -529,13 +529,13 @@
           if(strValue.size() != 0){
           jQuery('table#thong_tin_bang_ke tr.ui-row-ltr').remove();
             for(var i = 0; i < strValue.size(); i++){
-              strTable = "<tr class='ui-widget-content ui-row-ltr'><td>" + changeForeignCurrency(strValue[i].sodu_daungay) + "<\/td>";
+              strTable = "<tr class='ui-widget-content ui-row-ltr' style='height : 25px;' ><td>" + changeForeignCurrency(strValue[i].sodu_daungay) + "<\/td>";
               strTable += "<td>" + changeForeignCurrency(strValue[i].tong_chi) + "<\/td>";
               strTable += "<td>" + changeForeignCurrency(strValue[i].tong_thu) + "<\/td>";
               strTable += "<td>" + changeForeignCurrency(strValue[i].so_du_cuoi_ngay) + "<\/td>";
               strTable += "<td>" + strValue[i].loai_tien + "<\/td><\/tr>";
+              jQuery('table#thong_tin_bang_ke').append(strTable);
             }
-            jQuery('table#thong_tin_bang_ke').append(strTable);
           }else{
               strTable="Không có dữ liệu";
           }

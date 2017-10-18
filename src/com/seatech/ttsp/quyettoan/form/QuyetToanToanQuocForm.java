@@ -28,6 +28,7 @@ public class QuyetToanToanQuocForm extends ActionForm {
     private String tu_ngay;
     private String den_ngay;
     private String tcg_loai_tien;
+    //20170928 QuangVB bo sung so tien
     private String soTien;
     
     public void setHsc_nh(String hsc_nh) {

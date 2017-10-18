@@ -22,13 +22,21 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-   //$('#ngayHachToan').prop('readonly',true);
-  //  $('#ngayQuyetToan').attr('readonly',true);
-  //  $('#tenTaiKhoanNhanLenh').attr('readonly','disabled');
-  //  $('#taiKhoanNhanLenh').attr('readonly','disabled');
-  //  $('#maNHNhanLenh').attr('readonly','disabled');
+      $('#maNHKBNhan').attr('disabled',true);
+      $('#ngayHachToan').attr('disabled',true);
+      $('#ngayQuyetToan').attr('disabled',true);
+      $('#tenTaiKhoanNhanLenh').attr('disabled',true);
+      $('#taiKhoanNhanLenh').attr('disabled',true);
+      $('#maNHNhanLenh').attr('disabled',true);
   });
-  
+  function myFunction(){
+      $('#maNHKBNhan').attr('disabled',false);
+      $('#ngayHachToan').attr('disabled',false);
+      $('#ngayQuyetToan').attr('disabled',false);
+      $('#tenTaiKhoanNhanLenh').attr('disabled',false);
+      $('#taiKhoanNhanLenh').attr('disabled',false);
+      $('#maNHNhanLenh').attr('disabled',false);
+  }
   $('input.blur').focus(function(){
     this.blur();
   });
@@ -100,7 +108,7 @@
   
   //Get thong tin nhan lenh
   function getThongTinNhanLenh(){
-    var maNHKBChuyen = $('#maNHKBChuyen').val();
+    var maNHKBChuyen = $('#maNHKBChuyen option:selected').text();
     var loaiTien = $('#loaiTien').val();
     if(maNHKBChuyen != "" && loaiTien != ""){
         jQuery.ajax({
@@ -130,7 +138,8 @@
   
   //get loai tien
   function getLoaiTien(str){
-    var maNH = $('#maNHKBChuyen').val();
+    var maNH = $('#maNHKBChuyen option:selected').text();
+    $('#nhkbChuyen').val(maNH);
     if(maNH != ""){
       jQuery.ajax({
         type : "POST",
@@ -218,13 +227,12 @@
         alert("Trường mã ngân hàng phát lệnh không được để trống");
         return false;
      }
+     
      return true;
   }
   function getMaNHKBChuyen(){
-    var a = $('#maNHKBChuyen').val();
-    if(a != "")
-    $('#maNHSL').text(a);
-    else $('#maNHSL').text("");
+    var maNHKBChuyen = $('#maNHKBChuyen option:selected').val();
+    $('#maNHSL').text(maNHKBChuyen);
   }
   function validDateAndHour(str){
     var a = str.value;
@@ -272,11 +280,13 @@
         <tr style="height : 30px;">
             <td id="label" style="text-align : right;" >NH/KB Chuyển </td>
             <td>
-             <html:select styleClass="selectBox" property="maNHKBChuyen" 
+             <html:select styleClass="selectBox" property="ma_nh"
                 styleId="maNHKBChuyen" style="width : 48%" onchange="getLoaiTien(this); getMaNHKBChuyen();" >
-                <option value="">---Chọn loại ngân hàng---</option>
-                <html:optionsCollection label="ten" value="ma_nh" name="dmNH"/>
-             </html:select> <a id="maNHSL"></a> <span style="color : red"> (*)</span></td>
+                <option value="">---Chọn ngân hàng---</option>
+                <html:optionsCollection label="ma_nh" value="ten" name="dmNH"/>
+             </html:select>
+            <html:hidden property="maNHKBChuyen" styleId="nhkbChuyen" />
+             <a id="maNHSL"></a> <span style="color : red"> (*)</span></td>
             <td id="label" style="text-align : right;" >NH/KB Nhận </td>
             <td><html:text property="maNHKBNhan" styleClass="blur" styleId="maNHKBNhan"
                onkeydown="if(event.keyCode==13) event.keyCode=9;" style="width : 30%" value="<%= id %>" /> <%= name %></td>
@@ -289,7 +299,7 @@
                        onmouseover="Tip(this.value)"
                        onblur="javascript:mask(this.value,this,'2,5','/');"
                        onkeydown="if(event.keyCode==13) event.keyCode=9;"
-                       style="WIDTH: 30%;" />
+                       style="WIDTH: 30%;" maxlength="10" />
              &nbsp; 
             <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/calendar/calbtn.gif"
                  border="0" id="ngay_hach_toan" width="20"
@@ -309,7 +319,7 @@
                        onmouseover="Tip(this.value)"
                        onblur="javascript:mask(this.value,this,'2,5','/');"
                        onkeydown="if(event.keyCode==13) event.keyCode=9;"
-                       style="WIDTH: 30%;" readonly="true" />
+                       style="WIDTH: 30%;" maxlength="10" readonly="true"  />
              &nbsp; 
             <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/calendar/calbtn.gif"
                  border="0" id="ngay_quyet_toan" width="20"
@@ -327,19 +337,19 @@
             <td id="label" style="text-align : right;">Loại quyết toán </td>
             <td><html:select property="loaiQuyetToan" styleId="loaiQuyetToan">
                 <option value="" selected="selected" >--- Chọn loại quyết toán</option>
-                <option value="910">Quyết toán thu</option>
-                <option value="900">Quyết toán chi</option>
+                <option value="900">Quyết toán thu</option>
+                <option value="910">Quyết toán chi</option>
             </html:select> <span style="color : red">(*)</span></td>
             <td id="label" style="text-align : right;">Số than chiếu liên quan </td>
-            <td><html:text property="soThamChieuLienQuan" styleId="soThamChieuLienQuan" onkeydown="if(event.keyCode==13) event.keyCode=9;" /> </td>
+            <td><html:text property="soThamChieuLienQuan" styleId="soThamChieuLienQuan" onkeydown="if(event.keyCode==13) event.keyCode=9;" maxlength="50" /> </td>
         </tr>
         <tr style="height : 30px;">
             <td id="label" style="text-align : right;">Số lệnh quyết toán </td>
             <td><html:text property="soLenhQuyetToan" styleId="soLenhQuyetToan" onmouseout="UnTip()"
-                       onmouseover="Tip(this.value)" onkeydown="if(event.keyCode==13) event.keyCode=9;" /> <span style="color : red">(*)</span></td>
+                       onmouseover="Tip(this.value)" onkeydown="if(event.keyCode==13) event.keyCode=9;" maxlength="20" /> <span style="color : red">(*)</span></td>
             <td id="label" style="text-align : right;">Số tham chiếu giao dịch </td>
             <td><html:text property="soThamChieuGiaoDich" styleId="soThamChieuGiaoDich" onmouseout="UnTip()"
-                       onmouseover="Tip(this.value)" onkeydown="if(event.keyCode==13) event.keyCode=9;" /></td>
+                       onmouseover="Tip(this.value)" onkeydown="if(event.keyCode==13) event.keyCode=9;" maxlength="20" /></td>
         </tr>
         <tr style="height : 30px;">
             <td id="label" style="text-align : right;">Số tiền </td>
@@ -363,7 +373,7 @@
       <table cellpadding="3" cellspacing="0" border="0" width="100%">
           <tr style="height : 30px;">
               <td id="label" style="text-align : right;  width :13.5%;">Người nhập </td>
-              <td width="45%" ><html:text property="nguoiNhap" styleId="nguoiNhap" onkeydown="if(event.keyCode==13) event.keyCode=9;" /></td>
+              <td width="45%" ><html:text property="nguoiNhap" styleId="nguoiNhap" onkeydown="if(event.keyCode==13) event.keyCode=9;" maxlength="50" /></td>
               <td id="label" style="text-align : right; width : 11%" class="canle" >Ngày nhập </td>
               <td><html:text property="ngayNhap" styleId="ngayNhap"
                        styleClass="fieldText" onmouseout="UnTip()"
@@ -391,7 +401,7 @@
           <tr style="height : 30px;">
               <td id="label" style="text-align : right;" width="13%">Người kiểm soát </td>
               <td width="42%" ><html:text property="nguoiKiemSoat" styleId="nguoiKiemSoat"
-                onkeydown="if(event.keyCode==13) event.keyCode=9;"/></td>
+                onkeydown="if(event.keyCode==13) event.keyCode=9;" maxlength="50"/></td>
               <td id="label" style="text-align : right;" >Ngày kiểm soát </td>
               <td><html:text property="ngayKiemSoat" styleId="ngayKiemSoat"
                        styleClass="fieldText"  onmouseout="UnTip()" onmouseover="Tip(this.value)"
@@ -425,15 +435,15 @@
         <table cellpadding="3" cellspacing="0" border="0">
          <tr style="height : 30px;">
             <td id="label" style="text-align : right;" width="17%" >Tên tài khoản </td>
-            <td><html:text property="tenTaiKhoanPhatLenh" styleId="tenTaiKhoanPhatLenh" style="width : 94%;" onkeydown="if(event.keyCode==13) event.keyCode=9;" /> <span style="color : red;">(*)</span></td>
+            <td><html:text property="tenTaiKhoanPhatLenh" styleId="tenTaiKhoanPhatLenh" style="width : 94%;" onkeydown="if(event.keyCode==13) event.keyCode=9;" maxlength="200" /> <span style="color : red;">(*)</span></td>
          </tr>
          <tr style="height : 30px;">
             <td id="label" style="text-align : right;">Tài khoản </td>
-            <td><html:text property="taiKhoanPhatLenh" styleId="taiKhoanPhatLenh" style="width : 94%;" onkeydown="if(event.keyCode==13) event.keyCode=9;" /> <span style="color : red;">(*)</span></td>
+            <td><html:text property="taiKhoanPhatLenh" styleId="taiKhoanPhatLenh" style="width : 94%;" onkeydown="if(event.keyCode==13) event.keyCode=9;" maxlength="20" /> <span style="color : red;">(*)</span></td>
          </tr>
          <tr style="height : 30px;">
             <td id="label" style="text-align : right;">Tại NH </td>
-            <td><html:text property="maNHPhatLenh" styleId="maNHPhatLenh" style="width : 30%;" onblur="getName(this);" onkeydown="if(event.keyCode==13) event.keyCode=9;" /> 
+            <td><html:text property="maNHPhatLenh" styleId="maNHPhatLenh" style="width : 30%;" onblur="getName(this);" onkeydown="if(event.keyCode==13) event.keyCode=9;"  maxlength="8"/> 
             <a id="tenNH"></a><html:hidden property="tenNHPhatLenh" styleId="tenNHPhatLenh" /><span style="color : red;">(*)</span></td>
          </tr>
         </table>
@@ -445,15 +455,15 @@
         <table cellpadding="3" cellspacing="0" border="0">
          <tr style="height : 30px;">
             <td id="label" width="17%" style="text-align : right;" >Tên tài khoản </td>
-            <td><html:text property="tenTaiKhoanNhanLenh" onkeydown="if(event.keyCode==13) event.keyCode=9;" styleId="tenTaiKhoanNhanLenh" style="width : 94%;" readonly="true" /> <span style="color : red;">(*)</span></td>
+            <td><html:text property="tenTaiKhoanNhanLenh" onkeydown="if(event.keyCode==13) event.keyCode=9;" styleId="tenTaiKhoanNhanLenh" style="width : 94%;" readonly="true" maxlength="200" /> <span style="color : red;">(*)</span></td>
          </tr>
          <tr style="height : 30px;">
             <td id="label" style="text-align : right;">Tài khoản </td>
-            <td><html:text property="taiKhoanNhanLenh" styleId="taiKhoanNhanLenh" style="width : 94%;" readonly="true" onkeydown="if(event.keyCode==13) event.keyCode=9;" /> <span style="color : red;">(*)</span></td>
+            <td><html:text property="taiKhoanNhanLenh" styleId="taiKhoanNhanLenh" style="width : 94%;" readonly="true" onkeydown="if(event.keyCode==13) event.keyCode=9;" maxlength="20" /> <span style="color : red;">(*)</span></td>
          </tr>
          <tr style="height : 30px;">
             <td id="label" style="text-align : right;">Tại NH </td>
-            <td><html:text property="maNHNhanLenh" styleId="maNHNhanLenh" style="width : 30%;" readonly="true" onkeydown="if(event.keyCode==13) event.keyCode=9;" /> 
+            <td><html:text property="maNHNhanLenh" styleId="maNHNhanLenh" style="width : 30%;" readonly="true" onkeydown="if(event.keyCode==13) event.keyCode=9;" maxlength="8" /> 
             <a id="nhNhanLenh"></a><html:hidden property="tenNHNhanLenh" styleId="tenNHNhanLenh" /> <span style="color : red;">(*)</span></td>
          </tr>
         </table>
@@ -478,7 +488,7 @@
   <div class="form-control-input"></div>
   <div style=" width : 100%; height : 10px;" ></div>
   <div class="form-control-input" align="right">
-      <input type="submit" value="Ghi" id="submit" onclick="return validateData();" />
+      <input type="submit" value="Ghi" id="submit" onclick="myFunction(); return validateData();" />
       <input type="button" id="thoat" value="Thoát" onclick="thoatFunction();" />
   </div>
    </html:form>

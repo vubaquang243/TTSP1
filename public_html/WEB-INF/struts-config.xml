@@ -83,6 +83,10 @@
                type="com.seatech.ttsp.lenhqtthucong.form.LenhQTTCForm"/>
     <form-bean name="TheoDoiDChieu4Form"
                type="com.seatech.ttsp.dchieu.form.TheoDoiDChieu4Form"/>
+    <form-bean name="TraCuuSoDuForm"
+               type="com.seatech.ttsp.tracuusodu.form.TraCuuSoDuForm"/>
+     <form-bean name="TKNHKBacForm"
+               type="com.seatech.ttsp.tknhkb.form.TKNHKBacForm"/>          
     <!-- 2017 end them moi -->
   </form-beans>
   <global-forwards type="org.apache.struts.action.ActionForward">
@@ -1154,7 +1158,40 @@
       <forward name="failure" path="/pages/dchieu/TheoDoiDChieu4.jsp"/>
     </action>
     <action parameter="addExc" path="/getDMucNHangHuyenDC4" scope="request"
-            type="com.seatech.ttsp.dchieu.action.TheoDoiDChieu4Action"></action>
+            type="com.seatech.ttsp.dchieu.action.TheoDoiDChieu4Action">
+    </action>
+    <!-- Tra cuu so du -->
+    <action parameter="executeAction" path="/traCuuSoDu"
+            name="TraCuuSoDuForm" scope="request"
+            type="com.seatech.ttsp.tracuusodu.action.TraCuuSoDuAction">
+      <forward name="success" path="/pages/tracuusodu/TraCuuSoDu.jsp"/>
+      <forward name="failure" path="/pages/tracuusodu/TraCuuSoDu.jsp"/>
+    </action>
+    <action parameter="update" path="/getNHKBHuyen"
+            name="TraCuuSoDuForm" scope="request"
+            type="com.seatech.ttsp.tracuusodu.action.TraCuuSoDuAction">
+      <forward name="success" path="/pages/tracuusodu/TraCuuSoDu.jsp"/>
+      <forward name="failure" path="/pages/tracuusodu/TraCuuSoDu.jsp"/>
+    </action>
+    <action parameter="add" path="/getListNganHang"
+            name="TraCuuSoDuForm" scope="request"
+            type="com.seatech.ttsp.tracuusodu.action.TraCuuSoDuAction">
+      <forward name="success" path="/pages/tracuusodu/TraCuuSoDu.jsp"/>
+      <forward name="failure" path="/pages/tracuusodu/TraCuuSoDu.jsp"/>
+    </action>
+    <action parameter="view" path="/getCateMoney"
+            name="TraCuuSoDuForm" scope="request"
+            type="com.seatech.ttsp.tracuusodu.action.TraCuuSoDuAction">
+      <forward name="success" path="/pages/tracuusodu/TraCuuSoDu.jsp"/>
+      <forward name="failure" path="/pages/tracuusodu/TraCuuSoDu.jsp"/>
+    </action>
+    <action parameter="delete" path="/deleteSoDu"
+            name="TraCuuSoDuForm" scope="request"
+            type="com.seatech.ttsp.tracuusodu.action.TraCuuSoDuAction">
+      <forward name="success" path="/pages/tracuusodu/TraCuuSoDu.jsp"/>
+      <forward name="failure" path="/pages/tracuusodu/TraCuuSoDu.jsp"/>
+    </action>
+    <!-- end tra cuu so du -->
   </action-mappings>
   <message-resources parameter="com.seatech.ttsp.ApplicationResources"/>
 </struts-config>
