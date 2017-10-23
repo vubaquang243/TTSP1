@@ -1,3 +1,0 @@
--- 01/12/2016 update file cho Phuong(KBNN)
-BCSaoKETK.jasper
-rpt_Bke_Tlai.jasper
