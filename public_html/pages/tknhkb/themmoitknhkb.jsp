@@ -287,6 +287,9 @@
             </tr> 
       </tbody>
     </table>
+      <logic:notEmpty name="message">
+        <font color="Red"><%=request.getAttribute("message")%></font>
+      </logic:notEmpty>
       <table  border="0" cellspacing="2" cellpadding="2" class="bordertableChungTu" width="100%">
       <tbody>
         <tr>
@@ -479,7 +482,6 @@
       </tbody>
     </table>
     </html:form>
-    
   <%@ include file="/includes/ttsp_bottom.inc"%>
 <script type="text/javascript">
     var loai_tk = '<%=(request.getParameter("p_loai_tk"))%>';

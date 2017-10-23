@@ -87,6 +87,8 @@
                type="com.seatech.ttsp.tracuusodu.form.TraCuuSoDuForm"/>
      <form-bean name="TKNHKBacForm"
                type="com.seatech.ttsp.tknhkb.form.TKNHKBacForm"/>          
+     <form-bean name="traCuuKhoBacForm"
+               type="com.seatech.ttsp.tracuukhobac.form.TraCuuKhoBacForm"/>               
     <!-- 2017 end them moi -->
   </form-beans>
   <global-forwards type="org.apache.struts.action.ActionForward">
@@ -1165,7 +1167,7 @@
             name="TraCuuSoDuForm" scope="request"
             type="com.seatech.ttsp.tracuusodu.action.TraCuuSoDuAction">
       <forward name="success" path="/pages/tracuusodu/TraCuuSoDu.jsp"/>
-      <forward name="failure" path="/pages/tracuusodu/TraCuuSoDu.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
     </action>
     <action parameter="update" path="/getNHKBHuyen"
             name="TraCuuSoDuForm" scope="request"
@@ -1189,9 +1191,19 @@
             name="TraCuuSoDuForm" scope="request"
             type="com.seatech.ttsp.tracuusodu.action.TraCuuSoDuAction">
       <forward name="success" path="/pages/tracuusodu/TraCuuSoDu.jsp"/>
-      <forward name="failure" path="/pages/tracuusodu/TraCuuSoDu.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    <action path="/traCuuKhoBac"
+            name="TraCuuSoDuForm" scope="request"
+            type="com.seatech.ttsp.tracuukhobac.action.TraCuuKhoBacAction">
+      <forward name="success" path="/pages/lov/TraCuuSoDu.jsp"/>
     </action>
     <!-- end tra cuu so du -->
+    
+     <action parameter="executeAction" path="/getMaKBac8So" scope="request"
+            type="com.seatech.ttsp.dmkb.action.LoadMaKhoBacAction">
+      <forward name="success" path="/pages/sodu/addSodu.jsp"/>
+    </action>
   </action-mappings>
   <message-resources parameter="com.seatech.ttsp.ApplicationResources"/>
 </struts-config>

@@ -10,7 +10,12 @@ import java.sql.Connection;
 import java.util.Collection;
 import java.util.Vector;
 
-
+/**
+ * @modify: thuongdt
+ * @modify-date: 16/10/2017
+ * @see: sua query dap ung quan ly theo ma NH- KB
+ * @find: 20171016
+ * */
 public class tsoTabmisDAO extends AppDAO {
     public tsoTabmisDAO(Connection conn) {
         this.conn = conn;
@@ -29,7 +34,7 @@ public class tsoTabmisDAO extends AppDAO {
                     " d1.ma_nh ma_nh, d3.ma_nh ma_kb, d2.ten ten_ngan_hang," +
                     " d4.ten ten_kb_huyen, d5.ten ten_kb_tinh, a.ten_ts," +
                     " a.giatri_ts, a.mo_ta, a.cho_phep_sua, a.kb_id," +
-                    " a.ngay_cap_nhat, a.dvi_sua,ma_nsd" +
+                    " to_char(a.ngay_cap_nhat,'dd/MM/yyyy') ngay_cap_nhat, a.dvi_sua,ma_nsd" +
                     "  FROM	sp_thamso_kb a, sp_tso_cutoftime d1, sp_dm_ngan_hang d2," +
                     " sp_dm_manh_shkb d3, sp_dm_htkb d4, sp_dm_htkb d5" +
                     " WHERE d1.ma_nh_kb = d3.ma_nh" +
@@ -100,20 +105,27 @@ public class tsoTabmisDAO extends AppDAO {
       if (vo.getMa_nsd() != null&& !"".equals(vo.getMa_nsd())) {
           strSQL.append(", ma_nsd = ? ");
           v_param.add(new Parameter(vo.getMa_nsd(), true));
-      }
+      }      
       if (vo.getId_kb_tinh() != null && !"".equals(vo.getId_kb_tinh())) {
           strSQL.append(" where kb_id in (SELECT	DISTINCT a.id " + 
           " FROM	sp_dm_htkb a, sp_tknh_kb b, sp_dm_htkb c " + 
           " WHERE	a.id = b.kb_id AND a.id_cha = c.id and c.id=? )");
           v_param.add(new Parameter(vo.getId_kb_tinh(), true));
       }
+      strSQL.append(" where 1=1 ");
+      
       if (vo.getId_kb_huyen() != null&& !"".equals(vo.getId_kb_huyen())){
-          strSQL.append(" where kb_id = ? ");
+          strSQL.append(" and kb_id = ? ");
           v_param.add(new Parameter(vo.getId_kb_huyen(), true));                       
       }
       if (vo.getTen_ts() != null&& !"".equals(vo.getTen_ts())) {
           strSQL.append(" AND ten_ts  = ? ");
           v_param.add(new Parameter(vo.getTen_ts(), true));
+      }
+      //20171016 bo sung them ma_nh dap ung quan ly theo ma NH-KB
+      if (vo.getMa_nh() != null&& !"".equals(vo.getMa_nh())) {
+          strSQL.append(" and  ma_nh = ? ");
+          v_param.add(new Parameter(vo.getMa_nh(), true));
       }
       nExc = executeStatement(strSQL.toString(), v_param, conn);
 

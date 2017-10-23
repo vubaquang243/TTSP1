@@ -20,7 +20,7 @@
 
 <script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/jquery-ui-1.8.11.custom.min.js" type="text/javascript"></script>
 <script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/quyettoan.js" type="text/javascript"></script>
-<script type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/lov.js"></script>
+<script type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/traCuuKhoBac.js"></script>
 <script type="text/javascript">
   jQuery.noConflict();
   
@@ -46,9 +46,16 @@
       });
       jQuery("#btnTra_cuu").click(function(){
         var ma_KB_tinh = jQuery("#id_kho_bac_tinh").val();
+        var ma_KB_huyen = jQuery("#id_kho_bac_huyen").val();
+        var ma_ngan_hang = jQuery("#id_ngan_hang").val();
+        var loai_tien = jQuery("#loai_tien").val();
+        var han_muc = jQuery("#han_muc").val();
+        var loai_tai_khoan = jQuery("#loai_tai_khoan").val();
+        var tinh_trang_so_du = jQuery("#tinh_trang_so_du").val();
+        var ngay_gd = jQuery("#ngay_gd").val();
         if(ma_KB_tinh == "")
         ma_KB_tinh = "000";
-        document.forms[0].action = "traCuuSoDu.do?maKB=" + ma_KB_tinh;
+        document.forms[0].action = "traCuuSoDu.do?ma_bk_tinh=" + ma_KB_tinh;
         document.forms[0].submit();
       });
       
@@ -77,7 +84,8 @@
               if(data != null){
                 var result = new Object();
                 result = JSON.parse(data[0]);
-                if(result == "success"){                
+                if(result == "success"){
+                alert("Xóa bản ghi thành công");
                   jQuery('table#table_ket_qua tr.delete').remove();
                 }else{
                   alert("Xóa bản ghi không thành công");
@@ -85,11 +93,6 @@
               }
           }
          });
-      });
-      
-      jQuery("#btnThem_moi").click(function(){
-        document.forms[0].action = "addSoDuAction.do";
-        document.forms[0].submit();
       });
       
       jQuery("a#previous").click(function(){
@@ -118,7 +121,7 @@
             lstNHKBHuyen = JSON.parse(data[0]);
             if(lstNHKBHuyen.size() != 0){
               jQuery('#id_kho_bac_huyen option').remove();
-              jQuery('#id_kho_bac_huyen').append('<option value="selected" >Chọn thông tin tra cứu<\/option>');
+              jQuery('#id_kho_bac_huyen').append('<option value="0000">Chọn thông tin tra cứu<\/option>');
               for(var i = 0; i < lstNHKBHuyen.size(); i++){
                 jQuery('#id_kho_bac_huyen').append('<option value="'+ lstNHKBHuyen[i].ma +'" >'+ lstNHKBHuyen[i].ten + '<\/option>');
               }
@@ -135,9 +138,6 @@
       vform.submit();            
   }
   
-  function myFunction(){
-    return confirm("Bạn có chắc muốn xóa bản ghi này không ?");
-  }
   function changeForeignCurrency(nStr){
         nStr += '';
         x = nStr.split('.');
@@ -186,10 +186,8 @@
   }
   function callLov(){      
       jQuery("#loai_lov").val("DMKBTCUUQT");
-      jQuery("#ma_field_id_lov").val("ma_nhkb_nhan");
-      jQuery("#ten_field_id_lov").val("ten_nhkb_nhan");
-      jQuery("#id_field_id_lov").val("id_nhkb_huyen");
-      jQuery("#ma_cha_field_id_lov").val("id_nhkb_tinh");
+      jQuery("#id_kho_bac_tinh_1").val(jQuery('#id_kho_bac_tinh').val());
+      jQuery("#id_kho_bac_huyen_1").val(jQuery('#id_kho_bac_huyen').val());
       jQuery("#dialog-form-lov-dm").dialog( "open" );      
     }
     
@@ -283,7 +281,7 @@
 <table cellspacing="0" cellpadding="3" width="100%">
   <tr>
     <td width="5%" align="right">Kho bạc tỉnh</td>
-    <td width="8%"><html:select property="id_kho_bac_tinh" styleId="id_kho_bac_tinh" onblur="getThongTinKB();" style="width : 170px;" onkeydown="if(event.keyCode==13) event.keyCode=9;">
+    <td width="10%"><html:select property="id_kho_bac_tinh" styleId="id_kho_bac_tinh" onblur="getThongTinKB();" style="width : 170px;" onkeydown="if(event.keyCode==13) event.keyCode=9;">
           <option value="">Chọn thông tin tra cứu</option>
           <logic:notEmpty name="lstNHKBTinh">
           <html:optionsCollection name="lstNHKBTinh" label="ten" value="ma" />
@@ -291,12 +289,12 @@
         </html:select>
     </td>
     <td width="5%" align="right">Kho bạc huyện</td>
-    <td width="8%"><html:select property="id_kho_bac_huyen" styleId="id_kho_bac_huyen" onblur="getThongTinNganHang();" style="width : 170px;" onkeydown="if(event.keyCode==13) event.keyCode=9;">
+    <td width="6%"><html:select property="id_kho_bac_huyen" styleId="id_kho_bac_huyen" onblur="getThongTinNganHang();" style="width : 170px;" onkeydown="if(event.keyCode==13) event.keyCode=9;">
           <option value="">Chọn thông tin tra cứu</option>
         </html:select>
     </td>
-    <td rowspan="3" colspan="3" width="10%" align="left"> 
-      <button type="button" style="width:50%; height: 50px;" onclick="callLov();" class="ButtonCommon" accesskey="t" >
+    <td rowspan="2" colspan="3" width="10%" align="left"> 
+      <button type="button" style="width:50%; height: 50px;" id="traCuuKhoBac" onclick="callLov();" class="ButtonCommon" accesskey="t" >
         <span class="sortKey">D</span>anh m&#7909;c KB
       </button>
     </td>
@@ -308,25 +306,23 @@
         <option value="">Chọn thông tin tra cứu</option>
     </html:select>
     </td>
-  <td align="right">Số dư</td>
-  <td><html:text property="so_du" styleId="so_du" onblur="getTypeMoney();" onkeydown="if(event.keyCode==13) event.keyCode=9;" /></td>
-  </tr>
-  <tr>
   <td align="right">Loại tiền</td>
   <td>
     <html:select property="loai_tien" styleId="loai_tien" onblur="resetInput();" onkeydown="if(event.keyCode==13) event.keyCode=9;">
       <option value="">--Chọn loại tiền--</option>
     </html:select>
   </td>
-  <td align="right">Số dư COT</td>
-  <td>
-      <html:text property="so_du_COT" styleId="so_du_COT" onblur="getTypeMoney();" onkeydown="if(event.keyCode==13) event.keyCode=9;" />
-  </td>
   </tr>
   <tr>
-  <td align="right">Từ hạn mức</td>
+  <td align="right">Hạn mức</td>
   <td>
-    <html:text property="tu_han_muc" styleId="tu_han_muc" onblur="getTypeMoney();" onkeydown="if(event.keyCode==13) event.keyCode=9;" />
+    <html:select property="han_muc" styleId="han_muc" onkeydown="if(event.keyCode==13) event.keyCode=9;">
+      <option value="">Tất cả</option>
+      <option value="0">0 tỷ</option>
+      <option value="15000000000">15 tỷ</option>
+      <option value="35000000000">35 tỷ</option>
+      <option value="50000000000">50 tỷ</option>
+    </html:select>
   </td>
   <td align="right">Loại tài khoản</td>
   <td>
@@ -339,13 +335,16 @@
   </td>
   <td colspan="3" rowspan="2">
     <button id="btnTra_cuu">Tra cứu</button>
-    <button id="btnThem_moi">Thêm mới</button>
     <button id="btn_Thoat">Thoát</button>
   </td>
   </tr>
   <tr>
-  <td align="right">Đến hạn mức</td>
-  <td><html:text property="den_han_muc" styleId="den_han_muc" onblur="getTypeMoney();" onkeydown="if(event.keyCode==13) event.keyCode=9;" /></td>
+  <td align="right">Tình trạng số dư</td>
+  <td><html:select property="tinh_trang_so_du" styleId="tinh_trang_so_du">
+    <option value="01" selected="selected"> > Hạn mức</option>
+    <option value="02"> = Hạn mức</option>
+    <option value="03"> < Hạn mức</option>
+  </html:select></td>
   <td align="right">Ngày GD</td>
   <td>
     <html:text property="ngay_gd" styleId="ngay_gd" styleClass="fieldText"
@@ -367,105 +366,11 @@
   </tr>
 </table>
 </fieldset>
-<div style="width : 100%; height : 20px;"></div>
-<fieldset>
-<legend><font color="Blue" size="2">Kết quả truy vấn</font></legend>
-<table cellpadding="0" cellspacing="0" border="1" id="table_ket_qua" class="table">
-  <thead>
-  <tr>
-  <th width="4%" align="center">STT</th>
-  <th width="6%" align="center">Mã kho bạc</th>
-  <th width="10%" align="center">Tên kho bạc</th>
-  <th width="6%" align="center">Mã NH</th>
-  <th width="12%" align="center">Tên ngân hàng</th>
-  <th width="7%" align="center">Ngày giao dịch</th>
-  <th width="10%" align="center">Số dư</th>
-  <th width="7%" align="center">Loại tiền</th>
-  <th width="8%" align="center">Ngày thêm mới</th>
-  <th width="10%" align="center">Số dư COT</th>
-  <th width="9%" align="center">Hạn mức</th>
-  <th width="5%" align="center">Sửa</th>
-  <th width="5%" align="center">Xóa</th>
-  </tr>
-  </thead>
-  <logic:notEmpty name="lstTimKiem">
-  <%  
-     com.seatech.framework.common.jsp.PagingBean pagingBean = (com.seatech.framework.common.jsp.PagingBean)request.getAttribute("PAGE_KEY");
-     int rowBegin = (pagingBean.getCurrentPage() -1) * 15;
-     List lstTimKiem = (List) request.getAttribute("lstTimKiem"); 
-     TraCuuSoDuVO items = null;
-     for(int i = 0; i < lstTimKiem.size(); i++){
-     items = (TraCuuSoDuVO) lstTimKiem.get(i);
-  %>
-  <tr>
-    <td align="center"><%= i+1 %></td>
-    <td id="ma_kb" align="center"><%= items.getMa_kb() %></td>
-    <td align="center"><%= items.getTen_kb() %></td>
-    <td id="ma_nh" align="center"><%= items.getMa_nh() %></td>
-    <td align="center"><%= items.getTen_nh() %></td>
-    <td id="ngay_giao_dich" align="center"><%= items.getNgay_gd() %></td>
-    <td id="soDu" align="center">
-    <%if(items.getLoai_tien().equals("VND")){%>
-      <fmt:setLocale value="vi_VI"/>
-      <fmt:formatNumber type="currency" currencySymbol="">
-        <%= items.getSo_du() %>
-      </fmt:formatNumber>
-    <%}%>
-    <%if(!items.getLoai_tien().equals("VND")){%>
-      <fmt:setLocale value="en_US"/>
-      <fmt:formatNumber type="currency" currencySymbol="">
-        <%= items.getSo_du() %>
-      </fmt:formatNumber>
-    <%}%>
-    </td>
-    <td id="loaiTien" align="center"><%= items.getLoai_tien() %></td>
-    <td align="center"><%= items.getInsert_date() %></td>
-    <td id="soDuCOT" align="center">
-    <%if(items.getLoai_tien().equals("VND")){%>
-      <fmt:setLocale value="vi_VI"/>
-      <fmt:formatNumber type="currency" currencySymbol="">
-        <%= items.getSo_du_cot() %>
-      </fmt:formatNumber>
-    <%}%>
-    <%if(!items.getLoai_tien().equals("VND")){%>
-      <fmt:setLocale value="en_US"/>
-      <fmt:formatNumber type="currency" currencySymbol="">
-        <%= items.getSo_du_cot() %>
-      </fmt:formatNumber>
-    <%}%>
-    </td>
-    <td align="center">
-      <%if(items.getLoai_tien().equals("VND")){%>
-      <fmt:setLocale value="vi_VI"/>
-      <fmt:formatNumber type="currency" currencySymbol="">
-        <%= items.getHan_muc_no() %>
-      </fmt:formatNumber>
-    <%}%>
-    <%if(!items.getLoai_tien().equals("VND")){%>
-      <fmt:setLocale value="en_US"/>
-      <fmt:formatNumber type="currency" currencySymbol="">
-        <%= items.getHan_muc_no() %>
-      </fmt:formatNumber>
-    <%}%>
-    </td>
-    <td align="center"><img src="<%=request.getContextPath()%>/styles/images/ctu_00.gif" class="updateRecord"/></td>
-    <td align="center"><img src="<%=request.getContextPath()%>/styles/images/delete1.gif" class="deleteRecord"/></td>
-  </tr>
-  <%}%>
-  <tr>
-    <td colspan="13">
-      <div style="float:right;padding-right:40">
-        <%= com.seatech.framework.common.jsp.JspUtil.pagingHTML(pagingBean, "#0000ff")%>
-      </div>
-    </td>
-  </tr>
-  <html:hidden property="pageNumber" value="1" styleId="pageNumber"/>
-  </logic:notEmpty>
-</table>
-</fieldset>
+<div style="width : 100%; height : 10px;"></div>
+<%@ include file="/pages/tracuusodu/listTraCuuSoDu.inc"%>
 </html:form>
 <div id="dialog-form-lov-dm" title="Tra c&#7913;u danh m&#7909;c Kho b&#7841;c">
   <p class="validateTips"></p>
-  <%@include file="/pages/lov/lovDMKBTCUU.jsp" %>
+  <%@include file="/pages/lov/traCuuKhoBac.jsp" %>
 </div>
 <%@ include file="/includes/ttsp_bottom.inc"%>

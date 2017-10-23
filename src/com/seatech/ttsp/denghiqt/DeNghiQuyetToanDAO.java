@@ -8,9 +8,11 @@ import com.seatech.framework.utils.TTSPUtils;
 
 import java.sql.Connection;
 
+import java.util.Collection;
 import java.util.Vector;
 
 public class DeNghiQuyetToanDAO extends AppDAO{
+    private String CLASS_NAME_VO = "com.seatech.ttsp.denghiqt.DeNghi_QuyetToanVO";
     private Connection conn;
     
     public DeNghiQuyetToanDAO(Connection conn){
@@ -39,5 +41,14 @@ public class DeNghiQuyetToanDAO extends AppDAO{
       params.add(new Parameter(vo.getLoaiTien(), true));
       
       return (int)(executeStatement(query, params, conn) > 0 ? Long.parseLong(idQToan) : 0);
+    }
+    
+    public Collection checkNgayNghi(String strWhere) throws Exception{
+        try{
+            String strQuery = "select ngay from sp_ngay_nghi " + strWhere;
+            return executeSelectStatement(strQuery, null, CLASS_NAME_VO, conn);
+        }catch(Exception e){
+            throw e;
+        }
     }
 }

@@ -189,9 +189,10 @@
 
   });
   function changeValue(value) {
-      if(isNaN(value))
+     var ma_nt = jQuery("#ma_nt").val();
+       if(value == '' || value =='null')
           value = 0;
-      var ma_nt = jQuery("#ma_nt").val();
+          
       if(ma_nt != ''){
         value = convertCurrencyToNumber(value,jQuery("#ma_nt").val());
       }      

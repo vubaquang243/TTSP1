@@ -436,6 +436,18 @@
                     <fmt:message key="doi_chieu.page.lable.tthai"/>
                   </div>
                 </th>
+                <!--20171009 thuongdt bo sung chi tiet chenh lech start-->
+                <th class="promptText" bgcolor="#f0f0f0">
+                  <div align="center">          
+                    Lý do chênh lệch
+                  </div>
+                </th>
+                <th class="promptText" bgcolor="#f0f0f0">
+                  <div align="center">          
+                    Chi tiết chênh lệch
+                  </div>
+                </th>
+                <!--20171009 thuongdt bo sung chi tiet chenh lech end-->
               </tr>
               
            <logic:notEmpty name="colKQDCCT">
@@ -493,6 +505,14 @@
                         <fmt:message key="doi_chieu.page.lable.tthai.1"/>
                     </logic:equal>
                 </td>
+                <!--20171009 thuongdt bo sung chi tiet chenh lech start-->
+                <td align="left">                
+                  <bean:write name="items" property="ldo_clech"/>
+                </td>
+                <td align="left">
+                  <bean:write name="items" property="ctiet_clech"/>
+                </td>
+                <!--20171009 thuongdt bo sung chi tiet chenh lech end-->
               </tr> 
               
              </logic:equal>
@@ -554,6 +574,14 @@
                         <fmt:message key="doi_chieu.page.lable.tthai.1"/>
                     </logic:equal>
                   </td>
+                  <!--20171009 thuongdt bo sung chi tiet chenh lech start-->
+                <td align="left">                
+                  <bean:write name="items" property="ldo_clech"/>
+                </td>
+                <td align="left">
+                  <bean:write name="items" property="ctiet_clech"/>
+                </td>
+                <!--20171009 thuongdt bo sung chi tiet chenh lech end-->
                 </tr>  
             </logic:equal>
             </logic:equal>
@@ -615,6 +643,18 @@
                       <fmt:message key="doi_chieu.page.lable.tthai"/>
                     </div>
                   </th>
+                  <!--20171009 thuongdt bo sung chi tiet chenh lech start-->
+                  <th class="promptText" bgcolor="#f0f0f0">
+                    <div align="center">          
+                      Lý do chênh lệch
+                    </div>
+                  </th>
+                   <th class="promptText" bgcolor="#f0f0f0">
+                    <div align="center">          
+                      Chi tiết chênh lệch
+                    </div>
+                  </th>
+                  <!--20171009 thuongdt bo sung chi tiet chenh lech end-->
                 </tr>
                
           <logic:notEmpty name="colKQDCCT">
@@ -658,6 +698,14 @@
                         <fmt:message key="doi_chieu.page.lable.tthai.1"/>
                     </logic:equal>
                   </td>
+                  <!--20171009 thuongdt bo sung chi tiet chenh lech start-->
+                  <td align="left">                
+                    <bean:write name="items" property="ldo_clech"/>
+                  </td>
+                  <td align="left">
+                    <bean:write name="items" property="ctiet_clech"/>
+                  </td>
+                  <!--20171009 thuongdt bo sung chi tiet chenh lech end-->
                 </tr>  
                 </logic:equal>
         </logic:equal>
@@ -708,6 +756,14 @@
                         <fmt:message key="doi_chieu.page.lable.tthai.1"/>
                     </logic:equal>
                   </td>
+                  <!--20171009 thuongdt bo sung chi tiet chenh lech start-->
+                  <td align="left">                
+                    <bean:write name="items" property="ldo_clech"/>
+                  </td>
+                  <td align="left">
+                    <bean:write name="items" property="ctiet_clech"/>
+                  </td>
+                  <!--20171009 thuongdt bo sung chi tiet chenh lech end-->
                 </tr> 
                 </logic:equal>
         </logic:equal>

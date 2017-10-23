@@ -244,23 +244,32 @@
                  bordercolor="#e1e1e1" border="1" align="center"
                  style="BORDER-COLLAPSE: collapse">
                 <thead>
-                <th class="promptText" bgcolor="#f0f0f0" width="3%">
+                <th class="promptText" bgcolor="#f0f0f0" width="2%">
                   <div align="center" >
                     STT
                   </div>
                 </th>
-                <th class="promptText" bgcolor="#f0f0f0" width="15%">
+                <th class="promptText" bgcolor="#f0f0f0" width="5%">
                   <div align="center" >
-                    <fmt:message key="doi_chieu.page.label.tracuu.kbtinh"/>
+                    SHKB
                   </div>
                 </th>
-                <th class="promptText" bgcolor="#f0f0f0" width="20%">
+                <th class="promptText" bgcolor="#f0f0f0" width="17%">
                   <div align="center">
                     <fmt:message key="doi_chieu.page.label.tracuu.kbhuyen"/>
                   </div>
                 </th>
-                
-                <th class="promptText" bgcolor="#f0f0f0" width="20%">
+                <th class="promptText" bgcolor="#f0f0f0" width="5%">
+                  <div align="center" >
+                    Mã NH
+                  </div>
+                </th>
+                <th class="promptText" bgcolor="#f0f0f0" width="14%">
+                  <div align="center" >
+                    Tên NH
+                  </div>
+                </th>
+                <th class="promptText" bgcolor="#f0f0f0" width="14%">
                   <div align="center">
                     T&#234;n tham s&#7889;
                   </div>
@@ -270,18 +279,22 @@
                     Gi&#225; tr&#7883; TS
                   </div>
                 </th>
-                <th class="promptText" bgcolor="#f0f0f0" width="27%">
+                <th class="promptText" bgcolor="#f0f0f0" width="22%">
                   <div align="center">
                     M&#244; t&#7843;
                   </div>
                 </th>
-                
-                <th class="promptText" bgcolor="#f0f0f0" width="7%">
+                 <th class="promptText" bgcolor="#f0f0f0" width="6%">
+                  <div align="center">
+                   Ngày thay đổi
+                  </div>
+                </th>
+                <th class="promptText" bgcolor="#f0f0f0" width="6%">
                   <div align="center">
                     Ng&#432;&#7901;i thay &#273;&#7893;i
                   </div>
                 </th>
-                <th class="promptText" bgcolor="#f0f0f0" width="3%">
+                <th class="promptText" bgcolor="#f0f0f0" width="2%">
                   <div align="center">
                       <input type="checkbox" name="chklistAll" value="" id="chklistAll"/>
                   </div>
@@ -295,14 +308,22 @@
                     <td align="center"> 
                       <%=stt+1+rowBegin%>
                     </td>
-                    <td>
-                      <bean:write name="items" property="ten_kb_tinh"/>
+                    <td align="center">
+                      <bean:write name="items" property="ma"/>
+                      <input type="hidden" name="ma" value='<bean:write name="items" property="ma"/>'/>
                     </td>
                     <td>
                       <bean:write name="items" property="ten_kb_huyen"/>
                       <input type="hidden" name="kbHuyen" value='<bean:write name="items" property="ten_kb_huyen"/>'/>
                     </td>
-                                    
+                    <td align="center">
+                      <bean:write name="items" property="ma_nh"/>
+                      <input type="hidden" name="ma_nh" value='<bean:write name="items" property="ma_nh"/>'/>
+                    </td>  
+                    <td>
+                      <bean:write name="items" property="ten_ngan_hang"/>
+                      <input type="hidden" name="ten_ngan_hang" value='<bean:write name="items" property="ten_ngan_hang"/>'/>
+                    </td>
                     <td align="left">
                       <bean:write name="items" property="ten_ts"/>
                       <input type="hidden" name="tenThamSo" value='<bean:write name="items" property="ten_ts"/>'/>
@@ -315,10 +336,13 @@
                       <bean:write name="items" property="mo_ta"/>
                       <input type="hidden" name="moTa" value='<bean:write name="items" property="mo_ta"/>'/>
                     </td>
+                    <td align="center">                 
+                      <bean:write name="items" property="ngay_cap_nhat"/>
+                    </td>
                     <td>                 
                       <bean:write name="items" property="ma_nsd"/>
                     </td>
-                    <td>
+                    <td align="center">
                       <input type="checkbox" name="index" value='<%=stt%>'/>
                     </td>
                 </tr>
@@ -332,7 +356,7 @@
               </logic:notEmpty>
               <logic:empty name="lstTSKB">
                 <tr>
-                <td colspan="6">
+                <td colspan="11">
                   <font color="red"><fmt:message key="doi_chieu.page.label.tracuu.empty"/></font>
                 </td>
                 </tr>

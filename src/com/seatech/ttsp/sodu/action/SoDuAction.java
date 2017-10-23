@@ -99,7 +99,7 @@ public class SoDuAction extends AppAction {
                 strWhere += " and id =?";
                 vParam.add(new Parameter(strId, true));
             }
-
+            
             //Cac thong so phan trang
             if (strPageNumber == null)
                 strPageNumber = "1";
@@ -155,6 +155,7 @@ public class SoDuAction extends AppAction {
             f.setLoai_tien(null);
             f.setSo_du(null);
             f.setSo_du_cot(null);
+            f.setLoai_tai_khoan(null); // Them 1310
 
             SoDuDAO dao = new SoDuDAO(conn);
             String strWhere = "";
@@ -225,6 +226,7 @@ public class SoDuAction extends AppAction {
             vo.setInsert_date(f.getInsert_date());
             vo.setSo_du_cot(f.getSo_du_cot());
             vo.setLoai_tien(f.getLoai_tien());
+            vo.setLoai_tai_khoan(f.getLoai_tai_khoan()); // Them 1310
 
             //Insert data
             long sd = dao.insert(vo);

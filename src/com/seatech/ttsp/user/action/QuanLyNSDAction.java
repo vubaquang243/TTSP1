@@ -561,11 +561,11 @@ public class QuanLyNSDAction extends AppAction {
                 if (temp[i].toString().equalsIgnoreCase("QTHT-DV")) {
                     if (null != str1) {
                         str2 = new StringBuffer();
-                        str2.append(",'TTV'");
+                        str2.append("'KTT','GD','TTV'");
                         str1.append(str2);
                     } else {
                         str1 = new StringBuffer();
-                        str1.append("'TTV'");
+                        str1.append("'KTT','GD','TTV'");
                     }
                     str3 = " and id not in (481, 482) ";
 
@@ -1265,9 +1265,9 @@ public class QuanLyNSDAction extends AppAction {
                 }
                 if (temp[i].toString().equalsIgnoreCase("QTHT-DV")) {
                     if (!"".equals(strNhom_nsd)) {
-                        strNhom_nsd += " and a.loai_nhom in ('TTV')";
+                        strNhom_nsd += " and a.loai_nhom in ('KTT','GD','TTV')";
                     } else {
-                        strNhom_nsd += " a.loai_nhom in ('TTV')";
+                        strNhom_nsd += " a.loai_nhom in ('KTT','GD','TTV')";
                     }
                     coll_nhom_nsd =
                             dao_nhom_nsd.getNhomNSDList(strNhom_nsd, param_nhom_nsd);
@@ -1645,9 +1645,9 @@ public class QuanLyNSDAction extends AppAction {
                 }
                 if (temp[i].toString().equalsIgnoreCase("QTHT-DV")) {
                     if (!"".equals(strNhom_nsd)) {
-                        strNhom_nsd += " and a.loai_nhom in ('TTV')";
+                        strNhom_nsd += " and a.loai_nhom in ('KTT','GD','TTV')";
                     } else {
-                        strNhom_nsd += " a.loai_nhom in ('TTV')";
+                        strNhom_nsd += " a.loai_nhom in ('KTT','GD','TTV')";
                     }
                     coll_nhom_nsd =
                             dao_nhom_nsd.getNhomNSDList(strNhom_nsd, param_nhom_nsd);
@@ -1677,7 +1677,7 @@ public class QuanLyNSDAction extends AppAction {
                     if (!"".equals(strNhom_nsd)) {
                         strNhom_nsd += " and a.loai_nhom in ('GD','KTT')";
                     } else {
-                        strNhom_nsd += " a.loai_nhom in ('GD','KTT')";
+                        strNhom_nsd += " a.loai_nhom in ('GD','KTT')";//note
                     }
                     coll_nhom_nsd =
                             dao_nhom_nsd.getNhomNSDList(strNhom_nsd, param_nhom_nsd);

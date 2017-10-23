@@ -1,3 +1,4 @@
+
 <%@ page contentType="text/html; charset=UTF-8"%>
 
 
@@ -468,7 +469,7 @@
                       <%
                       }else{
                       %>
-                      <html:option value=""><fmt:message key="SaoKe.page.label.tracuu.tk"/></html:option>
+                      <html:option value=""><fmt:message key="SaoKe.page.label.tracuu.loaitien"/></html:option>
                       <%
                       }
                       %>

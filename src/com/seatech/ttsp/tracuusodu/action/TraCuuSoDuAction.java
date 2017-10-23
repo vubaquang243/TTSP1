@@ -10,13 +10,17 @@ import com.seatech.framework.AppConstants;
 import com.seatech.framework.common.jsp.PagingBean;
 import com.seatech.framework.strustx.AppAction;
 import com.seatech.ttsp.tracuusodu.TraCuuSoDuDAO;
+import com.seatech.ttsp.tracuusodu.TraCuuSoDuVO;
 import com.seatech.ttsp.tracuusodu.form.TraCuuSoDuForm;
 
 import java.io.PrintWriter;
 
 import java.sql.Connection;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,9 +40,9 @@ public class TraCuuSoDuAction extends AppAction {
     public ActionForward executeAction(ActionMapping mapping, ActionForm form,
                                        HttpServletRequest request,
                                        HttpServletResponse response) throws Exception {
-        //if (!checkPermissionOnFunction(request, "SYS.TK.SODU")) {
-        //    return mapping.findForward("errorQuyen");
-        //}
+        if (!checkPermissionOnFunction(request, "SYS.TK.TCSD")) {
+           return mapping.findForward("errorQuyen");
+        }
         Connection conn = null;
         Collection lstTimKiem = null;
         Collection lstNHKBTinh = null;
@@ -66,7 +70,7 @@ public class TraCuuSoDuAction extends AppAction {
                             "' or c.ma_cha = '" +
                             traCuuForm.getId_kho_bac_tinh() + "') ";
                 }
-                if (!traCuuForm.getId_kho_bac_huyen().equals("")) {
+                if (!traCuuForm.getId_kho_bac_huyen().equals("") && (!traCuuForm.getId_kho_bac_huyen().equals("0000"))) {
                     strWhere +=
                             "AND c.ma = '" + traCuuForm.getId_kho_bac_huyen() +
                             "' ";
@@ -76,83 +80,16 @@ public class TraCuuSoDuAction extends AppAction {
                             "AND b.ma_nh = '" + traCuuForm.getId_ngan_hang() +
                             "' ";
                 }
-                if (!traCuuForm.getLoai_tien().equals("")) {
-                    strWhere +=
-                            "AND d.loai_tien = '" + traCuuForm.getLoai_tien() +
-                            "' ";
-                    if (traCuuForm.getLoai_tien().equals("VND")) {
-                        if (!traCuuForm.getSo_du().equals("")) {
-                            String so_du =
-                                traCuuForm.getSo_du().replace(".", "");
-                            strWhere += "AND d.so_du = '" + so_du + "' ";
-                        }
-                        if (!traCuuForm.getSo_du_COT().equals("")) {
-                            String so_du_cot =
-                                traCuuForm.getSo_du_COT().replace(".", "");
-                            strWhere +=
-                                    "AND d.so_du_cot = '" + so_du_cot + "' ";
-                        }
-                        if (!traCuuForm.getTu_han_muc().equals("")) {
-                            String tu_han_muc =
-                                traCuuForm.getTu_han_muc().replace(".", "");
-                            strWhere +=
-                                    " AND TO_NUMBER(a.han_muc_no) > " + tu_han_muc +
-                                    " ";
-                        }
-                        if (!traCuuForm.getDen_han_muc().equals("")) {
-                            String den_han_muc =
-                                traCuuForm.getDen_han_muc().replace(".", "");
-                            strWhere +=
-                                    " AND TO_NUMBER(a.han_muc_no) < " + den_han_muc +
-                                    " ";
-                        }
-                    } else {
-                        if (!traCuuForm.getSo_du().equals("")) {
-                            String so_du =
-                                traCuuForm.getSo_du().replace(",", "");
-                            strWhere += "AND d.so_du = '" + so_du + "' ";
-                        }
-                        if (!traCuuForm.getSo_du_COT().equals("")) {
-                            String so_du_cot =
-                                traCuuForm.getSo_du_COT().replace(",", "");
-                            strWhere +=
-                                    "AND d.so_du_cot = '" + so_du_cot + "' ";
-                        }
-                        if (!traCuuForm.getTu_han_muc().equals("")) {
-                            String tu_han_muc =
-                                traCuuForm.getTu_han_muc().replace(",", "");
-                            strWhere +=
-                                    " AND TO_NUMBER(a.han_muc_no) > " + tu_han_muc +
-                                    " ";
-                        }
-                        if (!traCuuForm.getDen_han_muc().equals("")) {
-                            String den_han_muc =
-                                traCuuForm.getDen_han_muc().replace(",", "");
-                            strWhere +=
-                                    " AND TO_NUMBER(a.han_muc_no) < " + den_han_muc +
-                                    " ";
-                        }
+                if(!traCuuForm.getHan_muc().equals("")){
+                    if(traCuuForm.getTinh_trang_so_du().equals("01")){
+                        strWhere += "AND a.han_muc_no > " + traCuuForm.getHan_muc() + " ";
                     }
-                } else {
-                    if (!traCuuForm.getSo_du().equals("")) {
-                        strWhere +=
-                                "AND d.so_du = '" + traCuuForm.getSo_du() + "' ";
-                    }
-                    if (!traCuuForm.getSo_du_COT().equals("")) {
-                        strWhere +=
-                                "AND d.so_du_cot = '" + traCuuForm.getSo_du_COT() +
-                                "' ";
-                    }
-                    if (!traCuuForm.getTu_han_muc().equals("")) {
-                        strWhere +=
-                                " AND TO_NUMBER(a.han_muc_no) > " + traCuuForm.getTu_han_muc() +
-                                " ";
-                    }
-                    if (!traCuuForm.getDen_han_muc().equals("")) {
-                        strWhere +=
-                                " AND TO_NUMBER(a.han_muc_no) < " + traCuuForm.getDen_han_muc() +
-                                " ";
-                    }
+                  if(traCuuForm.getTinh_trang_so_du().equals("02")){
+                      strWhere += "AND a.han_muc_no = " + traCuuForm.getHan_muc() + " ";
+                  }
+                  if(traCuuForm.getTinh_trang_so_du().equals("03")){
+                      strWhere += "AND a.han_muc_no < " + traCuuForm.getHan_muc() + " ";
+                  }
                 }
                 if (!traCuuForm.getLoai_tai_khoan().equals("")) {
                     strWhere +=
@@ -173,7 +110,6 @@ public class TraCuuSoDuAction extends AppAction {
                 pagingBean.setRowOnPage(numberRowOnPage);
                 request.setAttribute("PAGE_KEY", pagingBean);
             }
-
             request.setAttribute("lstTimKiem", lstTimKiem);
             request.setAttribute("lstNHKBTinh", lstNHKBTinh);
         } catch (Exception e) {
@@ -307,9 +243,9 @@ public class TraCuuSoDuAction extends AppAction {
     public ActionForward delete(ActionMapping mapping, ActionForm form,
                                 HttpServletRequest request,
                                 HttpServletResponse response) throws Exception {
-        //if (!checkPermissionOnFunction(request, "SYS.TK.SODU")) {
-         //   return mapping.findForward("errorQuyen");
-        //}
+        if (!checkPermissionOnFunction(request, "SYS.TK.TCSD")) {
+           return mapping.findForward("errorQuyen");
+        }
         Connection conn = null;
         Vector vParams = null;
         JsonObject jsonObj = new JsonObject();

@@ -16,6 +16,7 @@ public class TKNHKBacForm extends ActionForm {
   private String ten;
   private String ma_kb;
   private String ten_kb;
+  private String action_status;
   
   // hongnn
   
@@ -245,5 +246,14 @@ public class TKNHKBacForm extends ActionForm {
 
     public String getQuyet_toan() {
         return quyet_toan;
+    }
+
+
+    public void setAction_status(String action_status) {
+        this.action_status = action_status;
+    }
+
+    public String getAction_status() {
+        return action_status;
     }
 }

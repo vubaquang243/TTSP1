@@ -77,6 +77,12 @@
   function FindQT(){
     var inKB = jQuery('#kb_huyen option:selected').index();
     document.forms[0].action="TraCuuQToanList.do?inKB="+inKB;
+    var vloaitien =  jQuery("#tcg_loai_tien").val();
+    var vsoTien =  jQuery("#soTien").val();
+    if(vsoTien != '' && vloaitien == '' && (vsoTien.indexOf('.')>0 || vsoTien.indexOf(',')>0 )){
+      alert('Định dạng số tiền không đúng');
+      jQuery("#soTien").focus();
+    }else
     document.forms[0].submit();
   }
   function changePTQT(lQT){
@@ -260,12 +266,15 @@
     }
     
     function changeCurrency(str){
+    var value =str.value;
     var cateCurrency = jQuery('#tcg_loai_tien').val();
     if(cateCurrency != ""){
     if(cateCurrency == "VND"){
-      str.value = changeVNDCurrency(str.value);
+      value = value.split('.').join('');       
+      str.value = changeVNDCurrency(value);
     }else{
-      str.value = changeForeignCurrency(str.value);
+      value = value.split(',').join(''); 
+      str.value = changeForeignCurrency(value);
     }}
   }
 </script>
@@ -317,7 +326,7 @@
                       <tbody>
                         <tr>
                           
-                          <td width="10%" style="text-align:right">
+                          <td width="10%" style="text-align:right;padding-right:5px">
                             <label for="KBTINH">
                               <fmt:message key="QTToanQuoc.page.lable.KBTINH"/>
                             </label>
@@ -335,7 +344,7 @@
                               </html:select>
                             </logic:present>
                             <logic:notPresent name="MAT4">
-                              <html:select styleClass="selectBox" property="kb_tinh" styleId="kb_tinh" style="width:100%;height:20px" onkeydown="if(event.keyCode==13) event.keyCode=9;" >
+                              <html:select styleClass="selectBox" property="kb_tinh" styleId="kb_tinh" style="width:100%;height:20px;" onkeydown="if(event.keyCode==13) event.keyCode=9;" >
                               <html:optionsCollection label="ten" value="ma" name="lstKBTinh"/>
                             </html:select>
                             </logic:notPresent>
@@ -345,7 +354,7 @@
                               <span class="sortKey">D</span>anh m&#7909;c KB
                             </button>
                           </td>
-                          <td width="10%" style="text-align:right">
+                          <td width="10%" style="text-align:right;padding-right:5px">
                             <label for="HSC">
                               <fmt:message key="QTToanQuoc.page.lable.HSC"/>
                             </label>
@@ -358,7 +367,7 @@
                               <html:optionsCollection label="ten_nh" value="ma_dv" name="lstNHHO"/>
                             </html:select>
                           </td>
-                          <td width="10%" style="text-align:right">
+                          <td width="10%" style="text-align:right;padding-right:5px">
                             <label for="LOAIQT">
                               <fmt:message key="QTToanQuoc.page.lable.LOAIQT"/>
                             </label>
@@ -397,7 +406,7 @@
                                          Báo nợ thu phí POS 
                                      </html:option>  
                                      <html:option value="07">
-                                         Quyết toán số chi ngày lỗi
+                                         Quyết toán bù số chi ngày lỗi
                                      </html:option> 
                                      <html:option value="08">
                                          Quyết toán thấu chi
@@ -409,7 +418,7 @@
                           </td>                        
                         </tr>
                         <tr>
-                        <td width="13%" style="text-align:right">
+                        <td width="13%" style="text-align:right;padding-right:5px">
                             <label for="KBHUYEN">
                               <fmt:message key="QTToanQuoc.page.lable.KBHUYEN"/>
                             </label>
@@ -430,7 +439,7 @@
                             </logic:notPresent>
                           </td>  
                           
-                          <td  style="text-align:right">
+                          <td  style="text-align:right;padding-right:5px">
                             <label for="NGAYQT">
                               Đến ngày QT
                             </label>
@@ -452,7 +461,7 @@
                               });
                             </script>                          
                           </td>
-                          <td  style="text-align:right">
+                          <td  style="text-align:right;padding-right:5px">
                             <label for="KBTINH">
                               Loại tiền
                             </label>
@@ -468,7 +477,7 @@
                           </td>
                         </tr>
                         <tr>
-                          <td width="15%" style="text-align:right">
+                          <td width="15%" style="text-align:right;padding-right:5px">
                             <label for="PTQT">
                               <fmt:message key="QTToanQuoc.page.lable.PTQT"/>
                             </label>
@@ -491,7 +500,7 @@
                                      </html:option> 
                               </html:select>
                           </td>
-                          <td  style="text-align:right">
+                          <td  style="text-align:right;padding-right:5px">
                             <label for="NGAYTT">
                               <fmt:message key="QTToanQuoc.page.lable.NGAYTT"/>
                             </label>
@@ -513,7 +522,7 @@
                               });
                             </script>
                           </td>
-                         <td width="10%" style="text-align:right">
+                         <td width="10%" style="text-align:right;padding-right:5px">
                             <label for="KBTINH">
                               Số tiền
                             </label>
@@ -526,7 +535,7 @@
                           </td>
                         </tr>
                         <tr>
-                          <td style="text-align : right">
+                          <td style="text-align : right;padding-right:5px">
                             <label for="NGAYQT">
                               Từ ngày QT
                             </label>
@@ -584,16 +593,16 @@
           </table>
       <div class="scroll_box">
         <table style="BORDER-COLLAPSE: collapse" id="tblBlah" border="1" cellspacing="0"
-           bordercolor="#999999"  width="200%">
+           bordercolor="#999999"  width="155%">
           <thead class="TR_Selected">
             <tr>
               <th width="1%">
                 <fmt:message key="QTToanQuoc.page.ketqua.STT"/>
               </th>
-              <th width="10%">
+              <th width="12%">
                 <fmt:message key="QTToanQuoc.page.ketqua.KB"/>
               </th>
-              <th width="10%">
+              <th width="13%">
                 <fmt:message key="QTToanQuoc.page.ketqua.KBHuyen"/>
               </th>
               <th width="13%">
@@ -602,11 +611,11 @@
               <th width="6%">
                 <fmt:message key="QTToanQuoc.page.ketqua.TKCHUYEN"/>
               </th>
-              <th width="6%">
+              <th width="7%">
                 <fmt:message key="QTToanQuoc.page.ketqua.TT"/>
               </th>
               <logic:present name="T4">
-                <th width="6%">
+                <th width="7%">
                   <fmt:message key="QTToanQuoc.page.ketqua.TTDV"/>
                 </th>
               </logic:present>
@@ -619,13 +628,13 @@
               <th width="6%">
                 <fmt:message key="QTToanQuoc.page.ketqua.SLQToan"/>
               </th>
-              <th width="10%">
+              <th width="7%">
                 <fmt:message key="QTToanQuoc.page.ketqua.STien"/>
               </th>
-              <th width="8%">
+              <th width="6%">
                 <fmt:message key="QTToanQuoc.page.ketqua.LOAIQT"/>
               </th>
-              <th width="8%">
+              <th width="6%">
                 <fmt:message key="QTToanQuoc.page.lable.PTQT"/>
               </th>
             </tr>

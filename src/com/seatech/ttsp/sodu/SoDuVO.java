@@ -9,6 +9,7 @@ public class SoDuVO {
     private String insert_date;
     private String so_du_cot;
     private String loai_tien;
+    private String loai_tai_khoan;
 
     public void setId(String id) {
         this.id = id;
@@ -72,5 +73,13 @@ public class SoDuVO {
 
     public String getLoai_tien() {
         return loai_tien;
+    }
+
+    public void setLoai_tai_khoan(String loai_tai_khoan) {
+        this.loai_tai_khoan = loai_tai_khoan;
+    }
+
+    public String getLoai_tai_khoan() {
+        return loai_tai_khoan;
     }
 }

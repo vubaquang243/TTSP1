@@ -359,7 +359,7 @@
     </action>
      <action parameter="update" name="TinTucForm"  path="/delTinTuc" scope="request"
             type="com.seatech.ttsp.tintuc.action.TinTucAction">
-      <forward name="success" path="/pages/tintuc/TraCuuTinTuc.jsp"/>
+      <forward name="success" path="/searchTinTuc.do"/>
       <forward name="failure" path="/pages/tintuc/TraCuuTinTuc.jsp"/>
     </action>
 <!-- chi tiet bang ke LTT toan quoc -->

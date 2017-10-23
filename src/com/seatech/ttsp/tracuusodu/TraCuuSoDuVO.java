@@ -1,6 +1,8 @@
 package com.seatech.ttsp.tracuusodu;
 
 public class TraCuuSoDuVO {
+   private String ten_kb_tinh;
+   private String ma_cha;
    private String ma_kb;
    private String ten_kb;
    private String ma_nh;
@@ -15,7 +17,8 @@ public class TraCuuSoDuVO {
    private String ten;
    
    private String id_kb;
-  private String id_ngan_hang;
+   private String id_ngan_hang;
+   private String loai_tk;
     public void setMa_kb(String ma_kb) {
         this.ma_kb = ma_kb;
     }
@@ -126,5 +129,29 @@ public class TraCuuSoDuVO {
 
     public String getId_ngan_hang() {
         return id_ngan_hang;
+    }
+
+    public void setLoai_tk(String loai_tk) {
+        this.loai_tk = loai_tk;
+    }
+
+    public String getLoai_tk() {
+        return loai_tk;
+    }
+
+    public void setMa_cha(String ma_cha) {
+        this.ma_cha = ma_cha;
+    }
+
+    public String getMa_cha() {
+        return ma_cha;
+    }
+
+    public void setTen_kb_tinh(String ten_kb_tinh) {
+        this.ten_kb_tinh = ten_kb_tinh;
+    }
+
+    public String getTen_kb_tinh() {
+        return ten_kb_tinh;
     }
 }

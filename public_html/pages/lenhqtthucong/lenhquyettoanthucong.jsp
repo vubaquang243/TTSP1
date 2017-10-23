@@ -28,6 +28,9 @@
       $('#tenTaiKhoanNhanLenh').attr('disabled',true);
       $('#taiKhoanNhanLenh').attr('disabled',true);
       $('#maNHNhanLenh').attr('disabled',true);
+      
+      $('#maNHKBChuyen :first-child').attr("selected", true);
+      
   });
   function myFunction(){
       $('#maNHKBNhan').attr('disabled',false);
@@ -280,15 +283,14 @@
             <td id="label" style="text-align : right;" >NH/KB Chuyển </td>
             <td>
              <html:select styleClass="selectBox" property="ma_nh"
-                styleId="maNHKBChuyen" style="width : 48%" onchange="getLoaiTien(this); getMaNHKBChuyen();" >
-                <option value="">---Chọn ngân hàng---</option>
+                styleId="maNHKBChuyen" style="width : 30%" onchange="getLoaiTien(this); getMaNHKBChuyen();" >
                 <html:optionsCollection label="ma_nh" value="ten" name="dmNH"/>
              </html:select>
             <html:hidden property="maNHKBChuyen" styleId="nhkbChuyen" />
              <a id="maNHSL"></a> <span style="color : red"> (*)</span></td>
             <td id="label" style="text-align : right;" >NH/KB Nhận </td>
             <td><html:text property="maNHKBNhan" styleClass="blur" styleId="maNHKBNhan"
-               onkeydown="if(event.keyCode==13) event.keyCode=9;" style="width : 30%" value="<%= id %>" /> <%= name %></td>
+               onkeydown="if(event.keyCode==13) event.keyCode=9;" style="width : 20%" value="<%= id %>" /> <%= name %></td>
         </tr>
         <tr style="height : 30px;">
             <td id="label" style="text-align : right;" >Ngày hạch toán </td>
@@ -335,7 +337,7 @@
         <tr style="height : 30px;">
             <td id="label" style="text-align : right;">Loại quyết toán </td>
             <td><html:select property="loaiQuyetToan" styleId="loaiQuyetToan">
-                <option value="" selected="selected" >--- Chọn loại quyết toán</option>
+                <option value="" selected="selected" >Chọn loại quyết toán</option>
                 <option value="900">Quyết toán thu</option>
                 <option value="910">Quyết toán chi</option>
             </html:select> <span style="color : red">(*)</span></td>
@@ -362,16 +364,16 @@
       </table>
       <table cellpadding="3" cellspacing="0" border="0" width="100%" style="float : left;">
         <tr style="height : 30px;">
-            <td width="13.5%" id="label" style="text-align : right;">Nội dung thanh toán </td>
+            <td width="15.5%" id="label" style="text-align : right;">Nội dung thanh toán </td>
             <td width="72%"><html:text property="noiDungThanhToan" styleId="noiDungThanhToan" 
-                styleClass="form-control" style="width : 100%" onkeydown="if(event.keyCode==13) event.keyCode=9;" /> </td>
+                styleClass="form-control" style="width : 92%" onkeydown="if(event.keyCode==13) event.keyCode=9;" /> </td>
             <td></td>
             <td></td>
         </tr>
       </table>
       <table cellpadding="3" cellspacing="0" border="0" width="100%">
           <tr style="height : 30px;">
-              <td id="label" style="text-align : right;  width :13.5%;">Người nhập </td>
+              <td id="label" style="text-align : right;  width :15.5%;">Người nhập </td>
               <td width="45%" ><html:text property="nguoiNhap" styleId="nguoiNhap" onkeydown="if(event.keyCode==13) event.keyCode=9;" maxlength="50" /></td>
               <td id="label" style="text-align : right; width : 11%" class="canle" >Ngày nhập </td>
               <td><html:text property="ngayNhap" styleId="ngayNhap"

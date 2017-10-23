@@ -110,14 +110,14 @@
     <action name="TKNHKBForm" path="/ghitknhkb" parameter="addExc"
             scope="request"
             type="com.seatech.ttsp.tknhkb.action.TKNHKBacAction">
-      <forward name="success" path="/pages/tknhkb/tracuutknhkb.jsp"/>
+      <forward name="success" path="/pages/tknhkb/tracuutknhkb.jsp"/> <!--sua 5.5.2:themtaikhoan  -->
       <forward name="failure" path="/themtaikhoan.do"/>
       <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
     </action>
     <action name="TKNHKBForm" path="/suatknhkb" parameter="updateExc"
             scope="request"
             type="com.seatech.ttsp.tknhkb.action.TKNHKBacAction">
-      <forward name="success" path="/pages/tknhkb/tracuutknhkb.jsp"/>
+      <forward name="success" path="/themtaikhoan.do"/> <!-- sua /pages/tknhkb/tracuutknhkb.jsp-->
       <forward name="failure" path="/pages/tknhkb/themmoitknhkb.jsp"/>
       <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
     </action>

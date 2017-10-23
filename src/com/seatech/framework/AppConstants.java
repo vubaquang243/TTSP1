@@ -50,6 +50,13 @@ public class AppConstants {
     public static final String APP_KB_CAP_SESSION = "cap_kb";
     public static final String APP_CHO_PHEP_CHON_DC_KHOP_DUNG_SESSION = "CHO_PHEP_CHON_DC_KHOP_DUNG";
     public static final String APP_HACH_TOAN_TABMIS_THEO_NGAY_KS_NH_SESSION = "HACH_TOAN_TABMIS_THEO_NGAY_KS_NH";
+    
+    //20171017 thuongdt bo sung them
+    public static final String APP_LAP_DNQT_BU_CHI_NGAY_LOI_SESSION = "CHO_PHEP_LAP_DNQT_BU_CHI_NGAY_LOI";
+    public static final String APP_LAP_DNQT_THAU_CHI_SESSION = "CHO_PHEP_LAP_DNQT_THAU_CHI";
+    public static final String APP_LAP_DNQT_THU_NGAY_LOI_SESSION = "CHO_PHEP_LAP_DNQT_THU_NGAY_LOI";
+    public static final String APP_LAP_DNQT_LOAI_KHAC_SESSION = "CHO_PHEP_LAP_DNQT_LOAI_KHAC";
+   
     //Thong tin ngan hang kho bac
     public static final String APP_NHKB_ID_SESSION = "id_nhkb";
     public static final String APP_NHKB_CODE_SESSION = "ma_nhkb";
@@ -358,4 +365,8 @@ public class AppConstants {
     public static final String FORMAT_CURRENTCEY_PATERN_NT = "#,##0.00";
 	//format tien cho ngoai te
   //	public static final String FORMAT_CURRENTCEY_PATERN_NT_VND = "#,###.00";
+    
+    
+    
+    
 }

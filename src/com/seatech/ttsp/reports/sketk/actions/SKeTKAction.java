@@ -1,6 +1,5 @@
 package com.seatech.ttsp.reports.sketk.actions;
 
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -1053,8 +1052,6 @@ public class SKeTKAction extends AppAction {
                     request.setAttribute("lstDSKBHuyen", lstDSKBHuyen);
                     request.setAttribute("lstDSNHang", lstDSNHang);
                     request.setAttribute("lstTKNHang", lstTKNHang);
-                  throw TTSPException.createException("TTSP-9999",
-                                                      "Update thành công");
                 }
             } else {
                 throw TTSPException.createException("TTSP-9999",

@@ -36,6 +36,7 @@ public class DChieu3VO extends AppForm {
   private String ngay_thien_dc; 
   private String trang_thai_bk;
   private String trang_thai_kq;
+  //20171009 QuangVB bo sung them loai tien
   private String loai_tien;
   
   private Long mt900_thua;

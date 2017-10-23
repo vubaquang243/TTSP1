@@ -228,12 +228,12 @@
         <fieldset>
           <legend>Thông tin bảng kê</legend>
           <div>
-           <!-- <html:hidden property="id"  styleId="id"/>
+            <html:hidden property="id"  styleId="id"/>
             <html:hidden property="send_bank" styleId="send_bank"/>
             <html:hidden property="ngay_dc"  styleId="ngay_dc"/>
             <html:hidden property="trang_thai_in"  styleId="trang_thai_in"/>
             <html:hidden property="kq_id"  styleId="kq_id"/>
-            <html:hidden property="lan_dc"  styleId="lan_dc"/> -->
+            <html:hidden property="lan_dc"  styleId="lan_dc"/>
             
               <table width="99%" cellspacing="0" border="0.5">
                 <tr style="height : 30px">
@@ -305,6 +305,11 @@
                     </div>
                   </th>
                   <th class="promptText" bgcolor="#f0f0f0">
+                    <div align="center">
+                      Loại tiền
+                    </div>
+                  </th>
+                  <th class="promptText" bgcolor="#f0f0f0">
                     <div align="center">          
                       Trạng thái
                     </div>
@@ -333,7 +338,9 @@
                     <bean:write name="items" property="so_tien"/>
                     </fmt:formatNumber>
                   </td>
-                 
+                  <td align="center">
+                    <bean:write name="items" property="loai_tien"/>
+                  </td>
                   <td align="center">
                     <logic:equal value="00" property="trang_thai" name="items">
                       SGD KBNN thiếu  – Hội sở chính NH thừa
@@ -381,6 +388,11 @@
                     </div>
                   </th>
                   <th class="promptText" bgcolor="#f0f0f0">
+                    <div align="center">
+                      Loại tiền
+                    </div>
+                  </th>
+                  <th class="promptText" bgcolor="#f0f0f0">
                     <div align="center">          
                       Trạng thái
                     </div>
@@ -409,7 +421,9 @@
                     <bean:write name="items" property="so_tien"/>
                   </fmt:formatNumber>
                   </td>
-                 
+                  <td align="center">
+                    <bean:write name="items" property="loai_tien"/>
+                  </td>
                   <td align="center">
                     <logic:equal value="00" property="trang_thai" name="items">
                       SGD KBNN thiếu  – Hội sở chính NH thừa

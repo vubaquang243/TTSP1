@@ -1,7 +1,12 @@
 package com.seatech.ttsp.dchieu;
 
 import java.math.BigDecimal;
-
+/**
+ * @modify: thuongdt
+ * @modify-date: 09/10/2017
+ * @see: bo sung lai_chuyen_thu
+ * @find: 20171009
+ **/
 public class GDichTCongVO {
   private Long id;
   private Long id_tcong;
@@ -16,7 +21,10 @@ public class GDichTCongVO {
   private String ghi_chu;
   private String so_thu_chu;
   private String so_chi_chu;
-
+ //20171009
+  private BigDecimal lai_chuyen_thu;
+  private String lai_chuyen_thu_chu;
+  
     public void setId(Long id) {
         this.id = id;
     }
@@ -120,5 +128,21 @@ public class GDichTCongVO {
 
     public BigDecimal getSo_chi() {
         return so_chi;
+    }
+
+    public void setLai_chuyen_thu(BigDecimal lai_chuyen_thu) {
+        this.lai_chuyen_thu = lai_chuyen_thu;
+    }
+
+    public BigDecimal getLai_chuyen_thu() {
+        return lai_chuyen_thu;
+    }
+
+    public void setLai_chuyen_thu_chu(String lai_chuyen_thu_chu) {
+        this.lai_chuyen_thu_chu = lai_chuyen_thu_chu;
+    }
+
+    public String getLai_chuyen_thu_chu() {
+        return lai_chuyen_thu_chu;
     }
 }

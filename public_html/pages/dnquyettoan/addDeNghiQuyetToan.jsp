@@ -41,7 +41,7 @@
         });
         
         //
-        $('#ngayQT').attr('disabled','disabled');
+       // $('#ngayQT').attr('disabled','disabled');
       });
       
       function onChange(){
@@ -62,10 +62,9 @@
                   jQuery('#loaiTien').append('<option value="">---Chọn loại tiền---<\/option>');
                   for(var i = 0; i < lstLoaiTien.size(); i++){
                     jQuery('#loaiTien').append('<option value="'+ lstLoaiTien[i].ma_nt + '" >' + lstLoaiTien[i].ma_nt + '<\/option>');
-                    if(lstLoaiTien[i].ma_nt == "VND"){
-                      jQuery('#loaiTien').append('<option value="'+ lstLoaiTien[i].ma_nt + '" selected="true" >' + lstLoaiTien[i].ma_nt + '<\/option>');
-                    }
+                    jQuery('#loaiTien option[value="VND"]').attr("selected",true);
                   }
+                  
                 }
               }
             }
@@ -116,11 +115,11 @@
       
       function getSoTienChi(){
         var loaiQT = $('#loaiQT').val();
-        var loatTien = $('#loaiTien').val();
+        var loaiTien = $('#loaiTien').val();
         var maNH = $('#maNH').val();
         if((loaiQT == "04" || loaiQT == "05") && maNH != ""){
           jQuery.ajax({
-            type : "POST", url : "getMoney.do", data : {"loaiQT" : loaiQT, "maNH" : maNH }, dataType : "json",
+            type : "POST", url : "getMoney.do", data : {"loaiQT" : loaiQT, "maNH" : maNH ,"loaiTien" : loaiTien}, dataType : "json",
             success : function(data, textstatus){
               if(data != null){
                 if(data.logout != null && data.logout){
@@ -129,7 +128,7 @@
                 }else{
                   var getCurren = new Object();
                   getCurren = JSON.parse(data[0]);
-                   if(loatTien == "VND")
+                   if(loaiTien == "VND")
                     $('#QToanChi').val(changeVNDCurrency(getCurren));
                    else $('#QToanChi').val(changeForeignCurrency(getCurren));
                 }
@@ -147,17 +146,37 @@
           var QToanChi = $('#QToanChi').val();
           var ngayQT = $('#ngayQT').val();
           var noiDungQToan = $('#noiDungQToan').val();
+          if(maNH == null || maNH == ''){
+            alert('Chưa chọn ngân hàng');
+            $('#maNH').focus();            
+          } else if(loaiTien == null || loaiTien == ''){
+             alert('Chưa chọn loại tiền');
+             $('#loaiTien').focus();    
+          } else if(loaiQT == null || loaiQT == ''){
+              alert('Chưa chọn loại quyết toán');
+              $('#loaiQT').focus();    
+          }else if(noiDungQToan == null || noiDungQToan == ''){
+             alert('Nhập nội dung quyết toán');
+             $('#noiDungQToan').focus();    
+          }else if(loaiQT == '07' && (QToanBu == null || QToanBu == '')){
+                alert('Chưa nhập số tiền quyết toán thu');
+                $('#QToanBu').focus();   
+          }else if(loaiQT == '07' && (QToanBu == null || QToanBu == '')){
+               alert('Chưa nhập số tiền quyết toán chi');
+                $('#QToanChi').focus();  
+          }else {
             jQuery.ajax({
             type : "POST", url : "addDeNghiQuyetToan.do", data :{"maNH" : maNH, "loaiTien" : loaiTien, "loaiQT" : loaiQT,
               "QToanBu" : QToanBu, "QToanChi" : QToanChi, "ngayQT" : ngayQT, "noiDungQToan" : noiDungQToan}, success : function(data, textstatus){
-                  if(data == null){
-                    $('#idMessage').text("Thêm mới thành công !");
+                  if(data == null){                    
+                    alert('Thêm mới thành công !');
                     resetValue();
-                  }else{
-                    $('#idMessage').text("Thêm mới không thành công. Vui lòng kiểm tra lại dữ liệu !");
+                  }else{                     
+                     alert('Thêm mới không thành công.'+data.error) ;                   
                   }
               }
           });
+          }
         }
       
       //xu ly dinh dang tien te nuoc ngoai
@@ -183,7 +202,6 @@
   
   //dung cho viec thay doi dinh dang tien te
   function changeCurrency(str){
-    console.log(str.value);
     var cateCurrency = $('#loaiTien').val();
     if(cateCurrency != ""){
     if(cateCurrency == "VND"){
@@ -199,17 +217,21 @@
     var qtChi= $('#QToanChi').val();
     if(cateCurrency != ""){
       if(cateCurrency == "VND"){
-        if(qtBu != ""){
-          $('#QToanBu').val(changeVNDCurrency(qtBu));
+         if(qtBu != ""){
+         qtBu = qtBu.split('.').join(''); 
+         $('#QToanBu').val(changeVNDCurrency(qtBu));
         }
         if(qtChi != ""){
-          $('#QToanChi').val(changeVNDCurrency(qtChi));
+         qtChi = qtChi.split('.').join(''); 
+         $('#QToanChi').val(changeVNDCurrency(qtChi));
         }
       }else{
         if(qtBu != ""){
+         qtBu = qtBu.split(',').join(''); 
           $('#QToanBu').val(changeForeignCurrency(qtBu));
         }
         if(qtChi != ""){
+          qtChi = qtChi.split(',').join(''); 
           $('#QToanChi').val(changeForeignCurrency(qtChi));
         }
       }
@@ -247,31 +269,34 @@
     <div class="app_error">
       <html:errors/>
     </div>
-    <table border="0" cellspacing="0" cellpadding="0" class="table-input"
-         align="center" >
+    <table border="0" cellspacing="0" cellpadding="0" align="center" >
         <tbody>
           <tr id="input-form">
-          <td width="20%">Ngân hàng </td><td width="30%">
+          <td width="20%" style="text-align : right;padding-right:5px" >Ngân hàng </td>
+          <td width="30%">
             <html:select styleClass="selectBox" property="maNH"
-                styleId="maNH" style="width: 200px;" onblur="onChange(); getSoTienChi();" >
+                styleId="maNH" style="width: 255px;" onblur="onChange(); getSoTienChi();" >
                 <option value="">---Chọn loại ngân hàng---</option>
                 <html:optionsCollection label="ten" value="ma_nh" name="dmNH"/>
            </html:select>
-          </td>
-          </tr>
-          <tr id="input-form">
-          <td width="20%">Loại tiền </td>
+          </td>          
+          <td width="20%" style="text-align : right;padding-right:5px">Loại tiền </td>
           <td width="30%">
            <html:select styleClass="selectBox" property="loaiTien"
-                styleId="loaiTien" style="width: 200px;" onblur="changeMoney(); resetInput();">
+                styleId="loaiTien" style="width: 255px;" onblur="changeMoney(); resetInput(); getSoTienChi();">
                 <option value="" selected="selected">---Chọn loại tiền---</option>
            </html:select>
           </tr>
+         
           <tr id="input-form">
-            <td width="20%">Loại quyết toán </td>
+            <td width="20%" style="text-align : right;padding-right:5px">Ngày quyết toán</td>
+            <td width="30%">
+              <html:text property="ngayQT" styleId="ngayQT" style="width: 255px;" readonly="true" />
+            </td>            
+            <td width="20%" style="text-align : right;padding-right:5px">Loại quyết toán </td>
             <td width="30%">
             <html:select styleClass="selectBox" property="loaiQT" onblur="getSoTienChi(); changeInput(); resetInput();"
-                styleId="loaiQT" style="width: 200px;">
+                styleId="loaiQT" style="width: 255px;">
                 <option value="">---Chọn loại quyết toán---</option>
                 <option value="04">Bù chi ngày lỗi</option>
                 <option value="05">Thấu chi</option>
@@ -280,29 +305,23 @@
             </html:select>
           </tr>
           <tr id="input-form">
-            <td width="20%">Số tiền quyết toán thu </td>
+            <td width="20%" style="text-align : right;padding-right:5px">Số tiền quyết toán thu </td>
             <td width="30%">
-              <html:text property="QToanBu"  styleId="QToanBu" onkeypress="return numberBlockKey1();" style="width: 200px;"
-                onblur="changeMoney();" onkeydown="if(event.keyCode==13) event.keyCode=9;" readonly="true" />
+              <html:text property="QToanBu"  styleId="QToanBu" onkeypress="return numberBlockKey1();" style="width: 255px;text-align:right;"
+                onblur="changeMoney();" onkeydown="if(event.keyCode==13) event.keyCode=9;" />
+            </td>
+
+            <td width="20%" style="text-align : right;padding-right:5px">Số tiền quyết toán chi </td>
+            <td width="30%">
+              <html:text property="QToanChi" styleId="QToanChi" onkeypress="return numberBlockKey1();" style="width: 255px;text-align:right;" 
+              onkeydown="if(event.keyCode==13) event.keyCode=9;" onblur="changeMoney();" />
             </td>
           </tr>
+         
           <tr id="input-form">
-            <td width="20%">Số tiền quyết toán chi </td>
-            <td width="30%">
-              <html:text property="QToanChi" styleId="QToanChi" onkeypress="return numberBlockKey1();" style="width: 200px;" 
-              onkeydown="if(event.keyCode==13) event.keyCode=9;" readonly="true" onblur="changeMoney();" />
-            </td>
-          </tr>
-          <tr id="input-form">
-            <td width="20%">Ngày quyết toán</td>
-            <td width="30%">
-              <html:text property="ngayQT" styleId="ngayQT" style="width: 200px;" disabled="disabled" readonly="true" />
-            </td>
-          </tr>
-          <tr id="input-form">
-            <td width="20%">Nội dung </td>
-            <td width="30%">
-              <html:textarea property="noiDungQToan" styleId="noiDungQToan" onkeydown="if(event.keyCode==13) event.keyCode=9;" style="width: 200px;" rows="5" />
+            <td width="20%" style="text-align : right;padding-right:5px">Nội dung </td>
+            <td width="30%" colspan = "3" >
+              <html:textarea property="noiDungQToan" styleId="noiDungQToan" onkeydown="if(event.keyCode==13) event.keyCode=9;" style="width: 99%" rows="5" />
             </td>
           </tr>
         </tbody>

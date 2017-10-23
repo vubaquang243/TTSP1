@@ -9,7 +9,7 @@
 <%@ page import="com.seatech.ttsp.ltt.LTTVO"%>
 <%@ page import="com.seatech.framework.utils.StringUtil"%>
 <fmt:setBundle basename="com.seatech.ttsp.resource.LTTDiResource" />
-<%@ include file="/includes/ttsp_header.inc"%>
+<%@ include file="/includes/ttsp_header.inc"%> 
 <link rel="stylesheet"  type="text/css" href="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/css/style.css"/>
 <link rel="stylesheet"  type="text/css" media="screen" href="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/css/jquery.ui.all.css"/>
 <link rel="stylesheet"  type="text/css" media="screen" href="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/css/ui.jqgrid.css" />
@@ -142,7 +142,7 @@
                       <tr valign="top">
                         <td valign="top" width="15%" rowspan="2">
                           <div class="clearfixLTT">
-                            <fieldset style="height:333px;" class="fieldsetLTTCSS">
+                            <fieldset style="height:383px;" class="fieldsetLTTCSS">
                               <legend style="vertical-align:middle">
                                 <b>Số yêu cầu thanh toán</b>
                               </legend>
@@ -195,7 +195,11 @@
                                           <tr class="<%=strClass%>" id="row_ltt_<bean:write name="index"/>" 
                                             onmouseover="lttMouseOver('row_ltt_<bean:write name="index"/>');" 
                                             onmouseout="lttMouseOut('row_ltt_<bean:write name="index"/>');">
-                                            <td width="44%;" align="left"><bean:write name="list_ltt" property="so_yctt"/></td>
+                                            <td width="44%;" align="left">
+                                            <bean:write name="list_ltt" property="so_yctt"/>
+                                            <input type="hidden" name="list_ltt_tongtien" value="<bean:write name="list_ltt" property="tong_sotien"/>" />
+                                            <input type="hidden" name="list_ltt_ntid" value="<bean:write name="list_ltt" property="nt_id"/>" />
+                                            </td>
                                             <td width="23%;" align="center">
                                               <logic:equal value="01" name="list_ltt" property="trang_thai">
                                                 <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/return.jpeg" border="0" title="KTT đẩy lại"/>
@@ -262,8 +266,43 @@
                                         <td width="92%" align="left">
                                           <fmt:message key="ltt_di.page.label.tinh_trang_master"/>: <span id="mo_ta_trang_thai" style="font-weight:bold;"></span>
                                         </td>
-                                        <td width="8%" align="right">
-                                          <span id="refresh" class="ui-icon ui-icon-refresh" style="cursor:pointer;"></span>
+                                        <td width="8%" align="right"> 
+                                          <span id="refresh" class="ui-icon ui-icon-refresh" onclick="refreshGridAddLTT('<%=strUserType%>', 'lttDiAdd.do', 'loadAddLTTDiJsonAction.do');" style="cursor:pointer;"></span>
+                                        </td>
+                                         <td>
+                                          <span id="search" class="ui-icon ui-icon-search" title="Tìm kiếm" style="cursor:pointer;"></span>
+                                        </td>
+                                      </tr>
+                                     <tr>
+                                        <td align="left" colspan="3">                                        
+                                        Loại tiền: <html:select property="nt_id_tke_tong" styleId="nt_id_tke_tong" onchange="loadLoaiTien(this);" style="width:95px;height:20px;vlaign:middle" styleClass="fieldTextCode" >
+                                          <!--thuongdt-20170915 sua cho phep chon tat ca-->
+                                        <html:option value="">Tất cả</html:option>  
+                                        <logic:notEmpty name="listDMTienTe">
+                                          <logic:present name="listDMTienTe">
+                                            <logic:iterate id="objNT" name="listDMTienTe" type="com.seatech.ttsp.dmtiente.DMTienTeVO" indexId="index">                                              
+                                              <logic:notEqual value="2" name="objNT" property="id" >
+                                                <html:option value="<%=objNT.getId().toString()%>"><bean:write name="objNT" property="ma"/></html:option>                                    
+                                              </logic:notEqual>
+                                            </logic:iterate>  
+                                          </logic:present>
+                                        </logic:notEmpty>
+                                      </html:select>
+                                        </td>
+                                      </tr>   
+                                      <tr>
+                                        <td align="left" colspan="3">
+                                          Tổng món : <html:text property="tong_so_mon" styleId="tong_so_mon" styleClass="fieldTextTrans" readonly="true" onmouseout="UnTip()" 
+                                                    onmouseover="Tip(this.value)" style="WIDTH: 60%;"/>      
+                                        </td>
+                                                  
+                                      </tr>
+                                      <tr >
+                                        <td colspan="3"  align="left">
+                                          Tổng tiền : 
+                                       
+                                          <html:text property="tong_so_tien" styleId="tong_so_tien" styleClass="fieldTextTrans" readonly="true" onmouseout="UnTip()" 
+                                                    onmouseover="Tip(this.value)" style="WIDTH: 60%;"/>     
                                         </td>
                                       </tr>
                                     </table>                                 
@@ -791,6 +830,89 @@
       
       <input type="hidden" id="nt_id_old"/>
       <input type="hidden" id="focusField" name="focusField" value=""/>
+      
+      
+            <div id="dialog-form-tim-kiem-so-yctt"  title="<fmt:message key="ltt_di.page.title.dialog_form_tim_kiem_so_yctt"/>">
+        <p class="validateTips"></p>        
+            <table style="width:100%;height:100%;">
+              <tr>
+                <td id="ma_ttv" align="left" colspan="2">                  
+                    <label for="ttvnhan" style="padding-left:55px;">
+                      <fmt:message key="ltt_di.page.label.ma_ttv"/>
+                    </label>
+                    <input type="text" name="ttvnhan" id="ttvnhan" class=" text ui-widget-content ui-corner-all"/>                  
+                </td>
+                <td align="right">                  
+                    <label for="nhkbnhan">
+                      <fmt:message key="ltt_di.page.label.nh_kb_nhanTK"/>
+                    </label>
+                </td>
+                <td align="left">
+                    <select name="nhkbchuyennhan" id="nhkbchuyennhan" style="width:100%;" class=" text ui-widget-content ui-corner-all">
+                       <option value="">Tất cả</option>
+                        <logic:notEmpty name="colDMNH">
+                            <logic:iterate id="nhkbchuyennhan" name="colDMNH">
+                              <option value='<bean:write name="nhkbchuyennhan" property="ma_nh" />'> 
+                                <bean:write name="nhkbchuyennhan" property="ten" />
+                              </option>
+                            </logic:iterate>
+                          </logic:notEmpty>                
+                    </select>                  
+                </td>
+                <td align="right">
+                    <label for="soyctt" style="padding-left:50px;">
+                      <fmt:message key="ltt_di.page.label.so_ycttTK"/>
+                    </label>
+                </td>
+                <td align="left">
+                    <input type="text" name="soyctt" id="soyctt" class=" text ui-widget-content ui-corner-all"/>                   
+                </td>
+                
+                </tr>
+                <tr>
+                <td align="right">
+                    <label for="trangthai" style="padding-left:45px;">
+                      <fmt:message key="ltt_di.page.label.trang_thai"/>
+                    </label>
+                </td>
+                <td align="left">
+                    <select name="trangthai" id="trangthai" class=" text ui-widget-content ui-corner-all">
+                       <option value="00">Tất cả</option>
+                        <logic:notEmpty name="colTrangThai">
+                            <logic:iterate id="trangthai" name="colTrangThai">
+                              <option value='<bean:write name="trangthai" property="rv_low_value" />'> 
+                                <bean:write name="trangthai" property="rv_meaning" />
+                              </option>
+                            </logic:iterate>
+                          </logic:notEmpty>                
+                    </select>
+                </td>
+                <td align="right">Loại tiền</td>
+                <td align="left">
+                  <select name="nt_id_find" id="nt_id_find" onchange="formatNumberCOAJQueryDivTimkiem();" class=" text ui-widget-content ui-corner-all">
+                        <!--thuongdt-20170915 sua cho phep chon tat ca-->
+                       <option value="">Tất cả</option>
+                        <logic:notEmpty name="listDMTienTe">
+                            <logic:iterate id="tiente" name="listDMTienTe">
+                              <option value='<bean:write name="tiente" property="ma" />'> 
+                                <bean:write name="tiente" property="ma" />
+                              </option>
+                            </logic:iterate>
+                          </logic:notEmpty> 
+                    </select>
+                    <input type="hidden" id="nt_id_find_old" name="nt_id_find_old">
+                </td>
+                <td align="right">
+                    <label for="sotien" style="padding-left:60px;">
+                      <fmt:message key="ltt_di.page.label.so_tien" />
+                    </label>
+                    <input type="text" name="sotien" id="sotien" onblur="formatNumberCOAJQueryDivTimkiem();" class=" text ui-widget-content ui-corner-all"/>          
+                </td>               
+              </tr>
+            </table>           
+      </div>
+      
+      
   </html:form>
 </div>
 <div id="dialog-message" title="<fmt:message key="ltt_di.page.title.dialog_message"/>">
@@ -1248,5 +1370,316 @@
    
     document.onkeydown = keyDownLTT; 
     
+    
+function refreshGridAddLTT(strUserType, strUrlRefresh, strUrlAction) {
+    var urlRefresh = '';
+    if (strUrlRefresh != null && strUrlRefresh != '') {
+        urlRefresh = strUrlRefresh;
+    }
+    else {
+        urlRefresh = 'listLttAdd.do';
+    }
+    jQuery.ajax( {
+        type : "POST", url : urlRefresh, data :  {
+            "action" : 'REFRESH', "nd" : Math.random() * 100000
+        },
+        dataType : 'json', success : function (data, textstatus) {
+            if (data != null) {
+                if (data.logout != null && data.logout) {
+                    document.forms[0].action = 'loginAction.do?logout=true&ma_nsd=' + data.ma_nsd + '&ip_truycap=' + data.ip_truycap;
+                    document.forms[0].submit();
+                }
+                else {
+                    if (data.error != undefined) {
+                        jQuery("#dialog-message").html(data.error);
+                        jQuery("#dialog-message").dialog("open");
+                    }
+                    else if (data.error == undefined) {                    
+                        fillDataTableMasterAddLTTDi(data, strUserType, strUrlAction);
+                    }
+                }
+
+            }
+        },
+        error : function (textstatus) {
+            jQuery("#dialog-message").html(textstatus.responseText);
+            jQuery("#dialog-message").dialog("open");
+        }
+    });
+}    
+ function fillDataTableMasterAddLTTDi(data, strUserType, strUrlAction) {
+    var strTableData = "";
+    var strImg = "";
+    var strTitle = "";
+    var strSoYCTT_ID = "";
+    var id_ltt_default = 0;
+    jQuery("#data-grid").html('');
+    var tonglenh = 0;
+    var tongtien = 0.0;
+    var nt_idTemp = '';
+    var check_nt = true;
+    var vformat = 'VND';
+    var sotien = '';
+    if (data != null && data != 'undefined' && data != '') {
+        jQuery.each(data, function (i, objectLTTDi) {
+            
+            tonglenh = tonglenh+1;
+            sotien = objectLTTDi.tong_sotien;
+            tongtien = tongtien + objectLTTDi.tong_sotien;           
+            if (nt_idTemp !='' && objectLTTDi.nt_id != nt_idTemp)
+              check_nt = false;
+            nt_idTemp = objectLTTDi.nt_id;
+            if (objectLTTDi.trang_thai == '01') {
+                strImg = "/TTSP/styles/images/return.jpeg";
+                strTitle = "KTT &#273;&#7849;y l&#7841;i";
+            }
+            else if (objectLTTDi.trang_thai == '02') {
+                strImg = "/TTSP/styles/images/edit.gif";
+                strTitle = "Ch&#7901; TTV ho&#224;n thi&#7879;n";
+            }
+            else if (objectLTTDi.trang_thai == '03') {
+                strImg = "/TTSP/styles/images/wait.jpeg";
+                strTitle = "Ch&#7901; KTT dy&#7879;t";
+            }
+            else if (objectLTTDi.trang_thai == '04') {
+                strImg = "/TTSP/styles/images/gd_return.jpeg";
+                strTitle = "G&#272; &#273;&#7849;y l&#7841;i";
+            }
+            else if (objectLTTDi.trang_thai == '05') {
+                strImg = "/TTSP/styles/images/wait-gd.png";
+                strTitle = "Ch&#7901; G&#272; duy&#7879;t";
+            }
+            else if (objectLTTDi.trang_thai == '06') {
+                strImg = "/TTSP/styles/images/delete1.gif";
+                strTitle = "H&#7911;y";
+            }
+            else if (objectLTTDi.trang_thai == '07') {
+                strImg = "/TTSP/styles/images/sended-but.jpg";
+                strTitle = "&#272;&#227; g&#7917;i - ch&#432;a v&#224;o giao di&#7879;n";
+            }
+            else if (objectLTTDi.trang_thai == '08') {
+                strImg = "/TTSP/styles/images/sended-but.jpg";
+                strTitle = "&#272;&#227; g&#7917;i Ng&#226;n h&#224;ng";
+            }
+            else if (objectLTTDi.trang_thai == '11') {
+                strImg = "/TTSP/styles/images/sended-but.jpg";
+                strTitle = "&#272;&#227; g&#7917;i - Ch&#7901; ch&#7841;y giao di&#7879;n";
+            }
+            else if (objectLTTDi.trang_thai == '12') {
+                strImg = "/TTSP/styles/images/send-success.jpg";
+                strTitle = "&#272;&#227; g&#7917;i - Giao di&#7879;n th&#224;nh c&#244;ng";
+            }
+            else if (objectLTTDi.trang_thai == '13') {
+                strImg = "/TTSP/styles/images/send-false.jpg";
+                strTitle = "&#272;&#227; g&#7917;i - Giao di&#7879;n th&#7845;t b&#7841;i";
+            }
+
+            else if (objectLTTDi.trang_thai == '14') {
+                strImg = "/TTSP/styles/images/send-success.jpg";
+                strTitle = "G&#7917;i ng&#226;n h&#224;ng th&#224;nh c&#244;ng";
+            }
+            else if (objectLTTDi.trang_thai == '15') {
+                strImg = "/TTSP/styles/images/send-false.jpg";
+                strTitle = "G&#7917;i ng&#226;n h&#224;ng kh&#244;ng th&#224;nh c&#244;ng";
+            }
+            else if (objectLTTDi.trang_thai == '16') {
+                strImg = "/TTSP/styles/images/sended-false.jpg";
+                strTitle = "&#272;&#227; g&#7917;i - Ng&#226;n h&#224;ng x&#7917; l&#253; th&#7845;t b&#7841;i";
+            }
+
+            if (strUrlAction == 'loadLTTDenJsonAction.do' || strUrlAction == 'loadQuyetToanAction.do')
+                strSoYCTT_ID = objectLTTDi.id;
+            else 
+                strSoYCTT_ID = objectLTTDi.so_yctt;
+
+            strSoYCTT_ID = "<input name=\"row_item\" id=\"" + i + "\" type=\"text\" value=\"" + strSoYCTT_ID + "\" onkeydown=\"arrowUpDownLTT(event);\" readonly=\"true\"  style=\"border:0px;font-size:10px;float:left;width:106px;\" />" + "<input  id=\"rowSelected\" type=\"hidden\" value=\'" + objectLTTDi.id + "\'/>";
+
+            strTableData = strTableData + "<tr onmouseover=\"lttMouseOver('row_ltt_" + i + "');\"  onmouseout=\"lttMouseOut('row_ltt_" + i + "');\" " + "class=\"ui-widget-content jqgrow ui-row-ltr\" id=\"row_ltt_" + i + "\" >" + "<td width=\"53%;\" align=\"left\">" + strSoYCTT_ID + " <input type=\"hidden\" name=\"list_ltt_tongtien\" value='"+sotien+"' /> <input type=\"hidden\" name=\"list_ltt_ntid\" value='"+nt_idTemp+"' />  <\/td>" + "<td width=\"28%;\" align=\"center\"> <img src=\"" + strImg + "\" border=\"0\" title=\"" + strTitle + "\" <\/td>" + "<\/tr>";
+
+            if (i == 0)
+                id_ltt_default = objectLTTDi.id;
+        });
+       jQuery("#tong_so_mon").val(tonglenh);
+       if(check_nt == true){
+        if(nt_idTemp != '177')
+           vformat = 'USD';
+           jQuery("#tong_so_tien").val(CurrencyFormatted(tongtien, vformat)); 
+          document.getElementById('nt_id_tke_tong').value = nt_idTemp;
+       }else{
+          jQuery("#tong_so_tien").val(CurrencyFormatted('0.0', vformat)); 
+          document.getElementById('nt_id_tke_tong').value = '';
+      }
+          
+    }
+    else {
+        deleteRowsInCOA("tblThongTinChiTietCOA");
+        strTableData = '<tr><td colspan="5" align="center"><span style="color:red;">Kh&#244;ng t&#236;m th&#7845;y b&#7843;n ghi n&#224;o</span></td></tr>';        
+    }
+    jQuery("#data-grid").html('<tbody>' + strTableData + '<\/tbody>');
+    
+//    var strNumberResultSearch = 0;
+//    if (data != null && data != 'undefined')
+//        strNumberResultSearch = data.length;
+//    var strAlert = "K&#7871;t qu&#7843;: " + strNumberResultSearch + " L&#7879;nh thanh to&#225;n th&#7887;a m&#227;n.";
+//    jQuery("#resultSearch").html(GetUnicode(strAlert));
+}   
+ 
+     jQuery("#search").click(function(){     
+      jQuery("#dialog-form-tim-kiem-so-yctt").dialog( "open" );           
+      if(strLoaiUser != null && strLoaiUser != 'null'){
+        if(strLoaiUser.indexOf("<%=AppConstants.NSD_TTV%>") != -1){
+          jQuery("#nhkbchuyennhan").focus(); 
+        }else if(strLoaiUser.indexOf("<%=AppConstants.NSD_KTT%>") != -1){
+          jQuery("#ttvnhan").focus();
+        }
+      }
+    });
+    initDialogTimKiem();
+   function initDialogTimKiem(){
+    jQuery("#dialog-form-tim-kiem-so-yctt").dialog({
+      autoOpen: false,resizable : false,
+//      height: "350px",
+      maxHeight:"350",
+      width: "800px",
+      modal: true,
+      buttons: {
+        "Tìm kiếm": function() {
+          findAddLTTSoYCTT('lttDiAdd.do', '<%=strUserType%>', 'loadAddLTTDiJsonAction.do');
+          jQuery(this).dialog("close");
+          jQuery('#row_ltt_0').find('input').focus();
+        },
+        "Thoát": function() {
+          jQuery(this).dialog("close");
+          jQuery('#row_ltt_0').find('input').focus();
+        }
+      },
+      "Đóng": function() {
+      }
+    });
+  }
+  
+  function findAddLTTSoYCTT(strUrlRefresh, strUserType, strUrlAction) {
+    var urlRefresh = '';
+    if (strUrlRefresh != null && strUrlRefresh != '') {
+        urlRefresh = strUrlRefresh;
+    }
+    else {
+        urlRefresh = 'listLttAdd.do';
+    }
+    var ttvnhan = jQuery("#ttvnhan").val(), nhkbchuyennhan = jQuery("#nhkbchuyennhan").val(), sotien = jQuery("#sotien").val(), soyctt = jQuery("#soyctt").val(), trangthai = jQuery("#trangthai").val();
+    var soltt = jQuery("#soltt").val();
+    var nt_id_find = jQuery("#nt_id_find").val();
+    
+    jQuery.ajax( {
+        type : "POST", url : urlRefresh, data :  {
+            "nt_id_find":nt_id_find,"ttvnhan" : ttvnhan, "nhkbchuyennhan" : nhkbchuyennhan, "sotien" : sotien, "soyctt" : soyctt, "trangthai" : trangthai, "soltt" : soltt, "action" : 'FIND_SoYCTT', "nd" : Math.random() * 100000
+        },
+        dataType : 'json', success : function (data, textstatus) {
+            if (data != null && textstatus != null && textstatus == 'success') {
+                if (data.logout != null && data.logout != 'undefined') {
+                    document.forms[0].action = 'loginAction.do?logout=true&ma_nsd=' + data.ma_nsd + '&ip_truycap=' + data.ip_truycap;
+                    document.forms[0].submit();
+                }
+                else {
+                    if (data.error != undefined) {
+                        jQuery("#dialog-message").html(data.error);
+                        jQuery("#dialog-message").dialog("open");
+                    }
+                    else if (data.error == undefined) {
+                        fillDataTableMasterAddLTTDi(data, strUserType, strUrlAction);
+                    }
+                }
+
+            }
+        },
+        error : function (textstatus) {
+            jQuery("#message").html(textstatus.responseText);
+            jQuery("#dialog-message").dialog("open");
+        }
+    });
+}
+   function changeMaNTThongKe(obj, url){   
+   
+    nt_id = obj.value;
+   
+    if (nt_id != null && nt_id != '') {
+        jQuery.ajax( {
+            type : "POST", url : url, data :  {
+                "action" : 'CHANGE_NT', "nt_id_find" : nt_id, "type":url, "nd" : Math.random() * 100000
+            },
+            dataType : 'json',  success : function (data, textstatus) {
+                if (textstatus != null && textstatus == 'success') {
+                    if (data == null) {
+                        alert('Không lấy được dữ liệu');
+                        return;
+                    }
+                    else { 
+                   
+                    jQuery.each(data, function (i, objectLTTtemp) {
+                        jQuery("#tong_so_mon").val(objectLTTtemp.tong_so_mon);
+                        jQuery("#tong_so_tien").val(CurrencyFormatted(objectLTTtemp.tong_so_tien, nt_id));    
+                    })
+                                            
+                    }
+                }
+            }
+        });
+    }
+} 
+loadform();
+function loadform(){
+    var tongmon = 0;    
+    var tongtien = 0.0;
+    var nt_idTemp = '';
+    var check_nt = true;
+    var vformat = 'VND';
+    var sotien = document.getElementsByName('list_ltt_tongtien');
+    var ma_nt = document.getElementsByName('list_ltt_ntid');
+    tongmon = ma_nt.length;
+    for(var i =0; i<ma_nt.length;i++){
+      tongtien = tongtien + sotien[i];           
+      if (nt_idTemp !='' && ma_nt[i] != nt_idTemp)
+        check_nt = false;
+      nt_idTemp = ma_nt[i];
+    } 
+    
+    jQuery("#tong_so_mon").val(tongmon);
+    if(check_nt == true){
+       if(nt_idTemp != '177')
+       vformat = 'USD';
+       jQuery("#tong_so_tien").val(CurrencyFormatted(tongtien, vformat)); 
+      document.getElementById('nt_id_tke_tong').value = nt_idTemp;
+   }else{
+      jQuery("#tong_so_tien").val(CurrencyFormatted('0.0', vformat)); 
+      document.getElementById('nt_id_tke_tong').value = '';
+  }
+    
+} 
+function loadLoaiTien(ojbNT_ID){
+    var vnt_id = ojbNT_ID.value;
+    var tongmon = 0;    
+    var tongtien = 0.0;
+    var nt_idTemp = '';
+    var vformat = 'VND';
+    var sotien = document.getElementsByName('list_ltt_tongtien');
+    var ma_nt = document.getElementsByName('list_ltt_ntid');
+     
+    if(vnt_id != ''){
+    for(var i =0; i<ma_nt.length;i++){
+      if( ma_nt[i].value == vnt_id){
+        tongmon = tongmon+1;
+        tongtien = tongtien + sotien[i].value;
+      }
+    } 
+    jQuery("#tong_so_mon").val(tongmon);
+     if(nt_idTemp != '177')
+     vformat = 'USD';
+     jQuery("#tong_so_tien").val(CurrencyFormatted(tongtien, vformat)); 
+    document.getElementById('nt_id_tke_tong').value = vnt_id;
+    }else{
+     loadform();
+    }
+    
+} 
 </script>
 <%@ include file="/includes/ttsp_bottom.inc"%>

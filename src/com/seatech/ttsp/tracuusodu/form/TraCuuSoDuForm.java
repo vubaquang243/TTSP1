@@ -14,6 +14,8 @@ public class TraCuuSoDuForm extends AppForm{
     private String den_han_muc;
     private String ngay_gd;
     private String pageNumber;
+    private String han_muc;
+    private String tinh_trang_so_du;
 
     private String kb_id;
     private String nganhang_id;
@@ -128,5 +130,21 @@ public class TraCuuSoDuForm extends AppForm{
 
     public String getKb_id_huyen() {
         return kb_id_huyen;
+    }
+
+    public void setHan_muc(String han_muc) {
+        this.han_muc = han_muc;
+    }
+
+    public String getHan_muc() {
+        return han_muc;
+    }
+
+    public void setTinh_trang_so_du(String tinh_trang_so_du) {
+        this.tinh_trang_so_du = tinh_trang_so_du;
+    }
+
+    public String getTinh_trang_so_du() {
+        return tinh_trang_so_du;
     }
 }

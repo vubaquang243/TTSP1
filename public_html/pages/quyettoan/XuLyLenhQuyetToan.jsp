@@ -671,7 +671,7 @@
                                         <option value='T'/>
                                           <fmt:message key="XuLyLenhQT.page.thongtinhoanthien.loai_hach_toan.dung"/>
                                         <option value='P'/>
-                                          <fmt:message key="XuLyLenhQT.page.thongtinhoanthien.loai_hach_toan.choxuly"/>
+                                          <fmt:message key="XuLyLenhQT.page.thongtinhoanthien.loai_hach_toan.choxuly"/>                      
                                  </html:select>
                                 </td>
                               </tr>

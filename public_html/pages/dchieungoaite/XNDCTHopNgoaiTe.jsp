@@ -623,7 +623,54 @@
                     <input type="hidden" name="ket_qua" value="0" id="ket_qua_pht"/>            
                     <%}%>
                   </logic:iterate>
-                  </logic:notEmpty>
+                  </logic:notEmpty>                  
+                  <!--20171009 thuongdt bo sung  du lieu thu ngay thu 7 phuc vu view du lieu cua ngay nghi start-->
+                 <logic:notEmpty name="colPHT_T7">
+                  <logic:iterate id="items" name="colPHT_T7">
+                      <tr>
+                          <td>
+                            + Dữ liệu thu(thứ 7)
+                          </td>
+                          <td align="center">
+                            <fmt:setLocale value="vi_VI"/>
+                        <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
+                            <bean:write name="items" property="tong_mon_pht"/>
+                          </fmt:formatNumber>
+                          </td>
+                          <td align="right">
+                            <fmt:setLocale value="vi_VI"/>
+                        <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
+                            <bean:write name="items" property="tong_ps_pht" />
+                          </fmt:formatNumber>
+                          </td>
+                          <td align="center">
+                           <fmt:setLocale value="vi_VI"/>
+                        <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
+                           <bean:write name="items" property="mon_thu_dtu_kbnn" />
+                           </fmt:formatNumber>
+                          </td>
+                          <td align="right">
+                            <fmt:setLocale value="vi_VI"/>
+                        <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
+                            <bean:write name="items" property="tien_thu_dtu_kbnn"/>
+                            </fmt:formatNumber>
+                          </td>
+                          <td align="center">
+                            <fmt:setLocale value="vi_VI"/>
+                        <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
+                            <bean:write name="items" property="chenh_mthu_dtu_pht" />
+                          </fmt:formatNumber>
+                          </td>
+                          <td align="right">
+                            <fmt:setLocale value="vi_VI"/>
+                        <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
+                            <bean:write name="items" property="chenh_tthu_dtu_pht" />
+                          </fmt:formatNumber>
+                          </td>
+                        </tr>
+                  </logic:iterate>
+                  </logic:notEmpty> 
+                  <!--20171009 thuongdt bo sung  du lieu thu ngay thu 7 phuc vu view du lieu cua ngay nghi end-->
               </table>
               <br/>
                <fieldset>
@@ -636,6 +683,8 @@
                         <tr>
                           <td colspan="4"> <b>Giao dịch thủ công </b> </td>
                         </tr>
+                        
+                        <!--20171009 thuongdt bo sung so chi thu cong start-->
                       <tr> 
                         <td width="25%" align="left">
                              Số thu thủ công
@@ -644,7 +693,22 @@
                           <input type="text" title="<bean:write name="items" property="so_thu_chu"/>"  name="so_thu" disabled="disabled"  id="so_thu"  value="<fmt:formatNumber type="currency"  currencySymbol=""><bean:write name="items" property="so_thu"/></fmt:formatNumber>" class="fieldTextRight" />
                          
                          </td>
-                         <td  align="center" rowspan="2" colspan="2">
+                         <td width="20%" align="left" style="padding-left:15px">
+                             Lãi chuyên thu
+                        </td>
+                         <td width="25%" align="right">                                       
+                          <input type="text"  name="so_lai_thu" disabled="disabled"  id="so_lai_thu"  value="" class="fieldTextRight" />
+                         </td>
+                      </tr>
+                      <tr>
+                        <td  align="left">
+                            Số chi thủ công 
+                          </td>
+                          <td  align="right"> 
+                          <input type="text"  name="so_chi"  title="<bean:write name="items" property="so_chi_chu"/>"  disabled="disabled"  id="so_chi"   value="<fmt:formatNumber type="currency"  currencySymbol=""><bean:write name="items" property="so_chi"/></fmt:formatNumber>" class="fieldTextRight" />                                   
+                          <html:hidden property="ttsp_id"/>
+                         </td>
+                         <td  align="center" colspan="2">
                           <%if(chkdate==null || "".equals(chkdate)){%>
                            <button type="button"  accesskey="t" id="bt_tcong" onclick="update_TCong('TCONG')">
                               Cập nhật số thu chi <span class="sortKey">t</span>hủ công
@@ -653,15 +717,7 @@
                             <html:hidden property="cho_phep_sua" styleId="cho_phep_sua" />
                          </td>
                       </tr>
-                      <tr>
-                        <td  align="left">
-                            Số chi thủ công
-                          </td>
-                          <td  align="right"> 
-                          <input type="text"  name="so_chi"  title="<bean:write name="items" property="so_chi_chu"/>"  disabled="disabled"  id="so_chi"   value="<fmt:formatNumber type="currency"  currencySymbol=""><bean:write name="items" property="so_chi"/></fmt:formatNumber>" class="fieldTextRight" />                                   
-                          <html:hidden property="ttsp_id"/>
-                         </td>            
-                      </tr>
+                      <!--20171009 thuongdt bo sung so chi thu cong end-->
                       </logic:iterate>
                       </logic:notEmpty>
                       
@@ -677,10 +733,11 @@
                          <td width="25%" align="right">                                       
                           <input type="text"  name="so_thu" disabled="disabled"  id="so_thu"  value="" class="fieldTextRight" />
                          </td>
-                         <td  align="center" rowspan="2" colspan="2">
-                           <button type="button"  accesskey="t" id="bt_tcong" onclick="update_TCong('TCONG')">
-                              Cập nhật <span class="sortKey">t</span>hủ công
-                            </button>
+                         <td width="20%" align="left" style="padding-left:15px">
+                             Lãi chuyên thu
+                        </td>
+                         <td width="25%" align="right">                                       
+                          <input type="text"  name="so_lai_thu" disabled="disabled"  id="so_lai_thu"  value="" class="fieldTextRight" />
                          </td>
                       </tr>
                       <tr>
@@ -690,7 +747,12 @@
                         <td  align="right" > 
                           <input type="text"  name="so_chi" disabled="disabled"  id="so_chi"   value="" class="fieldTextRight" />                                   
                           <html:hidden property="ttsp_id"/>
-                         </td>            
+                         </td> 
+                         <td  align="center" colspan="2">
+                           <button type="button"  accesskey="t" id="bt_tcong" onclick="update_TCong('TCONG')">
+                              Cập nhật <span class="sortKey">t</span>hủ công
+                            </button>
+                         </td>
                       </tr>
                       </logic:empty>
                       

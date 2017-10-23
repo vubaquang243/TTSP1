@@ -518,6 +518,18 @@
                     <fmt:message key="doi_chieu.page.lable.tthai"/>
                   </div>
                 </th>
+                <!--20171009 thuongdt bo sung chi tiet chenh lech start-->
+                <th class="promptText" bgcolor="#f0f0f0">
+                  <div align="center">          
+                    Lý do chênh lệch
+                  </div>
+                </th>
+                <th class="promptText" bgcolor="#f0f0f0">
+                  <div align="center">          
+                    Chi tiết chênh lệch
+                  </div>
+                </th>
+                <!--20171009 thuongdt bo sung chi tiet chenh lech end-->
                 <!--<th class="promptText" bgcolor="#f0f0f0">
                     <div align="center">          
                       Duy&#7879;t l&#7841;i
@@ -570,6 +582,15 @@
                         <fmt:message key="doi_chieu.page.lable.tthai.1"/>
                     </logic:equal>
                 </td>
+                <!--20171009 thuongdt bo sung chi tiet chenh lech start-->
+                <td align="left">                
+                  <bean:write name="items" property="ldo_clech"/>
+                </td>
+                <td align="left">
+                  <bean:write name="items" property="ctiet_clech"/>
+                </td>
+                <!--20171009 thuongdt bo sung chi tiet chenh lech start-->
+                
                 <!--<td align="center">
                   <logic:notEqual value="01" property="tthai_duyet" name="items">
                     <a href="<html:rewrite page="/duyetLaiAction.do"/>?mt_id=<bean:write name="items" property="mt_id"/>&id=<bean:write name="items" property="bk_id"/>&send_bank=<bean:write name="items" property="receive_bank"/>&type=LTT">Duy&#7879;t l&#7841;i</a> 
@@ -630,6 +651,14 @@
                         <fmt:message key="doi_chieu.page.lable.tthai.1"/>
                     </logic:equal>
                   </td>
+                  <!--20171009 thuongdt bo sung chi tiet chenh lech start-->
+                  <td align="left">                
+                    <bean:write name="items" property="ldo_clech"/>
+                  </td>
+                  <td align="left">
+                    <bean:write name="items" property="ctiet_clech"/>
+                  </td>
+                  <!--20171009 thuongdt bo sung chi tiet chenh lech end-->
                 </tr>  
             </logic:equal>
             </logic:equal>
@@ -691,6 +720,19 @@
                       <fmt:message key="doi_chieu.page.lable.tthai"/>
                     </div>
                   </th>
+                  <!--20171009 thuongdt bo sung chi tiet chenh lech start-->
+                   <th class="promptText" bgcolor="#f0f0f0">
+                    <div align="center">          
+                      Lý do chênh lệch
+                    </div>
+                  </th>
+                   <th class="promptText" bgcolor="#f0f0f0">
+                    <div align="center">          
+                      Chi tiết chênh lệch
+                    </div>
+                  </th>
+                  <!--20171009 thuongdt bo sung chi tiet chenh lech end-->
+                  
                   <!--<th class="promptText" bgcolor="#f0f0f0">
                     <div align="center">          
                       Duy&#7879;t l&#7841;i
@@ -742,6 +784,15 @@
                         <fmt:message key="doi_chieu.page.lable.tthai.1"/>
                     </logic:equal>
                   </td>
+                  <!--20171009 thuongdt bo sung chi tiet chenh lech start-->
+                  <td align="left">                
+                    <bean:write name="items" property="ldo_clech"/>
+                  </td>
+                  <td align="left">
+                    <bean:write name="items" property="ctiet_clech"/>
+                  </td>
+                  <!--20171009 thuongdt bo sung chi tiet chenh lech end-->
+                  
                   <!--<td align="center">
                   <logic:notEqual value="01" property="tthai_duyet" name="items">
                     <a href="<html:rewrite page="/duyetLaiAction.do"/>?mt_id=<bean:write name="items" property="mt_id"/>&id=<bean:write name="items" property="bk_id"/>&send_bank=<bean:write name="items" property="receive_bank"/>&type=DTS">Duy&#7879;t l&#7841;i</a> 
@@ -800,6 +851,14 @@
                         <fmt:message key="doi_chieu.page.lable.tthai.1"/>
                     </logic:equal>
                   </td>
+                  <!--20171009 thuongdt bo sung chi tiet chenh lech start-->
+                  <td align="left">                
+                    <bean:write name="items" property="ldo_clech"/>
+                  </td>
+                  <td align="left">
+                    <bean:write name="items" property="ctiet_clech"/>
+                  </td>
+                  <!--20171009 thuongdt bo sung chi tiet chenh lech end-->
                 </tr> 
                 </logic:equal>
         </logic:equal>

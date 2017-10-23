@@ -26,6 +26,12 @@ public class DMKBacDAO extends AppDAO {
         this.conn = conn;
     }
 
+      /*
+       * 
+       * Get danh sach kho bac
+       * quang vb
+       */
+    
     public Collection getDMKBList(String whereClause,
                                   Vector params) throws Exception {
 

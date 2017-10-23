@@ -1,7 +1,12 @@
 package com.seatech.ttsp.dchieu;
 
 import java.math.BigDecimal;
-
+/**
+ * @modify: thuongDT
+ * @modify-date: 04/10/2017
+ * @see: bo sung them the hien chi tiet chenh lech 
+ * @see: 20171004
+ **/
 public class KQDCChiTietVO {
   private String id;
   private String bkq_id;
@@ -51,6 +56,10 @@ public class KQDCChiTietVO {
   
   private String loai_tien;
   private String ma_nt;//Ma ngoai te
+  
+  //20171004 bo sung them chi tiet chenh lech
+  private String ldo_clech;
+  private String ctiet_clech;
 
 
     public void setId(String id) {
@@ -379,5 +388,21 @@ public class KQDCChiTietVO {
 
     public String getMa_nt() {
         return ma_nt;
+    }
+
+    public void setLdo_clech(String ldo_clech) {
+        this.ldo_clech = ldo_clech;
+    }
+
+    public String getLdo_clech() {
+        return ldo_clech;
+    }
+
+    public void setCtiet_clech(String ctiet_clech) {
+        this.ctiet_clech = ctiet_clech;
+    }
+
+    public String getCtiet_clech() {
+        return ctiet_clech;
     }
 }

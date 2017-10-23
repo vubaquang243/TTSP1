@@ -1,6 +1,7 @@
 package com.seatech.ttsp.thamsokb;
 
 
+import com.seatech.framework.AppConstants;
 import com.seatech.framework.datamanager.AppDAO;
 import com.seatech.framework.datamanager.Parameter;
 import com.seatech.framework.exception.DAOException;
@@ -50,6 +51,37 @@ public class ThamSoKBDAO extends AppDAO {
 
         return reval;
     }
+
+  /**
+   * @create-date: 19/11/2017
+   * @see: Thuongdt them moi ham dung chung check tham so
+   * @return: boolean
+   * */
+  public boolean checkThamSo(String ma_kb,String ma_nh, String tham_so, String gia_tri) throws Exception {
+      boolean bReturn = false;
+      ResultSet reval = null;
+      StringBuffer strSQL = new StringBuffer();
+      try {
+          strSQL.append("SELECT 1 FROM sp_thamso_kb a where 1=1 ");
+        if(ma_kb != null && !"".equals(ma_kb))
+          strSQL.append(" AND kb_id= '"+ma_kb+"'");
+        if(ma_nh != null && !"".equals(ma_nh))
+          strSQL.append(" AND ma_nh= '"+ma_nh+"'");
+        if(tham_so != null && !"".equals(tham_so))
+          strSQL.append(" AND ten_ts= '"+tham_so+"' ");
+        if(gia_tri != null && !"".equals(gia_tri))
+          strSQL.append(" AND GIATRI_TS= '"+gia_tri+"' ");
+          if (strSQL.indexOf("AND")>0 ) {
+            reval = executeSelectStatement(strSQL.toString(), null,  conn);
+            bReturn =  reval.next();
+          }
+      } catch (Exception ex) {
+          throw new DAOException(CLASS_NAME_DAO + ".getThamSoList(): " +
+                                 ex.getMessage(), ex);
+      }
+
+      return bReturn;
+  }
 
     public ResultSet getThamSoResultSet(String whereClause,
                                         Vector params) throws Exception {
@@ -178,6 +210,20 @@ public class ThamSoKBDAO extends AppDAO {
         return executeStatement(strSQL.toString(), v_param, conn);
     }
 
+
+  /**
+   * @date: 17/10/2017
+   * @param: Menh de setValue; Menh de whereValue;
+   * @see: them moi ham update
+   * @return: int
+   * */
+
+  public int update(String setValue, String whereValue) throws Exception {
+      Vector v_param = new Vector();
+      StringBuffer strSQL = new StringBuffer();
+      strSQL.append("update sp_thamso_ht set "+setValue +" where 1=1 "+whereValue);
+      return executeStatement(strSQL.toString(), v_param, conn);
+  }
 
   public int update_TSKB(ThamSoKBVO vo) throws Exception {
       Vector v_param = new Vector();

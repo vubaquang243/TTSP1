@@ -45,6 +45,7 @@ public class DuyetDNQTAction extends AppAction {
      * Hàm main
      *
      * */
+
     public ActionForward executeAction(ActionMapping mapping, ActionForm form,
                                        HttpServletRequest request,
                                        HttpServletResponse response) throws Exception {
@@ -65,12 +66,12 @@ public class DuyetDNQTAction extends AppAction {
             Integer row = new Integer(15);
             Integer totalCount[] = new Integer[1];
             listData = dao.getData(strQuery, params, currentPage, row, totalCount);
+            request.setAttribute("listData", listData);
             PagingBean pagingBean = new PagingBean();
             pagingBean.setCurrentPage(currentPage);
             pagingBean.setNumberOfRow(totalCount[0].intValue());
             pagingBean.setNumberOfRow(row);
             request.setAttribute("PAGE_KEY", pagingBean);
-            request.setAttribute("listData", listData);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }

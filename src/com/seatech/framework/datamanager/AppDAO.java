@@ -1,6 +1,7 @@
 package com.seatech.framework.datamanager;
 
 
+import com.seatech.framework.AppKeys;
 import com.seatech.framework.exception.DAOException;
 import com.seatech.framework.exception.DatabaseConnectionFailureException;
 import com.seatech.framework.exception.ExecuteStatementException;
@@ -39,7 +40,12 @@ import net.sf.jxls.transformer.XLSTransformer;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
-
+/**
+ * @modify: ThuongDT
+ * @modify-date: 14-09-2017
+ * @see: chi print canh bao set setter cho VO trong moi truong dev
+ * @find: 20170914
+ * */
 public class AppDAO extends BaseObject {
     public AppDAO() {
 
@@ -1449,7 +1455,9 @@ buildSQLForStoredProcedure(sProcedureName, parameters, false);
                         value = rs.getObject(i);
                     }
                     PropertyUtils.setProperty(beanTO, columnName, value);
-                } else {                    
+                } else { 
+                    //find:20170914 - sua chi dung theo doi set setter tuong ung cho VO tren moi truong dev
+                    if("N".equals(AppKeys.SETUP_VERIFY))
                     System.out.println("{Khong co setter tuong ung: " + columnName + "}");
                 }
             }             

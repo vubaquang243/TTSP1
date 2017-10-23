@@ -41,7 +41,12 @@ import java.util.Vector;
    * @modify: Lay du chieu pham vi doi chieu
    * @see: 20170320
    */
-
+  /**
+   * @modify: thuongdt
+   * @modify-date: 04/10/2017
+   * @see: sua cau querry tim kiem chi tiet chenh lech doi chieu
+   * @find: 20171004
+   * */
 
 public class DChieuNgoaiTeDAO extends AppDAO {
     Connection conn = null;
@@ -242,14 +247,41 @@ public class DChieuNgoaiTeDAO extends AppDAO {
         try {
   
             String strSQL = "";
-  
+          //20171004 thuongdt sua cau querry bo sung tim kiem chi tiet chenh lech
             strSQL +=
-                    "SELECT DISTINCT a.id, a.bkq_id, a.bk_id, a.mt_id,a.loai_tien, to_char(a.send_date,'DD/MM/YYYY HH24:mi:ss') send_date, a.f20, a.f21, a.tthai_duyet," +
+                   //lay cac bang ke co chenh lech trung mt_id va khac trung tat ca
+                    "WITH SP_065_DTL_clech AS (select mt_id,BKQ_ID from (select mt_id,BKQ_ID,count(0) tonglech from sp_065_dtl_ngoai_te where BKQ_ID in ('"+strbke_id+"') group by mt_id,BKQ_ID) where tonglech >1 " + 
+                    " and (mt_id,BKQ_ID) not in(select mt_id,BKQ_ID from (select mt_id,send_bank,receive_bank,f32as3,ngay_ct,loai_tien,count(0) tonglech from sp_065_dtl_ngoai_te where BKQ_ID in ('"+strbke_id+"') group by mt_id,send_bank,receive_bank,f32as3,ngay_ct,loai_tien) where tonglech >1)), " + 
+                    //lay cac bang ke co chenh lech theo loai tien ngay_ct
+                    " SP_065_DTL_ltien AS (select mt_id,', Lo?i ti?n' lech,ctiet " + 
+                    " from (select mt_id,BKQ_ID,send_bank,receive_bank,f32as3,ngay_ct,wmsys.wm_concat(loai_tien) ctiet,count(0) tonglech from sp_065_dtl_ngoai_te where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,send_bank,receive_bank,f32as3,ngay_ct) aa where tonglech >1), " + 
+                    //lay cac bang ke co chenh lech theo ngay chung tu ngay_ct
+                    " SP_065_DTL_ngay AS (select mt_id,', Ngày ch?ng t?' lech,ctiet " + 
+                    " from (select mt_id,BKQ_ID,send_bank,receive_bank,f32as3,loai_tien,wmsys.wm_concat(ngay_ct) ctiet,count(0) tonglech from sp_065_dtl_ngoai_te where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,send_bank,receive_bank,f32as3,loai_tien) aa where tonglech >1), " + 
+                    //lay cac bang ke co chenh lech theo so tien f32as3
+                    " SP_065_DTL_tien AS (select mt_id,', s? ti?n' lech ,ctiet " + 
+                    " from (select mt_id,BKQ_ID,send_bank,receive_bank,ngay_ct,loai_tien,wmsys.wm_concat(f32as3) ctiet,count(0) tonglech from sp_065_dtl_ngoai_te where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,send_bank,receive_bank,ngay_ct,loai_tien) where tonglech >1), " + 
+                    //lay cac bang ke co chenh lech theo NH nhan receive_bank
+                    " SP_065_DTL_receive_bank AS (select mt_id,', NH nh?n' lech,ctiet " + 
+                    " from (select mt_id,BKQ_ID,send_bank,f32as3,ngay_ct,loai_tien,wmsys.wm_concat(receive_bank) ctiet,count(0) tonglech from sp_065_dtl_ngoai_te where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,send_bank,f32as3,ngay_ct,loai_tien) where tonglech >1), " + 
+                    //lay cac bang ke co chenh lech theo NH gui send_bank
+                    " SP_065_DTL_send_bank AS (select mt_id,', NH chuy?n' lech,ctiet " + 
+                    " from (select mt_id,BKQ_ID,receive_bank,f32as3,ngay_ct,wmsys.wm_concat(send_bank) ctiet,count(0) tonglech from sp_065_dtl_ngoai_te where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,receive_bank,f32as3,ngay_ct) where tonglech >1) "+
+                    //noi dung cau sql goc truc khi sua
+                    " SELECT DISTINCT a.id, a.bkq_id, a.bk_id, a.mt_id,a.loai_tien, to_char(a.send_date,'DD/MM/YYYY HH24:mi:ss') send_date, a.f20, a.f21, a.tthai_duyet," +
                     " a.f32as3, to_char(a.ngay_ts,'DD/MM/YYYY') ngay_ts, a.ghi_chu, a.mt_type, a.app_type," +
                     " a.sai_yeu_to, a.trang_thai, a.insert_date, to_char(a.ngay_ct,'DD/MM/YYYY') ngay_ct, decode(substr(a.mt_id,3,3),'701','DI','DEN') di_den, decode(substr(a.mt_id,6,3),'196','DTS','195','DTS','LTT') ltt_dts," +
                     " c.send_bank, (select ten from sp_dm_ngan_hang where ma_nh=c.send_bank) ten_send_bank," +
-                    " c.receive_bank, b.ten " +
-                    "  FROM sp_065_dtl_ngoai_te a, sp_dm_ngan_hang b, sp_065_ngoai_te c where 1=1 and a.bkq_id= c.mt_id and c.receive_bank=b.ma_nh and a.bkq_id in ('" +
+                    " c.receive_bank, b.ten, " +
+                    //bo sung them truong the hien chi tiet chenh lech
+                    " ngay.lech||tien.lech||rec.lech||sen.lech||ltien.lech chenh_lech,ngay.ctiet||'; '||tien.ctiet||'; '||rec.ctiet||'; '||sen.ctiet||'; '||ltien.ctiet ctiet_clech "+
+                    "  FROM sp_065_dtl_ngoai_te a, sp_dm_ngan_hang b, sp_065_ngoai_te c " +
+                    //bo sung cac bang tam chenh lech
+                    " ,SP_065_DTL_ngay ngay,SP_065_DTL_tien tien,SP_065_DTL_receive_bank rec,SP_065_DTL_send_bank sen,SP_065_DTL_ltien ltien " +
+                    " where 1=1 and a.bkq_id= c.mt_id and c.receive_bank=b.ma_nh " +
+                     //join bang tam
+                    " and dtl.mt_id = ngay.mt_id(+)and dtl.mt_id = tien.mt_id(+)and dtl.mt_id = rec.mt_id(+)and dtl.mt_id = sen.mt_id(+) and dtl.mt_id = ltien.mt_id(+)" +
+                    " and a.bkq_id in ('" +
                     strbke_id + "')";
   
             reval = executeSelectStatement(strSQL.toString(), vParam, strValueObjectKQCTVO, conn);
@@ -743,11 +775,24 @@ public class DChieuNgoaiTeDAO extends AppDAO {
         Collection reval = null;
         try {
             String strSQL = "";
-            strSQL +=
-                    " SELECT   a.ma_kb, a.ma_nh, a.ngay_gd,  sum(nvl(a.so_thu,0)) so_thu, sum(nvl(a.so_chi,0)) so_chi," +
-                    " vietnamesenumbertowords.fnc_doc_tien (SUM (NVL (a.so_thu, 0)), a.loai_tien) so_thu_chu," + 
-                    " vietnamesenumbertowords.fnc_doc_tien (SUM (NVL (a.so_chi, 0)), a.loai_tien) so_chi_chu" + 
-                    "  FROM sp_gd_thu_cong a WHERE 1=1 " +strWhere + " group by a.ma_kb, a.ma_nh, a.ngay_gd, a.loai_tien ";
+//            strSQL +=
+//                    " SELECT   a.ma_kb, a.ma_nh, a.ngay_gd,  sum(nvl(a.so_thu,0)) so_thu, sum(nvl(a.so_chi,0)) so_chi," +
+//                    " vietnamesenumbertowords.fnc_doc_tien (SUM (NVL (a.so_thu, 0)), a.loai_tien) so_thu_chu," + 
+//                    " vietnamesenumbertowords.fnc_doc_tien (SUM (NVL (a.so_chi, 0)), a.loai_tien) so_chi_chu" + 
+//                    "  FROM sp_gd_thu_cong a WHERE 1=1 " +strWhere + " group by a.ma_kb, a.ma_nh, a.ngay_gd, a.loai_tien ";
+            
+            //20171009 thuongdt sua sql bo sung tra cuu so lai chuyen thu
+           strSQL +="select  a.ma_kb, a.ma_nh, a.ngay_gd,  so_thu, so_chi, so_thu_chu, so_chi_chu,nvl(b.lai_chuyen_thu,0)lai_chuyen_thu,b.lai_chuyen_thu_chu   " +
+            "from ( " + 
+           " SELECT	 a.ma_kb, a.ma_nh, a.ngay_gd,  sum(nvl(a.so_thu,0)) so_thu, sum(nvl(a.so_chi,0)) so_chi, " + 
+           " vietnamesenumbertowords.CONVERT (SUM (NVL (a.so_thu, 0))) so_thu_chu, " + 
+           " vietnamesenumbertowords.CONVERT (SUM (NVL (a.so_chi, 0))) so_chi_chu " + 
+           " FROM	sp_gd_thu_cong a WHERE a.NSD_ID is not null "+strWhere+     
+           " group by a.ma_kb, a.ma_nh, a.ngay_gd)a, " + 
+           " (SELECT	  a.ma_kb, a.ma_nh, a.ngay_gd,sum(nvl(a.so_thu,0)) lai_chuyen_thu,vietnamesenumbertowords.CONVERT (SUM (NVL (a.so_thu, 0))) lai_chuyen_thu_chu  " + 
+           " FROM	sp_gd_thu_cong a WHERE a.NSD_ID is null "+strWhere+
+           " group by a.ma_kb, a.ma_nh, a.ngay_gd)b " + 
+           " where a.ma_kb = b.ma_kb(+) and a.ma_nh = b.ma_nh(+)"; 
             reval = executeSelectStatement(strSQL.toString(), vParam, strGDTCongVO, conn);
         } catch (Exception ex) {
             DAOException daoEx = new DAOException(strGDTCongVO + ".getSoTCong(): " + ex.getMessage(), ex);
@@ -755,6 +800,34 @@ public class DChieuNgoaiTeDAO extends AppDAO {
         }
         return reval;
     }
+    
+  /**
+   * @create: thuongdt
+   * @Date: 09/10/2017
+   * @see: them moi getPHT_PS_T7 ham phuc vu tr cuu bang ke PHT ngay nghi
+   * @param: ma_nh ma ngan hang, ma_KB ma kho bac, ngay_ps ngay phat sinh
+   * */   
+   public Collection getPHT_PS_T7(String ma_nh,String ma_KB,String ngay_ps) throws Exception { 
+     Collection reval = null; 
+     ResultSet rs = null;
+     try {
+       String strSQL = "";      
+        strSQL = "select tong_mon_pht,tong_ps_pht,mon_thu_dtu_kbnn,tien_thu_dtu_kbnn from sp_065_ngoai_te " +
+            " where send_bank='"+ma_KB+"'and receive_bank='"+ma_nh+"' " +
+            " and ngay_dc > sp_util_pkg.fnc_get_ngay_lam_viec_truoc(to_date('"+ngay_ps+"','dd/MM/yyyy')-1) " + 
+            " and ngay_dc<to_Date('"+ngay_ps+"','dd/mm/yyyy')";       
+       reval =
+             executeSelectStatement(strSQL.toString(), null, strValueObjectXNKQDCDataVO,
+                                    conn);      
+     } catch (Exception ex) {
+     DAOException daoEx =
+         new DAOException(strValueObjectXNKQDCDataVO + ".getXNKQData(): " +
+                          ex.getMessage(), ex);
+     //            daoEx.printStackTrace();
+     throw daoEx;
+     }
+     return reval;
+   }
     
     public Collection chkSoDu(String strWhere, Vector vParam) throws Exception {
         Collection reval = null;

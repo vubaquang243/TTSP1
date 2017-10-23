@@ -77,7 +77,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-
+/**
+ * @modify: thuongdt
+ * @modify-date: 15-09-2017
+ * @see: sua code dap ung tra cuu nhanh cho phep tra cuu tat ca cac loai tien
+ * @find: 20170915
+ **/
 public class LTTDenAction extends AppAction {
     private String forward = AppConstants.SUCCESS;
     private static String STRING_EMPTY = "";
@@ -1666,9 +1671,13 @@ public class LTTDenAction extends AppAction {
                             }
                         }
                     }
-                    if (strSo_tien != null &&
-                        !STRING_EMPTY.equalsIgnoreCase(strSo_tien)) {
-                        BigDecimal bdSo_tien = StringUtil.convertCurrencyToNumber(strSo_tien, strLoaiTien);
+                    if (strSo_tien != null && !STRING_EMPTY.equalsIgnoreCase(strSo_tien)) {
+                        //thuongdt-20170915 bo sung sua tra cuu tat ca theo loai tien start
+                        String StrFormat = "VND";
+                        if(!"".equals(strLoaiTien) && !"VND".equals(strLoaiTien))
+                          StrFormat = "USD";
+                        BigDecimal bdSo_tien = StringUtil.convertCurrencyToNumber(strSo_tien, StrFormat);
+                      //thuongdt-20170915 bo sung sua tra cuu tat ca theo loai tien end
                         if(bdSo_tien.longValue() > 0){
                           whereClause += " AND t.tong_sotien = ? ";
                           param = new Parameter(bdSo_tien, true);

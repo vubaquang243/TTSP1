@@ -16,16 +16,82 @@
 <script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/jquery-ui-1.8.11.custom.min.js"
         type = "text/javascript" > 
 </script>
+
+<script type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/lov.js"></script>
+
 <%@ page import="com.seatech.framework.common.jsp.PagingBean"%>
 <%@ page import="com.seatech.framework.AppConstants"%>
 
 
 <script type="text/javascript" language="javascript">
   jQuery.noConflict();
-  //*********************************** LOAD PAGE **********************************
-  jQuery(document).ready(function () {
+  //************************************ LOAD PAGE **********************************
+  function goPage(page) {
+      jQuery("#pageNumber").val(page);
+      var f = document.forms[0];
+      f.action = 'listSoDuAction.do?pageNumber=' + page;
+      jQuery("#TCuuDMuc").submit();
+  } 
+  //<!--Them Danh muc KB-->
+  
+    jQuery(document).ready(function () {
       jQuery('#ma_kb').focus();
+      
+       jQuery("#dialog-form-lov-dm").dialog({
+          autoOpen: false,resizable : false,
+          maxHeight: "700px",
+          width: "550px",
+          modal: true
+      });
+      
+      // xoa
+      // xoa
+   
   });
+  
+  function callLov(){
+      jQuery("#loai_lov").val("DMKBTCUUQT");
+      jQuery("#ma_field_id_lov").val("ma_nhkb_nhan");
+      jQuery("#ten_field_id_lov").val("ten_nhkb_nhan");
+      jQuery("#id_field_id_lov").val("id_nhkb_huyen");
+      jQuery("#ma_cha_field_id_lov").val("id_nhkb_tinh");
+      jQuery("#dialog-form-lov-dm").dialog( "open" );
+    }
+
+  function check(type) {
+      var f = document.forms[0];
+
+      if (type == 'close') {
+          f.action = 'mainAction.do';
+      }
+      else if (type == 'add') {
+          f.action = 'addSoDuAction.do';
+      }
+      f.submit();
+  }
+
+
+  
+  function getTenKhoBacSoDu(){
+    var ma_kb = jQuery('#ma_kb').val();
+//    jQuery.ajax({
+//      type : "POST",
+//      url : "getTenKhoBac.do",
+//      data : {
+//        "ma_kb" : ma_kb
+//      },
+//      success : function(data){
+//          if(data !== "false"){
+//            $("#ten_nhkb_nhan").val(data);  
+//          }else{
+//            alert("Mã NH/KB không tồn tại!");
+//          }
+//      },
+//      error : function (textstatus) {
+//              alert(textstatus);
+//      }
+//    })
+  }
 </script>
 <div class="app_error">
   <html:errors/>  
@@ -69,15 +135,20 @@
                            styleId="ma_kb"
                            onkeypress="return numberBlockKey(event)"
                            onfocus="this.style.backgroundColor='#ffffb5'"
-                           onblur="getTenNganHang('ma_kb', 'ten_nhkb_nhan', 'id_nhkb_nhan');textlostfocus(this); this.style.backgroundColor='#ffffff';"
+                           onblur="getTenNganHang('ma_kb', 'ten_nhkb_nhan', 'id_nhkb_nhan'),textlostfocus(this); this.style.backgroundColor='#ffffff';"
                            styleClass="promptText"/><font color="Red">(*)</font>
             </td>
-            <td width="35%" align="left">
+            <td width="30%" align="left">
             <html:text property="ten_nhkb_nhan" readonly="true" styleId="ten_nhkb_nhan"
                            styleClass="fieldTextTrans" onmouseout="UnTip()"
                            onkeydown="if(event.keyCode==13) event.keyCode=9;"/>
                  
               <html:hidden property="id_nhkb_nhan" styleId="id_nhkb_nhan" value=""/>
+            </td>
+            <td  rowspan="5" align="left">
+                  <button type="button" style=" height:60px" onclick="callLov();" class="ButtonCommon" accesskey="t" >
+                    <span class="sortKey">D</span>anh m&#7909;c KB
+                  </button>
             </td>
             <td width="5%" align="right">Số dư
             </td>
@@ -128,18 +199,18 @@
             </td>
         </tr>
         <tr>
-         <td style="text-align:right">                           
+              <td style="text-align:right">                           
                               Loại tiền                       
-                          </td>
-                          <td >
-                              <html:select styleClass="selectBox" property="loai_tien"
-                                           styleId="loai_tien" style="width:50%;height:20px">
-                                <html:option value="VND">VND</html:option>
-                                <html:optionsCollection value="ma" label="ma" name="lstLoaiTien"/>
-                              </html:select><font color="Red">(*)</font>
-                          </td>
-                          <td>
-                          </td>
+              </td>
+              <td >
+                    <html:select styleClass="selectBox" property="loai_tien"
+                                           styleId="loai_tien" style="width:125px;height:20px">
+                        <html:option value="VND">VND</html:option>
+                        <html:optionsCollection value="ma" label="ma" name="lstLoaiTien"/>
+                    </html:select><font color="Red">(*)</font>
+              </td>
+              <td>
+              </td>            
            <td  align="right">Ngày giao dịch</td>
                 <td align="left" valign="middle">
                 <html:text property="ngay_gd" styleId="ngay_gd"
@@ -147,7 +218,7 @@
                            onkeypress="dateBlockKey(event)"
                            onblur="javascript:mask(this.value,this,'2,5','/');CheckDate(this);CheckDateOnClient('ngay_gd');textlostfocus(this);"
                            onfocus="textfocus(this);"
-                           style=("width:60%")
+                           style=("width:98px")
                            value='<%=request.getParameter("ngay_gd")%>'/>         
                 <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/calendar/calbtn.gif"
                      border="0" id="ngay" width="20"
@@ -190,16 +261,17 @@
         
         <tr>
             <td align="right"> 
+              Loại tài khoản
             </td>
-            <td align="left">
-                <button type="button" onclick="check('save')" accesskey="t" id="bt">
-                  <span class="sortKey">G</span>hi
-                </button>
+            <td>
+                <html:select styleClass="selectBox" property="loai_tai_khoan"
+                                           styleId="loai_tai_khoan" style="width:125px;height:20px">
+                        <html:option value="01">Thanh toán tổng hợp</html:option>
+                        <html:option value="02">Thanh toán</html:option>
+                        <html:option value="03">Chuyên thu</html:option>
+                    </html:select><font color="Red">(*)</font>
+            </td>
             
-                <button type="button" onclick="check('close')" accesskey="t" id="bt">
-                  <span class="sortKey">T</span>hoát
-                </button> 
-            </td>
             <td align="right">
            
             </td>
@@ -207,7 +279,13 @@
                
             </td>
             <td  align="left">
-           
+                <button type="button" onclick="check('save')" accesskey="t" id="bt">
+                      <span class="sortKey">G</span>hi
+                    </button>
+                
+                    <button type="button" onclick="check('close')" accesskey="t" id="bt">
+                      <span class="sortKey">T</span>hoát
+                </button> 
           </td>
         </tr>
         
@@ -220,10 +298,25 @@
     
     
   </html:form>   
+  
    <html:hidden property="pageNumber" value="1"/>
 </div>
-
+<div id="dialog-confirm"
+     title='<fmt:message key="XuLyLenhQT.page.title.dialog_confirm"/>'>
+  <p>
+    <span class="
+    icon ui-icon-alert"
+          style="float:left; margin:0 7px 20px 0;"></span>
+    
+    <span id="message_confirm"></span>
+  </p>
+</div>
+<div id="dialog-form-lov-dm" title="Tra c&#7913;u danh m&#7909;c Kho b&#7841;c">
+  <p class="validateTips"></p>
+  <%@include file="/pages/lov/lovDMKBTCUUSODU.jsp" %>
+</div>
 <%@ include file="/includes/ttsp_bottom.inc"%>
+
 <script type="text/javascript">
   function check(type) {
       var f = document.forms[0];

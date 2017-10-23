@@ -66,6 +66,13 @@ import org.apache.struts.action.ActionMapping;
    * @track: ThuongDT-20170221
    * */
 
+ /**  
+    * @modify: ThuongDT
+    * @modify date: 09/10/2017   
+    * @see: bo sung them tra cuu lay du lieu thu ngay thu 7
+    * @track: 20171009
+    * */
+ 
 public class XNDCTHopNgoaiTeAction extends AppAction {
 
     public ActionForward list(ActionMapping mapping, ActionForm form,
@@ -91,6 +98,8 @@ public class XNDCTHopNgoaiTeAction extends AppAction {
             XNDCTHop1Form thForm = (XNDCTHop1Form)form;
             Collection colTTSP = new ArrayList();
             Collection colPHT = new ArrayList();
+            //20171009
+            Collection colPHT_T7 = new ArrayList();
             Collection colTHDC = new ArrayList();
             Collection colGDTCong = new ArrayList();
             Collection col066 = new ArrayList();
@@ -251,6 +260,8 @@ public class XNDCTHopNgoaiTeAction extends AppAction {
                                 ngay_dc + "'";
             colTTSP = dao.getTTSP_PHT(strTTSP, null);
             colPHT = dao.getTTSP_PHT(strPHT, null);
+             //20171009
+            colPHT_T7 = dao.getPHT_PS_T7( receive_bank, kb_chuyen, ngay_dc);
             colTHDC = dao.getXNTHData(strTTSP, null);
             col066 = dao.getData066(str066, null);
             colGDTCong = dao.getSoTCong(strGDTCong, null);
@@ -258,6 +269,8 @@ public class XNDCTHopNgoaiTeAction extends AppAction {
             request.setAttribute("colGDTCong", colGDTCong);
             request.setAttribute("colTTSP", colTTSP);
             request.setAttribute("colPHT", colPHT);
+            //20171009
+            request.setAttribute("colPHT_T7", colPHT_T7);
 
             request.setAttribute("qtoan_ko_dchieu", qtoan_ko_dchieu);
             String sysdate = StringUtil.DateToString(new Date(), "dd/MM/yyyy");

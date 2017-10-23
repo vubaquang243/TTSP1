@@ -193,7 +193,7 @@ var kb_huyen= '<%=kb_huyen%>';
                                  style="BORDER-COLLAPSE: collapse">
                             <thead>
                             <tr>
-                              <th bgcolor="#f0f0f0" colspan="5">Danh sách kho bạc sửa giá trị tham số</th>
+                              <th bgcolor="#f0f0f0" colspan="8">Danh sách kho bạc sửa giá trị tham số</th>
                             </tr>
                             <tr>
                               <th bgcolor="#f0f0f0" width="5%">
@@ -201,12 +201,26 @@ var kb_huyen= '<%=kb_huyen%>';
                                   STT
                                 </div>
                               </th>
-                              <th bgcolor="#f0f0f0" width="25%">
+                               <th class="promptText" bgcolor="#f0f0f0" width="5%">
+                                <div align="center" >
+                                  SHKB
+                                </div>
+                              </th>
+                              <th bgcolor="#f0f0f0" width="20%">
                                 <div align="center">
                                   <fmt:message key="doi_chieu.page.label.tracuu.kbhuyen"/>
                                 </div>
                               </th>
-                              
+                              <th class="promptText" bgcolor="#f0f0f0" width="5%">
+                                <div align="center" >
+                                  Mã NH
+                                </div>
+                              </th>
+                              <th class="promptText" bgcolor="#f0f0f0" width="14%">
+                                <div align="center" >
+                                  Tên NH
+                                </div>
+                              </th>
                               <th bgcolor="#f0f0f0" width="25%">
                                 <div align="center">
                                   T&#234;n tham s&#7889;
@@ -217,7 +231,7 @@ var kb_huyen= '<%=kb_huyen%>';
                                   Gi&#225; tr&#7883; TS
                                 </div>
                               </th>
-                              <th bgcolor="#f0f0f0" width="40%">
+                              <th bgcolor="#f0f0f0" width="21%">
                                 <div align="center">
                                   M&#244; t&#7843;
                                 </div>
@@ -232,20 +246,33 @@ var kb_huyen= '<%=kb_huyen%>';
                                     <%=stt+1%>
                                     <input type="hidden" name="index" value='<%=stt%>'/>
                                   </td>
+                                  <td align="center">
+                                    <bean:write name="items" property="ma"/>
+                                     <input type="hidden" name="ma" value='<bean:write name="items" property="ma"/>'/>
+                                  </td>
                                   <td>
                                     <bean:write name="items" property="ten_kb_huyen"/>
                                     <input type="hidden" name="kbHuyen" value='<bean:write name="items" property="ten_kb_huyen"/>'/>
                                   </td>
-                                                  
+                                     <td align="center">
+                                      <bean:write name="items" property="ma_nh"/>
+                                       <input type="hidden" name="ma_nh" value='<bean:write name="items" property="ma_nh"/>'/>
+                                    </td>  
+                                    <td>
+                                      <bean:write name="items" property="ten_ngan_hang"/>
+                                       <input type="hidden" name="ten_ngan_hang" value='<bean:write name="items" property="ten_ngan_hang"/>'/>
+                                    </td>              
                                   <td align="left">
                                     <bean:write name="items" property="ten_ts"/>
                                     <input type="hidden" name="tenThamSo" value='<bean:write name="items" property="ten_ts"/>'/>
                                   </td>
                                   <td align="center">
                                     <bean:write name="items" property="giatri_ts"/>
+                                     <input type="hidden" name="giaTriThamSo" value='<bean:write name="items" property="giatri_ts"/>'/>
                                   </td>
                                   <td align="left">
                                     <bean:write name="items" property="mo_ta"/>
+                                    <input type="hidden" name="moTa" value='<bean:write name="items" property="mo_ta"/>'/>
                                   </td>
                                 </tr>
                                 </logic:iterate>
@@ -297,7 +324,8 @@ var kb_huyen= '<%=kb_huyen%>';
 <script type="text/javascript">
   var f = document.forms[0];
 
-    function check(type) {  
+    function check(type) { 
+   
         if (type == 'update') {
 //            var inKB = jQuery('#nhkb_huyen option:selected').index();
 //            var inNH = jQuery('#ma_dv option:selected').index() ;
@@ -305,12 +333,12 @@ var kb_huyen= '<%=kb_huyen%>';
 //            var lan_dc = jQuery('#lan_dc option:selected').val();
             var nhkb_tinh = jQuery('#nhkb_tinh').val();
             var ten_ts = jQuery('#ten_ts').val();
-            
-            if(nhkb_tinh==null ||''==nhkb_tinh){
+             //20171016 thuongdt check lai if(ten_ts == null || '' == ten_ts)
+             if(ten_ts == null || '' == ten_ts){
+               alert("Cần chọn tên tham số.")
+             }else if(nhkb_tinh==null ||''==nhkb_tinh){
                 jQuery("#dialog-confirm1").html('Anh/Ch&#7883; c&#243; mu&#7889;n thi&#7871;t l&#7853;p tham s&#7889; cho t&#7845;t c&#7843; c&#225;c &#273;&#417;n v&#7883;');
                 jQuery("#dialog-confirm1").dialog("open");
-            }else if(ten_ts == null || '' == ten_ts){
-                alert("Cần chọn tên tham số.")
             }else if(nhkb_tinh!=null &&''!=nhkb_tinh){
                 f.action = 'excUpdateTSoTabmis.do';
                 f.submit();

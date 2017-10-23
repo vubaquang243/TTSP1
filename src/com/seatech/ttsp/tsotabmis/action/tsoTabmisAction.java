@@ -234,7 +234,10 @@ public class tsoTabmisAction extends AppAction {
           for(String index : itemIndex){
               int i = Integer.parseInt(index);
               tsoTabmisVO vo = new tsoTabmisVO();
+              vo.setMa(((String[])map.get("ma"))[i]);
               vo.setTen_kb_huyen(((String[])map.get("kbHuyen"))[i]);
+              vo.setMa_nh(((String[])map.get("ma_nh"))[i]);
+              vo.setTen_ngan_hang(((String[])map.get("ten_ngan_hang"))[i]);
               vo.setTen_ts(((String[])map.get("tenThamSo"))[i]);
               vo.setGiatri_ts((String[])map.get("giaTriThamSo")==null?"":((String[])map.get("giaTriThamSo"))[i]);
               vo.setMo_ta((String[])map.get("moTa")==null?"":((String[])map.get("moTa"))[i]);

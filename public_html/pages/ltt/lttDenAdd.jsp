@@ -273,7 +273,8 @@
                                           <%--<html:optionsCollection name="listDMTienTe" value="id" label="ma" />
                                           onfocus="this.defaultIndex=this.selectedIndex;" onchange="this.selectedIndex=this.defaultIndex;"
                                           --%>
-                                        <html:option value="177">VND</html:option>                                    
+                                          <!--thuongdt-20170915 sua cho phep chon tat ca-->
+                                        <html:option value="">Tất cả</html:option>                                    
                                         <logic:notEmpty name="listDMTienTe">
                                           <logic:present name="listDMTienTe">
                                             <logic:iterate id="objNT" name="listDMTienTe" type="com.seatech.ttsp.dmtiente.DMTienTeVO" indexId="index">                                              
@@ -818,7 +819,8 @@
                 <td align="right">Loại tiền</td>
                 <td align="left">
                   <select name="nt_id_find" id="nt_id_find" onchange="formatNumberCOAJQueryDivTimkiem();" class=" text ui-widget-content ui-corner-all">
-                       <option value="VND">VND</option>
+                       <!--thuongdt-20170915 sua cho phep chon tat ca-->
+                       <option value="">Tất cả</option>
                         <logic:notEmpty name="listDMTienTe">
                             <logic:iterate id="tiente" name="listDMTienTe">
                               <option value='<bean:write name="tiente" property="ma" />'> 

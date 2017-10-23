@@ -25,10 +25,11 @@ public class TraCuuSoDuDAO extends AppDAO {
         try {
             String strQuery =
                 "select DISTINCT h.ma_nh ma_kb, c.ten ten_kb, b.ma_nh, b.ten ten_nh, TO_CHAR(d.ngay_gd,'dd/mm/yyyy') ngay_gd, " +
-                "d.so_du, d.loai_tien, TO_CHAR(d.insert_date,'dd/mm/yyyy') insert_date, d.so_du_cot, a.han_muc_no " +
-                "from sp_tknh_kb a, sp_dm_ngan_hang b, sp_dm_htkb c, sp_dm_manh_shkb h, sp_so_du d " +
+                "d.so_du, d.loai_tien, TO_CHAR(d.insert_date,'dd/mm/yyyy') insert_date, d.so_du_cot, a.han_muc_no, a.loai_tk, e.ten ten_kb_tinh " +
+                "from sp_tknh_kb a, sp_dm_ngan_hang b, sp_dm_htkb c, sp_dm_manh_shkb h, sp_so_du d, sp_dm_htkb e " +
                 "where a.nh_id = b.id and a.kb_id = c.id and d.ma_nh = b.ma_nh " +
-                "and c.ma = h.shkb and d.ma_kb = h.ma_nh ";
+                "and c.ma = h.shkb and d.ma_kb = h.ma_nh " +
+                "and c.ma_cha = e.ma ";
             if (!strWhere.equals(""))
                 strQuery += strWhere;
             strQuery += " order by h.ma_nh ";
@@ -44,7 +45,7 @@ public class TraCuuSoDuDAO extends AppDAO {
     public Collection getNHKBTinh(String strWhere,
                                   Vector vParams) throws Exception {
         try {
-            String strQuery = "select ma, ten from sp_dm_htkb where cap = 5 order by ma asc";
+            String strQuery = "select ma, ten from sp_dm_htkb where cap = 5 OR cap = 1 order by ma asc";
             if (strWhere != "")
                 strQuery += strWhere;
             return executeSelectStatement(strQuery, vParams, CLASS_NAME_VO,

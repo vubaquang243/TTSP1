@@ -125,6 +125,7 @@ public class XNDCTHop1Action extends AppAction {
             XNDCTHop1Form thForm = (XNDCTHop1Form)form;
             Collection colTTSP = new ArrayList();
             Collection colPHT = new ArrayList();
+            Collection colPHT_T7 = new ArrayList();
             Collection colTHDC = new ArrayList();
             Collection colGDTCong = new ArrayList();
             Collection col066 = new ArrayList();
@@ -290,9 +291,12 @@ public class XNDCTHop1Action extends AppAction {
                 ngay_dc + "' AND a.loai_tien = 'VND' ";
              if(ttsp_id != null && !"".equals(ttsp_id))
               colTTSP = dao.get065ByID(ttsp_id); 
-             if(pht_id != null  && !"".equals(pht_id))
+            if(pht_id != null  && !"".equals(pht_id)){
+              //20171009 thuongdt bo sung them tim kiem du lieu ngay nghi
               colPHT = dao.get065ByID(pht_id);
-                      
+              //20171009 thuongdt bo sung them tim kiem du lieu ngay nghi
+              colPHT_T7 = dao.getPHT_PS_T7( receive_bank, kb_chuyen, ngay_dc);
+            }          
               
          
             col066 = dao.getData066(str066, null);
@@ -302,7 +306,8 @@ public class XNDCTHop1Action extends AppAction {
 			//ThuongDT-20161114 -------- BEGIN -------Check colTTSP co gia tri kko
             if(colTTSP.size()>0){
               if ((ngay_dc).equals(sysdate)) {
-                colTHDC = dao.getXNTHData(strTTSP, null);
+                colTHDC = dao.getXNTHData_PS_T7(strTTSP, null,receive_bank, kb_chuyen, ngay_dc);
+               // colTHDC = dao.getXNTHData(strTTSP, null);
               }
               request.setAttribute("colTTSP", colTTSP);              
             }else{
@@ -315,7 +320,7 @@ public class XNDCTHop1Action extends AppAction {
             }
 			//ThuongDT-20161114--------- END--------------
             request.setAttribute("colPHT", colPHT);
-
+            request.setAttribute("colPHT_T7", colPHT_T7);
             request.setAttribute("qtoan_ko_dchieu", qtoan_ko_dchieu);
 //            String sysdate = StringUtil.DateToString(new Date(), "dd/MM/yyyy");
             String ngay_cuoi_nam = ngay_dc.substring(0, 5);
@@ -435,9 +440,6 @@ public class XNDCTHop1Action extends AppAction {
                     dcVO.setTthai_dxn_thop("01");
 //                }
 //20150128-manhnv***************************************************************
- 
- 
- 
               //thuongdt-20170407 check lai truong hop de lot chenh lech nhưng van cho tao dien begin
               DChieu1VO dcKQVO = new DChieu1VO();
               String strWhereClause = " and id = '"+ttsp_id+"' ";      

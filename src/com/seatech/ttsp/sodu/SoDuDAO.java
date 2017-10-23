@@ -67,7 +67,7 @@ public class SoDuDAO extends AppDAO {
           String strSQL = "";
           try {
               strSQL =
-                      "insert into sp_so_du (ma_kb, ma_nh, ngay_gd, so_du, insert_date, so_du_cot, loai_tien, id) values (?,?, TO_DATE(?,'dd/mm/yy'), ?, SYSDATE, ?, ?, sp_so_du_seq.nextval)";
+                      "insert into sp_so_du (ma_kb, ma_nh, ngay_gd, so_du, insert_date, so_du_cot, loai_tien, id, loai_tk) values (?,?, TO_DATE(?,'dd/mm/yy'), ?, SYSDATE, ?, ?, sp_so_du_seq.nextval,?)";
               PreparedStatement pstt = conn.prepareStatement(strSQL);
               pstt.setString(1, vo.getMa_kb());
               pstt.setString(2, vo.getMa_nh());
@@ -75,6 +75,7 @@ public class SoDuDAO extends AppDAO {
               pstt.setString(4, vo.getSo_du());
               pstt.setString(5, vo.getSo_du_cot());
               pstt.setString(6, vo.getLoai_tien());
+              pstt.setString(7, vo.getLoai_tai_khoan());
               sd = pstt.executeUpdate();
           } catch (Exception e) {
               DAOException daoEx =

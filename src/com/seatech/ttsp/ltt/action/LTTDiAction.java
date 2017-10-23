@@ -34,6 +34,7 @@ import com.seatech.ttsp.ltt.LTTCTietVO;
 import com.seatech.ttsp.ltt.LTTCommon;
 import com.seatech.ttsp.ltt.LTTDAO;
 import com.seatech.ttsp.ltt.LTTVO;
+import com.seatech.ttsp.ltt.TKeVO;
 import com.seatech.ttsp.ltt.form.LTTForm;
 import com.seatech.ttsp.proxy.giaodien.BuildMsgLTT;
 //import com.seatech.ttsp.proxy.giaodien.SendLTToan;
@@ -491,11 +492,18 @@ public class LTTDiAction extends AppAction {
         Vector params = null;
         Parameter param = null;
         Collection reVal = null;
+        Collection reValTemp = null;
         String strKBacID = "";
         String strUserID = "";
         String strUserType = "";
         String whereClause = "";
-
+        String strAction = request.getParameter("action") != null ? request.getParameter("action") :"";      
+        String strnhkbchuyennhan = request.getParameter("nhkbchuyennhan") != null ? request.getParameter("nhkbchuyennhan") :"";
+        String strsotien = request.getParameter("sotien") != null ? request.getParameter("sotien") :"";
+        String strSoyctt = request.getParameter("soyctt") != null ? request.getParameter("soyctt") :"";
+        String strtrangthai = request.getParameter("trangthai") != null ? request.getParameter("trangthai") :"";
+        String strnt_id_find = request.getParameter("nt_id_find") != null ? request.getParameter("nt_id_find") :"";
+      
         try {
             String strMsg = "";
             conn = getConnection(request);
@@ -693,6 +701,27 @@ public class LTTDiAction extends AppAction {
                             " (d.rv_domain = '" + AppConstants.MA_THAM_CHIEU_TRANG_THAI_LTT +
                             "') ";
                 }
+                
+                if ("FIND_SoYCTT".equalsIgnoreCase(strAction)){
+                    if(!"".equals(strnhkbchuyennhan))
+                      whereClause += " and b.MA_NH like '__"+strnhkbchuyennhan.substring(2,5)+"%'";
+                  if(!"0".equals(strsotien) && !"0.00".equals(strsotien) && !"".equals(strsotien))
+                    whereClause += " and t.tong_sotien = '"+strsotien+"'";
+                  if(!"".equals(strSoyctt))
+                    whereClause += " and t.so_yctt = '"+strSoyctt+"'";
+                  if(!"".equals(strtrangthai) && !"00".equals(strtrangthai))
+                    whereClause += " and t.trang_thai = '"+strtrangthai+"'";
+                  if(!"".equals(strSoyctt))
+                    whereClause += " and t.so_yctt = '"+strSoyctt+"'";
+                  if(!"".equals(strnt_id_find))
+                    whereClause += " and t.nt_id in (select id from sp_dm_tiente where ma = '"+strnt_id_find+"')";
+                }
+                
+              if ("CHANGE_NT".equalsIgnoreCase(strAction)){
+                whereClause += " and t.nt_id  = '"+strnt_id_find+"'";
+              }
+                
+                
                 //                reVal = lTTDAO.getLTTDiList(" t.ngay_nhan > SYSDATE-30 and ("+whereClause+")", params);
                 reVal = lTTDAO.getLTTDiList(whereClause, params);
                 LTTVO lttVo = null;
@@ -708,6 +737,69 @@ public class LTTDiAction extends AppAction {
                 request.setAttribute(AppKeys.LTT_LIST_REQUEST_KEY, reVal);
                 
             }
+            
+            if ("REFRESH".equalsIgnoreCase(strAction)) {
+              //lTTMaster(conn, request, session, "", "");
+              reValTemp =
+                      (Collection)request.getAttribute(AppKeys.LTT_LIST_REQUEST_KEY);
+              request.removeAttribute(AppKeys.LTT_LIST_REQUEST_KEY);
+  
+            Type listType = new TypeToken<Collection<LTTVO>>() {
+            }.getType();
+              String strJson = new Gson().toJson(reValTemp, listType);
+              response.setContentType(AppConstants.CONTENT_TYPE_JSON);
+              PrintWriter out = response.getWriter();
+              out.println(strJson.toString());
+              out.flush();
+              out.close();
+            } else if ("FIND_SoYCTT".equalsIgnoreCase(strAction)) {
+             // lTTMaster(conn, request, session,
+              //          AppConstants.LTT_DI_CHUC_NANG_TIM_KIEM, "");
+              reValTemp =
+                      (Collection)request.getAttribute(AppKeys.LTT_LIST_REQUEST_KEY);
+              request.removeAttribute(AppKeys.LTT_LIST_REQUEST_KEY);
+
+              Type listType = new TypeToken<Collection<LTTVO>>() {
+              }.getType();
+              String strJson = new Gson().toJson(reValTemp, listType);
+              response.setContentType(AppConstants.CONTENT_TYPE_JSON);
+              PrintWriter out = response.getWriter();
+              out.println(strJson.toString());
+              out.flush();
+              out.close();
+                          
+              } else if ("CHANGE_NT".equalsIgnoreCase(strAction)) {
+                String strTongSoMon = "0";
+                 String strTongSoTien = "";
+                ArrayList reValTemp2 = new ArrayList();                 
+                 BigDecimal soTienTemp = new BigDecimal(0);
+                 reValTemp =
+                        (Collection)request.getAttribute(AppKeys.LTT_LIST_REQUEST_KEY);
+                 request.removeAttribute(AppKeys.LTT_LIST_REQUEST_KEY);
+                 if(reValTemp!=null)
+                 strTongSoMon = ""+reValTemp.size();
+                 Iterator itr = reValTemp.iterator();
+                 while (itr.hasNext()){
+                  LTTVO vo = (LTTVO)itr.next();                 
+                  soTienTemp = soTienTemp.add(vo.getTong_sotien());
+                }
+                 strTongSoTien =  String.valueOf(soTienTemp.doubleValue());
+                TKeVO vo = new TKeVO();
+                vo.setTong_so_mon(strTongSoMon);
+                vo.setTong_so_tien(strTongSoTien);
+                reValTemp2.add(vo);
+                Type listType = new TypeToken<Collection<TKeVO>>() {
+                }.getType();
+                  String strJson = new Gson().toJson(reValTemp2, listType);
+                  response.setContentType(AppConstants.CONTENT_TYPE_JSON);
+                  PrintWriter out = response.getWriter();
+                  out.println(strJson.toString());
+                  out.flush();
+                  out.close();
+                          
+                
+                          
+              }
 
         } catch (TTSPException ttspEx) {
             throw ttspEx;

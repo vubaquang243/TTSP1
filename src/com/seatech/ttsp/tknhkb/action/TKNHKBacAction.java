@@ -299,7 +299,8 @@ public class TKNHKBacAction extends AppAction {
     public ActionForward updateExc(ActionMapping mapping, ActionForm form,
                                    HttpServletRequest request,
                                    HttpServletResponse response) throws Exception {
-
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         TKNHKBacVO TKNHKBacVO = null;
         int i = 0;
         Connection conn = null;
@@ -323,10 +324,12 @@ public class TKNHKBacAction extends AppAction {
             // saveVisitLog(conn,"", "QLY_TK.TK_NHKB", request.getRemoteAddr(),"");            
             if (i > 0) {
               conn.commit();
+              request.setAttribute("message", "S?a thành công");
                 list(mapping, form, request, response);
             }
 
         } catch (Exception e) {
+            request.setAttribute("message", "S?a kh�ng thành công");
             conn.rollback();
             throw e;
         } finally {

@@ -114,6 +114,14 @@
             type="com.seatech.ttsp.ltt.action.LoadLTTDiJsonAction">
       <forward name="success" path="/pages/ltt/lttDiAdd.jsp"/>
     </action>
+    
+    <!-- thuongdt-20170913 bo sung dung tra cuu nhanh - start-->
+    <action name="lTTForm" path="/loadAddLTTDiJsonAction" scope="request"
+            type="com.seatech.ttsp.ltt.action.LoadLTTDiJsonAction">
+      <forward name="success" path="/pages/ltt/lttAdd.jsp"/>
+    </action>
+    <!-- thuongdt-20170913 bo sung dung tra cuu nhanh - end-->
+    
     <!-- End thanh toan di -->
     <!-- Lenh thanh toan den -->
     <action path="/listLttDenAdd" name="lTTForm" parameter="list"

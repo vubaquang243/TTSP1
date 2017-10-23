@@ -63,9 +63,9 @@ public class DChieu4Action extends AppAction {
     public ActionForward list(ActionMapping mapping, ActionForm form,
                               HttpServletRequest request,
                               HttpServletResponse response) throws Exception {
-        if (!checkPermissionOnFunction(request, "DCHIEU.DC4")) {
-           return mapping.findForward("errorQuyen");
-           }
+        // if (!checkPermissionOnFunction(request, "DCHIEU.DC4")) {
+        //   return mapping.findForward("errorQuyen");
+        // }
         Connection conn = null;
         Collection lisBangKe = null;
         try {
@@ -475,9 +475,9 @@ public class DChieu4Action extends AppAction {
     public ActionForward update(ActionMapping mapping, ActionForm form,
                                 HttpServletRequest request,
                                 HttpServletResponse response) throws Exception {
-        if (!checkPermissionOnFunction(request, "DCHIEU.DC4")) {
-            return mapping.findForward("errorQuyen");
-         }
+        // if (!checkPermissionOnFunction(request, "DCHIEU.DC4")) {
+        //  return mapping.findForward("errorQuyen");
+        // }
 
         Connection conn = null;
         Collection lisBangKe = null;

@@ -84,10 +84,9 @@ public class DChieu4DAO extends AppDAO {
                 " where a.nh_id = b.id and a.kb_id = c.id  and a.trang_thai ='01' " + 
                 " and c.ma = h.shkb )ht," +                 
                 " (select  e.send_bank,e.receive_bank, e.trang_thai,f.ket_qua ket_qua_pht,g.trang_thai trang_thai_qt,g.trang_thai_qtoan trang_thai_qtoan_qt,tthai_dxn_thop from "+                
-                "(select send_bank,receive_bank,trang_thai,id from "+(!loaitien.equals("VND")?"sp_bk_dc1_ngoai_te":"sp_bk_dc1")+"  where id in(select max(id) from "+(!loaitien.equals("VND")?"sp_bk_dc1_ngoai_te":"sp_bk_dc1")+" where trunc(ngay_dc) = to_date('"+ngay_dc+"','dd/MM/yyyy') "+loai_tien+" group by send_bank,receive_bank) ) e, " + 
-                " (select send_bank,receive_bank,ket_qua,id,bk_id,tthai_dxn_thop from "+(!loaitien.equals("VND")?"sp_065_ngoai_te":"sp_065")+" where id in(select max(id) from "+(!loaitien.equals("VND")?"sp_065_ngoai_te":"sp_065")+" where  trunc(ngay_dc) = to_date('"+ngay_dc+"','dd/MM/yyyy') "+loai_tien+" group by send_bank,receive_bank,bk_id))f, " + 
-                " (select nhkb_chuyen,nhkb_nhan,trang_thai, trang_thai_qtoan,kq_dc_ttsp from sp_066 where id in (select max(id) from sp_066 where trunc(ngay_qtoan) = to_date('"+ngay_dc+"','dd/MM/yyyy') "+loai_tien+" group by nhkb_chuyen,nhkb_nhan,kq_dc_ttsp)) g " +                 
-                " where  e.id = f.bk_id(+) and f.id = g.kq_dc_ttsp(+) ) kq "+                
+                "(select send_bank,receive_bank,trang_thai,id from "+(!loaitien.equals("VND")?"sp_bk_dc3_ngoai_te":"sp_bk_dc3")+"  where id in(select max(id) from "+(!loaitien.equals("VND")?"sp_bk_dc3_ngoai_te":"sp_bk_dc3")+" where trunc(ngay_dc) = to_date('"+ngay_dc+"','dd/MM/yyyy') "+loai_tien+" group by send_bank,receive_bank) ) e, " + 
+                " (select send_bank,receive_bank,ket_qua,id,bk_id,trang_thai,tthai_ttin,tt_dc_tu_dong from "+(!loaitien.equals("VND")?"sp_kq_dc3_ngoai_te":"sp_kq_dc3")+" where id in(select max(id) from "+(!loaitien.equals("VND")?"sp_kq_dc3_ngoai_te":"sp_kq_dc3")+" where  trunc(ngay_dc) = to_date('"+ngay_dc+"','dd/MM/yyyy') "+loai_tien+" group by send_bank,receive_bank,bk_id))f, " + 
+                " where  e.id = f.bk_id(+)) kq "+                
                 " where 1=1" + 
                 " and ht.ma_nh = kq.send_bank(+)  and ht.ma_nhkb = kq.receive_bank(+) ";                  
 
