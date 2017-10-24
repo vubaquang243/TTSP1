@@ -1,0 +1,49 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    
+    <SCRIPT type=text/javascript 
+  src="http://192.168.1.157:7101/TTSP/styles/js/jquery.htm"></SCRIPT>
+    
+</head>
+<body>
+    <object id="eSign" name="eSign" height="31" width="177" classid="CLSID:7525E7C6-84C6-4180-AFA3-A5FED8C8A261" VIEWASTEXT codebase='VSTeTokenSetup.cab'></object>    
+    <form id="form1">
+    
+    <input type="text" id="t1" name="t1" /><br/>
+    
+    <input type="text" id="t2" name="t2" /><br/>
+    <input type="text" id="t3" name="t3" /><br/>
+    <input type="text" id="t4" name="t4" /><br/>
+    <input type="text" id="t5" name="t5" /><br/>
+	<input type="button" onclick="getCertInf();" value="OK" />
+    </form>
+    
+    <script type="text/javascript">
+    	function getCertInf(){
+    		
+              
+                    //var cert = document.getElementById("eSign").value;
+                    var cert = $("#eSign")[0];
+                    alert(cert);
+                    cert.InitCert();
+                    alert('2');
+                    document.getElementById("t1").value = cert.Serial;
+                    alert(cert.Serial);
+                    document.getElementById("t2").value = cert.CertContent;
+                    document.getElementById("t3").value = cert.IssuedTo;
+                    document.getElementById("t4").value = cert.IssuedBy;
+                    document.getElementById("t5").value = cert.ValidFrom;
+                    //$("#t1").val(cert.Serial);
+                    //$("#t2").val(cert.CertContent);
+                    //$("#t3").val(cert.IssuedTo);
+                    //$("#t4").val(cert.IssuedBy);
+                    //$("#t5").val(cert.ValidFrom);
+               
+    	}       
+    </script>
+    
+</body>
+</html>

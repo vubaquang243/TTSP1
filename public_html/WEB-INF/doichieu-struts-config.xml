@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+  <form-beans>
+    <form-bean name="DChieu3Form"
+               type="com.seatech.ttsp.dchieu.form.DChieu3Form"/>
+    <form-bean name="DChieu3CTietForm"
+               type="com.seatech.ttsp.dchieu.form.DChieu3CTietForm"/>
+    <form-bean name="KQDChieu3Form"
+               type="com.seatech.ttsp.dchieu.form.KQDChieu3Form"/>
+    <form-bean name="KQDChieu3CTietForm"
+               type="com.seatech.ttsp.dchieu.form.KQDChieu3CTietForm"/>
+    <form-bean name="DCNoiBoForm"
+               type="com.seatech.ttsp.doichieu.form.DCNoiBoForm"/>
+    <form-bean name="DuyetXNDChieu3Form"
+               type="com.seatech.ttsp.dchieu.form.DuyetXNDChieu3Form"/>
+    <!-- 2017 doi chieu ngoai te toan quoc -->
+    <form-bean name="DChieu3NgoaiTeForm"
+               type="com.seatech.ttsp.dchieu.form.DChieu3NgoaiTeForm"/>
+    <form-bean name="DChieu3NgoaiTeCTietForm"
+               type="com.seatech.ttsp.dchieu.form.DChieu3NgoaiTeCTietForm"/>
+    <form-bean name="KQDChieu3NgoaiTeForm"
+               type="com.seatech.ttsp.dchieu.form.KQDChieu3NgoaiTeForm"/>
+    <form-bean name="KQDChieu3NgoaiTeCTietForm"
+               type="com.seatech.ttsp.dchieu.form.KQDChieu3NgoaiTeCTietForm"/>
+    <form-bean name="DuyetXNDChieu3NgoaiTeForm"
+               type="com.seatech.ttsp.dchieu.form.DuyetXNDChieu3NgoaiTeForm"/>
+  </form-beans>
+  <action-mappings>
+    <!-- doi chieu tk gui-->
+    <action parameter="list" name="DChieu3Form" path="/DChieu3Action"
+            scope="request" type="com.seatech.ttsp.dchieu.action.DChieu3Action">
+      <forward name="success" path="/pages/dchieu/DoiChieu3.jsp"/>
+      <forward name="failure" path="/pages/dchieu/DoiChieu3.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    <action parameter="view" name="DChieu3Form" path="/DChieu3Detail" scope="request" 
+      type="com.seatech.ttsp.dchieu.action.DChieu3Action">
+      <forward name="success" path="/pages/dchieu/DoiChieu3.jsp"/>
+      <forward name="failure" path="/pages/dchieu/DoiChieu3.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    <action  name="DChieu3Form" path="/THienDChieu3Action" scope="request" 
+      type="com.seatech.ttsp.dchieu.action.DChieu3Action">
+      <forward name="success" path="/pages/dchieu/DoiChieu3.jsp"/>
+      <forward name="failure" path="/pages/dchieu/DoiChieu3.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    <action  parameter="update" name="DChieu3Form" path="/TaoXacNhanDCAction" scope="request" 
+      type="com.seatech.ttsp.dchieu.action.DChieu3Action">
+      <forward name="success" path="/DChieu3Action.do"/>
+      <forward name="failure" path="/pages/dchieu/DoiChieu3.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    <action  parameter="search" name="DChieu3Form" path="/SearchDC3Action" scope="request" 
+      type="com.seatech.ttsp.dchieu.action.DChieu3Action">
+      <forward name="success" path="/pages/dchieu/DoiChieu3.jsp"/>
+      <forward name="failure" path="/pages/dchieu/DoiChieu3.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+     <!-- 
+    <action parameter="list" name="DChieu3Form" path="/DChieu2Action"
+            scope="request" type="com.seatech.ttsp.dchieu.action.DChieu2Action">
+      <forward name="success" path="/pages/dchieu/DoiChieu2.jsp"/>
+      <forward name="failure" path="/pages/dchieu/DoiChieu2.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>-->
+     <action parameter="view" name="DChieu3Form" path="/DChieu2Detail" scope="request" 
+      type="com.seatech.ttsp.dchieu.action.DChieu2Action">
+      <forward name="success" path="/pages/dchieu/DoiChieu2.jsp"/>
+      <forward name="failure" path="/pages/dchieu/DoiChieu2.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+     <action  name="DChieu3Form" path="/InDChieu2Action" scope="request" 
+      type="com.seatech.ttsp.dchieu.action.DChieu2Action">
+      <forward name="success" path="/pages/dchieu/DoiChieu2.jsp"/>
+      <forward name="failure" path="/pages/dchieu/DoiChieu2.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    <action  name="DCNoiBoForm" path="/DCNoiBoAction" scope="request" 
+      type="com.seatech.ttsp.doichieu.action.DCNoiBoAction">
+      <forward name="success" path="/pages/doichieu/DCNoiBo.jsp"/>
+      <forward name="failure" path="/pages/doichieu/DCNoiBo.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    <action  name="DCNoiBoForm" path="/DCNoiBoListAction" scope="request" parameter="list"
+      type="com.seatech.ttsp.doichieu.action.DCNoiBoAction">
+      <forward name="success" path="/pages/doichieu/DCNoiBo.jsp"/>
+      <forward name="failure" path="/pages/doichieu/DCNoiBo.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    <action  name="DCNoiBoForm" path="/DCNoiBoViewAction" scope="request" parameter="view"
+      type="com.seatech.ttsp.doichieu.action.DCNoiBoAction">
+      <forward name="success" path="/pages/doichieu/DCNoiBo.jsp"/>
+      <forward name="failure" path="/pages/doichieu/DCNoiBo.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    <action  name="DCNoiBoForm" path="/DCNoiBoUpdateAction" scope="request" parameter="update"
+      type="com.seatech.ttsp.doichieu.action.DCNoiBoAction">
+      <forward name="success" path="/pages/doichieu/DCNoiBo.jsp"/>
+      <forward name="failure" path="/pages/doichieu/DCNoiBo.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    
+        <action parameter="print" name="DChieu3Form"  path="/PrintDChieu3Action" scope="request"
+            type="com.seatech.ttsp.dchieu.action.DChieu3Action">
+      <forward name="success" path="/pages/dchieu/DoiChieu3.jsp"/>
+      <forward name="failure" path="/pages/dchieu/DoiChieu3.jsp"/>
+      <forward name="notRight" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    
+        <!-- Duyet doi chieu tk gui-->
+    <action parameter="list" name="DuyetXNDChieu3Form" path="/ListXNDChieu3Action"
+            scope="request" type="com.seatech.ttsp.dchieu.action.DuyetXNDChieu3Action">
+      <forward name="success" path="/pages/dchieu/DuyetXNDChieu3.jsp"/>
+      <forward name="failure" path="/pages/dchieu/DuyetXNDChieu3.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    <action parameter="update" name="DuyetXNDChieu3Form" path="/DuyetXNDChieu3Action"
+            scope="request" type="com.seatech.ttsp.dchieu.action.DuyetXNDChieu3Action">
+      <forward name="success" path="/ListXNDChieu3Action.do"/>
+      <forward name="failure" path="/pages/dchieu/DuyetXNDChieu3.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    
+    <!-- doi chieu ngoai te-->
+    <action parameter="list" name="DChieu1Form"  path="/DChieuNgoaiTeAction" scope="request"
+            type="com.seatech.ttsp.dchieungoaite.action.DChieuNgoaiTeAction">
+      <forward name="success" path="/pages/dchieungoaite/DChieuNgoaiTe.jsp"/>
+      <forward name="failure" path="/pages/dchieungoaite/DChieuNgoaiTe.jsp"/>
+      <forward name="notRight" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action parameter="add" name="DChieu1Form"  path="/THienDChieuNgoaiTeAction" scope="request"
+      type="com.seatech.ttsp.dchieungoaite.action.DChieuNgoaiTeAction">
+      <forward name="success" path="/DChieuNgoaiTeAction.do"/>
+      <forward name="failure" path="/pages/dchieungoaite/DChieuNgoaiTe.jsp"/>
+      <forward name="notRight" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action parameter="update" name="DChieu1Form"  path="/TaoDTSNgoaiTeAction" scope="request"
+      type="com.seatech.ttsp.dchieungoaite.action.DChieuNgoaiTeAction">
+      <forward name="success" path="/DChieuNgoaiTeAction.do"/>   
+      <forward name="failure" path="/DChieuNgoaiTeAction.do"/>
+      <forward name="notRight" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    
+    <!-- duyet xac nhan doi chieu 1-->
+    <action parameter="executeAction" name="DuyetXNDChieu1Form"  path="/DuyetDChieuNgoaiTeAction" scope="request"
+            type="com.seatech.ttsp.dchieungoaite.action.DuyetDChieuNgoaiTeAction">
+      <forward name="success" path="/pages/dchieungoaite/DuyetDChieuNgoaiTe.jsp"/>
+      <forward name="failure" path="/pages/dchieungoaite/DuyetDChieuNgoaiTe.jsp"/>
+      <forward name="notRight" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    
+    <!-- xac nhan doi chieu tong hop 1-->
+    <action parameter="print" name="XNDCTHop1Form"  path="/PrintXNDCTHopNgoaiTeAction" scope="request"
+            type="com.seatech.ttsp.dchieungoaite.action.XNDCTHopNgoaiTeAction">
+      <forward name="success" path="/pages/dchieungoaite/XNDCTHopNgoaiTe.jsp"/>
+      <forward name="failure" path="/pages/dchieungoaite/XNDCTHopNgoaiTe.jsp"/>
+      <forward name="notRight" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+        
+    <action parameter="list" name="XNDCTHop1Form"  path="/XNDCTHopNgoaiTeAction" scope="request"
+            type="com.seatech.ttsp.dchieungoaite.action.XNDCTHopNgoaiTeAction">
+      <forward name="success" path="/pages/dchieungoaite/XNDCTHopNgoaiTe.jsp"/>
+      <forward name="failure" path="/pages/dchieungoaite/XNDCTHopNgoaiTe.jsp"/>
+      <forward name="notRight" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    
+    <action parameter="update" name="XNDCTHop1Form"  path="/TaoDXNDCTHopNgoaiTeAction" scope="request"
+            type="com.seatech.ttsp.dchieungoaite.action.XNDCTHopNgoaiTeAction">
+      <forward name="success" path="/XNDCTHopNgoaiTeAction.do"/>
+      <forward name="failure" path="/pages/dchieungoaite/XNDCTHopNgoaiTe.jsp"/>
+      <forward name="notRight" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    
+     <action parameter="updateExc" name="XNDCTHop1Form"  path="/ThuChiTCongNgoaiTeAction" scope="request"
+             type="com.seatech.ttsp.dchieungoaite.action.XNDCTHopNgoaiTeAction">
+      <forward name="success" path="/XNDCTHopNgoaiTeAction.do"/>
+      <forward name="failure" path="/pages/dchieungoaite/XNDCTHopNgoaiTe.jsp"/>
+      <forward name="notRight" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action parameter="view" name="XNDCTHop1Form"  path="/updateTCongNgoaiTeAction" scope="request"
+      type="com.seatech.ttsp.dchieungoaite.action.XNDCTHopNgoaiTeAction">
+      <forward name="success" path="/pages/dchieungoaite/XNDCTHopNgoaiTe.jsp"/>
+      <forward name="failure" path="/pages/dchieungoaite/XNDCTHopNgoaiTe.jsp"/>
+      <forward name="notRight" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    
+    <!-- duyet xac nhan doi chieu tong hop -->
+    
+    <action parameter="executeAction" name="DuyetXNDCTHop1Form"  path="/DuyetXNDCTHopNgoaiTeAction" scope="request"
+            type="com.seatech.ttsp.dchieungoaite.action.DuyetXNDCTHopNgoaiTeAction">
+      <forward name="success" path="/pages/dchieungoaite/DuyetXNDCTHopNgoaiTe.jsp"/>
+      <forward name="failure" path="/pages/dchieungoaite/DuyetXNDCTHopNgoaiTe.jsp"/>
+      <forward name="notRight" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    
+         <action parameter="update" name="DuyetXNDCTHop1Form"  path="/exDuyetXNDCTHopNgoaiTeAction" scope="request"
+            type="com.seatech.ttsp.dchieungoaite.action.DuyetXNDCTHopNgoaiTeAction">
+      <forward name="success" path="/DuyetXNDCTHopNgoaiTeAction.do"/>
+      <forward name="failure" path="/pages/dchieungoaite/DuyetXNDCTHopNgoaiTe.jsp"/>
+      <forward name="notRight" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    
+     <action parameter="updateExc" name="DuyetXNDCTHop1Form"  path="/HuyXNDCTHopNgoaiTeAction" scope="request"
+            type="com.seatech.ttsp.dchieungoaite.action.DuyetXNDCTHopNgoaiTeAction">
+      <forward name="success" path="/DuyetXNDCTHopNgoaiTeAction.do"/>
+      <forward name="failure" path="/pages/dchieungoaite/DuyetXNDCTHopNgoaiTe.jsp"/>
+      <forward name="notRight" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    
+    <!-- Chi tiet bang ke ngoai te-->
+    <action parameter="view" name="BKeDChieuForm"
+            path="/CTietBKeDChieuNgoaiTe" scope="request"
+            type="com.seatech.ttsp.dchieungoaite.action.BKeDChieuNgoaiTeAction">
+      <forward name="success" path="/pages/dchieungoaite/CTietBKeDChieuNgoaiTe.jsp"/>
+      <forward name="failure" path="/pages/dchieungoaite/CTietBKeDChieuNgoaiTe.jsp"/>
+      <forward name="notRight" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    
+   <!-- 2017 doi chieu thu cong ngoai te toan quoc -->
+   <action parameter="print" name="DChieu3NgoaiTeForm"  path="/PrintDChieu3NgoaiTeAction" scope="request"
+            type="com.seatech.ttsp.dchieu.action.DChieu3NgoaiTeAction">
+      <forward name="success" path="/pages/dchieu/DoiChieu3NgoaiTe.jsp"/>
+      <forward name="failure" path="/pages/dchieu/DoiChieu3NgoaiTe.jsp"/>
+      <forward name="notRight" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    
+        <!-- Duyet doi chieu tk gui-->
+   <action parameter="list" name="DuyetXNDChieu3NgoaiTeForm" path="/ListXNDChieu3NgoaiTeAction"
+            scope="request" type="com.seatech.ttsp.dchieu.action.DuyetXNDChieu3NgoaiTeAction">
+      <forward name="success" path="/pages/dchieu/DuyetXNDChieu3NgoaiTe.jsp"/>
+      <forward name="failure" path="/pages/dchieu/DuyetXNDChieu3NgoaiTe.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    <action parameter="update" name="DuyetXNDChieu3NgoaiTeForm" path="/DuyetXNDChieu3NgoaiTeAction"
+            scope="request" type="com.seatech.ttsp.dchieu.action.DuyetXNDChieu3NgoaiTeAction">
+      <forward name="success" path="/ListXNDChieu3NgoaiTeAction.do"/>
+      <forward name="failure" path="/pages/dchieu/DuyetXNDChieu3NgoaiTe.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    
+    <!-- Doi chieu thu cong ngoai te toan quoc -->
+    <action  name="DChieu3NgoaiTeForm" path="/THienDChieu3NgoaiTeAction" scope="request" 
+      type="com.seatech.ttsp.dchieu.action.DChieu3NgoaiTeAction">
+      <forward name="success" path="/pages/dchieu/DoiChieu4.jsp"/>
+      <forward name="failure" path="/pages/dchieu/DoiChieu4.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    <action parameter="list" name="DChieu3NgoaiTeForm" path="/DChieu3NgoaiTeAction"
+            scope="request" type="com.seatech.ttsp.dchieu.action.DChieu3NgoaiTeAction">
+      <forward name="success" path="/pages/dchieu/DoiChieu3NgoaiTe.jsp"/>
+      <forward name="failure" path="/pages/dchieu/DoiChieu3NgoaiTe.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    <action parameter="view" name="DChieu3NgoaiTeForm" path="/DChieu3NgoaiTeDetail" scope="request" 
+      type="com.seatech.ttsp.dchieu.action.DChieu3NgoaiTeAction">
+      <forward name="success" path="/pages/dchieu/DoiChieu3NgoaiTe.jsp"/>
+      <forward name="failure" path="/pages/dchieu/DoiChieu3NgoaiTe.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    <action  parameter="search" name="DChieu3NgoaiTeForm" path="/SearchDC4Action" scope="request" 
+      type="com.seatech.ttsp.dchieu.action.DChieu3NgoaiTeAction">
+      <forward name="success" path="/pages/dchieu/DoiChieu4.jsp"/>
+      <forward name="failure" path="/pages/dchieu/DoiChieu4.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    <action  parameter="update" name="DChieu3NgoaiTeForm" path="/TaoXacNhanDCNTAction" scope="request" 
+      type="com.seatech.ttsp.dchieu.action.DChieu3NgoaiTeAction">
+      <forward name="success" path="/DChieu4Action.do"/>
+      <forward name="failure" path="/pages/dchieu/DoiChieu4.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+    <action  parameter="add" name="DChieu4Form" path="/loadChiTietBangKe" scope="request" 
+      type="com.seatech.ttsp.dchieu.action.DChieu3NgoaiTeAction">
+      <forward name="success" path="/pages/dchieu/DoiChieu4.jsp"/>
+      <forward name="failure" path="/pages/dchieu/DoiChieu4.jsp"/>
+      <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
+    </action>
+  </action-mappings>
+</struts-config>

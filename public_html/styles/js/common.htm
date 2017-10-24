@@ -1,0 +1,384 @@
+/* Event Functions */
+
+// Add an event to the obj given
+// event_name refers to the event trigger, without the "on", like click or mouseover
+// func_name refers to the function callback when event is triggered
+function addEvent(obj,event_name,func_name){
+	if (obj.attachEvent){
+		obj.attachEvent("on"+event_name, func_name);
+	}else if(obj.addEventListener){
+		obj.addEventListener(event_name,func_name,true);
+	}else{
+		obj["on"+event_name] = func_name;
+	}
+}
+
+// Removes an event from the object
+function removeEvent(obj,event_name,func_name){
+	if (obj.detachEvent){
+		obj.detachEvent("on"+event_name,func_name);
+	}else if(obj.removeEventListener){
+		obj.removeEventListener(event_name,func_name,true);
+	}else{
+		obj["on"+event_name] = null;
+	}
+}
+
+// Stop an event from bubbling up the event DOM
+function stopEvent(evt){
+	evt || window.event;
+	if (evt.stopPropagation){
+		evt.stopPropagation();
+		evt.preventDefault();
+	}else if(typeof evt.cancelBubble != "undefined"){
+		evt.cancelBubble = true;
+		evt.returnValue = false;
+	}
+	return false;
+}
+
+// Get the obj that starts the event
+function getElement(evt){
+	if (window.event){
+		return window.event.srcElement;
+	}else{
+		return evt.currentTarget;
+	}
+}
+// Get the obj that triggers off the event
+function getTargetElement(evt){
+	if (window.event){
+		return window.event.srcElement;
+	}else{
+		return evt.target;
+	}
+}
+// For IE only, stops the obj from being selected
+function stopSelect(obj){
+	if (typeof obj.onselectstart != 'undefined'){
+		addEvent(obj,"selectstart",function(){ return false;});
+	}
+}
+
+/*    Caret Functions     */
+
+// Get the end position of the caret in the object. Note that the obj needs to be in focus first
+function getCaretEnd(obj){
+	if(typeof obj.selectionEnd != "undefined"){
+		return obj.selectionEnd;
+	}else if(document.selection&&document.selection.createRange){
+		var M=document.selection.createRange();
+		try{
+			var Lp = M.duplicate();
+			Lp.moveToElementText(obj);
+		}catch(e){
+			var Lp=obj.createTextRange();
+		}
+		Lp.setEndPoint("EndToEnd",M);
+		var rb=Lp.text.length;
+		if(rb>obj.value.length){
+			return -1;
+		}
+		return rb;
+	}
+}
+// Get the start position of the caret in the object
+function getCaretStart(obj){
+	if(typeof obj.selectionStart != "undefined"){
+		return obj.selectionStart;
+	}else if(document.selection&&document.selection.createRange){
+		var M=document.selection.createRange();
+		try{
+			var Lp = M.duplicate();
+			Lp.moveToElementText(obj);
+		}catch(e){
+			var Lp=obj.createTextRange();
+		}
+		Lp.setEndPoint("EndToStart",M);
+		var rb=Lp.text.length;
+		if(rb>obj.value.length){
+			return -1;
+		}
+		return rb;
+	}
+}
+// sets the caret position to l in the object
+function setCaret(obj,l){
+	obj.focus();
+	if (obj.setSelectionRange){
+		obj.setSelectionRange(l,l);
+	}else if(obj.createTextRange){
+		m = obj.createTextRange();		
+		m.moveStart('character',l);
+		m.collapse();
+		m.select();
+	}
+}
+// sets the caret selection from s to e in the object
+function setSelection(obj,s,e){
+	obj.focus();
+	if (obj.setSelectionRange){
+		obj.setSelectionRange(s,e);
+	}else if(obj.createTextRange){
+		m = obj.createTextRange();		
+		m.moveStart('character',s);
+		m.moveEnd('character',e);
+		m.select();
+	}
+}
+
+/*    Escape function   */
+String.prototype.addslashes = function(){
+	return this.replace(/(["\\\.\|\[\]\^\*\+\?\$\(\)])/g, '\\$1');
+}
+String.prototype.trim = function () {
+    return this.replace(/^\s*(\S*(\s+\S+)*)\s*$/, "$1");
+};
+/* --- Escape --- */
+
+/* Offset position from top of the screen */
+function curTop(obj){
+	toreturn = 0;
+	while(obj){
+		toreturn += obj.offsetTop;
+		obj = obj.offsetParent;
+	}
+	return toreturn;
+}
+function curLeft(obj){
+	toreturn = 0;
+	while(obj){
+		toreturn += obj.offsetLeft;
+		obj = obj.offsetParent;
+	}
+	return toreturn;
+}
+/* ------ End of Offset function ------- */
+
+/* Types Function */
+
+// is a given input a number?
+function isNumber(a) {
+    return typeof a == 'number' && isFinite(a);
+}
+
+/* Object Functions */
+
+function replaceHTML(obj,text){
+	while(el = obj.childNodes[0]){
+		obj.removeChild(el);
+	};
+	obj.appendChild(document.createTextNode(text));
+}
+     
+ //************************************ LIMIT CHARS ********************************** 
+      function limitChars(id,maxlength)
+      {
+        var limit = maxlength;
+        var text = jQuery("#"+id).val();
+        var textlength = text.length;
+        if(parseInt(textlength) >parseInt(limit) ){
+          jQuery("#word_count_"+id).html("B&#7841;n &#273;&#227; nh&#7853;p v&#432;&#7907;t qu&#225; "+limit+" k&#237; t&#7921;!");
+//          jQuery("#"+id).val(text.substr(0,limit));
+          return false;
+        }else if(parseInt(textlength)==0){
+          jQuery('#word_count_'+id).html('T&#7893;ng s&#7889; k&#237; t&#7921; '+limit+'.');
+        }else{
+          jQuery('#word_count_'+id).html('C&#242;n l&#7841;i '+ (limit-textlength) +' k&#237; t&#7921;.');
+          return true;
+        }
+      }
+  //********************** HIGHLIGHT ROW SELECT OR ONMOUSE OVER AN OUT ***********************************     
+  /**
+   * highlignt so dien tra soat
+   */
+   function tableHighlightRow() {
+          if (document.getElementById && document.createTextNode) {
+              var tables = document.getElementsByTagName('table');
+              for (var i = 0;i < tables.length;i++) {
+                  if (tables[i].className == 'data-grid') {
+                      var trs = tables[i].getElementsByTagName('tr');
+                      for (var j = 0;j < trs.length;j++) {
+                          if (trs[j].parentNode.nodeName == 'TBODY') {
+                              trs[j].onmouseover = function () {
+                                  if (this.className.indexOf('ui-row-ltr ui-state-highlight')==-1){
+                                        this.className = 'ui-row-ltr ui-state-hover';
+                                        var inputs=this.getElementsByTagName('input');
+                                         if(inputs.length>0)
+                                           inputs[0].className='ui-state-hover';
+                                    }
+                                  
+                                  return false;
+                              }
+                              trs[j].onmouseout = function () {
+                                  if (this.className.indexOf('ui-row-ltr ui-state-highlight')==-1){
+                                      this.className = 'ui-widget-content ui-row-ltr';
+                                      var inputs=this.getElementsByTagName('input');
+                                      if(inputs.length>0)
+                                        inputs[0].className='';
+                                    }
+                                 
+                                  return false;
+                              }
+
+                          }
+                      }
+                  }
+              }
+          }
+      }
+  function GetUnicode(iStr)
+	{
+	 for (i=0, oStr=''; i < iStr.length; )
+	 {
+	  if (iStr.charCodeAt(i)==38)
+	  {
+	   if (iStr.charCodeAt(i + 1)==35)
+	   {
+	    p=iStr.indexOf(';', i  + 2);
+	    if (p!=-1)
+	    {
+	     if (p - i <= 7)
+	     {
+	      if (isFinite(iStr.substr(i + 2, p - i - 2)))
+	      {
+	       oStr = oStr.concat(String.fromCharCode(iStr.substr(i + 2, p - i - 2)));
+	       i = p + 1;
+	       continue;
+	      }
+	     }
+	    }
+	   }
+	   else
+	   {
+	    p=iStr.indexOf(';', i  + 1);
+	    if (p!=-1)
+	    {
+	     switch (iStr.substr(i + 1, p - i - 1))
+	     {
+	     case 'amp':
+	      oStr = oStr.concat('&');
+	      i = p + 1;
+	      break;
+	     case 'quot':
+	      oStr = oStr.concat('"');
+	      i = p + 1;
+	      break;
+	     case 'lt':
+	      oStr = oStr.concat('<');
+	      i = p + 1;
+	      break;
+	     case 'gt':
+	      oStr = oStr.concat('>');
+	      i = p + 1;
+	      break;
+	     }
+	    }
+	   }
+	  }
+	  oStr=oStr.concat(iStr.charAt(i));
+	  i++;
+	 }
+	 
+	 return oStr;
+	}
+  function forcusButtonDayLai(e){
+        if(e.keyCode==13)
+           e.keyCode=9; 
+          jQuery("#lydo_ktt_day_lai").change(function (){
+            jQuery("#btn_dayLai").focus(); 
+          });
+   }
+  function rowSelectedFocus(rowId){
+    classRowHighLight(rowId);
+    jQuery('#'+rowId).find('input').focus();
+    
+   
+  }
+   //Change style
+   function classRowHighLight(tr_id){
+      var trs = document.getElementById('data-grid').getElementsByTagName('tr');
+      for (var j = 0;j < trs.length;j++) {
+          jQuery("#row_dts_" + j).attr( {'class' : 'ui-widget-content ui-row-ltr'});
+          jQuery("#row_dts_" + j).find('input').attr({'class':''});
+          if (jQuery("#" + tr_id).attr('class') == 'ui-widget-content ui-row-ltr') {
+              jQuery("#" + tr_id).attr( {'class' : 'ui-row-ltr ui-state-highlight'});
+              jQuery("#" + tr_id).find('input').attr( {'class' : 'ui-state-highlight'});
+          }
+      }
+  }
+  
+  /*
+   * defaultRowSelected()
+   * Lua chon ban ghi dau tin o master
+   * Su dung khi refresh/find/load page
+   * Cung su dung sua khi thao tac xong duyet/huy/sua...
+   */
+    function defaultRowSelected(chucdanh){
+      var row_default="row_dts_0",
+        input_default=jQuery('#'+row_default).find('input');
+      if(jQuery("#"+row_default).html()!= null && jQuery("#"+row_default).html()!='null'){
+        jQuery("#"+row_default).addClass("ui-state-highlight");
+        input_default.addClass("ui-state-highlight");
+        fillDataDTS(input_default.val(),row_default,chucdanh,true);
+        rowSelectedFocus(row_default);
+      }
+    }
+   /*
+    * ham arrowUpDown
+    * Xu ly move up/down ban ghi o master
+    * Enter la click vao ban ghi da select
+    * Esc thoat khoi su kien dang lam va quay ve selected vao ban ghi dang chon o master
+    */
+   function arrowUpDown(e){
+    var keyCode = e.keyCode || e.which,
+        arrow = {up: 38, down: 40, enter: 13, esc: 27};
+       var input_id="";
+       var total_row="";
+    switch (keyCode) {
+       case arrow.up:
+            input_id=parseInt(jQuery(document.activeElement).attr('id'));
+            if(input_id>=0){
+              //remove class highlight tr select
+              if(input_id>0)
+                input_id=input_id-1;
+              jQuery(".ui-state-highlight").removeClass('ui-state-highlight');
+              jQuery(".ui-row-ltr").addClass('ui-widget-content ');
+            
+              //add class highligh tr previous
+              jQuery("#row_dts_"+input_id).addClass('ui-state-highlight');
+              jQuery("#"+input_id).addClass('ui-state-highlight');
+              jQuery("#"+input_id).focus();
+              
+            }
+      break;
+     case arrow.down:
+        total_row=(jQuery("input[name='row_item']").length); 
+        input_id=parseInt(jQuery(document.activeElement).attr('id'));
+        if(input_id<=parseInt(total_row)-1){
+          //remove class highlight tr select
+          if(input_id<parseInt(total_row)-1)
+            input_id=parseInt(input_id)+1;
+          jQuery("#"+input_id).focus();
+          jQuery(".ui-state-highlight").removeClass('ui-state-highlight');
+          jQuery(".ui-row-ltr").addClass('ui-widget-content ');
+          //add class highligh tr previous
+          jQuery("#row_dts_"+input_id).addClass('ui-state-highlight');
+          jQuery("#"+input_id).addClass('ui-state-highlight');
+        }
+        break;
+      case arrow.enter:
+          if(jQuery(document.activeElement).attr('class')=='ui-state-highlight'){
+              jQuery('#row_dts_'+jQuery(document.activeElement).attr('id')).click();
+          }
+        break;
+      case arrow.esc:
+          if(jQuery(document.activeElement).attr('id')=='lydo_ktt_day_lai'){
+           var idTRSelected=jQuery("tr[class='ui-row-ltr ui-state-highlight']").attr('id');
+           jQuery('#'+idTRSelected).click();
+           rowSelectedFocus(jQuery("tr[class='ui-row-ltr ui-state-highlight']").attr('id'));
+          }
+        break;
+    }
+   }
+  

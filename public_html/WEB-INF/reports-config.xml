@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+  <form-beans>
+    <form-bean name="bkLTTDenForm"
+               type="com.seatech.ttsp.reports.bkltt.forms.BKLTTDenRptForm"/>
+    <form-bean name="thlttForm"
+               type="com.seatech.ttsp.reports.thltt.forms.THLTTRptForm"/>
+    <form-bean name="skeForm"
+               type="com.seatech.ttsp.reports.sketk.forms.SKeTKForm"/>
+    <form-bean name="bkLTTForm"
+               type="com.seatech.ttsp.reports.bkltt.forms.BKLTTDiDenForm"/>
+    <form-bean name="BKeTinhLaiForm"
+               type="com.seatech.ttsp.bketinhlai.form.BKeTinhLaiForm"/>
+    <form-bean name="TCuuDMucForm"
+               type="com.seatech.ttsp.tcuudmuc.form.TCuuDMucForm"/>
+    <form-bean name="TinTucForm"
+               type="com.seatech.ttsp.tintuc.form.TinTucForm"/>
+    <form-bean name="BKeCTietLTTTQForm"
+               type="com.seatech.ttsp.ltt.form.inCTietLTTTQForm"/>
+    <form-bean name="FlexibleRptForm"
+               type="com.seatech.ttsp.reports.flexible.FlexibleRptForm"/>  
+    <form-bean name="ThuHoChiHoForm" type="com.seatech.ttsp.reports.thuhochiho.ThuHoChiHoForm"/>
+    <form-bean name="BKeTinhPhiForm" type="com.seatech.ttsp.bketinhphi.BKeTinhPhiForm"/>
+    <form-bean name="BKeTinhPhiNgoaiTeForm" type="com.seatech.ttsp.bketinhphi_ngoaite.BKeTinhPhiNgoaiTeForm"/>
+    <form-bean name="SoLieuTTSPForm" type="com.seatech.ttsp.reports.theodoisolieuttsp.SoLieuTTSPForm"/>
+    <form-bean name="BKeTinhLaiNgoaiTeForm" type="com.seatech.ttsp.bketinhlai_ngoaite.BKeTinhLaiNgoaiTeForm"/>
+    <form-bean name="BKePhiPOSForm" type="com.seatech.ttsp.phipos.BKePhiPOSForm"/>
+	 <!--2016 them moi form tra cuu cac bang ke giao dich thu cong-->
+    <form-bean name="BKeGDichTCongForm" type="com.seatech.ttsp.reports.bkegdichtcong.forms.BKeGDichTCongForm"/>
+  </form-beans>
+  <action-mappings>
+    <action  name="SoLieuTTSPForm" path="/SoLieuTTSP" scope="request"
+            type="com.seatech.ttsp.reports.theodoisolieuttsp.SoLieuTTSPAction">
+      <forward name="success" path="/pages/reportSoLieuTTSP/SoLieuTTSP.jsp"/>
+    </action>
+    <action  name="SoLieuTTSPForm" path="/PrintReportSoLieuTTSP" scope="request"
+            type="com.seatech.ttsp.reports.theodoisolieuttsp.SoLieuTTSPAction"
+            parameter="print">
+      <forward name="success" path="/pages/reportSoLieuTTSP/SoLieuTTSP.jsp"/>
+      <forward name="failure" path="/pages/reportSoLieuTTSP/SoLieuTTSP.jsp"/>
+    </action>
+    
+    <action  name="DTSoatForm" path="/tracuudtsRptAction" scope="request"
+            type="com.seatech.ttsp.dts.action.DTSoatLTToanDiAction"
+            parameter="print">
+      <forward name="success" path="/pages/dts/TraCuuDTS.jsp"/>
+       <forward name="failure" path="/pages/dts/TraCuuDTS.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action  name="dtSoatForm" path="/tracuudtsNoiBoRptAction" scope="request"
+            type="com.seatech.ttsp.dts.action.XuLyDTSoatNoiBoAction"
+            parameter="print">
+      <forward name="success" path="/pages/dts/TraCuuDTSNoiBo.jsp"/>
+      <forward name="failure" path="/pages/dts/TraCuuDTSNoiBo.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action  name="lTTForm" path="/lttRptAction" scope="request"
+            type="com.seatech.ttsp.ltt.action.TraCuuLTTAction"
+            parameter="print">
+      <forward name="success" path="/pages/ltt/TraCuuLTT.jsp"/>
+      <forward name="failure" path="/pages/ltt/TraCuuLTT.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action  name="lTTForm" path="/lttLoRptAction" scope="request"
+            type="com.seatech.ttsp.ltt.action.TraCuuLTTInLoAction"
+            parameter="view">
+      <forward name="success" path="/pages/ltt/TraCuuLTTInLo.jsp"/>
+      <forward name="failure" path="/pages/ltt/TraCuuLTTInLo.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+     <action  name="lTTForm" path="/resendLTTListAction" scope="request"
+            type="com.seatech.ttsp.ltt.action.ResendLTTAction"
+            parameter="list">
+      <forward name="success" path="/pages/ltt/rs.jsp"/>
+      <forward name="failure" path="/pages/ltt/rs.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action  name="lTTForm" path="/resendLTTAction" scope="request"
+            type="com.seatech.ttsp.ltt.action.ResendLTTAction"
+            parameter="update">
+      <forward name="update" path="/pages/ltt/rsUpdate.jsp"/>
+      <forward name="resend" path="/pages/ltt/rsResend.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>   
+    <action  name="lTTForm" path="/resendLTTExcAction" scope="request"
+            type="com.seatech.ttsp.ltt.action.ResendLTTAction"
+            parameter="updateExc">
+      <forward name="success" path="/pages/ltt/rsReply.jsp"/>
+      <forward name="failure" path="/pages/ltt/rsReply.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>   
+     <action  name="theodoihtTabmisForm" path="/theodoihtTabmisRptAction" scope="request"
+            type="com.seatech.ttsp.theodoiht.action.TraCuuChungTuSangTabmisAction"
+            parameter="print">
+      <forward name="success" path="/pages/theodoiht/TraCuuChungTuSangTabmis.jsp"/>
+      <forward name="failure" path="/pages/theodoiht/TraCuuChungTuSangTabmis.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action  name="theodoihtForm" path="/theodoihtTTSPRptAction" scope="request"
+            type="com.seatech.ttsp.theodoiht.action.TraCuuChungTuSangTTSPAction"
+            parameter="print">
+      <forward name="success" path="/pages/theodoiht/TraCuuChungTuSangTTSP.jsp"/>
+      <forward name="failure" path="/pages/theodoiht/TraCuuChungTuSangTTSP.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action  name="ChungThuSoForm" path="/tracuuctsRptAction" scope="request"
+            type="com.seatech.ttsp.chungthuso.action.TraCuuChungThuSoAction"
+            parameter="print">
+      <forward name="success" path="/pages/cts/TraCuuChungThuSo.jsp"/>
+      <forward name="failure" path="/pages/main/main.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+    </action>
+    <action  name="QuyetToanForm" path="/quyettoanRptAction" scope="request"
+            type="com.seatech.ttsp.quyettoan.action.XuLyLenhQuyetToanAction"
+            parameter="print">
+       <forward name="success"
+               path="/pages/quyettoan/XuLyLenhQuyetToan.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/XuLyLenhQuyetToan.jsp"/>
+    </action>
+    <action  name="BKE_QuyetToanForm" path="/quyettoanSGDRptAction" scope="request"
+            type="com.seatech.ttsp.quyettoan.action.XuLyQToanTQAction"
+            parameter="print">
+       <forward name="success"
+               path="/pages/quyettoan/XuLyQToanTQ.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/quyettoan/XuLyQToanTQ.jsp"/>
+    </action>
+     <action  name="lTTForm" path="/lttDiRptAction" scope="request"
+            type="com.seatech.ttsp.ltt.action.LTTDiAction"
+            parameter="print">
+      <forward name="success" path="/pages/ltt/lttDiAdd.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/ltt/lttDiAdd.jsp"/>
+    </action>
+    <action  name="lTTForm" path="/lttDenRptAction" scope="request"
+            type="com.seatech.ttsp.ltt.action.LTTDenAction"
+            parameter="print">
+      <forward name="success" path="/pages/ltt/lttDenAdd.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/ltt/lttDenAdd.jsp"/>
+    </action>
+    <action  name="skeForm" path="/skeTKAction" scope="request"
+            type="com.seatech.ttsp.reports.sketk.actions.SKeTKAction">
+      <forward name="success" path="/pages/rpt_saoketk/SaoKeTK.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/rpt_saoketk/SaoKeTK.jsp"/>
+    </action>
+    <action  name="skeForm" path="/skeTKListAction" scope="request"
+             parameter="list"
+            type="com.seatech.ttsp.reports.sketk.actions.SKeTKAction">
+      <forward name="success" path="/pages/rpt_saoketk/SaoKeTK.jsp"/>
+      <forward name="failure" path="/pages/rpt_saoketk/SaoKeTK.jsp"/>
+    </action>
+    <action  name="skeForm" path="/skeTKUpdateAction" scope="request"
+             parameter="update"
+            type="com.seatech.ttsp.reports.sketk.actions.SKeTKAction">
+      <forward name="success" path="/pages/rpt_saoketk/SaoKeTK.jsp"/>
+      <forward name="failure" path="/pages/rpt_saoketk/SaoKeTK.jsp"/>
+    </action>
+    <action  name="skeForm" path="/skeTKPrintAction" scope="request"
+             parameter="print"
+            type="com.seatech.ttsp.reports.sketk.actions.SKeTKAction">
+      <forward name="success" path="/pages/rpt_saoketk/SaoKeTK.jsp"/>
+      <forward name="failure" path="/pages/rpt_saoketk/SaoKeTK.jsp"/>
+    </action>
+    <action  name="bkLTTForm" path="/bkeLTTRptAction" scope="request"
+             parameter="list"
+            type="com.seatech.ttsp.reports.bkltt.action.BKLTTRptAction">
+      <forward name="success" path="/pages/rpt_bkltt/bkLTTDi.jsp"/>
+      <forward name="failure"
+               path="/pages/rpt_bkltt/bkLTTDi.jsp"/>
+    </action>
+    <action  name="bkLTTForm" path="/bkeLTTDenRptAction" scope="request"
+             parameter="view"
+            type="com.seatech.ttsp.reports.bkltt.action.BKLTTRptAction">
+      <forward name="success" path="/pages/rpt_bkltt/bkLTTDi.jsp"/>
+      <forward name="failure"
+               path="/pages/rpt_bkltt/bkLTTDi.jsp"/>
+    </action>
+    <action  name="bkLTTForm" path="/bkeLTTAction" scope="request"
+            type="com.seatech.ttsp.reports.bkltt.action.BKLTTRptAction">
+      <forward name="success" path="/pages/rpt_bkltt/bkLTTDi.jsp"/>
+      <forward name="failure"
+               path="/pages/rpt_bkltt/bkLTTDi.jsp"/>
+    </action>
+    <action  name="bkLTTForm" path="/bkeLTTRutTienAction" scope="request"
+            type="com.seatech.ttsp.reports.bkltt.action.BKLTTRutTienRptAction">
+      <forward name="success" path="/pages/rpt_bkltt/bkLTTRutTien.jsp"/>
+      <forward name="failure"
+               path="/pages/rpt_bkltt/bkLTTRutTien.jsp"/>
+    </action>
+    <action  name="bkLTTForm" path="/chkkqdcAction" scope="request" parameter="view"
+            type="com.seatech.ttsp.reports.bkltt.action.BKLTTRutTienRptAction">
+            <forward name="success" path="/pages/rpt_bkltt/bkLTTRutTien.jsp"/>
+    </action>
+    <action  name="bkLTTForm" path="/bkeLTTRutTienRptAction" scope="request" parameter="list"
+            type="com.seatech.ttsp.reports.bkltt.action.BKLTTRutTienRptAction">
+      <forward name="success" path="/pages/rpt_bkltt/bkLTTRutTien.jsp"/>
+      <forward name="failure"
+               path="/pages/rpt_bkltt/bkLTTRutTien.jsp"/>
+    </action>
+    <!--
+    <action  name="bkLTTForm" path="/bkeLTTDenAction" scope="request"
+            type="com.seatech.ttsp.reports.bkltt.action.BKLTTRptAction">
+      <forward name="success" path="/pages/rpt_bkltt/bkLTTDen.jsp"/>
+      <forward name="failure"
+               path="/pages/rpt_bkltt/bkLTTDen.jsp"/>
+    </action>
+    
+    
+    <action  name="bkLTTForm" path="/bkeLTTDenRptAction" scope="request"
+             parameter="list"
+            type="com.seatech.ttsp.reports.bkltt.action.BKLTTRptAction">
+      <forward name="success" path="/pages/rpt_bkltt/bkLTTDen.jsp"/>
+      <forward name="failure"
+               path="/pages/rpt_bkltt/bkLTTDen.jsp"/>
+    </action>-->
+    
+    <!--dien tra soat hoi -->
+    <action  name="DTSoatForm" path="/dtsoatlttdiRpt" scope="request"
+             parameter="print"
+            type="com.seatech.ttsp.dts.action.DTSoatLTToanDiAction">
+      <forward name="success" path="/pages/dts/DTSoatLTTDi.jsp"/>
+      <forward name="failure" path="/pages/dts/DTSoatLTTDi.jsp"/>
+    </action>
+    <action  name="DTSoatForm" path="/XuLyDTSoatTuDoRpt" scope="request"
+             parameter="print"
+            type="com.seatech.ttsp.dts.action.XuLyDTSoatTuDoAction">
+      <forward name="success" path="/pages/dts/XuLyDTSoatTuDo.jsp"/>
+      <forward name="failure" path="/pages/dts/XuLyDTSoatTuDo.jsp"/>
+    </action>
+    <action  name="DTSoatForm" path="/xulydtshoitunhtmRpt" scope="request"
+             parameter="print"
+            type="com.seatech.ttsp.dts.action.DTSoatHoiTuNHAction">
+      <forward name="success" path="/pages/dts/XuLyDTSoatHoiTuNHTM.jsp"/>
+      <forward name="failure" path="/pages/dts/XuLyDTSoatHoiTuNHTM.jsp"/>
+    </action>
+    
+    <!--dien tra soat tra loi -->
+    <action  name="DTSoatForm" path="/xulydtsoattraloiRpt" scope="request"
+             parameter="print"
+            type="com.seatech.ttsp.dts.action.XuLyDTSoatTraLoiAction">
+      <forward name="success" path="/pages/dts/XuLyDTSoatTraLoi.jsp"/>
+      <forward name="failure" path="/pages/dts/XuLyDTSoatTraLoi.jsp"/>
+    </action>
+    <action  name="DTSoatForm" path="/dtsoattloiRpt" scope="request"
+             parameter="print"
+            type="com.seatech.ttsp.dts.action.DTSoatTraLoiAction">
+      <forward name="success" path="/pages/dts/DTSoatTLoi.jsp"/>
+      <forward name="failure" path="/pages/dts/DTSoatTLoi.jsp"/>
+    </action>
+    
+     <action parameter="update" name="bkLTTForm"  path="/getDMucKBLTT" scope="request"
+      type="com.seatech.ttsp.reports.bkltt.action.BKLTTRptAction">
+    <forward name="success" path="/pages/rpt_bkltt/bkLTTDi.jsp"/>
+    </action>
+    
+    <action parameter="updateExc" name="bkLTTForm"  path="/getDMucNHLTT" scope="request"
+      type="com.seatech.ttsp.reports.bkltt.action.BKLTTRptAction">
+    <forward name="success" path="/pages/rpt_bkltt/bkLTTDi.jsp"/>
+    </action>
+    
+    <!-- Bke Tinh Phi BKeTinhPhiForm viewBKeTinhLai-->
+    <action name="BKeTinhPhiForm" parameter="execute"  path="/bkeTinhPhi" scope="request"
+            type="com.seatech.ttsp.bketinhphi.BKeTinhPhiAction">
+      <forward name="success" path="/pages/bketinhphi/BKeTinhPhi.jsp"/>
+      <forward name="failure" path="/pages/bketinhphi/BKeTinhPhi.jsp"/>
+    </action>
+    <action name="BKeTinhPhiForm" parameter="print"  path="/printBKeTinhPhi" scope="request"
+            type="com.seatech.ttsp.bketinhphi.BKeTinhPhiAction">
+      <forward name="success" path="/pages/bketinhphi/BKeTinhPhi.jsp"/>
+      <forward name="failure" path="/pages/bketinhphi/BKeTinhPhi.jsp"/>
+    </action>
+    <!-- Bke Tinh Lai -->
+       
+    <action parameter="list" name="BKeTinhLaiForm"  path="/listBKeTinhLai" scope="request"
+            type="com.seatech.ttsp.bketinhlai.action.BKeTinhLaiAction">
+      <forward name="success" path="/pages/bketinhlai/BKeTinhLai.jsp"/>
+      <forward name="failure" path="/pages/bketinhlai/BKeTinhLai.jsp"/>
+    </action>
+    <action parameter="view" name="BKeTinhLaiForm"  path="/viewBKeTinhLai" scope="request"
+            type="com.seatech.ttsp.bketinhlai.action.BKeTinhLaiAction">
+      <forward name="success" path="/pages/bketinhlai/BKeTinhLai.jsp"/>
+      <forward name="failure" path="/pages/bketinhlai/BKeTinhLai.jsp"/>
+    </action>
+    <action parameter="executeAction" name="BKeTinhLaiForm"  path="/getDMucNHangHuyen" scope="request"
+      type="com.seatech.ttsp.bketinhlai.action.BKeTinhLaiAction">
+    <forward name="success" path="/pages/bketinhlai/BKeTinhLai.jsp"/>
+    </action>
+    <action parameter="updateExc" name="BKeTinhLaiForm"  path="/getTKNHKB" scope="request"
+      type="com.seatech.ttsp.bketinhlai.action.BKeTinhLaiAction">
+    <forward name="success" path="/pages/bketinhlai/BKeTinhLai.jsp"/>
+    </action>
+    
+    <action parameter="print" name="BKeTinhLaiForm"  path="/printBKeTinhLai" scope="request"
+          type="com.seatech.ttsp.bketinhlai.action.BKeTinhLaiAction">
+    <forward name="success" path="/pages/bketinhlai/BKeTinhLai.jsp"/>
+    </action>
+    
+    <action parameter="print" name="TCuuDHVForm"  path="/printTCuuDHV" scope="request"
+          type="com.seatech.ttsp.tcuuDHV.action.TCuuDHVAction">
+      <forward name="success" path="/pages/tcuuDHV/TCuuDHV.jsp"/>
+      <forward name="failure" path="/pages/tcuuDHV/TCuuDHV.jsp"/>
+    </action>
+    
+        <!-- Tra cuu danh muc -->
+       
+    <action parameter="list" name="TCuuDMucForm"  path="/loadTCuuDMuc" scope="request"
+            type="com.seatech.ttsp.tcuudmuc.action.TCuuDMucAction">
+      <forward name="success" path="/pages/tcuudmuc/TCuuDMuc.jsp"/>
+      <forward name="failure" path="/pages/tcuudmuc/TCuuDMuc.jsp"/>
+    </action>
+    <action parameter="add" name="TCuuDMucForm"  path="/addDMuc" scope="request"
+            type="com.seatech.ttsp.tcuudmuc.action.TCuuDMucAction">
+      <forward name="success" path="/pages/tcuudmuc/themDMuc.jsp"/>
+      <forward name="failure" path="/pages/tcuudmuc/themDMuc.jsp"/>
+    </action>
+    <action parameter="addExc" name="TCuuDMucForm"  path="/addExcDMuc" scope="request"
+            type="com.seatech.ttsp.tcuudmuc.action.TCuuDMucAction">
+      <forward name="success" path="/pages/tcuudmuc/themDMuc.jsp"/>
+      <forward name="failure" path="/pages/tcuudmuc/themDMuc.jsp"/>
+    </action>
+    <!-- Tin Tuc -->
+    
+    <action name="TinTucForm" path="/fillTinTucForm" scope="request"
+            type="com.seatech.ttsp.tintuc.action.TinTucAction">
+      <forward name="success" path="/pages/tintuc/tinTuc.jsp"/>
+      <forward name="failure" path="/pages/main/main.jsp"/>
+    </action>
+    
+    <action parameter="list" name="TinTucForm"  path="/loadTinTuc" scope="request"
+            type="com.seatech.ttsp.tintuc.action.TinTucAction">
+      <forward name="success" path="/pages/tintuc/tinTuc.jsp"/>
+      <forward name="failure" path="/pages/tintuc/tinTuc.jsp"/>
+    </action>
+    
+        <action name="TinTucForm" path="/loadDSachHuyen" parameter="view"
+            scope="request"
+            type="com.seatech.ttsp.tintuc.action.TinTucAction">
+      <forward name="success" path="/pages/tintuc/tinTuc.jsp"/>
+      <forward name="failure" path="/pages/tintuc/tinTuc.jsp"/>
+    </action>
+    <action parameter="add" name="TinTucForm"  path="/addTinTuc" scope="request"
+            type="com.seatech.ttsp.tintuc.action.TinTucAction">
+      <forward name="success" path="/searchTinTuc.do"/>
+      <forward name="failure" path="/pages/tintuc/tinTuc.jsp"/>
+    </action>
+    <action parameter="search" name="TinTucForm"  path="/searchTinTuc" scope="request"
+            type="com.seatech.ttsp.tintuc.action.TinTucAction">
+      <forward name="success" path="/pages/tintuc/TraCuuTinTuc.jsp"/>
+      <forward name="failure" path="/pages/tintuc/TraCuuTinTuc.jsp"/>
+    </action>
+     <action parameter="update" name="TinTucForm"  path="/delTinTuc" scope="request"
+            type="com.seatech.ttsp.tintuc.action.TinTucAction">
+      <forward name="success" path="/searchTinTuc.do"/>
+      <forward name="failure" path="/pages/tintuc/TraCuuTinTuc.jsp"/>
+    </action>
+<!-- chi tiet bang ke LTT toan quoc -->
+    <action parameter="list" name="BKeCTietLTTTQForm"  path="/listCTLTTTQ" scope="request"
+          type="com.seatech.ttsp.ltt.action.inCTietLTTTQAction">
+      <forward name="success" path="/pages/ltt/inCTietLTTTQ.jsp"/>
+      <forward name="failure" path="/pages/ltt/inCTietLTTTQ.jsp"/>
+    </action>
+    <action parameter="print" name="BKeCTietLTTTQForm"  path="/printCTLTTTQ" scope="request"
+          type="com.seatech.ttsp.ltt.action.inCTietLTTTQAction">
+      <forward name="success" path="/pages/ltt/inCTietLTTTQ.jsp"/>
+      <forward name="failure" path="/pages/ltt/inCTietLTTTQ.jsp"/>
+    </action>
+
+<!-- chi tiet bang ke LTT toan quoc -->
+    <action parameter="list" name="BKeCTietLTTTQForm"  path="/listTHopLQT" scope="request"
+          type="com.seatech.ttsp.ltt.action.inTHopLQTAction">
+      <forward name="success" path="/pages/ltt/inTHopLQT.jsp"/>
+      <forward name="failure" path="/pages/ltt/inTHopLQT.jsp"/>
+    </action>
+    <action parameter="print" name="BKeCTietLTTTQForm"  path="/printTHopLQT" scope="request"
+          type="com.seatech.ttsp.ltt.action.inTHopLQTAction">
+      <forward name="success" path="/pages/ltt/inTHopLQT.jsp"/>
+      <forward name="failure" path="/pages/ltt/inTHopLQT.jsp"/>
+    </action>
+    <action name="FlexibleRptForm"  path="/flexibleRptAction" scope="request"
+          type="com.seatech.ttsp.reports.flexible.FlexibleRptAction">
+      <forward name="success" path="/pages/vanhanh/flexibleRpt.jsp"/>
+      <forward name="failure" path="/pages/vanhanh/flexibleRpt.jsp"/>
+   </action>
+    
+   <action name="ThuHoChiHoForm" path="/ReportThuHoChiHoAction"
+           scope="request" type="com.seatech.ttsp.reports.thuhochiho.ThuHoChiHoAction">
+           <forward name="success" path="/pages/rpt_thuhochiho/ThuHoChiHo.jsp"/>
+   </action>
+   <action name="ThuHoChiHoForm" path="/PrintReportThuHoChiHoAction" parameter="print"
+           scope="request" type="com.seatech.ttsp.reports.thuhochiho.ThuHoChiHoAction">
+           <forward name="success" path="/pages/rpt_thuhochiho/ThuHoChiHo.jsp"/>
+   </action>
+   
+   <action name="BKeTinhPhiNgoaiTeForm" path="/BKeTinhPhiNgoaiTeAction"
+           scope="request" type="com.seatech.ttsp.bketinhphi_ngoaite.BKeTinhPhiNgoaiTeAction">
+      <forward name="success" path="/pages/bketinhphi_ngoaite/BKeTinhPhi_NgoaiTe.jsp"/>
+   </action>
+   <action name="BKeTinhPhiNgoaiTeForm" path="/printBKeTinhPhiNgoaiTe" parameter="print"
+           scope="request" type="com.seatech.ttsp.bketinhphi_ngoaite.BKeTinhPhiNgoaiTeAction">
+      <forward name="success" path="/pages/bketinhphi_ngoaite/BKeTinhPhi_NgoaiTe.jsp"/>
+      <forward name="failure" path="/pages/bketinhphi_ngoaite/BKeTinhPhi_NgoaiTe.jsp"/>
+   </action>
+   
+   <action name="BKeTinhLaiNgoaiTeForm" path="/BKeTinhLaiNgoaiTeAction"
+           scope="request" type="com.seatech.ttsp.bketinhlai_ngoaite.BKeTinhLaiNgoaiTeAction">
+      <forward name="success" path="/pages/bketinhlaingoaite/bketinhlaingoaite.jsp"/>
+      <forward name="failure" path="/pages/bketinhlaingoaite/bketinhlaingoaite.jsp"/>
+   </action>
+   <action name="BKeTinhLaiNgoaiTeForm" path="/printBKeTinhLaiNgoaiTe" parameter="print"
+           scope="request" type="com.seatech.ttsp.bketinhlai_ngoaite.BKeTinhLaiNgoaiTeAction">
+      <forward name="success" path="/pages/bketinhlaingoaite/bketinhlaingoaite.jsp"/>
+      <forward name="failure" path="/pages/bketinhlaingoaite/bketinhlaingoaite.jsp"/>
+   </action>
+   <action name="BKePhiPOSForm" path="/listBKePhiPOSAction"
+           scope="request" type="com.seatech.ttsp.phipos.BKePhiPOSAction">
+      <forward name="success" path="/pages/phipos/bkephipos.jsp"/>
+      <forward name="failure" path="/pages/phipos/bkephipos.jsp"/>
+   </action>
+   <action name="BKePhiPOSForm" path="/printBKePhiPOSAction" parameter="print"
+           scope="request" type="com.seatech.ttsp.phipos.BKePhiPOSAction">
+      <forward name="success" path="/pages/phipos/bkephipos.jsp"/>
+      <forward name="failure" path="/pages/phipos/bkephipos.jsp"/>
+   </action>
+   <action name="BKePhiPOSForm" path="/detailBKePhiPOSAction" parameter="view"
+           scope="request" type="com.seatech.ttsp.phipos.BKePhiPOSAction">
+      <forward name="success" path="/pages/phipos/chitietphipos.jsp"/>
+      <forward name="failure" path="/pages/phipos/chitietphipos.jsp"/>
+   </action>
+    <action name="BKePhiPOSForm" path="/detailGDPOSAction" parameter="list"
+           scope="request" type="com.seatech.ttsp.phipos.BKePhiPOSAction">
+      <forward name="success" path="/pages/phipos/chitietgdpos.jsp"/>
+      <forward name="failure" path="/pages/phipos/chitietgdpos.jsp"/>
+   </action>
+   <!--2016 start them moi tra cuu cac bang ke giao dich thu cong-->
+   <action name="BKeGDichTCongForm" path="/bkeGDichTCongAction" parameter="list"
+           scope="request" type="com.seatech.ttsp.reports.bkegdichtcong.action.BKeGDichTCongAction">
+      <forward name="success" path="/pages/rpt_gdich_tcong/BKe_GDich_TCong.jsp"/>
+      <forward name="failure" path="/pages/rpt_gdich_tcong/BKe_GDich_TCong.jsp"/>
+   </action> 
+   <action name="BKeGDichTCongForm" path="/printBKeGDichTCongAction" parameter="print"
+           scope="request" type="com.seatech.ttsp.reports.bkegdichtcong.action.BKeGDichTCongAction">
+      <forward name="success" path="/pages/rpt_gdich_tcong/BKe_GDich_TCong.jsp"/>
+      <forward name="failure" path="/pages/rpt_gdich_tcong/BKe_GDich_TCong.jsp"/>
+   </action> 
+    <!--2016 end them moi tra cuu cac bang ke giao dich thu cong-->
+  </action-mappings>
+</struts-config>

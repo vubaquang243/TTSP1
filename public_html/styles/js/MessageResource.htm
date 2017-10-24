@@ -1,0 +1,71 @@
+//thong bao loi validate
+var msgInvalidFormat = "Giá trị cho trường này không hợp lệ!";
+var msgInvalidFormat_DMuc = "Giá trị hạn mức bạn nhập không hợp lệ. Hạn mức có định dạng ####.##!";
+var msgInvalidFormat_TienNT = "Giá trị tiền nguyên tệ bạn bạn nhập không hợp lệ. Số tiền nguyên tệ có định dạng ####.##!";
+
+var msgInvalidFormat_TienNT_VND = "Giá trị tiền nguyên tệ bạn bạn nhập cho Mã nguyên tệ là VND không hợp lệ. Số tiền nguyên tệ có định dạng ####!";
+var msgInvalidSize = "Kích thước trường này vượt quá giới hạn cho phép!"; 
+var msgInvalidToLager_TienNT = "Giá trị số tiền quá lớn. Giá trị cho tổng tiền không vượt quá ?" 
+var msgRequire = "Phải nhập dữ liệu cho trường này!";
+var msgInvalidPosValue = "Phải nhập giá trị dương!";
+var msgInvalidValue = "Không chấp nhận giá trị âm!";
+var msgInvalidTin = "Mã số thuế không hợp lệ!";
+var msgMainBusiRequired = "Chưa có Ngành nghề kinh doanh chính";
+var msgTinPayRerquired = "Phải nhập ít nhất một loại thuế";
+var msgCompare = "1 không được lớn hơn 2!";
+var msgCompare1 = "1 không được bé hơn 2!";
+var msgCompare2 = "w không được lớn hơn z!";
+var msgBkeExist = "Có giá trị bên bản kê";
+var msgGPKD_CMTRequire = "Phải nhập sô GPKD/ngày cấp hoặc số CMT";
+var msgNotDelete = "Trường này không được xoá!";
+var msgInvalidStartDate = "Ngày không hợp lệ, chỉ được trong khoảng 1945 đến sau ngày hiện tại 2 năm";
+var msgInvalidRevcDate = "Ngày nhân tờ khai không hợp lệ, phải sau ngày 01/01/1945";
+var msgNotDelBranch = "Không được xoá các chi nhánh đã đăng ký";
+var msgInvalidPass = "Mật khẩu xác nhận phải trùng với mật khẩu";
+var msgConfirmExit = "Bạn có muốn thoát thật không?";
+var msgSizeRequire = "phải nhập dữ liệu đủ số ký tự là : ";
+var lengthMaDiaban="5";
+
+var common_exit_confirm="Bạn có chắc chắn muốn thoát khỏi chức năng này?"
+var common_delete_confirm="Bạn có chắc chắn xóa không?"
+
+var DnsDmCqtcForm_ma_required="Bạn phải nhập mã cơ quan tài chính";
+var DnsDmCqtcForm_ma_ten="Bạn phải nhập tên cơ quan tài chính";
+var DnsDmCqtcForm_dbn_id="Bạn phải nhập mã địa bàn";
+var DnsDmCqtcForm_ma_captren="Mã CQTC không thể trùng với mã cơ quan cấp trên";
+var DnsDmCqtcForm_id_cha_required="Bạn phải nhập cơ quan cấp trên nếu cấp khác 1";
+var DnsDmCqtcForm_id_cha_not_required="Bạn không phải nhập cơ quan cấp trên nếu cấp dự toán bằng 1";
+var DnsDmCqtcForm_id_cha_required_cap1="Kho bạc cấp 1 có mã '0001' đã tồn tại, bạn không thể sửa bản ghi này thành cấp 1.";
+var DnsDmKBForm_id_cha_required_cap1_add="Kho bạc cấp 1 đã tồn tại, bạn không thể thêm mới KB có cấp bằng 1.";
+var DnsDmCqtcForm_id_cha_required_cap1_add="CQTC cấp 1 đã tồn tại, bạn không thể thêm mới CQTC có cấp bằng 1.";
+
+//Nhap chung tu
+var tcs_nhap_ct_kbnn_thu_required="Bạn phải nhập Kho bạc nhà nước thu.";
+var tcs_nhap_ct_tk_no_required = "Bạn phải nhập tài khoản nợ ngân hàng";
+var tcs_nhap_ct_ttk_no_required = "Bạn phải nhập tên tài khoản nợ ngân hàng";
+var tcs_nhap_ct_ma_thue_required="Bạn phải nhập mã số thuế.";
+var tcs_nhap_ct_ten_thue_required="Bạn phải nhập tên NNT.";
+var tcs_nhap_ct_tk_tnsach_required="Bạn phải nhập tài khoản thu ngân sách.";
+var tcs_nhap_ct_ma_dbhc_required="Bạn phải nhập mã địa bàn hành chính.";
+var tcs_nhap_ct_cqthu_required = "Bạn phải nhập mã cơ quan thu";
+var tcs_nhap_ct_ngay_ct_required="Bạn phải nhập Ngày chứng từ.";
+var tcs_nhap_ct_ma_quy="Bạn phải nhập mã quỹ.";
+var tcs_nhap_ct_ma_chuong="Bạn phải nhập mã chương.";
+var tcs_nhap_ct_ma_nkt="Bạn phải nhập mã ngành kinh tế.";
+var tcs_nhap_ct_noidung_kt="Bạn phải nhập nội dung kinh tế.";
+var tcs_nhap_ct_tiennt_invalid="Bạn phải nhập số tiền nguyên tệ";
+var tcs_nhap_ct_ty_gia_invalid="Bạn phải nhập tỷ giá";
+var tcs_nhap_ct_tien_invalid="Bạn phải nhập số tiền";
+var tcs_nhap_ct_ky_thue="Bạn phải nhập kỳ thuế.";
+var tcs_nhap_ct_khtk="Bạn phải nhập KHTK.";
+var tcs_nhap_ct_detail_row="Chứng từ không được có 2 dòng chi tiết trùng nhau.";
+var tcs_nhap_ct_noidung="Mã nội dung kinh tế bạn nhập sai. Bạn phải nhập lại";
+var tcs_ttk_tienmat = "Tài khoản tiền mặt của Ngân hàng";
+
+var tcsttkb_loaithue_required = "Bạn phải nhập loại thuế";
+
+
+//LOGIN FORM
+var LoginForm_username_required="Bạn phải nhập tên người dùng";
+
+var LoginForm_password_required="Bạn phải nhập mật khẩu";

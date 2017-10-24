@@ -1,0 +1,294 @@
+BODY {
+	BACKGROUND-COLOR: white
+}
+H1 {
+	FONT-FAMILY: Arial, sans-serif
+}
+H2 {
+	FONT-FAMILY: Arial, sans-serif
+}
+.WarningRow {
+	BACKGROUND-COLOR: yellow; COLOR: red
+}
+.HeaderApprove {
+	BORDER-BOTTOM: rgb(214,214,214) 1pt solid; TEXT-ALIGN: left; BORDER-LEFT: rgb(214,214,214) 1pt solid; FONT-FAMILY: Tahoma, Verdana,   Arial, Helvetica, sans-serif; BACKGROUND: url(../images/bg_Title.jpg); HEIGHT: 18pt; COLOR: #000000; FONT-SIZE: 8pt; BORDER-TOP: rgb(214,214,214) 1pt solid; FONT-WEIGHT: bold; BORDER-RIGHT: rgb(214,214,214) 1pt solid
+}
+.HeaderCT {
+	BORDER-BOTTOM: rgb(214,214,214) 0pt solid; TEXT-ALIGN: left; BORDER-LEFT: rgb(214,214,214) 0pt solid; FONT-FAMILY: Tahoma, Verdana,   Arial, Helvetica, sans-serif; BACKGROUND: url(../images/bg_Title.jpg); HEIGHT: 15pt; COLOR: #000000; FONT-SIZE: 8pt; BORDER-TOP: rgb(214,214,214) 0pt solid; FONT-WEIGHT: bold; BORDER-RIGHT: rgb(214,214,214) 0pt solid
+}
+.ApproveSelect {
+	BORDER-BOTTOM: #cccccc 0px solid; BORDER-LEFT: #cccccc 0px solid; BACKGROUND-COLOR: #ffffff; WIDTH: 180pt; FONT-FAMILY: Tahoma, Verdana,   Arial, Helvetica, sans-serif; HEIGHT: 12pt; FONT-SIZE: 8pt; BORDER-TOP: #cccccc 0px solid; BORDER-RIGHT: #cccccc 0px solid
+}
+.ApproveCode {
+	BORDER-BOTTOM: #cccccc 1px solid; TEXT-ALIGN: left; BORDER-LEFT: #cccccc 1px solid; BACKGROUND-COLOR: #ffffff; WIDTH: 55pt; FONT-FAMILY: Tahoma, Verdana,   Arial, Helvetica, sans-serif; FONT-SIZE: 8pt; BORDER-TOP: #cccccc 1px solid; BORDER-RIGHT: #cccccc 1px solid
+}
+.ApproveName {
+	BORDER-BOTTOM: #cccccc 1px solid; TEXT-ALIGN: left; BORDER-LEFT: #cccccc 1px solid; BACKGROUND-COLOR: #ffffff; WIDTH: 120pt; FONT-FAMILY: Tahoma, Verdana,   Arial, Helvetica, sans-serif; FONT-SIZE: 8pt; BORDER-TOP: #cccccc 1px solid; BORDER-RIGHT: #cccccc 1px solid
+}
+.PageNumber {
+	BORDER-BOTTOM: rgb(231,231,231) 1pt hidden; TEXT-ALIGN: center; BORDER-LEFT: rgb(231,231,231) 1pt hidden; WIDTH: 30pt; BORDER-TOP: rgb(231,231,231) 1pt hidden; BORDER-RIGHT: rgb(231,231,231) 1pt hidden
+}
+.navigateable {
+	BORDER-BOTTOM: rgb(153,153,153) 1pt solid; BORDER-LEFT: rgb(153,153,153) 1pt solid; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; BORDER-SPACING: 0pt; PADDING-RIGHT: 0px; BORDER-TOP: rgb(153,153,153) 1pt solid; BORDER-RIGHT: rgb(153,153,153) 1pt solid; PADDING-TOP: 0px
+}
+H3 {
+	FONT-FAMILY: Arial, sans-serif
+}
+.TR_Selected {
+  BACKGROUND: rgb(198,214,255)
+}
+.styleWidth389 {
+	WIDTH: 413pt
+}
+.styleWidth390 {
+	WIDTH: 415pt
+}
+.styleWidth459 {
+	WIDTH: 459pt
+}
+.styleWidth392 {
+	WIDTH: 383pt
+}
+.styleWidth388 {
+	WIDTH: 380pt; FONT-FAMILY: Tahoma, sans-serif; COLOR: black; FONT-SIZE: 10pt
+}
+.styleWidth246Ma {
+	WIDTH: 238pt; FONT-FAMILY: Tahoma, sans-serif; BACKGROUND: white; COLOR: black; FONT-SIZE: 10pt
+}
+.styleWidth242Ma {
+	WIDTH: 235pt; FONT-FAMILY: Tahoma, sans-serif; BACKGROUND: rgb(247,247,247); COLOR: black; FONT-SIZE: 10pt
+}
+.sortKey {
+	FONT-FAMILY: Tahoma, sans-serif; COLOR: activecaption; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+.styleWidthSelectSpan {
+	WIDTH: 223pt; FONT-FAMILY: Tahoma, sans-serif; BACKGROUND: rgb(231,231,231); COLOR: black; FONT-SIZE: 10pt
+}
+.styleWidthSelectSpan3 {
+	WIDTH: 285pt; FONT-FAMILY: Tahoma, sans-serif; BACKGROUND: rgb(247,247,247); COLOR: black; FONT-SIZE: 10pt
+}
+.styleWidthSelect {
+	WIDTH: 200pt; FONT-FAMILY: Tahoma, sans-serif; COLOR: black; FONT-SIZE: 10pt
+}
+.styleWidthSelect1 {
+	WIDTH: 224pt; FONT-FAMILY: Tahoma, sans-serif; BACKGROUND: rgb(214,214,214); COLOR: black; FONT-SIZE: 10pt
+}
+.styleWidth142Ma {
+	WIDTH: 142pt; FONT-FAMILY: Tahoma, sans-serif; BACKGROUND: rgb(247,247,247); COLOR: black; FONT-SIZE: 10pt
+}
+.styleWidth142B {
+	WIDTH: 154pt; FONT-FAMILY: Tahoma, sans-serif; BACKGROUND: rgb(214,214,214); COLOR: black; FONT-SIZE: 10pt
+}
+.styleWidth130Ma {
+	WIDTH: 130pt; FONT-FAMILY: Tahoma, sans-serif; BACKGROUND: rgb(181,181,181); COLOR: black; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+.styleWidth125Ma {
+	WIDTH: 125pt; FONT-FAMILY: Tahoma, sans-serif; BACKGROUND: white; COLOR: black; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+.styleWidth125 {
+	WIDTH: 125pt; FONT-FAMILY: Tahoma, sans-serif; COLOR: black; FONT-SIZE: 10pt
+}
+.styleWidth187 {
+	WIDTH: 187pt; FONT-FAMILY: Tahoma, sans-serif; COLOR: black; FONT-SIZE: 10pt
+}
+.styleWidth120Ma {
+	WIDTH: 120pt; FONT-FAMILY: Tahoma, sans-serif; BACKGROUND: white; COLOR: black; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+.styleWidth200 {
+	WIDTH: 200pt; FONT-FAMILY: Tahoma, sans-serif; COLOR: black; FONT-SIZE: 10pt
+}
+.styleWidth195 {
+	WIDTH: 195pt; FONT-FAMILY: Tahoma, sans-serif; COLOR: black; FONT-SIZE: 10pt
+}
+.styleWidth250 {
+	WIDTH: 250pt; FONT-FAMILY: Tahoma, sans-serif; COLOR: black; FONT-SIZE: 10pt
+}
+.styleWidth230 {
+	WIDTH: 230pt; FONT-FAMILY: Tahoma, sans-serif; COLOR: black; FONT-SIZE: 10pt
+}
+.styleWidth460 {
+	WIDTH: 460pt; FONT-FAMILY: Tahoma, sans-serif; COLOR: black; FONT-SIZE: 10pt
+}
+.styleWidth370 {
+	WIDTH: 370pt; FONT-FAMILY: Tahoma, sans-serif; COLOR: black; FONT-SIZE: 10pt
+}
+.ErrorList {
+	BORDER-BOTTOM: rgb(153,153,153) 1pt solid; BORDER-LEFT: rgb(153,153,153) 1pt solid; WIDTH: 100%; FONT-FAMILY: tahoma; BACKGROUND: white; COLOR: red; FONT-SIZE: 10pt; VERTICAL-ALIGN: middle; BORDER-TOP: rgb(153,153,153) 1pt solid; BORDER-RIGHT: rgb(153,153,153) 1pt solid
+}
+.msgSuccess {
+	BORDER-BOTTOM: green 1pt solid; BORDER-LEFT: green 1pt solid; WIDTH: 100%; FONT-FAMILY: tahoma; BACKGROUND: white; COLOR: blue; FONT-SIZE: 10pt; VERTICAL-ALIGN: middle; BORDER-TOP: green 1pt solid; BORDER-RIGHT: green 1pt solid
+}
+.SearchFormTable {
+	BORDER-BOTTOM: rgb(168,211,124) 1pt solid; BORDER-LEFT: rgb(168,211,124) 1pt solid; WIDTH: 98%; BACKGROUND: rgb(247,247,247); BORDER-TOP: rgb(168,211,124) 1pt solid; BORDER-RIGHT: rgb(168,211,124) 1pt solid
+}
+.SearchFormTableContent {
+	BORDER-BOTTOM: green 1pt solid; BORDER-LEFT: green 1pt solid; WIDTH: 98%; BACKGROUND: rgb(247,247,247); BORDER-TOP: green 1pt solid; BORDER-RIGHT: green 1pt solid
+}
+.SearhFormHeader {
+	BORDER-BOTTOM: rgb(198,198,198) 1pt solid; BORDER-LEFT: rgb(198,198,198) 1pt solid; BACKGROUND: rgb(214,214,214); BORDER-TOP: rgb(198,198,198) 1pt solid; BORDER-RIGHT: rgb(198,198,198) 1pt solid
+}
+.SearhFormContent {
+	BORDER-BOTTOM: rgb(231,231,231) 1pt solid; BORDER-LEFT: rgb(231,231,231) 1pt solid; BACKGROUND: white; BORDER-TOP: rgb(231,231,231) 1pt solid; BORDER-RIGHT: rgb(231,231,231) 1pt solid
+}
+.styleWidth142 {
+	WIDTH: 154pt
+}
+.styleWidth100 {
+	WIDTH: 100pt
+}
+.styleWidth80 {
+	WIDTH: 80pt
+}
+.styleWidth65 {
+	WIDTH: 65pt
+}
+.styleWidth70 {
+	WIDTH: 70pt
+}
+.styleWidth60 {
+	WIDTH: 60pt
+}
+.ListFormTable {
+	
+}
+.UpdateFormTable {
+	BORDER-BOTTOM: rgb(153,153,153) 1pt solid; BORDER-LEFT: rgb(153,153,153) 1pt solid; WIDTH: 100%; BORDER-TOP: rgb(153,153,153) 1pt solid; BORDER-RIGHT: rgb(153,153,153) 1pt solid
+}
+.UpdateFormTableContent {
+	WIDTH: 100%
+}
+.UpdateFormHeader {
+	BORDER-BOTTOM: black 0pt solid; BORDER-LEFT: black 0pt solid; WIDTH: 100%; FONT-FAMILY: Tahoma, Verdana,   Arial, Helvetica, sans-serif; BACKGROUND: url(../images/bg_Title.jpg); HEIGHT: 18pt; COLOR: #000000; FONT-SIZE: 8pt; BORDER-TOP: black 0pt solid; FONT-WEIGHT: bold; BORDER-RIGHT: black 0pt solid
+}
+.UpdateFormDemiHeader {
+	BORDER-BOTTOM: black 0pt solid; BORDER-LEFT: black 0pt solid; WIDTH: 45%; FONT-FAMILY: Tahoma; BACKGROUND: rgb(231,231,231); HEIGHT: 18pt; FONT-SIZE: 10pt; BORDER-TOP: black 0pt solid; FONT-WEIGHT: bold; BORDER-RIGHT: black 0pt solid
+}
+.Legend {
+	COLOR: blue; FONT-WEIGHT: bold
+}
+.styleWidth201 {
+	WIDTH: 157pt
+}
+.BorderLager {
+	BORDER-BOTTOM: rgb(102,153,204) 1pt solid; BORDER-LEFT: rgb(102,153,204) 1pt solid; BACKGROUND: rgb(232,243,255); BORDER-TOP: rgb(102,153,204) 1pt solid; BORDER-RIGHT: rgb(102,153,204) 1pt solid
+}
+.TableBorderContent {
+	BORDER-BOTTOM: rgb(225,225,225) 1pt solid; BORDER-LEFT: rgb(225,225,225) 1pt solid; BORDER-COLLAPSE: collapse; BORDER-TOP: rgb(225,225,225) 1pt solid; BORDER-RIGHT: rgb(225,225,225) 1pt solid
+}
+.TableBorder {
+	BORDER-BOTTOM: rgb(153,153,153) 1pt solid; TEXT-ALIGN: left; BORDER-LEFT: rgb(153,153,153) 1pt solid; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; BORDER-SPACING: 0pt; PADDING-RIGHT: 0px; BORDER-COLLAPSE: collapse; FONT-FAMILY: Tahoma, Verdana,   Arial, Helvetica, sans-serif; COLOR: #000000; FONT-SIZE: 8pt; BORDER-TOP: rgb(153,153,153) 1pt solid; BORDER-RIGHT: rgb(153,153,153) 1pt solid; PADDING-TOP: 0px
+}
+.SubTable {
+	BORDER-BOTTOM: 0pt; BORDER-LEFT: 0pt; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; BORDER-SPACING: 0pt; PADDING-RIGHT: 0px; BORDER-COLLAPSE: collapse; BORDER-TOP: 0pt; BORDER-RIGHT: 0pt; PADDING-TOP: 0px
+}
+.TokhaiTextRight {
+	WIDTH: 130pt
+}
+.TokhaiSubHeader_Mau03 {
+	BACKGROUND: rgb(228,228,228); HEIGHT: 18pt; COLOR: black; FONT-WEIGHT: bold
+}
+.TableBorder_Mau03 {
+	BORDER-BOTTOM: #6699cc 1pt double; BORDER-LEFT: #6699cc 1pt double; WIDTH: 100%; BACKGROUND: white; BORDER-TOP: #6699cc 1pt double; BORDER-RIGHT: #6699cc 1pt double
+}
+.TokhaiFormTDLeft_Mau03 {
+	WIDTH: 70pt
+}
+.TokhaiFormTDRight_Mau03 {
+	BACKGROUND: white
+}
+.TokhaiFormTDLeft_2_Mau03 {
+	BORDER-BOTTOM: rgb(247,247,247) 1pt solid; BORDER-LEFT: rgb(247,247,247) 1pt solid; WIDTH: 50pt; BACKGROUND: white; BORDER-TOP: rgb(247,247,247) 1pt solid; BORDER-RIGHT: rgb(247,247,247) 1pt solid
+}
+.TokhaiMau03TextLeft {
+	WIDTH: 40pt
+}
+.TokhaiMau03TextLeftMa {
+	WIDTH: 40pt; FONT-FAMILY: Tahoma, sans-serif; BACKGROUND: rgb(181,181,181); COLOR: black; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+.TokhaiMau03TextRight {
+	WIDTH: 187pt
+}
+.TokhaiMau03TextRightMa_colspan {
+	WIDTH: 187pt; FONT-FAMILY: Tahoma, sans-serif; BACKGROUND: rgb(181,181,181); COLOR: black; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+.TokhaiMau03TextRightMaSearch {
+	WIDTH: 130pt; FONT-FAMILY: Tahoma, sans-serif; BACKGROUND: rgb(181,181,181); COLOR: black; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+.TokhaiMau03TextRightMa {
+	WIDTH: 145pt; FONT-FAMILY: Tahoma, sans-serif; BACKGROUND: rgb(181,181,181); COLOR: black; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+.TokhaiFormTDLeft {
+	BORDER-BOTTOM: rgb(247,247,247) 1pt solid; BORDER-LEFT: rgb(247,247,247) 1pt solid; BACKGROUND: white; BORDER-TOP: rgb(247,247,247) 1pt solid; BORDER-RIGHT: rgb(247,247,247) 1pt solid
+}
+.TokhaiSubHeader {
+	BORDER-BOTTOM: gray 1pt solid; BORDER-LEFT: gray 0pt solid; BACKGROUND: rgb(231,231,231); HEIGHT: 18pt; COLOR: black; BORDER-TOP: gray 0pt solid; FONT-WEIGHT: bold; BORDER-RIGHT: gray 0pt solid
+}
+.TokhaiFormTDLeftNolenhth {
+	BORDER-BOTTOM: rgb(247,247,247) 1pt solid; BORDER-LEFT: rgb(247,247,247) 1pt solid; BACKGROUND: white; BORDER-TOP: rgb(247,247,247) 1pt solid; BORDER-RIGHT: rgb(247,247,247) 1pt solid
+}
+.styleWidthSelectTK {
+	WIDTH: 140pt
+}
+.styleWidth400 {
+	WIDTH: 228pt
+}
+.TokhaistyleWidthSelectSpan {
+	BACKGROUND: rgb(247,247,247)
+}
+.TokhaiTextRight {
+	WIDTH: 150pt
+}
+.TokhaiFormTDRight {
+	BORDER-BOTTOM: rgb(247,247,247) 1pt solid; BORDER-LEFT: rgb(247,247,247) 1pt solid; BACKGROUND: white; BORDER-TOP: rgb(247,247,247) 1pt solid; BORDER-RIGHT: rgb(247,247,247) 1pt solid
+}
+.TokhaiQuyetDinh {
+	WIDTH: 60pt
+}
+.TokhaiDiabanTen {
+	WIDTH: 120pt
+}
+.TokhaiDiabanMa {
+	WIDTH: 50pt
+}
+.TokhaistyleWidth142 {
+	WIDTH: 80pt
+}
+.TokhaistyleWidth142Ma {
+	BORDER-BOTTOM: 0px; TEXT-ALIGN: center; BORDER-LEFT: 0px; WIDTH: 160pt; FONT-FAMILY: Tahoma, Helvetica, sans-serif; BACKGROUND: rgb(232,243,255); LETTER-SPACING: 10.1pt; HEIGHT: 14pt; FONT-SIZE: 10pt; BORDER-TOP: 0px; FONT-WEIGHT: bold; BORDER-RIGHT: 0px
+}
+.UpdateFormTDLeft {
+	BORDER-BOTTOM: rgb(247,247,247) 1pt solid; TEXT-ALIGN: left; BORDER-LEFT: rgb(247,247,247) 1pt solid; FONT-FAMILY: Tahoma, Verdana,   Arial, Helvetica, sans-serif; BACKGROUND: white; COLOR: #000000; FONT-SIZE: 8pt; BORDER-TOP: rgb(247,247,247) 1pt solid; BORDER-RIGHT: rgb(247,247,247) 1pt solid
+}
+.UpdateFormTDRight {
+	BORDER-BOTTOM: rgb(247,247,247) 1pt solid; BORDER-LEFT: rgb(247,247,247) 1pt solid; BACKGROUND: white; BORDER-TOP: rgb(247,247,247) 1pt solid; BORDER-RIGHT: rgb(247,247,247) 1pt solid
+}
+.UpdateFormFooter {
+	TEXT-ALIGN: center; WIDTH: 100%
+}
+.ButtonCommon {
+	WIDTH: 60pt
+}
+.ButtonCommonSmall {
+	WIDTH: 30pt
+}
+.ButtonCommonSmallInHeader {
+	BORDER-BOTTOM: navy 1px double; BORDER-LEFT: navy 1px double; WIDTH: 18pt; FONT-FAMILY: Tahoma, Verdana,  Helvetica, Courier; HEIGHT: 13pt; COLOR: navy; FONT-SIZE: 8pt; VERTICAL-ALIGN: middle; BORDER-TOP: navy 1px double; FONT-WEIGHT: bold; BORDER-RIGHT: navy 1px double
+}
+.Pager {
+	BORDER-BOTTOM: rgb(181,181,181) 0pt solid; TEXT-ALIGN: right; BORDER-LEFT: rgb(181,181,181) 0pt solid; BACKGROUND: rgb(247,247,247); BORDER-TOP: rgb(181,181,181) 0pt solid; BORDER-RIGHT: rgb(181,181,181) 0pt solid
+}
+.clsTitleBody {
+	BORDER-BOTTOM: rgb(247,247,247) 1pt solid; BORDER-LEFT: rgb(247,247,247) 1pt solid; BACKGROUND-COLOR: white; FONT-FAMILY: Tahoma, Verdana,   Arial, Helvetica, sans-serif; COLOR: #000000; FONT-SIZE: 8pt; BORDER-TOP: rgb(247,247,247) 1pt solid; BORDER-RIGHT: rgb(247,247,247) 1pt solid
+}
+.HeaderColumn {
+	BORDER-BOTTOM: gray 1pt solid; TEXT-ALIGN: center; BORDER-LEFT: gray 1pt solid; FONT-FAMILY: Tahoma, Verdana,   Arial, Helvetica, sans-serif; BACKGROUND: rgb(240,240,240); HEIGHT: 18pt; COLOR: #000000; FONT-SIZE: 8pt; BORDER-TOP: gray 1pt solid; BORDER-RIGHT: gray 1pt solid
+}
+.commomTable {
+	BORDER-BOTTOM-COLOR: #999999; TEXT-ALIGN: center; BORDER-TOP-COLOR: #999999; BORDER-COLLAPSE: collapse; BORDER-RIGHT-COLOR: #999999; BORDER-LEFT-COLOR: #999999
+}
+.commomTable1 {
+	BORDER-BOTTOM-COLOR: #e1e1e1; TEXT-ALIGN: center; BORDER-TOP-COLOR: #e1e1e1; BORDER-COLLAPSE: collapse; BORDER-RIGHT-COLOR: #e1e1e1; BORDER-LEFT-COLOR: #e1e1e1
+}
+.commonTextTD {
+	BORDER-BOTTOM: #cccccc 1px solid; TEXT-ALIGN: left; BORDER-LEFT: #cccccc 1px solid; WIDTH: 100%; FONT-FAMILY: Tahoma, Verdana, Arial, Helvetica, sans-serif; BACKGROUND: #ededed; HEIGHT: 14pt; FONT-SIZE: 8pt; BORDER-TOP: #cccccc 1px solid; BORDER-RIGHT: #cccccc 1px solid
+}
