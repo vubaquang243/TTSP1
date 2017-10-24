@@ -3,11 +3,8 @@ package com.seatech.ttsp.tracuukhobac;
 public class TraCuuKhoBacVO {
     private String ma;
     private String ten;
-<<<<<<< HEAD
     private String id_cha;
     private String id;
-=======
->>>>>>> master
 
     public void setMa(String ma) {
         this.ma = ma;
@@ -24,7 +21,6 @@ public class TraCuuKhoBacVO {
     public String getTen() {
         return ten;
     }
-<<<<<<< HEAD
 
     public void setId_cha(String id_cha) {
         this.id_cha = id_cha;
@@ -41,6 +37,4 @@ public class TraCuuKhoBacVO {
     public String getId() {
         return id;
     }
-=======
->>>>>>> master
 }
