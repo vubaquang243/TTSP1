@@ -203,6 +203,9 @@
                       <html:option value="">---Ch&#7885;n lo&#7841;i &#273;&#7889;i chi&#7871;u---</html:option>
                       <html:option value="01">QT tự động</html:option>
                       <html:option value="02">QT lập mới</html:option>
+                      <html:option value="04">QT bù số chi ngày lỗi</html:option>
+                      <html:option value="06">QT bù số thu ngày lỗi</html:option>
+                      <html:option value="05">QT thấu chi</html:option>
                       <html:option value="07">QT loại khác</html:option>
                   </html:select>                 
                   </td>

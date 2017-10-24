@@ -440,6 +440,42 @@ public class XNDCTHop1Action extends AppAction {
                     dcVO.setTthai_dxn_thop("01");
 //                }
 //20150128-manhnv***************************************************************
+ //20170926 - thuongdt bat them kiem tra lai so QThu chi bang 0 begin
+               String strQToanThu = frm.getQtoan_thu() == null ? "0" : frm.getQtoan_thu();
+               String strQtoanChi = frm.getQtoan_chi() == null ? "0" : frm.getQtoan_chi(); 
+              BigDecimal fQTThu = new BigDecimal(0);
+              BigDecimal fQTChi = new BigDecimal(0);
+              BigDecimal fTongThu = new BigDecimal(0);
+              BigDecimal fTongChi = new BigDecimal(0);
+              if ("Y".equals(cho_phep_nhap_tcong) || "Y".equals(cho_phep_qtoan_tam)){
+              }else{  
+               if("0".equals(strQToanThu) || "0".equals(strQtoanChi)){ 
+                 Collection colTHDC = dao.getXNTHData("'"+ttsp_id+"'", null);
+                    String receive_bank = frm.getReceive_bank();
+                String str066 = " AND a.nhkb_chuyen= '" + kb_chuyen + "' and a.nhkb_nhan='" +
+                                  receive_bank + "' and to_char(a.ngay_qtoan,'DD/MM/RRRR')='" +
+                                  ngay_dc + "' and a.loai_qtoan <> '03' AND a.trang_thai <> '03' AND a.loai_tien ='VND'";
+                 Collection col066 = dao.getData066(str066, null);
+                 Iterator itr066  = col066.iterator();
+                 while(itr066.hasNext()){
+                  XNKQDCDataVO xnvo = (XNKQDCDataVO)itr066.next();   
+                  fQTThu = fQTThu.add(new BigDecimal(xnvo.getQtoan_thu()));
+                  fQTChi = fQTChi.add(new BigDecimal(xnvo.getQtoan_chi()));;   
+                }
+            //lay so lieu 066 doi voi truong hop co quyet toan tam trong ngay end
+                 Iterator itr = colTHDC.iterator();
+                 if(itr.hasNext()){
+                    XNKQDCDataVO xn = (XNKQDCDataVO)itr.next(); 
+                      fTongThu = xn.getKet_chuyen_thu().subtract(fQTThu);
+                      fTongChi = xn.getKet_chuyen_chi().subtract(fQTChi); 
+                    if(fTongThu.compareTo(new BigDecimal(strQToanThu)) != 0  || fTongChi.compareTo(new BigDecimal(strQtoanChi)) != 0 ) 
+                      {
+                      request.setAttribute("dchieu_clech_qtoan", "dchieu_clech_qtoan");
+                      return mapping.findForward("success"); 
+                      }
+                    }   
+                  }
+                }
               //thuongdt-20170407 check lai truong hop de lot chenh lech nhưng van cho tao dien begin
               DChieu1VO dcKQVO = new DChieu1VO();
               String strWhereClause = " and id = '"+ttsp_id+"' ";      

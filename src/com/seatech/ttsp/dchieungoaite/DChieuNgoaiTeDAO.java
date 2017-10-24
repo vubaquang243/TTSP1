@@ -256,7 +256,7 @@ public class DChieuNgoaiTeDAO extends AppDAO {
                     " SP_065_DTL_ltien AS (select mt_id,', Lo?i ti?n' lech,ctiet " + 
                     " from (select mt_id,BKQ_ID,send_bank,receive_bank,f32as3,ngay_ct,wmsys.wm_concat(loai_tien) ctiet,count(0) tonglech from sp_065_dtl_ngoai_te where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,send_bank,receive_bank,f32as3,ngay_ct) aa where tonglech >1), " + 
                     //lay cac bang ke co chenh lech theo ngay chung tu ngay_ct
-                    " SP_065_DTL_ngay AS (select mt_id,', Ngày ch?ng t?' lech,ctiet " + 
+                    " SP_065_DTL_ngay AS (select mt_id,', Ngï¿½y ch?ng t?' lech,ctiet " + 
                     " from (select mt_id,BKQ_ID,send_bank,receive_bank,f32as3,loai_tien,wmsys.wm_concat(ngay_ct) ctiet,count(0) tonglech from sp_065_dtl_ngoai_te where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,send_bank,receive_bank,f32as3,loai_tien) aa where tonglech >1), " + 
                     //lay cac bang ke co chenh lech theo so tien f32as3
                     " SP_065_DTL_tien AS (select mt_id,', s? ti?n' lech ,ctiet " + 
@@ -280,7 +280,7 @@ public class DChieuNgoaiTeDAO extends AppDAO {
                     " ,SP_065_DTL_ngay ngay,SP_065_DTL_tien tien,SP_065_DTL_receive_bank rec,SP_065_DTL_send_bank sen,SP_065_DTL_ltien ltien " +
                     " where 1=1 and a.bkq_id= c.mt_id and c.receive_bank=b.ma_nh " +
                      //join bang tam
-                    " and dtl.mt_id = ngay.mt_id(+)and dtl.mt_id = tien.mt_id(+)and dtl.mt_id = rec.mt_id(+)and dtl.mt_id = sen.mt_id(+) and dtl.mt_id = ltien.mt_id(+)" +
+                    " and a.mt_id = ngay.mt_id(+)and a.mt_id = tien.mt_id(+)and a.mt_id = rec.mt_id(+)and a.mt_id = sen.mt_id(+) and a.mt_id = ltien.mt_id(+)" +
                     " and a.bkq_id in ('" +
                     strbke_id + "')";
   

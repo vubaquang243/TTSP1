@@ -524,6 +524,8 @@ public class BKLTTRptAction extends AppAction {
                 f.getNhkb_huyen() == null ? "" : f.getNhkb_huyen();
             String ngan_hang =
                 f.getNgan_hang() == null ? "" : f.getNgan_hang();
+          String loai_lenh =
+              f.getLoai_lenh() == null ? "" : f.getLoai_lenh();
             String dk_loc = f.getDk_loc() == null ? "" : f.getDk_loc();
             String loai_tien = f.getLoai_tien();
 
@@ -562,10 +564,10 @@ public class BKLTTRptAction extends AppAction {
             String strOrder = "";
 
             if ("tien".equals(dk_loc)) {
-                strOrder += " a.tong_sotien,";
+                strOrder += " tong_sotien ";
             }
             if ("ma".equals(dk_loc)) {
-                strOrder += " a.id,";
+                strOrder += " id";
             }
 
             if (strOrder.length() > 0) {
@@ -597,6 +599,8 @@ public class BKLTTRptAction extends AppAction {
             }
 
             reportName = "/BCBKLTTDEN";
+            if(loai_lenh.equals("LTT.DEN_BAOCO"))
+            reportName = "/BCBKLTTDEN_BaoCo_KH";
             reportStream =
                     getServlet().getServletConfig().getServletContext().getResourceAsStream(REPORT_DIRECTORY +
                                                                                             reportName +

@@ -73,32 +73,11 @@ public class BKeTinhLaiAction extends AppAction {
 
             String strCap = " and ma=" + kb_code;
             vo = dao.getCap(strCap, null);
-            List dmuckb_cha = null;
             String cap = vo.getCap();
 
 			//ThuongDT-sua chi load DB tỉnh-20/10/2016-begin
-            if ("0001".equals(kb_code) || "0002".equals(kb_code)) {
-                String strWhere = " "; //AND cap=5 OR ma='0003'
-                dmuckb_cha = (List)dao.getDMucKB_Tinh(strWhere, null);
-                request.setAttribute("dmuckb_tinh", dmuckb_cha);
-                request.setAttribute("QTHTTW", "QTHTTW");
-            } else if ("0003".equals(kb_code)) {
-                String strWhere = " AND a.ma='0003' ";
-                dmuckb_cha = (List)dao.getDMucKB_Tinh(strWhere, null);
-                request.setAttribute("dmuckb_tinh", dmuckb_cha);
-            } else if ("5".equals(cap)) {
-                String strWhere = "";
-                strWhere += " and c.ma=" + kb_code;
-                dmuckb_cha = (List)dao.getDMucKB_Tinh(strWhere, null);
-                request.setAttribute("dmuckb_tinh", dmuckb_cha);
-            } else {
-                String strWhere = "";
-                strWhere +=
-                        " and c.id in (select id_cha from sp_dm_htkb where ma=" +
-                        kb_code + ")";
-                dmuckb_cha = (List)dao.getDMucKB_Tinh(strWhere, null);
-                request.setAttribute("dmuckb_tinh", dmuckb_cha);
-            }
+            loadDMTinh(kb_code,cap, conn, request);
+            
 			//ThuongDT-sua chi load DB tỉnh-20/10/2016-end
             PagingBean pagingBean = new PagingBean();
             request.setAttribute("PAGE_KEY", pagingBean);
@@ -148,32 +127,11 @@ public class BKeTinhLaiAction extends AppAction {
             String strBke = "";
             String strCap = " and ma=" + kb_code;
             vo = dao.getCap(strCap, null);
-            List dmuckb_cha = null;
             String cap = vo.getCap();
+             //20170926 thuongdt turning lai code cho gon ko phai sua nhieu cho
 
-
-            if ("0001".equals(kb_code) || "0002".equals(kb_code)) {
-                String strWhere = " "; //AND cap=5 OR ma='0003'
-                dmuckb_cha = (List)dao.getDMucKB_cha(strWhere, null);
-                request.setAttribute("dmuckb_tinh", dmuckb_cha);
-                request.setAttribute("QTHTTW", "QTHTTW");
-            } else if ("0003".equals(kb_code)) {
-                String strWhere = " AND a.ma='0003' ";
-                dmuckb_cha = (List)dao.getDMucKB_cha(strWhere, null);
-                request.setAttribute("dmuckb_tinh", dmuckb_cha);
-            } else if ("5".equals(cap)) {
-                String strWhere = "";
-                strWhere += " and c.ma=" + kb_code;
-                dmuckb_cha = (List)dao.getDMucKB_cha(strWhere, null);
-                request.setAttribute("dmuckb_tinh", dmuckb_cha);
-            } else {
-                String strWhere = "";
-                strWhere +=
-                        " and c.id in (select id_cha from sp_dm_htkb where ma=" +
-                        kb_code + ")";
-                dmuckb_cha = (List)dao.getDMucKB_cha(strWhere, null);
-                request.setAttribute("dmuckb_tinh", dmuckb_cha);
-            }
+             loadDMTinh(kb_code,cap, conn, request);
+            
 
             String so_tk = frm.getSo_tk() == null ? "" : frm.getSo_tk();
             String tu_ngay = frm.getTu_ngay() == null ? "" : frm.getTu_ngay();
@@ -197,6 +155,9 @@ public class BKeTinhLaiAction extends AppAction {
                 strBke += " AND a.so_tk='" + so_tk + "'";
             }
             if (nhkb_huyen != null && !"".equals(nhkb_huyen)) {
+                if(nhkb_huyen.equals("2") || nhkb_huyen.equals("3"))
+                  strBke += " AND (c.id= '2' or c.id= '3')" ;
+                else
                 strBke += " AND c.id=" + nhkb_huyen;
             }
             if (den_ngay != null && !"".equals(den_ngay)) {
@@ -262,7 +223,29 @@ public class BKeTinhLaiAction extends AppAction {
         return mapping.findForward("success");
     }
 
-
+    public void loadDMTinh(String kb_code,String cap, Connection conn, HttpServletRequest request) throws Exception {
+              DChieu1DAO dao = new DChieu1DAO(conn);
+              List dmuckb_cha = null;  
+              String strWhere ="";
+            if ("0001".equals(kb_code) || "0002".equals(kb_code)) { 
+                strWhere = " and cap = '5' or  ma='0002' or ma='0003'"; //AND cap=5 OR ma='0003'
+                request.setAttribute("QTHTTW", "QTHTTW");
+            } else if ("0003".equals(kb_code)) {
+                strWhere = " AND ma='0003' ";               
+            } else if ("0002".equals(kb_code)) {
+                strWhere = " AND ma='0002' ";               
+            }else if ("5".equals(cap)) {
+                strWhere = "";
+                strWhere += " and cap =" + kb_code;
+            } else {
+                strWhere = "";
+                strWhere +=
+                        " and id in (select id_cha from sp_dm_htkb where ma=" +
+                        kb_code + ")";
+            }
+          dmuckb_cha = (List)dao.getDMucKB_Tinh2(strWhere, null);
+          request.setAttribute("dmuckb_tinh", dmuckb_cha);        
+    }
     public ActionForward executeAction(ActionMapping mapping, ActionForm form,
                                        HttpServletRequest request,
                                        HttpServletResponse response) throws Exception {
@@ -338,6 +321,9 @@ public class BKeTinhLaiAction extends AppAction {
                 condition = " and c.ma_nh ='" + maNH + "' and a.so_tk= '"+soTk+"'";
             }else{//Nhieu thang 
                 String maKB = request.getParameter("nhkb_id");
+                if("2".equals(maKB)||"3".equals(maKB))
+                condition = " and ( b.id='2' or  b.id='3')  and c.ma_nh ='" + maNH + "'";
+                else
                 condition = " and b.id=" + maKB + " and c.ma_nh ='" + maNH + "'";
             }
             

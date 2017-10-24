@@ -66,9 +66,11 @@ public class OnlineTTinTToanDAO extends AppDAO {
           strSQL +=
                   " SELECT   SUM (c.han_muc_no/"+dv_tien+") AS han_muc_no, SUM (a.du_dau_ngay/"+dv_tien+") AS du_dau_ngay," + 
                   " SUM (a.ps_thu/"+dv_tien+") AS ps_thu, SUM (a.ps_chi/"+dv_tien+") AS ps_chi," + 
-                  " SUM (a.chenh_lech/"+dv_tien+") AS chenh_lech"+
-                  "	 FROM   sp_ttin_ttoan a, sp_dm_ngan_hang b, sp_tknh_kb c, sp_dm_htkb d" + 
-                  "	WHERE   a.nhkb_chuyen = b.ma_nh AND a.so_tk = c.so_tk AND b.id = c.nh_id and c.kb_id = d.id AND c.trang_thai = '01' " + 
+                  " SUM (a.chenh_lech/"+dv_tien+") AS chenh_lech " + 
+                  "	 FROM   sp_ttin_ttoan a, sp_dm_ngan_hang b, sp_tknh_kb c, sp_dm_htkb d, sp_dm_manh_shkb e" + 
+                  "	WHERE   a.nhkb_chuyen = b.ma_nh AND a.so_tk = c.so_tk AND b.id = c.nh_id and c.kb_id = d.id" +
+                  " AND e.shkb = d.ma AND e.ma_nh = a.ma_kb "+
+                  " AND c.trang_thai = '01' " + 
                   strWhere2+
                   " AND (a.id, a.so_tk, a.nhkb_chuyen, a.nhkb_nhan) IN" + 
                   " (  SELECT   MAX ( id ), so_tk, nhkb_chuyen, nhkb_nhan" + 

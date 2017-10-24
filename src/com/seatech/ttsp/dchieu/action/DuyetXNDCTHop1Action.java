@@ -173,11 +173,17 @@ public class DuyetXNDCTHop1Action extends AppAction {
 //                " AND nhkb_chuyen= '" + kb_chuyen + "' and nhkb_nhan='" +
 //                receive_bank + "' and to_char(ngay_qtoan,'DD/MM/RRRR')='" +
 //                ngay_dc + "'";
-            String str066 =
+            String str066 = "";
+            if(id == null || "".equals(id)) { 
+                str066 =
               " AND a.nhkb_chuyen= '" + kb_chuyen + "' and a.nhkb_nhan='" +
-              receive_bank + "' and to_char(a.ngay_qtoan,'DD/MM/RRRR')='" +
+              receive_bank + "' and to_char(a.ngay_qtoan,'DD/MM/RRRR')='" + 
               ngay_dc + "' and a.loai_qtoan <> '03' AND a.loai_tien ='VND' ";
-            
+            }else{
+              str066 =
+              " AND a.nhkb_chuyen= '" + kb_chuyen + "' and a.nhkb_nhan in (select receive_bank from sp_065 where id = '"+id+"') and to_char(a.ngay_qtoan,'DD/MM/RRRR')='" +
+              ngay_dc + "' and a.loai_qtoan <> '03' AND a.loai_tien ='VND' "; 
+            }
             col066 = dao.getData066(str066, null);
 
             colTTSP = dao.getTTSP_PHT(strTTSP, null);

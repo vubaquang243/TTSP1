@@ -97,7 +97,7 @@ function fillDataQuyetToan(id, tr_id) {
                             jQuery("#lai_phi").val(GetUnicode("Ph&#237; TT"));
                             jQuery('#loai_hach_toan').append('<option value="T">'+GetUnicode("H&#7841;ch to&#225;n v&#224;o 3713")+'<\/option>');
                             jQuery('#loai_hach_toan').append('<option value="P">'+GetUnicode("H&#7841;ch to&#225;n ch&#7901; x&#7917; l&#253;")+'<\/option>');
-                            jQuery('#loai_hach_toan').append('<option value="1339">H&#7841;ch to&#225;n v&#224;o 1339<\/option>');    
+                            jQuery('#loai_hach_toan').append('<option value="1339">H&#7841;ch to&#225;n v&#224;o 1339/3999<\/option>');    
                             
                             //jQuery('#loai_hach_toan').append('<option value="T">'+GetUnicode("H&#7841;ch to&#225;n &#273;&#250;ng")+'<\/option>');
                             //jQuery('#loai_hach_toan').append('<option value="P">'+GetUnicode("Ch&#7901; x&#7917; l&#253;")+'<\/option>');
@@ -106,7 +106,7 @@ function fillDataQuyetToan(id, tr_id) {
                             jQuery("#lai_phi").val(GetUnicode("L&#227;i SDTK"));
                             jQuery('#loai_hach_toan').append('<option value="T">'+GetUnicode("H&#7841;ch to&#225;n v&#224;o 3713")+'<\/option>');
                             jQuery('#loai_hach_toan').append('<option value="P">'+GetUnicode("H&#7841;ch to&#225;n ch&#7901; x&#7917; l&#253;")+'<\/option>');
-                            jQuery('#loai_hach_toan').append('<option value="3999">H&#7841;ch to&#225;n v&#224;o 3999<\/option>');
+                            jQuery('#loai_hach_toan').append('<option value="3999">H&#7841;ch to&#225;n v&#224;o 1339/3999<\/option>');
                             
                             //jQuery('#loai_hach_toan').append('<option value="T">'+GetUnicode("H&#7841;ch to&#225;n &#273;&#250;ng")+'<\/option>');
                             //jQuery('#loai_hach_toan').append('<option value="P">'+GetUnicode("Ch&#7901; x&#7917; l&#253;")+'<\/option>');

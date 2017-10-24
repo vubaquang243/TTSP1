@@ -319,7 +319,9 @@
     <html:select property="han_muc" styleId="han_muc" onkeydown="if(event.keyCode==13) event.keyCode=9;">
       <option value="">Tất cả</option>
       <option value="0">0 tỷ</option>
+      <option value="5000000000">5 tỷ</option>
       <option value="15000000000">15 tỷ</option>
+      <option value="30000000000">30 tỷ</option>
       <option value="35000000000">35 tỷ</option>
       <option value="50000000000">50 tỷ</option>
     </html:select>

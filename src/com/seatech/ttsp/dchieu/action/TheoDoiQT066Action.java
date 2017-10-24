@@ -10,6 +10,7 @@ import com.seatech.ttsp.dchieu.DChieu1VO;
 import com.seatech.ttsp.dchieu.DNQTVO;
 import com.seatech.ttsp.dchieu.form.TheoDoiQT066Form;
 import com.seatech.ttsp.dmtiente.DMTienTeDAO;
+import com.seatech.ttsp.tracuukhobac.TraCuuKhoBacDAO;
 import com.seatech.ttsp.ttthanhtoan.TTThanhToanDAO;
 
 import java.sql.Connection;
@@ -37,6 +38,7 @@ public class TheoDoiQT066Action extends AppAction {
             HttpSession session = request.getSession();
             DChieu1DAO dao = new DChieu1DAO(conn);
             DChieu1VO vo = new DChieu1VO();
+            TraCuuKhoBacDAO traCuuDAO = new TraCuuKhoBacDAO(conn);
             //    int phantrang = (AppConstants.APP_NUMBER_ROW_ON_PAGE);
             String strDC3 = "";
             //    if (page == null)
@@ -63,27 +65,27 @@ public class TheoDoiQT066Action extends AppAction {
             List dmuckb_cha = null;
             String cap = vo.getCap();
             if ("0001".equals(kb_code) || "0002".equals(kb_code)) {
-                String strWhere = " ";
-                dmuckb_cha = (List)dao.getDMucKB_cha(strWhere, null);
+                String strWhere = " AND cap = 5 ";
+                dmuckb_cha = (List)traCuuDAO.getDMKHTinh(strWhere, null);
                 request.setAttribute("dmuckb_tinh", dmuckb_cha);
                 request.setAttribute("dftinh", "dftinh");
                 request.setAttribute("TTTT", "TTTT");
             } else if ("0003".equals(kb_code)) {
-                String strWhere = " AND a.ma='0003' ";
-                dmuckb_cha = (List)dao.getDMucKB_cha(strWhere, null);
+                String strWhere = " AND ma='0003' ";
+                dmuckb_cha = (List)traCuuDAO.getDMKHTinh(strWhere, null);
                 request.setAttribute("dmuckb_tinh", dmuckb_cha);
             } else if ("5".equals(cap)) {
                 String strWhere = "";
-                strWhere += " and c.ma=" + kb_code;
-                dmuckb_cha = (List)dao.getDMucKB_cha(strWhere, null);
+                strWhere += " and ma=" + kb_code;
+                dmuckb_cha = (List)traCuuDAO.getDMKHTinh(strWhere, null);
 
                 request.setAttribute("dmuckb_tinh", dmuckb_cha);
             } else {
                 String strWhere = "";
                 strWhere +=
-                        " and c.id in (select id_cha from sp_dm_htkb where ma=" +
+                        " and id in (select id_cha from sp_dm_htkb where ma=" +
                         kb_code + ")";
-                dmuckb_cha = (List)dao.getDMucKB_cha(strWhere, null);
+                dmuckb_cha = (List)traCuuDAO.getDMKHTinh(strWhere, null);
                 request.setAttribute("dmuckb_tinh", dmuckb_cha);
             }
             PagingBean pagingBean = new PagingBean();
@@ -108,7 +110,7 @@ public class TheoDoiQT066Action extends AppAction {
             DChieu1VO vo = new DChieu1VO();
             DNQTVO dnqtVO = new DNQTVO();
             Collection colLst066 = new ArrayList();
-
+            TraCuuKhoBacDAO traCuuDAO = new TraCuuKhoBacDAO(conn);
             String kb_code =
                 session.getAttribute(AppConstants.APP_KB_CODE_SESSION).toString();
             String kb_id =
@@ -133,30 +135,30 @@ public class TheoDoiQT066Action extends AppAction {
             vo = dao.getCap(strCap, null);
             List dmuckb_cha = null;
             String cap = vo.getCap();
-            if ("0001".equals(kb_code) || "0002".equals(kb_code)) {
-                String strWhere = " ";
-                dmuckb_cha = (List)dao.getDMucKB_cha(strWhere, null);
-                request.setAttribute("dmuckb_tinh", dmuckb_cha);
-                request.setAttribute("dftinh", "dftinh");
-                request.setAttribute("TTTT", "TTTT");
-            } else if ("0003".equals(kb_code)) {
-                String strWhere = " AND a.ma='0003' ";
-                dmuckb_cha = (List)dao.getDMucKB_cha(strWhere, null);
-                request.setAttribute("dmuckb_tinh", dmuckb_cha);
-            } else if ("5".equals(cap)) {
-                String strWhere = "";
-                strWhere += " and c.ma=" + kb_code;
-                dmuckb_cha = (List)dao.getDMucKB_cha(strWhere, null);
+              if ("0001".equals(kb_code) || "0002".equals(kb_code)) {
+                  String strWhere = " AND cap = 5 ";
+                  dmuckb_cha = (List)traCuuDAO.getDMKHTinh(strWhere, null);
+                  request.setAttribute("dmuckb_tinh", dmuckb_cha);
+                  request.setAttribute("dftinh", "dftinh");
+                  request.setAttribute("TTTT", "TTTT");
+              } else if ("0003".equals(kb_code)) {
+                  String strWhere = " AND ma='0003' ";
+                  dmuckb_cha = (List)traCuuDAO.getDMKHTinh(strWhere, null);
+                  request.setAttribute("dmuckb_tinh", dmuckb_cha);
+              } else if ("5".equals(cap)) {
+                  String strWhere = "";
+                  strWhere += " and ma=" + kb_code;
+                  dmuckb_cha = (List)traCuuDAO.getDMKHTinh(strWhere, null);
 
-                request.setAttribute("dmuckb_tinh", dmuckb_cha);
-            } else {
-                String strWhere = "";
-                strWhere +=
-                        " and c.id in (select id_cha from sp_dm_htkb where ma=" +
-                        kb_code + ")";
-                dmuckb_cha = (List)dao.getDMucKB_cha(strWhere, null);
-                request.setAttribute("dmuckb_tinh", dmuckb_cha);
-            }
+                  request.setAttribute("dmuckb_tinh", dmuckb_cha);
+              } else {
+                  String strWhere = "";
+                  strWhere +=
+                          " and id in (select id_cha from sp_dm_htkb where ma=" +
+                          kb_code + ")";
+                  dmuckb_cha = (List)traCuuDAO.getDMKHTinh(strWhere, null);
+                  request.setAttribute("dmuckb_tinh", dmuckb_cha);
+              }
 
             String nhkb_tinh =
                 frm.getNhkb_tinh() == null ? "" : frm.getNhkb_tinh();

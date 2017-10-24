@@ -152,6 +152,9 @@ public class TCuuTTinDChieuAction extends AppAction {
             } else if ("0003".equals(kb_code)) {
                 conditionKBCha = " AND a.ma='0003' ";
                 conditionDChieu = " and c.id_kb_huyen= " + kb_id + " and (a.trang_thai NOT IN ('01', '02') OR a.trang_thai IS NULL)";
+            }else if ("0002".equals(kb_code)) {
+                conditionKBCha = " AND a.ma='0002' ";
+                conditionDChieu = " and c.id_kb_huyen= " + kb_id + " and (a.trang_thai NOT IN ('01', '02') OR a.trang_thai IS NULL)";
             } else if ("5".equals(cap)) {
                 conditionKBCha = " and c.ma=" + kb_code;
                 conditionDChieu = " and c.id_kb_tinh=" + kb_id + " and (a.trang_thai NOT IN ('01', '02') OR a.trang_thai IS NULL)";
@@ -217,6 +220,8 @@ public class TCuuTTinDChieuAction extends AppAction {
                 "0003".equals(kb_code)) { // SGD TTTT
                 if ("3".equals(strMaKB) || "1".equals(strMaKB)) {
                     strWhereClause += " and a.ma='0003'";
+                } else  if ("2".equals(strMaKB) ) {
+                      strWhereClause += " and a.ma='0002'";
                 } else {
                     strWhereClause +=
                             " and a.id_cha = " + strMaKB + " and a.ma<>'0003'";
@@ -388,7 +393,11 @@ public class TCuuTTinDChieuAction extends AppAction {
           //HungBM-20170320-Lay pham vi doi chieu tu form - END
 			//Lay trang thai tai khoan tu form
             String trang_thai_tk = (String)request.getParameter("trang_thai_tk");
-            Map mapConditionDChieu = createConditionDCVND(TTForm,inxtthai);
+          Map mapConditionDChieu = null;
+          if ("3".equals(pham_vi_doi_chieu))
+           mapConditionDChieu = createConditionDC3VND(TTForm,inxtthai);
+          else
+            mapConditionDChieu = createConditionDCVND(TTForm,inxtthai);
             String conditionDChieu = mapConditionDChieu.get("conditionDC").toString();
           //hungbm lay lan doi chieu va nang cap tra cuu doi chieu cua VND va Ngoai Te
           //20161124
@@ -446,50 +455,122 @@ public class TCuuTTinDChieuAction extends AppAction {
         return mapping.findForward("success");
     }
   //HungBM-20170320-Them pham_vi_doi_chieu vao dieu kien tra cuu
-    private Collection getKQuaTCuuDC(DChieu1DAO dcDao, String strDC3,
-                                     Integer currentPage,
-                                     Integer numberRowOnPage,
-                                     Integer[] totalCount, String lan_dc,
-                                     String conditionDChieu, String trang_thai_tk, String pham_vi_doi_chieu) throws Exception {//them bien dau vao trang_thai_tk de bo sung dieu kien tra cuu theo trang thai tai khoan
-        Collection colTHBKDC = new ArrayList();
+  private Collection getKQuaTCuuDC(DChieu1DAO dcDao, String strDC3,
+                                   Integer currentPage,
+                                   Integer numberRowOnPage,
+                                   Integer[] totalCount, String lan_dc,
+                                   String conditionDChieu, String trang_thai_tk, String pham_vi_doi_chieu) throws Exception {//them bien dau vao trang_thai_tk de bo sung dieu kien tra cuu theo trang thai tai khoan
+      Collection colTHBKDC = new ArrayList();
 
-         //HungBM-20161124-Thay the cac ham tra cuu cu bang cac ham tra cuu moi-begin
-         //HungBM-20170320-Bo sung tieu thuc tim kiem theo pham vi doi chieu - BEGIN
-         if ("1".equals(lan_dc)) {            
-             if("1".equals(pham_vi_doi_chieu)||"".equals(pham_vi_doi_chieu)|| pham_vi_doi_chieu == null){
-                colTHBKDC = dcDao.getTCuu1DChieu_nangcap_ptrang(conditionDChieu, null, currentPage, numberRowOnPage, totalCount,trang_thai_tk);
-             }          
-         } else if ("2".equals(lan_dc)) {           
-             if("1".equals(pham_vi_doi_chieu)||"".equals(pham_vi_doi_chieu)|| pham_vi_doi_chieu == null){
-               colTHBKDC = dcDao.getTCuu2DChieu_nangcap_ptrang(conditionDChieu, null, currentPage, numberRowOnPage, totalCount,trang_thai_tk);
-             }
-         } else if ("3".equals(lan_dc)) {           
-             if("3".equals(pham_vi_doi_chieu)||"".equals(pham_vi_doi_chieu)|| pham_vi_doi_chieu == null){
-               colTHBKDC = dcDao.getTCuu3DChieu_nangcap_ptrang(conditionDChieu, null, currentPage, numberRowOnPage, totalCount,trang_thai_tk);
-             }    
-         } else if ("".equals(lan_dc) || lan_dc == null) {         
-             if("".equals(pham_vi_doi_chieu)|| pham_vi_doi_chieu == null){
-               colTHBKDC = dcDao.getTCuuDChieu_nangcap_ptrang(conditionDChieu, strDC3, null, currentPage, numberRowOnPage, totalCount,trang_thai_tk);
-             }else if("1".equals(pham_vi_doi_chieu)){
-               colTHBKDC = dcDao.getTCuu1DChieu_nangcap_ptrang(conditionDChieu, null, currentPage, numberRowOnPage, totalCount,trang_thai_tk);
-             }else if("3".equals(pham_vi_doi_chieu)){
-               colTHBKDC = dcDao.getTCuu3DChieu_nangcap_ptrang(conditionDChieu, null, currentPage, numberRowOnPage, totalCount,trang_thai_tk);
-             }  
-         }
-      //HungBM-20170320-Bo sung tieu thuc tim kiem theo pham vi doi chieu - END
-          
-//          if ("1".equals(lan_dc)) {
-//              colTHBKDC = dcDao.getTCuu1DChieu_ptrang(conditionDChieu, null, currentPage, numberRowOnPage, totalCount);
-//          } else if ("2".equals(lan_dc)) {
-//              colTHBKDC = dcDao.getTCuu2DChieu_ptrang(conditionDChieu, null, currentPage, numberRowOnPage, totalCount);
-//          } else if ("3".equals(lan_dc)) {
-//              colTHBKDC = dcDao.getTCuu3DChieu_ptrang(conditionDChieu, null, currentPage, numberRowOnPage, totalCount);
-//          } else if ("".equals(lan_dc) || lan_dc == null) {
-//              colTHBKDC = dcDao.getTCuuDChieu_ptrang(conditionDChieu, strDC3, null, currentPage, numberRowOnPage, totalCount);
-//          }
-        //HungBM-20161124-Thay the cac ham tra cuu cu bang cac ham tra cuu moi-end
+       //HungBM-20161124-Thay the cac ham tra cuu cu bang cac ham tra cuu moi-begin
+       //HungBM-20170330-Bo sung tieu thuc tim kiem theo pham vi doi chieu - BEGIN
+      
+       if ("1".equals(pham_vi_doi_chieu)) {                         
+           colTHBKDC = dcDao.getTCuu1DChieu_nangcap_ptrang(conditionDChieu, null, currentPage, numberRowOnPage, totalCount,trang_thai_tk);
+       } else if ("2".equals(pham_vi_doi_chieu)) {                        
+           colTHBKDC = dcDao.getTCuu2DChieu_nangcap_ptrang(conditionDChieu, null, currentPage, numberRowOnPage, totalCount,trang_thai_tk);
+       } else if ("3".equals(pham_vi_doi_chieu)) {                       
+           colTHBKDC = dcDao.getTCuu3DChieu_nangcap_ptrang(conditionDChieu, null, currentPage, numberRowOnPage, totalCount,trang_thai_tk);
+       } else if ("".equals(pham_vi_doi_chieu) || pham_vi_doi_chieu == null) {         
+           colTHBKDC = dcDao.getTCuuDChieu_nangcap_ptrang(conditionDChieu, strDC3, null, currentPage, numberRowOnPage, totalCount,trang_thai_tk);
+       } 
+        //HungBM-20170330-Bo sung tieu thuc tim kiem theo pham vi doi chieu - END
         
-        return colTHBKDC;
+  //          if ("1".equals(lan_dc)) {
+  //              colTHBKDC = dcDao.getTCuu1DChieu_ptrang(conditionDChieu, null, currentPage, numberRowOnPage, totalCount);
+  //          } else if ("2".equals(lan_dc)) {
+  //              colTHBKDC = dcDao.getTCuu2DChieu_ptrang(conditionDChieu, null, currentPage, numberRowOnPage, totalCount);
+  //          } else if ("3".equals(lan_dc)) {
+  //              colTHBKDC = dcDao.getTCuu3DChieu_ptrang(conditionDChieu, null, currentPage, numberRowOnPage, totalCount);
+  //          } else if ("".equals(lan_dc) || lan_dc == null) {
+  //              colTHBKDC = dcDao.getTCuuDChieu_ptrang(conditionDChieu, strDC3, null, currentPage, numberRowOnPage, totalCount);
+  //          }
+      //HungBM-20161124-Thay the cac ham tra cuu cu bang cac ham tra cuu moi-end
+      
+      return colTHBKDC;
+  }
+  private Map createConditionDC3VND(TCuuTTinDChieuForm formTraCuu, String inxtthai){
+      StringBuilder conditionDC = new StringBuilder();
+      String tthai = formTraCuu.getTthai_dxn_thop();
+      String tu_ngay = formTraCuu.getTu_ngay();
+      String den_ngay = formTraCuu.getDen_ngay();
+      String lan_dc = null;
+      String char_dngay = null;
+      String char_tngay = null;
+      if (den_ngay != null && !"".equals(den_ngay)) {
+          char_dngay = StringUtil.DateToString(StringUtil.StringToDate(den_ngay, "dd/MM/yyyy"), "yyyy/MM/dd").replace("/", "");
+      }
+      if (tu_ngay != null && !"".equals(tu_ngay)) {
+          char_tngay = StringUtil.DateToString(StringUtil.StringToDate(tu_ngay, "dd/MM/yyyy"), "yyyy/MM/dd").replace("/", "");
+      }
+      if (formTraCuu.getNhkb_tinh() != null && !"".equals(formTraCuu.getNhkb_tinh())) {
+          conditionDC.append(" AND c.id_cha = " + formTraCuu.getNhkb_tinh() + " ");
+      }
+      if(formTraCuu.getMa_nt() != null && !"".equals(formTraCuu.getMa_nt()) && !"VND".equals(formTraCuu.getMa_nt())){
+          conditionDC.append(" AND c.ma_nt = '"+formTraCuu.getMa_nt()+"' ");
+      }
+      if (formTraCuu.getNhkb_huyen() != null && !"".equals(formTraCuu.getNhkb_huyen())) {
+          conditionDC.append(" and c.id = " + formTraCuu.getNhkb_huyen());
+      }
+      if (formTraCuu.getMa_dv() != null && !"".equals(formTraCuu.getMa_dv())) {
+          conditionDC.append(" and substr(a.SEND_BANK,3,3) = '" + formTraCuu.getMa_dv() + "'");
+      }
+      if (tthai != null && !"".equals(tthai)) {
+          if ("00".equals(tthai)) {
+              conditionDC.append(" and ((a.trang_thai = '00' or a.trang_thai is null) or b.trang_thai = '00')");
+          } else if ("0101".equals(tthai)) {
+              conditionDC.append(" and a.trang_thai = '01' and b.trang_thai='01'");
+          } else if ("0102".equals(tthai)) {
+              conditionDC.append(" and a.trang_thai = '01' and b.trang_thai='02'");
+          } else if ("0201".equals(tthai)) {
+              conditionDC.append(" and a.trang_thai = '02' and b.trang_thai='01'");
+          } else if ("0202".equals(tthai)) {
+              conditionDC.append(" and a.trang_thai = '02' and b.trang_thai='02'");
+          } else if ("0000".equals(tthai)) {
+              lan_dc = "1";
+              conditionDC.append(" and (b.tthai_dxn_thop = '00' or b.tthai_dxn_thop is null)");
+          } else if ("0301".equals(tthai)) { // XNQT ch?a duyet
+              lan_dc = "1";
+              conditionDC.append(" and b.tthai_dxn_thop = '01'");
+          } else if ("0302".equals(tthai)) { // XNQT da duyet
+              lan_dc = "1";
+              conditionDC.append(" and b.tthai_dxn_thop = '02'");
+          }
+      } else if ((tthai == null || "".equals(tthai)) || (inxtthai != null || !"".equals(inxtthai))) {
+          if ("0".equals(inxtthai)) {
+              conditionDC.append(" and (a.trang_thai = '00' or b.trang_thai = '00')");
+          } else if ("1".equals(inxtthai)) {
+              conditionDC.append(" and a.trang_thai = '01' and b.trang_thai='01'");
+          } else if ("2".equals(inxtthai)) {
+              conditionDC.append(" and a.trang_thai = '01' and b.trang_thai='02'");
+          } else if ("3".equals(inxtthai)) {
+              conditionDC.append(" and a.trang_thai = '02' and b.trang_thai='01'");
+          } else if ("4".equals(inxtthai)) {
+              conditionDC.append(" and a.trang_thai = '02' and b.trang_thai='02'");
+          } else if ("5".equals(inxtthai)) {
+              if ("1".equals(lan_dc) || "".equals(lan_dc)) {
+                  lan_dc = "1";
+              }
+          } else if ("6".equals(inxtthai)) { // ch?a duyet XNQT
+              lan_dc = "1";
+              conditionDC.append(" and b.tthai_dxn_thop = '01'");
+          } else if ("7".equals(inxtthai)) { // da duyet XNQT
+              lan_dc = "1";
+              conditionDC.append(" and b.tthai_dxn_thop in ('02','03')");
+          }
+      }
+      if (tu_ngay != null && !"".equals(tu_ngay) && den_ngay != null && !"".equals(den_ngay)) {
+          conditionDC.append(" and (a.NGAY_DC >=  to_date('" + char_tngay + "','yyyyMMdd') and a.NGAY_DC <=  to_date('" + char_dngay + "','yyyyMMdd') ) ");
+      }
+      if ((den_ngay == null || "".equals(den_ngay)) && tu_ngay != null && !"".equals(tu_ngay)) {
+          conditionDC.append(" and (a.NGAY_DC <=  sysdate and a.NGAY_DC >=  to_date('" + char_tngay + "','yyyyMMdd')) ");
+      } else if (den_ngay != null && !"".equals(den_ngay) && (tu_ngay == null || "".equals(tu_ngay))) {
+          conditionDC.append(" and c.ngay_order <= '" + char_dngay + "'");
+      }
+      Map result = new HashMap();
+      result.put("conditionDC", conditionDC.toString());
+      result.put("lan_dc", lan_dc);
+      return result;
     }
     
     private Map createConditionDCVND(TCuuTTinDChieuForm formTraCuu, String inxtthai){

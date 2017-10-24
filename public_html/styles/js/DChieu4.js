@@ -1,7 +1,7 @@
 function DChieu4Detail(id){ 
     if (id != null && "" != id) {
         jQuery.ajax( {
-            type : "POST", url : "DChieu4Detail.do", data :  {
+            type : "POST", url : "DChieu3NgoaiTeDetail.do", data :  {
                 "id" : id
             },
             success : function (data, textstatus) {
@@ -123,7 +123,7 @@ function DChieu4Detail(id){
 
 function ExcuteDChieu() {
     jQuery.ajax( {
-        type : "POST", url : "THienDChieu4Action.do", data :  {
+        type : "POST", url : "THienDChieu3NgoaiTeAction.do", data :  {
             "BK_ID" : jQuery("#id").val(), "NgayDC" : jQuery("#ngay_dc").val()
         },
         success : function (data, textstatus) {

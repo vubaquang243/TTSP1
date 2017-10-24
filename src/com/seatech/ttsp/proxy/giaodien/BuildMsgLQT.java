@@ -597,7 +597,10 @@ public class BuildMsgLQT {
             //BEGIN:20151123-Sua ma QHNS cho thu POS
             if ("05".equals(strLoaiLaiPhi)) {
 //              sbBody.append(dmTSoHToanVO_co.getDvsdns());
+             if(strLoaiHToan.equalsIgnoreCase("T"))
               sbBody.append(strDVSDNSLaiPhi);
+             else
+              sbBody.append(dmTSoHToanVO_co.getDvsdns()); 
             }else {
             if ("C".equalsIgnoreCase(strLoaiQT) &&
                 !"".equalsIgnoreCase(strDVSDNSLaiPhi)) {

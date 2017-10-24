@@ -371,33 +371,58 @@ public class DChieu1DAO extends AppDAO {
             strSQL +=
                   //lay cac bang ke co chenh lech trung mt_id va khac trung tat ca
                    "WITH SP_065_DTL_clech AS (select mt_id,BKQ_ID from (select mt_id,BKQ_ID,count(0) tonglech from SP_065_DTL where BKQ_ID in ('"+strbke_id+"') group by mt_id,BKQ_ID) where tonglech >1 " + 
-                   "and (mt_id,BKQ_ID) not in(select mt_id,BKQ_ID from (select mt_id,send_bank,receive_bank,f32as3,ngay_ct,count(0) tonglech from SP_065_DTL where BKQ_ID in ('"+strbke_id+"') group by mt_id,send_bank,receive_bank,f32as3,ngay_ct) where tonglech >1)), " + 
+                   "and (mt_id,BKQ_ID) not in(select mt_id,BKQ_ID from (select mt_id,BKQ_ID,send_bank,receive_bank,f32as3,ngay_ct,count(0) tonglech from SP_065_DTL where BKQ_ID in ('"+strbke_id+"') group by mt_id,BKQ_ID,send_bank,receive_bank,f32as3,ngay_ct) where tonglech >1)), " + 
+                  
                   //lay cac bang ke co chenh lech theo ngay ngay_ct
-                   "SP_065_DTL_ngay AS (select mt_id,', Ngày chứng từ' lech,ctiet " + 
-                   "from (select mt_id,BKQ_ID,send_bank,receive_bank,f32as3,wmsys.wm_concat(ngay_ct) ctiet,count(0) tonglech from SP_065_DTL where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,send_bank,receive_bank,f32as3) aa where tonglech >1), " + 
+//                   "SP_065_DTL_ngay AS (select mt_id,', Ngày chứng từ' lech,ctiet " + 
+//                   "from (select mt_id,BKQ_ID,send_bank,receive_bank,f32as3,wmsys.wm_concat(ngay_ct) ctiet,count(0) tonglech from SP_065_DTL where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,send_bank,receive_bank,f32as3) aa where tonglech >1), " + 
+                   
+                   "SP_065_DTL_ngay AS (SELECT   mt_id,BKQ_ID,'Ngày chứng từ, ' lech,wmsys.wm_concat(ngay_ct)||';' ctiet,count(0) tonglech from " + 
+                   "(SELECT   a.mt_id,a.BKQ_ID,a.ngay_ct FROM SP_065_DTL a INNER JOIN SP_065_DTL b ON a.mt_id = b.mt_id AND ( a.mt_id,a.BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) and " + 
+                   "a.BKQ_ID = b.BKQ_ID AND a.ngay_ct <> b.ngay_ct )  group by mt_id,BKQ_ID), " + 
+          
+                    
                    //lay cac bang ke co chenh lech theo so tien f32as3
-                   "SP_065_DTL_tien AS (select mt_id,', số tiền' lech ,ctiet " + 
-                   "from (select mt_id,BKQ_ID,send_bank,receive_bank,ngay_ct,wmsys.wm_concat(f32as3) ctiet,count(0) tonglech from SP_065_DTL where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,send_bank,receive_bank,ngay_ct) where tonglech >1), " + 
+                  // "SP_065_DTL_tien AS (select mt_id,', số tiền' lech ,ctiet " + 
+                  // "from (select mt_id,BKQ_ID,send_bank,receive_bank,ngay_ct,wmsys.wm_concat(f32as3) ctiet,count(0) tonglech from SP_065_DTL where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,send_bank,receive_bank,ngay_ct) where tonglech >1), " + 
+                   
+                  "SP_065_DTL_tien AS (SELECT   mt_id,BKQ_ID,'số tiền, ' lech,wmsys.wm_concat(f32as3)||';' ctiet,count(0) tonglech from " + 
+                  "(SELECT   a.mt_id,a.BKQ_ID,a.f32as3 FROM SP_065_DTL a INNER JOIN SP_065_DTL b ON a.mt_id = b.mt_id AND ( a.mt_id,a.BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) and " + 
+                  "a.BKQ_ID = b.BKQ_ID AND a.f32as3 <> b.f32as3 )  group by mt_id,BKQ_ID), " + 
+          
                    //lay cac bang ke co chenh lech theo NH nhan receive_bank
-                   "SP_065_DTL_receive_bank AS (select mt_id,', NH nhận' lech,ctiet " + 
-                   "from (select mt_id,BKQ_ID,send_bank,f32as3,ngay_ct,wmsys.wm_concat(receive_bank) ctiet,count(0) tonglech from SP_065_DTL where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,send_bank,f32as3,ngay_ct) where tonglech >1), " + 
+//                   "SP_065_DTL_receive_bank AS (select mt_id,', NH nhận' lech,ctiet " + 
+//                   "from (select mt_id,BKQ_ID,send_bank,f32as3,ngay_ct,wmsys.wm_concat(receive_bank) ctiet,count(0) tonglech from SP_065_DTL where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,send_bank,f32as3,ngay_ct) where tonglech >1), " + 
+                   
+                   "SP_065_DTL_receive_bank AS (SELECT   mt_id,BKQ_ID,'NH nhận, ' lech,wmsys.wm_concat(receive_bank)||';' ctiet,count(0) tonglech from " + 
+                   "(SELECT   a.mt_id,a.BKQ_ID,a.receive_bank FROM SP_065_DTL a INNER JOIN SP_065_DTL b ON a.mt_id = b.mt_id AND ( a.mt_id,a.BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) and " + 
+                   "a.BKQ_ID = b.BKQ_ID AND a.receive_bank <> b.receive_bank )  group by mt_id,BKQ_ID), " + 
+          
                    //lay cac bang ke co chenh lech theo NH gui send_bank
-                   "SP_065_DTL_send_bank AS (select mt_id,', NH chuyển' lech,ctiet " + 
-                   "from (select mt_id,BKQ_ID,receive_bank,f32as3,ngay_ct,wmsys.wm_concat(send_bank) ctiet,count(0) tonglech from SP_065_DTL where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,receive_bank,f32as3,ngay_ct) where tonglech >1) "+
-                    //noi dung cau sql goc truc khi sua          
+                   //"SP_065_DTL_send_bank AS (select mt_id,', NH chuyển' lech,ctiet " + 
+                   //"from (select mt_id,BKQ_ID,receive_bank,f32as3,ngay_ct,wmsys.wm_concat(send_bank) ctiet,count(0) tonglech from SP_065_DTL where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,receive_bank,f32as3,ngay_ct) where tonglech >1) "+
+                   
+                   //"SP_065_DTL_send_bank AS (select mt_id,', NH chuyển' lech,ctiet " + 
+                   //"from (select mt_id,BKQ_ID,receive_bank,f32as3,ngay_ct,wmsys.wm_concat(send_bank) ctiet,count(0) tonglech from SP_065_DTL where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,receive_bank,f32as3,ngay_ct) where tonglech >1) "+
+          
+                   "SP_065_DTL_send_bank AS (SELECT   mt_id,BKQ_ID,'NH chuyển, ' lech,wmsys.wm_concat(send_bank)||';' ctiet,count(0) tonglech from " + 
+                   "(SELECT   a.mt_id,a.BKQ_ID,a.send_bank FROM SP_065_DTL a INNER JOIN SP_065_DTL b ON a.mt_id = b.mt_id and ( a.mt_id,a.BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) and " + 
+                   "a.BKQ_ID = b.BKQ_ID AND a.send_bank <> b.send_bank )  group by mt_id,BKQ_ID) "+
+          
+                    //noi dung cau sql goc truoc khi sua          
                     "SELECT a.id, a.bkq_id, a.bk_id, a.mt_id, to_char(a.send_date,'DD/MM/YYYY HH24:mi:ss') send_date, a.f20, a.f21, a.tthai_duyet," +
                     " a.f32as3, to_char(a.ngay_ts,'DD/MM/YYYY') ngay_ts, a.ghi_chu, a.mt_type, a.app_type," +
                     " a.sai_yeu_to, a.trang_thai, a.insert_date, to_char(a.ngay_ct,'DD/MM/YYYY') ngay_ct, decode(substr(a.mt_id,3,3),'701','DI','DEN') di_den, decode(substr(a.mt_id,6,3),'196','DTS','195','DTS','LTT') ltt_dts," +
                     " c.send_bank, (select ten from sp_dm_ngan_hang where ma_nh=c.send_bank) ten_send_bank," +
                     " c.receive_bank, b.ten, " +
                    //bo sung them truong the hien chi tiet chenh lech
-                   " ngay.lech||tien.lech||rec.lech||sen.lech ldo_clech,ngay.ctiet||'; '||tien.ctiet||'; '||rec.ctiet||'; '||sen.ctiet ctiet_clech "+
+                   " ngay.lech||tien.lech||rec.lech||sen.lech ldo_clech,ngay.ctiet||tien.ctiet||rec.ctiet||sen.ctiet ctiet_clech "+
                     " FROM sp_065_dtl a, sp_dm_ngan_hang b, sp_065 c, " +
                    //bo sung cac bang tam chenh lech
                     " SP_065_DTL_ngay ngay,SP_065_DTL_tien tien,SP_065_DTL_receive_bank rec,SP_065_DTL_send_bank sen "+
                     " where 1=1 and a.bkq_id= c.id and c.receive_bank=b.ma_nh " +
                    //join bang tam
-                    " and dtl.mt_id = ngay.mt_id(+)and dtl.mt_id = tien.mt_id(+)and dtl.mt_id = rec.mt_id(+)and dtl.mt_id = sen.mt_id(+)" +
+                    " and a.mt_id = ngay.mt_id(+)and a.mt_id = tien.mt_id(+)and a.mt_id = rec.mt_id(+)and a.mt_id = sen.mt_id(+)" +
                     " and a.bkq_id in ('" + strbke_id + "')";
 
             reval =
@@ -1182,7 +1207,7 @@ public class DChieu1DAO extends AppDAO {
         try {
 
             String strSQL = "";
-          strSQL +=
+         /* strSQL +=
                   " SELECT   b.ma_nh receive_bank, b.ten, TO_CHAR (b.ngay, 'DD/MM/YYYY') ngay_dc," +
                   " a.id ttsp_id, a.tthai_dxn_thop, a.ket_qua_dxn_thop, a.tthai_ttin_thop, a.ngay_thuc_hien_dc, a.trang_thai," +
                   " (SELECT MAX (id) FROM sp_065 WHERE 1 = 1 AND receive_bank = b.ma_nh" +
@@ -1209,40 +1234,40 @@ public class DChieu1DAO extends AppDAO {
                   " OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE) AND a.tthai_dxn_thop <> '00')" +
                   " OR (TRUNC (a.ngay_thuc_hien_dc) = TRUNC (SYSDATE)))" +
                   " ORDER BY   b.ma_nh, ngay";
-            
+            */
          // ban goc   
-//          strSQL +=
-//                  "SELECT   b.ma_nh receive_bank, b.ten, TO_CHAR (b.ngay, 'DD/MM/YYYY') ngay_dc," +
-//                  " a.id ttsp_id, a.tthai_dxn_thop, a.ket_qua_dxn_thop, a.tthai_ttin_thop, a.ngay_thuc_hien_dc, a.trang_thai," +
-//                  " (SELECT MAX (id) FROM sp_065 WHERE 1 = 1 AND receive_bank = b.ma_nh" +
-//                  " AND ngay_dc = b.ngay AND app_type = 'PHT' AND send_bank = '" + strNHKB +"') pht_id" +
-//                  " FROM   (SELECT  e.ngay_dc, e.trang_thai, e.id, e.tthai_dxn_thop, e.tthai_ttin_thop, e.receive_bank, " +
-//                  " e.ngay_thuc_hien_dc, e.ket_qua_dxn_thop FROM  sp_065 e" +
-//                  " WHERE 1 = 1  AND e.id IN (SELECT  MAX (id) FROM sp_065" +
-//                  " WHERE app_type = 'TTSP' AND send_bank = '" + strNHKB +
-//                  "' and NGAY_DC >= sysdate -30 GROUP BY  ngay_dc, receive_bank)) a,(SELECT   DISTINCT TRUNC (ngay_gd+1) ngay, d3.ma_nh ma_nh, d3.ten ten" +
-//                  " FROM   sp_tso_cutoftime d1, sp_dm_ngan_hang d2, sp_dm_ngan_hang d3" +
-//                  " WHERE     d1.ma_nh_kb = d2.ma_nh AND d1.ma_nh = d3.ma_nh" +
-//                  " AND d1.ma_nh_kb = '" + strNHKB +
-//                  "' AND TRUNC (d1.ngay_gd+1) <= TRUNC (SYSDATE) AND (d1.ngay_gd+1) >= SYSDATE-30 AND TRUNC (d1.ngay_gd+1) >= sp_util_pkg.fnc_get_ngay_trien_khai(d1.ma_nh_kb, d1.ma_nh, 'VND') " + 
-//                  " AND  TO_CHAR (ngay_gd+1, 'YYYYMMDD') NOT IN" +
-//                  " ( SELECT   ngay FROM sp_ngay_nghi) ORDER BY   ngay) b" +
-//                  " WHERE   a.ngay_dc(+) = b.ngay AND a.receive_bank(+) = b.ma_nh AND ( (TRUNC (a.ngay_dc) < TRUNC (SYSDATE)" +
-//                  " AND ( ((a.tthai_dxn_thop = '00' or a.tthai_dxn_thop ='01')   or (SELECT   COUNT (0)" +
-//                  " FROM   sp_066 WHERE   nhkb_nhan = a.receive_bank AND trang_thai = '01' AND kq_dc_ttsp IN(  SELECT   MAX (id)" +
-//                  " FROM   sp_065 WHERE   TO_DATE (ngay_dc) < TO_DATE (SYSDATE) and ngay_dc =b.ngay " +
-//                  " AND app_type = 'TTSP' AND receive_bank = a.receive_bank" +
-//                  " AND send_bank = '" + strNHKB + "' )) >0) AND a.id IN" +
-//                  " ( SELECT   MAX (id) FROM   sp_065 WHERE   TO_DATE (ngay_dc) < TO_DATE (SYSDATE) and ngay_dc =b.ngay " +
-//                  " AND app_type = 'TTSP' and receive_bank=a.receive_bank AND send_bank = '" +
-//                  strNHKB + "' GROUP BY   ngay_dc, send_bank ))" +
-//                  " OR a.trang_thai IS NULL)  OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE) AND a.id IN" +
-//                  " (  SELECT   MAX (id) FROM   sp_065 WHERE   TO_DATE (ngay_dc) = TO_DATE (SYSDATE)" +
-//                  " AND app_type = 'TTSP' and receive_bank=a.receive_bank AND send_bank = '" +
-//                  strNHKB + "'  GROUP BY   ngay_dc, send_bank))" +
-//                  " OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE) AND a.tthai_dxn_thop <> '00')" +
-//                  " OR (TRUNC (a.ngay_thuc_hien_dc) = TRUNC (SYSDATE)))" +
-//                  " ORDER BY   b.ma_nh, ngay";        
+          strSQL +=
+                  "SELECT   b.ma_nh receive_bank, b.ten, TO_CHAR (b.ngay, 'DD/MM/YYYY') ngay_dc," +
+                  " a.id ttsp_id, a.tthai_dxn_thop, a.ket_qua_dxn_thop, a.tthai_ttin_thop, a.ngay_thuc_hien_dc, a.trang_thai," +
+                  " (SELECT MAX (id) FROM sp_065 WHERE 1 = 1 AND receive_bank = b.ma_nh" +
+                  " AND ngay_dc = b.ngay AND app_type = 'PHT' AND send_bank = '" + strNHKB +"') pht_id" +
+                  " FROM   (SELECT  e.ngay_dc, e.trang_thai, e.id, e.tthai_dxn_thop, e.tthai_ttin_thop, e.receive_bank, " +
+                  " e.ngay_thuc_hien_dc, e.ket_qua_dxn_thop FROM  sp_065 e" +
+                  " WHERE 1 = 1  AND e.id IN (SELECT  MAX (id) FROM sp_065" +
+                  " WHERE app_type = 'TTSP' AND send_bank = '" + strNHKB +
+                  "' and NGAY_DC >= sysdate -30 GROUP BY  ngay_dc, receive_bank)) a,(SELECT   DISTINCT TRUNC (ngay_gd+1) ngay, d3.ma_nh ma_nh, d3.ten ten" +
+                  " FROM   sp_tso_cutoftime d1, sp_dm_ngan_hang d2, sp_dm_ngan_hang d3" +
+                  " WHERE     d1.ma_nh_kb = d2.ma_nh AND d1.ma_nh = d3.ma_nh" +
+                  " AND d1.ma_nh_kb = '" + strNHKB +
+                  "' AND TRUNC (d1.ngay_gd+1) <= TRUNC (SYSDATE) AND (d1.ngay_gd+1) >= SYSDATE-30 AND TRUNC (d1.ngay_gd+1) >= sp_util_pkg.fnc_get_ngay_trien_khai(d1.ma_nh_kb, d1.ma_nh, 'VND') " + 
+                  " AND  TO_CHAR (ngay_gd+1, 'YYYYMMDD') NOT IN" +
+                  " ( SELECT   ngay FROM sp_ngay_nghi) ORDER BY   ngay) b" +
+                  " WHERE   a.ngay_dc(+) = b.ngay AND a.receive_bank(+) = b.ma_nh AND ( (TRUNC (a.ngay_dc) < TRUNC (SYSDATE)" +
+                  " AND ( ((a.tthai_dxn_thop = '00' or a.tthai_dxn_thop ='01')   or (SELECT   COUNT (0)" +
+                  " FROM   sp_066 WHERE   nhkb_nhan = a.receive_bank AND trang_thai = '01' AND kq_dc_ttsp IN(  SELECT   MAX (id)" +
+                  " FROM   sp_065 WHERE   TO_DATE (ngay_dc) < TO_DATE (SYSDATE) and ngay_dc =b.ngay " +
+                  " AND app_type = 'TTSP' AND receive_bank = a.receive_bank" +
+                  " AND send_bank = '" + strNHKB + "' )) >0) AND a.id IN" +
+                  " ( SELECT   MAX (id) FROM   sp_065 WHERE   TO_DATE (ngay_dc) < TO_DATE (SYSDATE) and ngay_dc =b.ngay " +
+                  " AND app_type = 'TTSP' and receive_bank=a.receive_bank AND send_bank = '" +
+                  strNHKB + "' GROUP BY   ngay_dc, send_bank ))" +
+                  " OR a.trang_thai IS NULL)  OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE) AND a.id IN" +
+                  " (  SELECT   MAX (id) FROM   sp_065 WHERE   TO_DATE (ngay_dc) = TO_DATE (SYSDATE)" +
+                  " AND app_type = 'TTSP' and receive_bank=a.receive_bank AND send_bank = '" +
+                  strNHKB + "'  GROUP BY   ngay_dc, send_bank))" +
+                  " OR (TRUNC (a.ngay_dc) = TRUNC (SYSDATE) AND a.tthai_dxn_thop <> '00')" +
+                  " OR (TRUNC (a.ngay_thuc_hien_dc) = TRUNC (SYSDATE)))" +
+                  " ORDER BY   b.ma_nh, ngay";        
             
  
             reval =
@@ -2045,46 +2070,59 @@ public class DChieu1DAO extends AppDAO {
                                           Integer page, Integer count,
                                           Integer[] totalCount,String trang_thai_tk) throws Exception {
       try {
-          String strSQL =
+//          String strSQL =
         //20170320 - Pham vi doi chieu quyet dinh boi lan doi chieu: 1-DonVi, 3-ToanQuoc 
-              "SELECT DISTINCT a.id bk_id, b.id kq_id, substr(a.lan_dc,1,1) pham_vi_doi_chieu, a.lan_dc, c.ma_nh, a.send_bank," +
-              "           a.receive_bank, c.ma, c.ten_kb_tinh nhkb_tinh," +
-              "           c.ten_kb_huyen nhkb_huyen, c.ten_ngan_hang ten," +
-              "           NULL AS tthai_dxn_thop," +
-              "           TO_CHAR (c.ngay, 'DD/MM/YYYY') ngay_dc," +
-              "           TO_CHAR (DECODE (" + "                    b.ngay_thien_dc," +
-              "                   NULL, a.ngay_thien_dc," +
-              "                   b.ngay_thien_dc" + "                  ), 'DD/MM/YYYY')" +
-              "             ngay_thien_dc," +
-              "           DECODE (a.trang_thai, NULL, '99', a.trang_thai)" +
-              "             trang_thai_bk, b.ket_qua, b.trang_thai trang_thai_kq," +
-              "           a.loai_dc, NULL AS ket_qua_dxn_thop,c.ngay_order,c.trang_thai_tk, b.tt_dc_tu_dong" +
-              "  FROM sp_bk_dc3 a, sp_kq_dc3 b," +
-              "     (SELECT  DISTINCT TRUNC (ngay_gd + 1) ngay, TO_CHAR (TRUNC (ngay_gd + 1), 'YYYYMMDD') ngay_order," +
-              "                  d5.id id_kb_tinh, d4.ma, " +
-              "                  d4.id id_kb_huyen,d5.id_cha," +
-              "                  d1.ma_nh ma_nh," + "                  d3.ma_nh ma_kb," +
-              "                  d2.ten ten_ngan_hang," +
-              "                  d4.ten ten_kb_huyen," +
-              "                  d5.ten ten_kb_tinh, d6.trang_thai trang_thai_tk " +
-              "       FROM   sp_tso_cutoftime d1," +
-              "            sp_dm_ngan_hang d2," + "            sp_dm_manh_shkb d3," +
-              "            sp_dm_htkb d4, sp_dm_htkb d5, SP_TKNH_KB d6 " +
-              "       WHERE     d1.ma_nh_kb = d3.ma_nh" +
-              "            AND d3.shkb = d4.ma" + "            AND d5.id = d4.id_cha" +
-              "            AND d1.ma_nh = d2.ma_nh" +
-              "            AND TRUNC (d1.ngay_gd + 1) <= TRUNC (SYSDATE)" +
-              "            AND TO_CHAR (ngay_gd + 1, 'YYYYMMDD') NOT IN" +
-              "                  (SELECT   ngay FROM sp_ngay_nghi)  AND d6.nh_id = d2.id AND d6.kb_id = d4.id";
-            if(trang_thai_tk != null && !"".equals(trang_thai_tk)){
-             strSQL += " AND d6.trang_thai = '"+trang_thai_tk+"'";
-            }
-            strSQL += ") c" +
-              " WHERE    a.id = b.bk_id(+)" +
-              "     AND a.ngay_dc(+) = c.ngay " +
-              "     AND a.send_bank(+) = c.ma_nh AND a.receive_bank(+) = c.ma_kb  and c.ma='0003' " +
+//              "SELECT DISTINCT a.id bk_id, b.id kq_id, substr(a.lan_dc,1,1) pham_vi_doi_chieu, a.lan_dc, c.ma_nh, a.send_bank," +
+//              "           a.receive_bank, c.ma, c.ten_kb_tinh nhkb_tinh," +
+//              "           c.ten_kb_huyen nhkb_huyen, c.ten_ngan_hang ten," +
+//              "           NULL AS tthai_dxn_thop," +
+//              "           TO_CHAR (c.ngay, 'DD/MM/YYYY') ngay_dc," +
+//              "           TO_CHAR (DECODE (" + "                    b.ngay_thien_dc," +
+//              "                   NULL, a.ngay_thien_dc," +
+//              "                   b.ngay_thien_dc" + "                  ), 'DD/MM/YYYY')" +
+//              "             ngay_thien_dc," +
+//              "           DECODE (a.trang_thai, NULL, '99', a.trang_thai)" +
+//              "             trang_thai_bk, b.ket_qua, b.trang_thai trang_thai_kq," +
+//              "           a.loai_dc, NULL AS ket_qua_dxn_thop,c.ngay_order,c.trang_thai_tk, b.tt_dc_tu_dong" +
+//              "  FROM sp_bk_dc3 a, sp_kq_dc3 b," +
+//              "     (SELECT  DISTINCT TRUNC (ngay_gd + 1) ngay, TO_CHAR (TRUNC (ngay_gd + 1), 'YYYYMMDD') ngay_order," +
+//              "                  d5.id id_kb_tinh, d4.ma, " +
+//              "                  d4.id id_kb_huyen,d5.id_cha," +
+//              "                  d1.ma_nh ma_nh," + "                  d3.ma_nh ma_kb," +
+//              "                  d2.ten ten_ngan_hang," +
+//              "                  d4.ten ten_kb_huyen," +
+//              "                  d5.ten ten_kb_tinh, d6.trang_thai trang_thai_tk " +
+//              "       FROM   sp_tso_cutoftime d1," +
+//              "            sp_dm_ngan_hang d2," + "            sp_dm_manh_shkb d3," +
+//              "            sp_dm_htkb d4, sp_dm_htkb d5, SP_TKNH_KB d6 " +
+//              "       WHERE     d1.ma_nh_kb = d3.ma_nh" +
+//              "            AND d3.shkb = d4.ma" + "            AND d5.id = d4.id_cha" +
+//              "            AND d1.ma_nh = d2.ma_nh" +
+//              "            AND TRUNC (d1.ngay_gd + 1) <= TRUNC (SYSDATE)" +
+//              "            AND TO_CHAR (ngay_gd + 1, 'YYYYMMDD') NOT IN" +
+//              "                  (SELECT   ngay FROM sp_ngay_nghi)  AND d6.nh_id = d2.id AND d6.kb_id = d4.id";
+//            if(trang_thai_tk != null && !"".equals(trang_thai_tk)){
+//             strSQL += " AND d6.trang_thai = '"+trang_thai_tk+"'";
+//            }
+//            strSQL += ") c" +
+//              " WHERE    a.id = b.bk_id(+)" +
+//              "     AND a.ngay_dc(+) = c.ngay " +
+//              "     AND a.send_bank(+) = c.ma_nh AND a.receive_bank(+) = c.ma_kb  and c.ma='0002' " +//20170927 tai khoan chuyen sang cuc kt toan
+        String strSQL =
+            "SELECT DISTINCT a.id bk_id, b.id kq_id, substr(a.lan_dc,1,1) pham_vi_doi_chieu, a.lan_dc, a.SEND_BANK ma_nh," + 
+            " a.send_bank," + 
+            " a.receive_bank,d.SHKB, (select ten from sp_dm_htkb where id  = c.id_cha and ROWNUM = 1) nhkb_tinh " + 
+            " ,c.ten nhkb_huyen, e.ten ten,  NULL AS tthai_dxn_thop, TO_CHAR (a.NGAY_DC, 'DD/MM/YYYY') ngay_dc, " + 
+            " TO_CHAR (DECODE (b.ngay_thien_dc,  NULL, a.ngay_thien_dc, b.ngay_thien_dc  ), 'DD/MM/YYYY')  ngay_thien_dc,  " + 
+            " DECODE (a.trang_thai, NULL, '99', a.trang_thai) trang_thai_bk, b.ket_qua, b.trang_thai trang_thai_kq, " + 
+            " a.loai_dc, NULL AS ket_qua_dxn_thop" + 
+            " ,a.CREATED_DATE   ngay_order,'' trang_thai_tk" + 
+            " , b.tt_dc_tu_dong  \n" + 
+            " FROM sp_bk_dc3 a, sp_kq_dc3 b,sp_dm_htkb c, sp_dm_manh_shkb d,sp_dm_ngan_hang e" +
+            "  WHERE    a.id = b.bk_id(+)  and ma = d.SHKB and a.RECEIVE_BANK = d.MA_NH and a.SEND_BANK= e.MA_NH " +//20170927 tai khoan chuyen sang cuc kt toan
               strWhere +
-              " ORDER BY  ngay_order DESC,nhkb_tinh ASC, nhkb_huyen ASC,kq_id desc, lan_dc DESC, send_bank ASC";
+            " and a.RECEIVE_BANK in (SELECT ma_nh FROM sp_dm_manh_shkb  where shkb='0002')"+
+            " ORDER BY  a.CREATED_DATE DESC, c.ten ASC,b.id desc, lan_dc DESC, send_bank ASC";
 
           return executeSelectWithPaging(conn, strSQL.toString(), vParam,
                                          strValueObjectKQVO, page, count,
@@ -2361,7 +2399,25 @@ public class DChieu1DAO extends AppDAO {
                   " SELECT   DISTINCT a.id_cha, c.ten kb_tinh" + " FROM   sp_dm_htkb a, sp_tknh_kb b, sp_dm_htkb c" +
                   " WHERE   1 = 1 AND a.id = b.kb_id AND a.id_cha = c.id ";
           strSQL += strWhere + " order by ltrim(REPLACE(c.ten,'KBNN',''))";
+          reval =
+                  executeSelectStatement(strSQL.toString(), vParam, strValueObjectVO,
+                                         this.conn);
+      } catch (Exception ex) {
+          DAOException daoEx =
+              new DAOException(strValueObjectVO + ".getDMucKB_cha(): " +
+                               ex.getMessage(), ex);
+          throw daoEx;
+      }
+      return reval;
+  }
+  public Collection getDMucKB_Tinh2(String strWhere,
+                                  Vector vParam) throws Exception {
 
+      Collection reval = null;
+      try {
+          String strSQL = "";
+          //20170927 thuongdt chi lay don vi cap tinh hoac so giao dich hoac cuc ke toan kbnn
+          strSQL ="select id id_cha, ten kb_tinh from sp_dm_htkb  where 1=1 "+strWhere +" order by ltrim(REPLACE(ten,'KBNN',''))";
           reval =
                   executeSelectStatement(strSQL.toString(), vParam, strValueObjectVO,
                                          this.conn);
@@ -2382,9 +2438,10 @@ public class DChieu1DAO extends AppDAO {
         try {
 
             String strSQL = "";
-
+             // 20170927 thuongdt bo d.ma_nh neu de se nhan so huyen vi co the co 1 KB co nhieu TK NH
             strSQL +=
-                    " SELECT distinct  a.ma,c.ten kb_tinh, a.ten kb_huyen, a.id,a.ma_cha, a.id_cha, a.cap,d.ma_nh" +
+                   // " SELECT distinct  a.ma,c.ten kb_tinh, a.ten kb_huyen, a.id,a.ma_cha, a.id_cha, a.cap,d.ma_nh" +
+                    " SELECT distinct  a.ma,c.ten kb_tinh, a.ten kb_huyen, a.id,a.ma_cha, a.id_cha, a.cap" +
                     " FROM   sp_dm_htkb a, sp_tknh_kb b, sp_dm_htkb c,sp_dm_manh_shkb d " +
                     " WHERE   1 = 1  and a.id=b.kb_id and a.id_cha=c.id and d.shkb = a.ma ";
             strSQL += strWhere + " order by ltrim(a.ten)";

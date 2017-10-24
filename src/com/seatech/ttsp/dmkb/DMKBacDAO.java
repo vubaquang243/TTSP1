@@ -55,6 +55,7 @@ public class DMKBacDAO extends AppDAO {
                 new DAOException(CLASS_NAME_DAO + ".getDMKBList(): " +
                                  ex.getMessage(), ex);
             //            daoEx.printStackTrace();
+            
             throw daoEx;
         }
         return reval;
@@ -67,7 +68,7 @@ public class DMKBacDAO extends AppDAO {
         try {
 
             StringBuffer strSQL = new StringBuffer();
-            strSQL.append("SELECT  DISTINCT a.ma ma_nh, a.ten,a.id,a.id_cha, c.ma ma_cha, c.ten kb_tinh, b.ma_nt ");
+            strSQL.append("SELECT  DISTINCT a.ma ma_nh, a.ten,a.id,a.id_cha, c.ma ma_cha, c.ten kb_tinh ");
             strSQL.append("FROM  sp_dm_htkb a, sp_tknh_kb b, sp_dm_htkb c");
             if (whereClause != null && !STRING_EMPTY.equals(whereClause)) {
                 strSQL.append(" WHERE  1 = 1 AND a.id_cha = c.id " +
@@ -86,6 +87,7 @@ public class DMKBacDAO extends AppDAO {
         }
         return reval;
     }
+
 
     public Collection getDMNHKBList(String whereClause,
                                     Vector params) throws Exception {

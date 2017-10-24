@@ -52,10 +52,10 @@ public class AppConstants {
     public static final String APP_HACH_TOAN_TABMIS_THEO_NGAY_KS_NH_SESSION = "HACH_TOAN_TABMIS_THEO_NGAY_KS_NH";
     
     //20171017 thuongdt bo sung them
-    public static final String APP_LAP_DNQT_BU_CHI_NGAY_LOI_SESSION = "CHO_PHEP_LAP_DNQT_BU_CHI_NGAY_LOI";
-    public static final String APP_LAP_DNQT_THAU_CHI_SESSION = "CHO_PHEP_LAP_DNQT_THAU_CHI";
-    public static final String APP_LAP_DNQT_THU_NGAY_LOI_SESSION = "CHO_PHEP_LAP_DNQT_THU_NGAY_LOI";
-    public static final String APP_LAP_DNQT_LOAI_KHAC_SESSION = "CHO_PHEP_LAP_DNQT_LOAI_KHAC";
+    public static final String APP_LAP_DNQT_BU_CHI_NGAY_LOI_SESSION = "CHO_PHEP_DNQT_BU_SO_CHI_NGAY_LOI";
+    public static final String APP_LAP_DNQT_THAU_CHI_SESSION = "CHO_PHEP_DNQT_THAU_CHI";
+    public static final String APP_LAP_DNQT_THU_NGAY_LOI_SESSION = "CHO_PHEP_DNQT_BU_SO_THU_NGAY_LOI";
+    public static final String APP_LAP_DNQT_LOAI_KHAC_SESSION = "CHO_PHEP_DNQT_LOAI_KHAC";
    
     //Thong tin ngan hang kho bac
     public static final String APP_NHKB_ID_SESSION = "id_nhkb";

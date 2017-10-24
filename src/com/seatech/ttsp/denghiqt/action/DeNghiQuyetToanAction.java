@@ -43,7 +43,7 @@ import org.apache.struts.action.ActionMapping;
  * Class dùng cho việc tạo mới đề nghị quyết toán
  * */
 public class DeNghiQuyetToanAction extends AppAction {
-
+    
     public ActionForward executeAction(ActionMapping mapping, ActionForm form,
                                        HttpServletRequest request,
                                        HttpServletResponse response) throws Exception {
@@ -80,50 +80,44 @@ public class DeNghiQuyetToanAction extends AppAction {
         long qToanID = 0;
         try {
             jsonObj = new JsonObject();
-            conn = getConnection();
+            conn = getConnection();           
             HttpSession session = request.getSession();
             DeNghiQuyetToanDAO denghiDAO = new DeNghiQuyetToanDAO(conn);
             ThamSoKBDAO dao = new ThamSoKBDAO(conn);
-            String id_kb =
-                session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
-            String NHKBNhan = request.getParameter("maNH");
-            String loaiQToan = request.getParameter("loaiQT");
-            if (loaiQToan.equals("04"))
-                strThamSo = AppConstants.APP_LAP_DNQT_BU_CHI_NGAY_LOI_SESSION;
-            else if (loaiQToan.equals("05"))
-                strThamSo = AppConstants.APP_LAP_DNQT_THAU_CHI_SESSION;
-            else if (loaiQToan.equals("06"))
-                strThamSo = AppConstants.APP_LAP_DNQT_THU_NGAY_LOI_SESSION;
-            else if (loaiQToan.equals("07"))
-                strThamSo = AppConstants.APP_LAP_DNQT_LOAI_KHAC_SESSION;
+           String id_kb =
+              session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
+          String NHKBNhan = request.getParameter("maNH");
+          String loaiQToan = request.getParameter("loaiQT");            
+          if(loaiQToan.equals("04"))
+           strThamSo = AppConstants.APP_LAP_DNQT_BU_CHI_NGAY_LOI_SESSION;
+          else if(loaiQToan.equals("05"))
+            strThamSo = AppConstants.APP_LAP_DNQT_THAU_CHI_SESSION;
+          else if(loaiQToan.equals("06"))
+            strThamSo = AppConstants.APP_LAP_DNQT_THU_NGAY_LOI_SESSION;
+          else if(loaiQToan.equals("07"))
+            strThamSo = AppConstants.APP_LAP_DNQT_LOAI_KHAC_SESSION;
+            
+              if(dao.checkThamSo(id_kb, NHKBNhan,strThamSo,"Y"))
+              {
+                  DeNghi_QuyetToanVO qtoan = intializeQT(request, session);
 
-            if (dao.checkThamSo(id_kb, NHKBNhan, strThamSo, "Y")) {
-                DeNghi_QuyetToanVO qtoan = intializeQT(request, session);
-                String strWhere =
-                    " to_Date(to_date(ngay,'yyyymmdd'),'dd/mm/yyyy') = to_date('" +
-                    qtoan.getNgayQuyetToan() + "','dd/mm/yyyy')";
-                Collection checkDate = denghiDAO.checkNgayNghi(strWhere);
-                if (checkDate.size() == 0) {
-                    qToanID = denghiDAO.insert(qtoan);
-                    if (qToanID > 0) {
-                        strbf.append(" AND kb_id= '" + id_kb + "'");
-                        strbf.append(" AND ma_nh= '" + NHKBNhan + "'");
-                        strbf.append(" AND ten_ts= '" + strThamSo + "' ");
-                        dao.update(" giatri_ts = 'N'", strbf.toString());
-                        conn.commit();
-                        response.setContentType(AppConstants.CONTENT_TYPE_JSON);
-                        PrintWriter out = response.getWriter();
-                        out.flush();
-                        out.close();
-                    } else {
-                        throw new Exception("S\u1EEDa l\u1EA1i tham s\u1ED1 quy\u1EBFt to\u00E1n b\u00F9 b\u1ECB l\u1ED7i.");
-                    }
-                } else {
-                    throw new Exception("");
-                }
-            } else {
-                throw new Exception("Liên hệ trung ương để được cho phép lập mới DNQT.");
-            }
+                  qToanID = denghiDAO.insert(qtoan);
+                  if (qToanID > 0) {
+                      strbf.append(" AND kb_id= '"+id_kb+"'");
+                      strbf.append(" AND ma_nh= '"+NHKBNhan+"'");
+                      strbf.append(" AND ten_ts= '"+strThamSo+"' ");
+                      dao.update(" giatri_ts = 'N'", strbf.toString());                  
+                      conn.commit();
+                      response.setContentType(AppConstants.CONTENT_TYPE_JSON);
+                      PrintWriter out = response.getWriter();
+                      out.flush();
+                      out.close();
+                  } else {
+                      throw new Exception("S\u1EEDa l\u1EA1i tham s\u1ED1 quy\u1EBFt to\u00E1n b\u00F9 b\u1ECB l\u1ED7i.");
+                  }
+              }else{
+                throw new Exception("Liên hệ trung ương để được cho phép lập mới DNQT.");                  
+              }
 
         } catch (Exception e) {
             conn.rollback();
@@ -175,7 +169,7 @@ public class DeNghiQuyetToanAction extends AppAction {
             new BigDecimal(QToanChi);
             new BigDecimal(QToanBu);
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+          throw new Exception(e.getMessage());
         }
         qtoan.setQuyetToanChi(QToanChi);
         qtoan.setQuyetToanThu(QToanBu);
@@ -244,14 +238,13 @@ public class DeNghiQuyetToanAction extends AppAction {
                 request.getParameter("maNH") != null ? request.getParameter("maNH") :
                 "";
             String NHKBChuyen =
-                session.getAttribute(AppConstants.APP_NHKB_ID_SESSION) ==
-                null ? "" :
+                session.getAttribute(AppConstants.APP_NHKB_ID_SESSION) == null ?
+                "" :
                 session.getAttribute(AppConstants.APP_NHKB_ID_SESSION).toString();
             String type =
                 request.getParameter("loaiQT") != null ? request.getParameter("loaiQT") :
                 "";
-            String loai_tien =
-                request.getParameter("loaiTien") != null ? request.getParameter("loaiTien") :
+            String loai_tien = request.getParameter("loaiTien") != null ? request.getParameter("loaiTien") :
                 "";
             String strSQL =
                 "{? = call SP_TINH_SO_QTOAN_LAP_MOI.fnc_get_qtoan_chi(?,?,?,?)}";

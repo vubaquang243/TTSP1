@@ -271,21 +271,20 @@ function setIntoFieldLOVTCUUSODU(id, ma, ten,ma_cha){
   }
   
   // Get ma_kb = sh_kb
-//  var ma_kb = "";
-//  $.ajax({
-//    type :"POST",
-//    url : "getMaKhoBac.do",
-//    data :{
-//      "sh_kb" : ma
-//    },
-//    success : function(data){
-//      ma_kb = data;
-//    },
-//    error : function(textstatus){
-//      alert(textstatus);
-//    }
-//  });
-  jQuery("#ma_kb").val(ma);  
+  var ma_kb = "";
+  jQuery.ajax({
+    type :"POST",
+    url : "getMaKBac8So.do",
+    data :{
+      "sh_kb" : ma
+    },
+    success : function(data){
+      jQuery("#ma_kb").val(JSON.parse(data[0]));  
+    },
+    error : function(textstatus){
+      alert(textstatus);
+    }
+  });
   jQuery("#tblLovDM").html("");  
   jQuery("#ma_lov").val("");
   jQuery("#ten_lov").val("");

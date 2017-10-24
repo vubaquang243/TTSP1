@@ -161,6 +161,7 @@ public class TCuuBKeQToanAction extends AppAction {
             request.setAttribute("tcuu", tcuu);
             request.setAttribute("tienTe", tienTe);
 
+            request.setAttribute("loai_tien", ma_nt);
             PagingBean pagingBean = new PagingBean();
             if (currentPage == 1) {
                 pagingBean.setCurrentPage(1);

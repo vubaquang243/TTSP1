@@ -39,15 +39,16 @@ public class LovAction extends AppAction {
     public ActionForward executeAction(ActionMapping mapping, ActionForm form,
                                        HttpServletRequest request,
                                        HttpServletResponse response) throws Exception {
+
         Connection conn = null;
         try {
-          conn = getConnection(request);
-          HttpSession session = request.getSession();
-          String kb_code =
-              session.getAttribute(AppConstants.APP_KB_CODE_SESSION).toString();
-          String kb_id =
-              session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
-//            conn = getConnection();
+            conn = getConnection(request);
+            HttpSession session = request.getSession();
+            String kb_code =
+                session.getAttribute(AppConstants.APP_KB_CODE_SESSION).toString();
+            String kb_id =
+                session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
+            //            conn = getConnection();
             String strMa = request.getParameter("ma");
             String strTen = request.getParameter("ten");
             String strLoai = request.getParameter("loai");
@@ -57,8 +58,8 @@ public class LovAction extends AppAction {
             Type listType = null;
             if ("DMNH".equalsIgnoreCase(strLoai)) {
                 whereClause =
-                        " UPPER(ma_nh) like UPPER('%" + strMa + "%') and UPPER(ten) like UPPER('%" + strTen +
-                        "%') and tinh_trang='1' ";
+                        " UPPER(ma_nh) like UPPER('%" + strMa + "%') and UPPER(ten) like UPPER('%" +
+                        strTen + "%') and tinh_trang='1' ";
                 DMNHangDAO dmdao = new DMNHangDAO(conn);
                 collDM = dmdao.getDMNHLovList(whereClause, params);
                 listType = new TypeToken<Collection<DMNHangVO>>() {
@@ -69,49 +70,106 @@ public class LovAction extends AppAction {
                         "%'";
                 DMKBacDAO dmdao = new DMKBacDAO(conn);
                 collDM = dmdao.getDMKBList(whereClause, params);
-            }else if ("DMKBTCUU".equalsIgnoreCase(strLoai)) {     
-                    DChieu1DAO dao = new DChieu1DAO(conn);
-                    DChieu1VO vo = new DChieu1VO();
-                    String strCap = " and ma=" + kb_code;
-                    vo = dao.getCap(strCap, null);
-                    String cap = vo.getCap();
-                      
-                  if ("0001".equals(kb_code) || "0002".equals(kb_code)) {
-                      if((strMa!=null&&!"".equals(strMa)) ||(strTen!=null&&!"".equals(strTen))){
-                          whereClause =" AND (a.id = b.kb_id or a.id in (select id_cha from sp_dm_htkb)) AND a.ma like '%" + strMa + "%' and UPPER(a.ten) like UPPER('%" + strTen + "%')";
-                      }else if((strMa==null || "".equals(strMa)) ||(strTen==null || "".equals(strTen))){
-                          whereClause =" AND (a.id = b.kb_id or a.id in (select id_cha from sp_dm_htkb))";
-                      }
-                  } else if ("0003".equals(kb_code)) {
-                      whereClause =" AND a.id = b.kb_id AND a.ma like '%" + strMa + "%' and UPPER(a.ten) like UPPER('%" + strTen + "%')  AND a.ma='0003' ";
-                  } else if ("5".equals(cap)) {
-                      whereClause ="  AND a.id = b.kb_id AND a.ma like '%" + strMa + "%' and UPPER(a.ten) like UPPER('%" + strTen + "%') and (a.id="+ kb_id+ " or a.id_cha="+ kb_id+")" ;
-                  } else {
-                      whereClause ="  AND a.id = b.kb_id AND a.ma like '%" + strMa + "%' and UPPER(a.ten) like UPPER('%" + strTen + "%') and a.id ="+ kb_id;
-                  }
-                     DMKBacDAO dmdao = new DMKBacDAO(conn);
-                    collDM = dmdao.getDMKBTCUUList(whereClause, params);
-                  listType = new TypeToken<Collection<DMNHangVO>>() {
-                      }.getType();
-                }else if ("DMKBTCUUQT".equalsIgnoreCase(strLoai)) {     
-                    DChieu1DAO dao = new DChieu1DAO(conn);
-                    DChieu1VO vo = new DChieu1VO();
-                    String strCap = " and ma=" + kb_code;
-                    vo = dao.getCap(strCap, null);
-                    String cap = vo.getCap();
-                      
-                  if ("0001".equals(kb_code) || "0002".equals(kb_code)||"0003".equals(kb_code)) {
-                    whereClause =" AND (a.id = b.kb_id or a.id in (select id_cha from sp_dm_htkb)) AND a.ma like '%" + strMa + "%' and UPPER(a.ten) like UPPER('%" + strTen + "%')";
-                  }else if ("5".equals(cap)) {
-                      whereClause ="  AND a.id = b.kb_id AND a.ma like '%" + strMa + "%' and UPPER(a.ten) like UPPER('%" + strTen + "%') and (a.id="+ kb_id+ " or a.id_cha="+ kb_id+")" ;
-                  } else {
-                      whereClause ="  AND a.id = b.kb_id AND a.ma like '%" + strMa + "%' and UPPER(a.ten) like UPPER('%" + strTen + "%') and a.id ="+ kb_id;
-                  }
-                     DMKBacDAO dmdao = new DMKBacDAO(conn);
-                    collDM = dmdao.getDMKBTCUUList(whereClause, params);
-                  listType = new TypeToken<Collection<DMNHangVO>>() {
-                      }.getType();
+            } else if ("DMKBTCUU".equalsIgnoreCase(strLoai)) {
+                DChieu1DAO dao = new DChieu1DAO(conn);
+                DChieu1VO vo = new DChieu1VO();
+                String strCap = " and ma=" + kb_code;
+                vo = dao.getCap(strCap, null);
+                String cap = vo.getCap();
+
+                if ("0001".equals(kb_code) || "0002".equals(kb_code)) {
+                    if ((strMa != null && !"".equals(strMa)) ||
+                        (strTen != null && !"".equals(strTen))) {
+                        whereClause =
+                                " AND (a.id = b.kb_id or a.id in (select id_cha from sp_dm_htkb)) AND a.ma like '%" +
+                                strMa + "%' and UPPER(a.ten) like UPPER('%" +
+                                strTen + "%')";
+                    } else if ((strMa == null || "".equals(strMa)) ||
+                               (strTen == null || "".equals(strTen))) {
+                        whereClause =
+                                " AND (a.id = b.kb_id or a.id in (select id_cha from sp_dm_htkb))";
+                    }
+                } else if ("0003".equals(kb_code)) {
+                    whereClause =
+                            " AND a.id = b.kb_id AND a.ma like '%" + strMa +
+                            "%' and UPPER(a.ten) like UPPER('%" + strTen +
+                            "%')  AND a.ma='0003' ";
+                } else if ("5".equals(cap)) {
+                    whereClause =
+                            "  AND a.id = b.kb_id AND a.ma like '%" + strMa +
+                            "%' and UPPER(a.ten) like UPPER('%" + strTen +
+                            "%') and (a.id=" + kb_id + " or a.id_cha=" +
+                            kb_id + ")";
+                } else {
+                    whereClause =
+                            "  AND a.id = b.kb_id AND a.ma like '%" + strMa +
+                            "%' and UPPER(a.ten) like UPPER('%" + strTen +
+                            "%') and a.id =" + kb_id;
                 }
+                DMKBacDAO dmdao = new DMKBacDAO(conn);
+                collDM = dmdao.getDMKBTCUUList(whereClause, params);
+                listType = new TypeToken<Collection<DMNHangVO>>() {
+                    }.getType();
+            } else if ("DMKBTCUUQT".equalsIgnoreCase(strLoai)) {
+                DChieu1DAO dao = new DChieu1DAO(conn);
+                DChieu1VO vo = new DChieu1VO();
+                String strCap = " and ma=" + kb_code;
+                vo = dao.getCap(strCap, null);
+                String cap = vo.getCap();
+
+                if ("0001".equals(kb_code) || "0002".equals(kb_code) ||
+                    "0003".equals(kb_code)) {
+                    whereClause =
+                            " AND (a.id = b.kb_id or a.id in (select id_cha from sp_dm_htkb)) AND a.ma like '%" +
+                            strMa + "%' and UPPER(a.ten) like UPPER('%" +
+                            strTen + "%')";
+                } else if ("5".equals(cap)) {
+                    whereClause =
+                            "  AND a.id = b.kb_id AND a.ma like '%" + strMa +
+                            "%' and UPPER(a.ten) like UPPER('%" + strTen +
+                            "%') and (a.id=" + kb_id + " or a.id_cha=" +
+                            kb_id + ")";
+                } else {
+                    whereClause =
+                            "  AND a.id = b.kb_id AND a.ma like '%" + strMa +
+                            "%' and UPPER(a.ten) like UPPER('%" + strTen +
+                            "%') and a.id =" + kb_id;
+                }
+                DMKBacDAO dmdao = new DMKBacDAO(conn);
+                collDM = dmdao.getDMKBTCUUList(whereClause, params);
+                listType = new TypeToken<Collection<DMNHangVO>>() {
+                    }.getType();
+            }
+//            } else if ("DMKBSODU".equalsIgnoreCase(strLoai)) {
+//                DChieu1DAO dao = new DChieu1DAO(conn);
+//                DChieu1VO vo = new DChieu1VO();
+//                String strCap = " and ma=" + kb_code;
+//                vo = dao.getCap(strCap, null);
+//                String cap = vo.getCap();
+//
+//                if ("0001".equals(kb_code) || "0002".equals(kb_code) ||
+//                    "0003".equals(kb_code)) {
+//                    whereClause =
+//                            " AND a.cap IN (2,3) AND (a.id = b.kb_id or a.id in (select id_cha from sp_dm_htkb)) AND a.ma like '%" +
+//                            strMa + "%' and UPPER(a.ten) like UPPER('%" +
+//                            strTen + "%')";
+//                } else if ("5".equals(cap)) {
+//                    whereClause =
+//                            "  AND a.cap IN (2,3) AND a.id = b.kb_id AND a.ma like '%" + strMa +
+//                            "%' and UPPER(a.ten) like UPPER('%" + strTen +
+//                            "%') and (a.id=" + kb_id + " or a.id_cha=" +
+//                            kb_id + ")";
+//                } else {
+//                    whereClause =
+//                            " AND a.cap IN (2,3) AND a.id = b.kb_id AND a.ma like '%" + strMa +
+//                            "%' and UPPER(a.ten) like UPPER('%" + strTen +
+//                            "%') and a.id =" + kb_id;
+//                }
+//                DMKBacDAO dmdao = new DMKBacDAO(conn);
+//                collDM = dmdao.getDMKBTCUUList(whereClause, params);
+//                listType = new TypeToken<Collection<DMNHangVO>>() {
+//                    }.getType();
+//            }
 
             String strJson = new Gson().toJson(collDM, listType);
 
