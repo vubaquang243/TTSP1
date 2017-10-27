@@ -13,9 +13,8 @@
       href="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/css/ui.jqgrid.css"/>
 <link rel="stylesheet" type="text/css" media="screen"
       href="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/css/jquery-ui-1.8.2.custom.css"/>
-<script src="src">
-"<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/jquery-ui-1.8.11.custom.min.js"
-  type = "text/javascript"
+<script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/jquery-ui-1.8.11.custom.min.js"
+        type = "text/javascript" > 
 </script>
 <%@ page import="com.seatech.framework.common.jsp.PagingBean"%>
 <%@ page import="com.seatech.framework.AppConstants"%>
@@ -28,6 +27,11 @@
   //************************************ LOAD PAGE **********************************
   jQuery(document).ready(function () {
      jQuery('#so_du').focus();
+     var loai_tk =<%=request.getParameter("loai_tk")%>;
+     if(loai_tk !== ""){
+        loai_tk++;
+        jQuery("#loai_tk").find(":nth-child(" + loai_tk +")").attr("selected", true);
+     }
   });
 
 </script>
@@ -84,6 +88,7 @@
                              size="35%"
                              value='<%=request.getParameter("ma_kb")%>'/>
                 </td>
+                
                 <td width="15%" align="right">Ngày giao dịch</td>
                 <td align="left" width="30%">
                   <html:text property="ngay_gd" styleId="ngay_gd" size="35%"
@@ -150,6 +155,27 @@
                 </td>              
               </tr>
               <tr>
+            <td align="right"> 
+              Loại tài khoản
+            </td>
+            <td>
+                <html:select styleClass="selectBox" property="loai_tk"
+                                           styleId="loai_tk" style="width:75%;height:20px">                  
+                        <html:option value="00">Chọn loại tài khoản</html:option>  
+                        <html:option value="01">Thanh toán tổng hợp</html:option>
+                        <html:option value="02">Thanh toán</html:option>
+                        <html:option value="03">Chuyên thu</html:option>
+                    </html:select>
+            
+            <td align="right">
+           
+            </td>
+            <td align="left" width="10%">
+               
+            </td>
+            
+        </tr>
+              <tr>
                 <td align="right"></td>
                 <td align="left">
                   <button type="button" onclick="check('save')" accesskey="t"
@@ -168,6 +194,7 @@
                 <td align="left" width="30%"></td>
                 <td align="left"></td>
               </tr>
+              
             </table>
           </fieldset>
         </td>
@@ -186,12 +213,17 @@
       }
       if (type == 'save') {
           var so_du = jQuery('#so_du').val();
+          var loai_tk = jQuery('#loai_tk').val();
 
          jQuery('#so_du_cot').val();
 
           if (so_du == null || so_du == '') {
               alert(GetUnicode('Hãy nhập số dư'));
               jQuery('#so_du').focus();
+              return false;
+          }else if(loai_tk === '00'){
+              alert('Phải chọn loại tài khoản!');
+              jQuery('#loai_tk').focus();
               return false;
           }
           document.getElementById("bt").disabled = true;

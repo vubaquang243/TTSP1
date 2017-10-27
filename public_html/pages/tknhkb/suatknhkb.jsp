@@ -42,6 +42,9 @@
           alert('Số tài khoản không được để trống');
           return false;
         }
+        if(!checkDate()){
+         return false;
+        }
         return true;
       }
       function getTen_NH(textma,textten,textid) {
@@ -118,6 +121,25 @@
    function onError(){
        alert("Error");
    } 
+   
+   function checkDate(){
+   alert('test');
+    var vhieu_luc_tungay =  document.getElementById('hieu_luc_tungay');
+    var vhieu_luc_den_ngay =  document.getElementById('hieu_luc_den_ngay');
+    if(stringToDate(vhieu_luc_tungay.value)>= stringToDate(vhieu_luc_den_ngay.value) ){
+      alert('Từ ngày không được lớn hơn hoặc bằng tới ngày');
+      vhieu_luc_tungay.focus();
+      return false;
+    }
+    return true;
+   }
+   function stringToDate(vdate){
+    if(vdate != null && vdate != ''){
+      var tempDate = vdate.split('/');
+      return new Date(tempDate[2]-tempDate[1]-[0]);    
+    }
+    return null;
+   }
 </script>
 <div id="body">
  <html:form styleId="frmsuatknhkb"   action="/suatknhkb.do">

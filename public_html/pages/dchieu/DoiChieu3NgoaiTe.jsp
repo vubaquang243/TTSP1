@@ -529,11 +529,11 @@
           if(strValue.size() != 0){
           jQuery('table#thong_tin_bang_ke tr.ui-row-ltr').remove();
             for(var i = 0; i < strValue.size(); i++){
-              strTable = "<tr class='ui-widget-content ui-row-ltr' style='height : 25px;' ><td>" + changeForeignCurrency(strValue[i].sodu_daungay) + "<\/td>";
-              strTable += "<td>" + changeForeignCurrency(strValue[i].tong_chi) + "<\/td>";
-              strTable += "<td>" + changeForeignCurrency(strValue[i].tong_thu) + "<\/td>";
-              strTable += "<td>" + changeForeignCurrency(strValue[i].so_du_cuoi_ngay) + "<\/td>";
-              strTable += "<td>" + strValue[i].loai_tien + "<\/td><\/tr>";
+              strTable = "<tr class='ui-widget-content ui-row-ltr' style='height : 25px;' ><td width='22%'>" + changeForeignCurrency(strValue[i].sodu_daungay) + "<\/td>";
+              strTable += "<td width='22%'>" + changeForeignCurrency(strValue[i].tong_chi) + "<\/td>";
+              strTable += "<td width='23%'>" + changeForeignCurrency(strValue[i].tong_thu) + "<\/td>";
+              strTable += "<td width='23%'>" + changeForeignCurrency(strValue[i].so_du_cuoi_ngay) + "<\/td>";
+              strTable += "<td width='10%'>" + strValue[i].loai_tien + "<\/td><\/tr>";
               jQuery('table#thong_tin_bang_ke').append(strTable);
             }
           }else{

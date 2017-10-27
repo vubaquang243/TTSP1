@@ -4,7 +4,14 @@ import com.seatech.framework.datamanager.AppDAO;
 
 import com.seatech.framework.datamanager.Parameter;
 
+import com.seatech.framework.exception.DatabaseConnectionFailureException;
+import com.seatech.framework.exception.SelectStatementException;
+
 import java.sql.Connection;
+
+import java.sql.ResultSet;
+
+import java.sql.SQLException;
 
 import java.util.Collection;
 import java.util.Vector;
@@ -97,4 +104,14 @@ public class LenhQTTCDAO extends AppDAO{
             throw e;
         }
     }
+    
+    public boolean checkLQT(String id_lqt) throws DatabaseConnectionFailureException,
+                                                  SelectStatementException,
+                                                  SQLException {
+     boolean bReturn = false;
+     String strSQL = "select 1 from SP_QUYET_TOAN where id = '"+id_lqt+"'";
+     ResultSet rs = executeSelectStatement(strSQL,null,conn);
+     bReturn = rs.next();
+     return  bReturn;  
+   }
 }

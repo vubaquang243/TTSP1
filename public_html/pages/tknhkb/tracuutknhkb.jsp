@@ -75,7 +75,7 @@
           <div>
             <table  class="data-grid" id="data-grid" 
                                                 style="width:100%" border="0"
-                                               cellspacing="0" cellpadding="" >
+                                               cellspacing="0" cellpadding="3" >
                 <tr>
                   <td width="15%" align="right" bordercolor="#e1e1e1">Kho bạc tỉnh</td>
                   <td width="25%">
@@ -136,7 +136,7 @@
                                  onblur="textlostfocus(this);"  onkeydown="nextFocus();"
                                  onfocus="textfocus(this);">
                     <html:option value="" >Ch&#7885;n lo&#7841;i TK</html:option>  
-                    <html:option value="01" >TK ti&#7873;n g&#7917;i</html:option>  
+                    <html:option value="01" >TK thanh toán tổng hợp</html:option>  
                     <html:option value="02" >TK thanh to&#225;n</html:option>
                     <html:option value="03" >TK chuy&#234;n thu</html:option>
                     </html:select>
@@ -189,7 +189,7 @@
                   </td>
                 </tr>     
                 <tr>
-                  <td align="right" bordercolor="#e1e1e1" >Hiều lực từ</td>
+                  <td align="right" bordercolor="#e1e1e1" >Hiệu lực từ</td>
                   <td>
                       <html:text property="hieu_luc_tungay" styleId="hieu_luc_tungay" styleClass="fieldText"
                        onkeypress="return numbersonly(this,event,true) "
@@ -373,7 +373,7 @@
                       </td>
                       <td align="center">
                           <logic:equal value="01" name="items" property="loai_tk">
-                           TK ti&#7873;n g&#7917;i
+                           TK thanh toán tổng hợp
                           </logic:equal>
                           <logic:equal value="02" name="items" property="loai_tk">
                             TK thanh to&#225;n

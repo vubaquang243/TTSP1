@@ -200,13 +200,34 @@
               <td align="right">Loại tiền</td>
               <td >
                 <html:select styleClass="selectBox" property="loai_tien"
-                             styleId="loai_tien" style="width:35%;height:20px">
+                             styleId="loai_tien" style="width:85%;height:20px">
                   <html:option value="VND">VND</html:option>
                   <html:optionsCollection value="ma" label="ma"
                                           name="lstLoaiTien"/>
                 </html:select>
               </td>
             </tr>
+            <tr>
+            <td align="right"> 
+              Loại tài khoản
+            </td>
+            <td>
+                <html:select styleClass="selectBox" property="loai_tk"
+                                           styleId="loai_tk" style="width:125px;height:20px">
+                        <html:option value="00">Chọn loại tài khoản</html:option>                   
+                        <html:option value="01">Thanh toán tổng hợp</html:option>
+                        <html:option value="02">Thanh toán</html:option>
+                        <html:option value="03">Chuyên thu</html:option>
+                    </html:select>
+            
+            <td align="right">
+           
+            </td>
+            <td align="left" width="10%">
+               
+            </td>
+            
+        </tr>
           </table>
           <br/>
         </td>
@@ -283,6 +304,9 @@
                 </th>
                 <th sclass="promptText" bgcolor="#f0f0f0">
                   <div align="center">Loại tiền</div>
+                </th>
+                <th sclass="promptText" bgcolor="#f0f0f0">
+                  <div align="center">Loại tài khoản</div>
                 </th>
                 <th class="promptText" bgcolor="#f0f0f0">
                   <div align="center">Sửa</div>
@@ -368,8 +392,22 @@
                       <td align="60">
                         <bean:write name="items" property="loai_tien"/>
                       </td>
+                      <td align="60">
+                        <logic:equal property="loai_tk" name="items"
+                                        value="01">
+                              Thanh toán tổng hợp          
+                        </logic:equal>
+                        <logic:equal property="loai_tk" name="items"
+                                        value="02">
+                              Thanh toán         
+                        </logic:equal>
+                        <logic:equal property="loai_tk" name="items"
+                                        value="03">
+                              Chuyên thu         
+                        </logic:equal>
+                      </td>
                       <td align="center" width="8%">
-                        <a href='<html:rewrite page="/updateSoDuAction.do"/>?so_du=<bean:write name ="items" property="so_du"/>&ma_kb=<bean:write name="items" property="ma_kb"/>&ma_nh=<bean:write name="items" property="ma_nh"/>&loai_tien=<bean:write name="items" property="loai_tien"/>&ngay_gd=<bean:write name="items" property="ngay_gd"/>&so_du_cot=<bean:write name="items" property="so_du_cot"/>'>
+                        <a href='<html:rewrite page="/updateSoDuAction.do"/>?so_du=<bean:write name ="items" property="so_du"/>&ma_kb=<bean:write name="items" property="ma_kb"/>&ma_nh=<bean:write name="items" property="ma_nh"/>&loai_tien=<bean:write name="items" property="loai_tien"/>&ngay_gd=<bean:write name="items" property="ngay_gd"/>&so_du_cot=<bean:write name="items" property="so_du_cot"/>&loai_tk=<bean:write name="items" property="loai_tk"/>'>
                           <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/ctu_00.gif"
                                style="border-style: none;"/></a>
                       </td>

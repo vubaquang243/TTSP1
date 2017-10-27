@@ -12,6 +12,7 @@ import com.seatech.framework.strustx.AppAction;
 import com.seatech.framework.utils.FontUtil;
 import com.seatech.framework.utils.StringUtil;
 import com.seatech.framework.utils.TTSPUtils;
+import com.seatech.ttsp.dchieu.DChieu1DAO;
 import com.seatech.ttsp.dchieungoaite.DChieuNgoaiTeDAO;
 import com.seatech.ttsp.dchieu.DChieu1VO;
 import com.seatech.ttsp.dchieu.DNQTVO;
@@ -72,7 +73,14 @@ import org.apache.struts.action.ActionMapping;
     * @see: bo sung them tra cuu lay du lieu thu ngay thu 7
     * @track: 20171009
     * */
- 
+
+  /**  
+     * @modify: ThuongDT
+     * @modify date: 25/10/2017   
+     * @see: check trung 066 khi lap DNQT
+     * @track: 20171025
+     * */
+  
 public class XNDCTHopNgoaiTeAction extends AppAction {
 
     public ActionForward list(ActionMapping mapping, ActionForm form,
@@ -346,6 +354,7 @@ public class XNDCTHopNgoaiTeAction extends AppAction {
             }
             if (isTokenValid(request)) {
                 DChieuNgoaiTeDAO dao = new DChieuNgoaiTeDAO(conn);
+                DChieu1DAO DC1dao = new DChieu1DAO(conn);
                 XNDCTHop1Form frm = (XNDCTHop1Form)form;
                 KQDChieu1VO dcVO = new KQDChieu1VO();
 
@@ -501,8 +510,15 @@ public class XNDCTHopNgoaiTeAction extends AppAction {
                         vo066.setKq_dxn_thop(loai_kq066);
                         vo066.setTrang_thai("01");
                         vo066.setLoai_tien(loai_tien);
-                        dao.insert066(vo066);
-
+                        //20171025 thuongdt bo sung trung dien 066 begin
+                        boolean ton_tai_ban_ghi = DC1dao.checkDien066(ttsp_id);
+                        //dao.insert066(vo066);
+                        if (!ton_tai_ban_ghi){
+                          dao.insert066(vo066);
+                        }else {
+                          request.setAttribute("ton_tai_066", "ton_tai_066");
+                        }
+                        //20171025 thuongdt bo sung trung dien 066 end
                         ThamSoKBVO tsVO = new ThamSoKBVO();
                         ThamSoKBDAO tsDAO = new ThamSoKBDAO(conn);
 

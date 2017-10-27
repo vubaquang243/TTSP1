@@ -28,7 +28,7 @@ public class SoDuDAO extends AppDAO {
         try {
 
             String strSQL =
-                "select id, ma_kb, ma_nh, TO_CHAR(ngay_gd,'dd/mm/yyyy') ngay_gd, so_du, TO_CHAR(insert_date,'dd/mm/yyyy') insert_date, so_du_cot, loai_tien from sp_so_du where 1=1 ";
+                "select id, ma_kb, ma_nh, TO_CHAR(ngay_gd,'dd/mm/yyyy') ngay_gd, so_du, TO_CHAR(insert_date,'dd/mm/yyyy') insert_date, so_du_cot, loai_tien, loai_tk from sp_so_du where 1=1 ";
             strSQL += strWhere + " ORDER BY ma_nh";
             return executeSelectWithPaging(conn, strSQL.toString(), vParam,
                                            CLASS_NAME_VO, page, count,
@@ -47,7 +47,7 @@ public class SoDuDAO extends AppDAO {
         try {
 
             String strSQL =
-          "select id, ma_kb, ma_nh, TO_CHAR(ngay_gd,'dd/mm/yyyy') ngay_gd, so_du, TO_CHAR(insert_date,'dd/mm/yyyy') insert_date, so_du_cot, loai_tien from sp_so_du where 1=1 ";
+          "select id, ma_kb, ma_nh, TO_CHAR(ngay_gd,'dd/mm/yyyy') ngay_gd, so_du, TO_CHAR(insert_date,'dd/mm/yyyy') insert_date, so_du_cot, loai_tien, loai_tk from sp_so_du where 1=1 ";
             strSQL += strWhere + " ORDER BY ma_nh";
             return executeSelectStatement(strSQL.toString(), vParam,
                                           CLASS_NAME_VO, conn);
@@ -75,7 +75,7 @@ public class SoDuDAO extends AppDAO {
               pstt.setString(4, vo.getSo_du());
               pstt.setString(5, vo.getSo_du_cot());
               pstt.setString(6, vo.getLoai_tien());
-              pstt.setString(7, vo.getLoai_tai_khoan());
+              pstt.setString(7, vo.getLoai_tk());
               sd = pstt.executeUpdate();
           } catch (Exception e) {
               DAOException daoEx =
@@ -92,14 +92,15 @@ public class SoDuDAO extends AppDAO {
           String strSQL = "";
           try {
               strSQL =
-                      "update sp_so_du set so_du = ?, so_du_cot = ?, insert_date = SYSDATE  where ma_kb =? and ma_nh = ? and ngay_gd = to_date(?,'dd/mm/yyyy') and loai_tien = ?";
+                      "update sp_so_du set so_du = ?, so_du_cot = ? , loai_tk = ? , insert_date = SYSDATE  where ma_kb =? and ma_nh = ? and ngay_gd = to_date(?,'dd/mm/yyyy') and loai_tien = ?";
               PreparedStatement pstt = conn.prepareStatement(strSQL);
               pstt.setString(1, vo.getSo_du());
               pstt.setString(2, vo.getSo_du_cot());
-              pstt.setString(3, vo.getMa_kb());
-              pstt.setString(4, vo.getMa_nh());
-              pstt.setString(5, vo.getNgay_gd());
-              pstt.setString(6, vo.getLoai_tien());
+              pstt.setString(3, vo.getLoai_tk());
+              pstt.setString(4, vo.getMa_kb());
+              pstt.setString(5, vo.getMa_nh());
+              pstt.setString(6, vo.getNgay_gd());
+              pstt.setString(7, vo.getLoai_tien());
               sd = pstt.executeUpdate();
           } catch (Exception ex) {
               throw new Exception(ex.getMessage() + "error at : " + strSQL);

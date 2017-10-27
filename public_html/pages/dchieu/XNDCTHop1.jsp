@@ -744,12 +744,21 @@
                           <input type="text" title="<bean:write name="items" property="so_thu_chu"/> đồng"  name="so_thu" disabled="disabled"  id="so_thu"  value="<fmt:setLocale value="vi_VI"/><fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol=""><bean:write name="items" property="so_thu"/></fmt:formatNumber>" class="fieldTextRight" />
                          
                          </td>
+                          <%if(loai_gd.equals("03")){%>
                          <td width="20%" align="left" style="padding-left:15px">
                              Lãi chuyên thu
                         </td>
                          <td  align="center" colspan="2">
                           <input type="text" title="<bean:write name="items" property="lai_chuyen_thu_chu"/> đồng"  name="so_lai_thu" disabled="disabled"  id="so_lai_thu"  value="<fmt:setLocale value="vi_VI"/><fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol=""><bean:write name="items" property="lai_chuyen_thu"/></fmt:formatNumber>" class="fieldTextRight" />
                          </td>
+                         <%}else{%>
+                           <td width="20%" align="left" style="padding-left:15px">
+                              
+                          </td>
+                           <td  align="center" colspan="2">
+                            
+                           </td>
+                         <%}%>
                       </tr>
                       <tr>
                         <td  align="left">
@@ -784,12 +793,20 @@
                          <td width="25%" align="right">                                       
                           <input type="text"  name="so_thu" disabled="disabled"  id="so_thu"  value="" class="fieldTextRight" />
                          </td>
+                        <%if(loai_gd.equals("03")){%>
                          <td width="20%" align="left" style="padding-left:15px">
                              Lãi chuyên thu
                         </td>
                          <td width="25%" align="right">                                       
                           <input type="text"  name="so_lai_thu" disabled="disabled"  id="so_lai_thu"  value="" class="fieldTextRight" />
                          </td>
+                         <%}else{%>
+                           <td width="20%" align="left" style="padding-left:15px">                              
+                          </td>
+                           <td width="25%" align="right"> 
+                           </td>
+                         
+                         <%}%>
                       </tr>
                       <tr>
                         <td  align="left">

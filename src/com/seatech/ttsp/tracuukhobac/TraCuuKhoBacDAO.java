@@ -30,7 +30,7 @@ public class TraCuuKhoBacDAO extends AppDAO{
 
     public Collection getDMKHTinh(String strWhere, Vector vParams) throws Exception{
       try{
-          String strQuery = "Select id_cha, ten from sp_dm_htkb where 1=1 ";
+          String strQuery = "Select id id_cha, ten kb_tinh from sp_dm_htkb where 1=1 ";
           strQuery += strWhere;
           strQuery += " Order by ma asc";
           return executeSelectStatement(strQuery, vParams, CLASS_NAME_VO, conn);
@@ -44,6 +44,17 @@ public class TraCuuKhoBacDAO extends AppDAO{
           String strQuery = "Select id, ten from sp_dm_htkb where 1=1 ";
           strQuery += strWhere;
           strQuery += " Order by id asc";
+          return executeSelectStatement(strQuery, vParams, CLASS_NAME_VO, conn);
+      }catch(Exception e){
+          throw e;
+      }
+  }
+  
+  public Collection getDMKBNN(String strWhere, Vector vParams) throws Exception{
+      try{
+          String strQuery = "Select ma, ten , ma_cha from sp_dm_htkb where 1=1 ";
+          strQuery += strWhere;
+          strQuery += "order by ma";
           return executeSelectStatement(strQuery, vParams, CLASS_NAME_VO, conn);
       }catch(Exception e){
           throw e;

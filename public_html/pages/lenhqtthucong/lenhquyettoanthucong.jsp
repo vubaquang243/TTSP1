@@ -23,19 +23,40 @@
 <script type="text/javascript">
   $(document).ready(function(){
       $('#maNHKBNhan').attr('disabled',true);
-      $('#ngayHachToan').attr('disabled',true);
-      $('#ngayQuyetToan').attr('disabled',true);
       $('#tenTaiKhoanNhanLenh').attr('disabled',true);
       $('#taiKhoanNhanLenh').attr('disabled',true);
       $('#maNHNhanLenh').attr('disabled',true);
       
       $('#maNHKBChuyen :first-child').attr("selected", true);
       
+    $('#maNHSL').text($('#maNHKBChuyen option:selected').val());
+    
+    //get loai tien
+    var maNH = $('#maNHKBChuyen option:selected').text();
+    $('#nhkbChuyen').val(maNH);
+    if(maNH != ""){
+      jQuery.ajax({
+        type : "POST",
+        url : "getLoaiTien.do",
+        data : {"maNH" : maNH},
+        success : function(data, textstatus){
+          if(data !=  null){
+              var lstLoaiTien = new Object;
+              lstLoaiTien = JSON.parse(data[0]);
+              if(lstLoaiTien != null && lstLoaiTien != "fail"){
+                  jQuery('#loaiTien option').remove();
+                  jQuery('#loaiTien').append('<option value="" selected="selected">---Chọn loại tiền---<\/option>');
+                  for(var i = 0; i < lstLoaiTien.size(); i++){
+                    jQuery('#loaiTien').append('<option value="'+ lstLoaiTien[i].ma_nt + '" >' + lstLoaiTien[i].ma_nt + '<\/option>');
+                  }
+              }
+          }
+        }
+      });
+    }
   });
   function myFunction(){
       $('#maNHKBNhan').attr('disabled',false);
-      $('#ngayHachToan').attr('disabled',false);
-      $('#ngayQuyetToan').attr('disabled',false);
       $('#tenTaiKhoanNhanLenh').attr('disabled',false);
       $('#taiKhoanNhanLenh').attr('disabled',false);
       $('#maNHNhanLenh').attr('disabled',false);
@@ -247,6 +268,7 @@
       alert("Sai định dạng ngày tháng");
     }
   }
+  
 </script>
 <div id="body">
     <table border="0" cellspacing="0" cellpadding="0" width="100%"
@@ -255,7 +277,7 @@
       <tr>
         <td width=13><img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/T1.jpg" width="13px" height="30px"/></td>
         <td background="<%=request.getContextPath()%>/styles/images/T2.jpg" width="75%">
-          <span class=title2> Nhập lệnh đề nghị quyết toán </span>
+          <span class=title2> Nhập lệnh quyết toán thủ công</span>
         </td>
         <td width=62><img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/T3.jpg" width=62 height=30/></td>
         <td background="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/T4.jpg" width="20%">&nbsp;</td>
@@ -267,8 +289,6 @@
   <div class="form-control-input">
     <fieldset>
       <legend>Thông tin chung từ Ngân hàng</legend>
-      <% String msg = request.getAttribute("msg") == null ? "" : request.getAttribute("msg").toString();%>
-      <span style="color : red;"><%=msg%></span>
       
       <div class="app_error">
       <html:errors/>
@@ -320,7 +340,7 @@
                        onmouseover="Tip(this.value)"
                        onblur="javascript:mask(this.value,this,'2,5','/');"
                        onkeydown="if(event.keyCode==13) event.keyCode=9;"
-                       style="WIDTH: 30%;" maxlength="10" readonly="true"  />
+                       style="WIDTH: 30%;" maxlength="10" />
              &nbsp; 
             <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/calendar/calbtn.gif"
                  border="0" id="ngay_quyet_toan" width="20"
@@ -339,7 +359,7 @@
             <td><html:select property="loaiQuyetToan" styleId="loaiQuyetToan">
                 <option value="" selected="selected" >Chọn loại quyết toán</option>
                 <option value="900">Quyết toán thu</option>
-                <option value="910">Quyết toán chi</option>
+                <option value="910">Quyết toán chi</option>  
             </html:select> <span style="color : red">(*)</span></td>
             <td id="label" style="text-align : right;">Số than chiếu liên quan </td>
             <td><html:text property="soThamChieuLienQuan" styleId="soThamChieuLienQuan" onkeydown="if(event.keyCode==13) event.keyCode=9;" maxlength="50" /> </td>
@@ -353,13 +373,13 @@
                        onmouseover="Tip(this.value)" onkeydown="if(event.keyCode==13) event.keyCode=9;" maxlength="20" /></td>
         </tr>
         <tr style="height : 30px;">
-            <td id="label" style="text-align : right;">Số tiền </td>
-            <td><html:text property="soTien" styleId="soTien" onblur="changeCurrency();" 
-            onkeydown="if(event.keyCode==13) event.keyCode=9;" onkeypress="return numberBlockKey1();"/> <span style="color : red">(*)</span></td>
-            <td id="label" style="text-align : right;">Loại tiền </td>
+         <td id="label" style="text-align : right;">Loại tiền </td>
             <td><html:select property="loaiTien" styleId="loaiTien" onchange="changeCurrency(); getThongTinNhanLenh();" >
                 <option  selected="selected" value="">--Chọn loại tiền--</option>
             </html:select> <span style="color : red">(*)</span></td>
+            <td id="label" style="text-align : right;">Số tiền </td>
+            <td><html:text property="soTien" styleId="soTien" onblur="changeCurrency();" 
+            onkeydown="if(event.keyCode==13) event.keyCode=9;" onkeypress="return numberBlockKey1();" maxlength="12"/> <span style="color : red">(*)</span></td>
         </tr>
       </table>
       <table cellpadding="3" cellspacing="0" border="0" width="100%" style="float : left;">
@@ -494,4 +514,13 @@
   </div>
    </html:form>
 </div>
+<% String msg = request.getAttribute("msg") == null ? "" : request.getAttribute("msg").toString();%> 
+<script type="text/javascript">
+
+var vmsg ="<%=msg%>";
+if(vmsg != 'null' && vmsg != '')
+alert(vmsg);
+
+</script>
+
 <%@ include file="/includes/ttsp_bottom.inc"%>

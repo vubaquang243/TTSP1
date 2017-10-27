@@ -248,41 +248,42 @@ public class DChieuNgoaiTeDAO extends AppDAO {
   
             String strSQL = "";
           //20171004 thuongdt sua cau querry bo sung tim kiem chi tiet chenh lech
-            strSQL +=
-                   //lay cac bang ke co chenh lech trung mt_id va khac trung tat ca
-                    "WITH SP_065_DTL_clech AS (select mt_id,BKQ_ID from (select mt_id,BKQ_ID,count(0) tonglech from sp_065_dtl_ngoai_te where BKQ_ID in ('"+strbke_id+"') group by mt_id,BKQ_ID) where tonglech >1 " + 
-                    " and (mt_id,BKQ_ID) not in(select mt_id,BKQ_ID from (select mt_id,send_bank,receive_bank,f32as3,ngay_ct,loai_tien,count(0) tonglech from sp_065_dtl_ngoai_te where BKQ_ID in ('"+strbke_id+"') group by mt_id,send_bank,receive_bank,f32as3,ngay_ct,loai_tien) where tonglech >1)), " + 
-                    //lay cac bang ke co chenh lech theo loai tien ngay_ct
-                    " SP_065_DTL_ltien AS (select mt_id,', Lo?i ti?n' lech,ctiet " + 
-                    " from (select mt_id,BKQ_ID,send_bank,receive_bank,f32as3,ngay_ct,wmsys.wm_concat(loai_tien) ctiet,count(0) tonglech from sp_065_dtl_ngoai_te where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,send_bank,receive_bank,f32as3,ngay_ct) aa where tonglech >1), " + 
-                    //lay cac bang ke co chenh lech theo ngay chung tu ngay_ct
-                    " SP_065_DTL_ngay AS (select mt_id,', Ng�y ch?ng t?' lech,ctiet " + 
-                    " from (select mt_id,BKQ_ID,send_bank,receive_bank,f32as3,loai_tien,wmsys.wm_concat(ngay_ct) ctiet,count(0) tonglech from sp_065_dtl_ngoai_te where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,send_bank,receive_bank,f32as3,loai_tien) aa where tonglech >1), " + 
-                    //lay cac bang ke co chenh lech theo so tien f32as3
-                    " SP_065_DTL_tien AS (select mt_id,', s? ti?n' lech ,ctiet " + 
-                    " from (select mt_id,BKQ_ID,send_bank,receive_bank,ngay_ct,loai_tien,wmsys.wm_concat(f32as3) ctiet,count(0) tonglech from sp_065_dtl_ngoai_te where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,send_bank,receive_bank,ngay_ct,loai_tien) where tonglech >1), " + 
-                    //lay cac bang ke co chenh lech theo NH nhan receive_bank
-                    " SP_065_DTL_receive_bank AS (select mt_id,', NH nh?n' lech,ctiet " + 
-                    " from (select mt_id,BKQ_ID,send_bank,f32as3,ngay_ct,loai_tien,wmsys.wm_concat(receive_bank) ctiet,count(0) tonglech from sp_065_dtl_ngoai_te where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,send_bank,f32as3,ngay_ct,loai_tien) where tonglech >1), " + 
-                    //lay cac bang ke co chenh lech theo NH gui send_bank
-                    " SP_065_DTL_send_bank AS (select mt_id,', NH chuy?n' lech,ctiet " + 
-                    " from (select mt_id,BKQ_ID,receive_bank,f32as3,ngay_ct,wmsys.wm_concat(send_bank) ctiet,count(0) tonglech from sp_065_dtl_ngoai_te where ( mt_id,BKQ_ID) in (select mt_id,BKQ_ID from SP_065_DTL_clech) group by mt_id,receive_bank,f32as3,ngay_ct) where tonglech >1) "+
-                    //noi dung cau sql goc truc khi sua
-                    " SELECT DISTINCT a.id, a.bkq_id, a.bk_id, a.mt_id,a.loai_tien, to_char(a.send_date,'DD/MM/YYYY HH24:mi:ss') send_date, a.f20, a.f21, a.tthai_duyet," +
-                    " a.f32as3, to_char(a.ngay_ts,'DD/MM/YYYY') ngay_ts, a.ghi_chu, a.mt_type, a.app_type," +
-                    " a.sai_yeu_to, a.trang_thai, a.insert_date, to_char(a.ngay_ct,'DD/MM/YYYY') ngay_ct, decode(substr(a.mt_id,3,3),'701','DI','DEN') di_den, decode(substr(a.mt_id,6,3),'196','DTS','195','DTS','LTT') ltt_dts," +
-                    " c.send_bank, (select ten from sp_dm_ngan_hang where ma_nh=c.send_bank) ten_send_bank," +
-                    " c.receive_bank, b.ten, " +
-                    //bo sung them truong the hien chi tiet chenh lech
-                    " ngay.lech||tien.lech||rec.lech||sen.lech||ltien.lech chenh_lech,ngay.ctiet||'; '||tien.ctiet||'; '||rec.ctiet||'; '||sen.ctiet||'; '||ltien.ctiet ctiet_clech "+
-                    "  FROM sp_065_dtl_ngoai_te a, sp_dm_ngan_hang b, sp_065_ngoai_te c " +
-                    //bo sung cac bang tam chenh lech
-                    " ,SP_065_DTL_ngay ngay,SP_065_DTL_tien tien,SP_065_DTL_receive_bank rec,SP_065_DTL_send_bank sen,SP_065_DTL_ltien ltien " +
-                    " where 1=1 and a.bkq_id= c.mt_id and c.receive_bank=b.ma_nh " +
-                     //join bang tam
-                    " and a.mt_id = ngay.mt_id(+)and a.mt_id = tien.mt_id(+)and a.mt_id = rec.mt_id(+)and a.mt_id = sen.mt_id(+) and a.mt_id = ltien.mt_id(+)" +
-                    " and a.bkq_id in ('" +
-                    strbke_id + "')";
+          
+          strSQL +=
+                 //lay cac bang ke co chenh lech trung mt_id va khac trung tat ca
+                  "WITH SP_065_DTL_CLech AS (SELECT mt_id," + 
+                  "    CASE WHEN a.f32as3 <> b.f32as3 then 'SO_TIEN(f32as3); ' ELSE '' END ||" + 
+                  "    CASE WHEN a.send_bank <> b.send_bank then 'SEND_BANK; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.receive_bank <> b.receive_bank then 'RECEIVE_BANK; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.ngay_ct <> b.ngay_ct then 'NGAY_CT; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.f20 <> b.f20 then 'F20; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.send_date <> b.send_date then 'SEND_DATE; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.ngay_ts <> b.ngay_ts then 'NGAY_TS; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.loai_tien <> b.loai_tien then 'LOAI_TIEN; ' ELSE '' END " + 
+                  "    as ly_do," +
+                  "    CASE WHEN a.f32as3 <> b.f32as3 then a.f32as3||','|| b.f32as3||'; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.send_bank <> b.send_bank then a.send_bank||','|| b.send_bank||'; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.receive_bank <> b.receive_bank then a.receive_bank||','|| b.receive_bank||'; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.ngay_ct <> b.ngay_ct then a.ngay_ct||','|| b.ngay_ct||'; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.f20 <> b.f20 then a.f20||','|| b.f20||'; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.send_date <> b.send_date then a.send_date||','|| b.send_date||'; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.ngay_ts <> b.ngay_ts then a.ngay_ts||','|| b.ngay_ts||'; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.loai_tien <> b.loai_tien then a.loai_tien||','|| b.loai_tien||'; ' ELSE '' END     as ctiet_ly_do "+
+                  " FROM sp_065_dtl_ngoai_te a" + 
+                  " JOIN sp_065_dtl_ngoai_te b using(mt_id) WHERE a.bkq_id = b.bkq_id AND a.trang_thai = '0' AND b.trang_thai = '1' AND a.bkq_id = '"+strbke_id+"') "+
+                  //noi dung cau sql goc truc khi sua
+                  " SELECT DISTINCT a.id, a.bkq_id, a.bk_id, a.mt_id,a.loai_tien, to_char(a.send_date,'DD/MM/YYYY HH24:mi:ss') send_date, a.f20, a.f21, a.tthai_duyet," +
+                  " a.f32as3, to_char(a.ngay_ts,'DD/MM/YYYY') ngay_ts, a.ghi_chu, a.mt_type, a.app_type," +
+                  " a.sai_yeu_to, a.trang_thai, a.insert_date, to_char(a.ngay_ct,'DD/MM/YYYY') ngay_ct, decode(substr(a.mt_id,3,3),'701','DI','DEN') di_den, decode(substr(a.mt_id,6,3),'196','DTS','195','DTS','LTT') ltt_dts," +
+                  " c.send_bank, (select ten from sp_dm_ngan_hang where ma_nh=c.send_bank) ten_send_bank," +
+                  " c.receive_bank, b.ten, " +
+                  //bo sung them truong the hien chi tiet chenh lech
+                  " dlt.ly_do ldo_clech,dlt.ctiet_ly_do ctiet_clech "+
+                  " FROM sp_065_dtl_ngoai_te a, sp_dm_ngan_hang b, sp_065_ngoai_te c, SP_065_DTL_CLech dlt" +
+                  " where 1=1 and a.bkq_id= c.mt_id and c.receive_bank=b.ma_nh " +
+                   //join bang tam
+                  " and a.mt_id = dlt.mt_id(+) " +
+                  " and a.bkq_id in ('" + strbke_id + "')";
   
             reval = executeSelectStatement(strSQL.toString(), vParam, strValueObjectKQCTVO, conn);
         } catch (Exception ex) {

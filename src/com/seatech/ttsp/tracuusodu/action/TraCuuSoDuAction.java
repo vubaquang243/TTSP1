@@ -10,17 +10,13 @@ import com.seatech.framework.AppConstants;
 import com.seatech.framework.common.jsp.PagingBean;
 import com.seatech.framework.strustx.AppAction;
 import com.seatech.ttsp.tracuusodu.TraCuuSoDuDAO;
-import com.seatech.ttsp.tracuusodu.TraCuuSoDuVO;
 import com.seatech.ttsp.tracuusodu.form.TraCuuSoDuForm;
 
 import java.io.PrintWriter;
 
 import java.sql.Connection;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
@@ -70,7 +66,8 @@ public class TraCuuSoDuAction extends AppAction {
                             "' or c.ma_cha = '" +
                             traCuuForm.getId_kho_bac_tinh() + "') ";
                 }
-                if (!traCuuForm.getId_kho_bac_huyen().equals("") && (!traCuuForm.getId_kho_bac_huyen().equals("0000"))) {
+                if (!traCuuForm.getId_kho_bac_huyen().equals("") && (!traCuuForm.getId_kho_bac_huyen().equals("0000"))
+                && (!traCuuForm.getId_kho_bac_huyen().equals("selected"))) {
                     strWhere +=
                             "AND c.ma = '" + traCuuForm.getId_kho_bac_huyen() +
                             "' ";

@@ -103,7 +103,7 @@ public class TinTucDAO extends AppDAO {
             strSQL +=
                     " SELECT a.id, a.tieu_de, a.noi_dung, a.ngay_tao, a.ngay_dang," +
                     " a.ngay_het_han, a.nguoi_tao, a.trang_thai, a.dv_dang " +
-                    "  FROM sp_thong_bao a where 1=1 " + strWhere + " ORDER BY   to_char(a.ngay_tao,'YYYYMMDD') desc";
+                    "  FROM sp_thong_bao a where 1=1 " + strWhere + " ORDER BY id desc";
             reval =
                     executeSelectStatement(strSQL.toString(), params, strValueObject,
                                            conn);

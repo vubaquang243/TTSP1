@@ -89,6 +89,8 @@ public class LenhQTTCVO {
   private String nhapThuCong;
   
   private String tTVChuyenKS;
+  //20171021 thuongdt bo sung them
+  private String ldo_hach_toan;
     public void setMaNHKBChuyen(String maNHKBChuyen) {
         this.maNHKBChuyen = maNHKBChuyen;
     }

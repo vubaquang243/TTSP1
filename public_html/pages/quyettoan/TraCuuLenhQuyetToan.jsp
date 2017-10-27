@@ -321,7 +321,7 @@
             <tbody>
               <tr>
                 <td valign="top">
-                  <table class="bordertableChungTu" border="0" cellspacing="0" cellpadding="0"
+                  <table class="bordertableChungTu" border="0" cellspacing="0" cellpadding="2"
                          width="100%">
                       <tbody>
                         <tr>
@@ -440,26 +440,8 @@
                           </td>  
                           
                           <td  style="text-align:right;padding-right:5px">
-                            <label for="NGAYQT">
-                              Đến ngày QT
-                            </label>
                           </td>
                           <td width="20%">
-                               <html:text property="den_ngay" styleId="den_ngay" styleClass="fieldText"
-                            onkeypress="return numbersonly(this,event,true) "
-                            onblur="javascript:mask(this.value,this,'2,5','/');CheckDate(this);CheckDateOnClient('den_ngay');"
-                            onkeydown="if(event.keyCode==13) event.keyCode=9;"
-                           style="WIDTH: 70%;"/>
-                           <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/calendar/calbtn.gif"
-                                 border="0" id="den_ngay_btn" width="16%"
-                                 style="vertical-align:middle;"/>
-                            <script type="text/javascript">
-                              Calendar.setup( {
-                                  inputField : "den_ngay", // id of the input field
-                                  ifFormat : "%d/%m/%Y", // the date format
-                                  button : "den_ngay_btn"// id of the button
-                              });
-                            </script>                          
                           </td>
                           <td  style="text-align:right;padding-right:5px">
                             <label for="KBTINH">
@@ -470,7 +452,6 @@
                               <html:select styleClass="selectBox" property="tcg_loai_tien"
                                            styleId="tcg_loai_tien" style="width:50%;height:20px" 
                                            onkeydown="if(event.keyCode==13) event.keyCode=9;" onblur="resetInput();" >
-                                <html:option value="">--chọn--</html:option>          
                                 <html:option value="VND">VND</html:option>
                                 <html:optionsCollection value="ma" label="ma" name="tienTe"/>
                               </html:select>
@@ -529,7 +510,7 @@
                           </td>
                           <td width="20%">
                               <html:text property="soTien" styleId="soTien" onkeydown="if(event.keyCode==13) event.keyCode=9;"
-                               onkeypress="return numberBlockKey1();" onblur="changeCurrency(this);" style="text-align : right;" />
+                               onkeypress="return numberBlockKey1();" onblur="changeCurrency(this);" style="text-align : right;" maxlength="20" />
                           </td>
                           <td>
                           </td>
@@ -557,8 +538,28 @@
                             </script>
                             </td>
                           <td></td>
-                          <td></td>
-                          <td></td>
+                          <td  style="text-align:right;padding-right:5px">
+                            <label for="NGAYQT">
+                              Đến ngày QT
+                            </label>
+                          </td>
+                          <td width="20%">
+                               <html:text property="den_ngay" styleId="den_ngay" styleClass="fieldText"
+                            onkeypress="return numbersonly(this,event,true) "
+                            onblur="javascript:mask(this.value,this,'2,5','/');CheckDate(this);CheckDateOnClient('den_ngay');"
+                            onkeydown="if(event.keyCode==13) event.keyCode=9;"
+                           style="WIDTH: 70%;"/>
+                           <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/calendar/calbtn.gif"
+                                 border="0" id="den_ngay_btn" width="16%"
+                                 style="vertical-align:middle;"/>
+                            <script type="text/javascript">
+                              Calendar.setup( {
+                                  inputField : "den_ngay", // id of the input field
+                                  ifFormat : "%d/%m/%Y", // the date format
+                                  button : "den_ngay_btn"// id of the button
+                              });
+                            </script>                          
+                          </td>
                           <td></td>
                           <td></td>
                         </tr>

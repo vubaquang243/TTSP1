@@ -1,7 +1,8 @@
 <logic:notEmpty name="lstTimKiem">
 <fieldset>
 <legend><font color="Blue" >Kết quả tìm kiếm</font></legend>
-<table cellpadding="0" cellspacing="0" border="1" id="table_ket_qua">
+<table cellpadding="0" cellspacing="0" border="1" id="table_ket_qua" style="BORDER-COLLAPSE: collapse"
+bordercolor="#999999" >
   <thead>
   <tr>
   <th width="4%" align="center">STT</th>

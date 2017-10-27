@@ -54,6 +54,7 @@ public class SoDuAction extends AppAction {
                 f.setSo_du(null);
                 f.setSo_du_cot(null);
                 f.setLoai_tien(null);
+                f.setLoai_tk(null);
             }
 
 
@@ -66,6 +67,7 @@ public class SoDuAction extends AppAction {
             String strLoai_tien = f.getLoai_tien();
             String strPageNumber = f.getPageNumber();
             String strId = f.getId();
+            String strLoai_TK = f.getLoai_tk();
             //Build menh de where
 
             if (!"".equals(strMa_kb) && strMa_kb != null) {
@@ -99,6 +101,11 @@ public class SoDuAction extends AppAction {
                 strWhere += " and id =?";
                 vParam.add(new Parameter(strId, true));
             }
+            
+          if (!"".equals(strLoai_TK) && strLoai_TK != null && !"00".equals(strLoai_TK)) {
+              strWhere += " and loai_tk =?";
+              vParam.add(new Parameter(strLoai_TK, true));
+          }
             
             //Cac thong so phan trang
             if (strPageNumber == null)
@@ -155,7 +162,7 @@ public class SoDuAction extends AppAction {
             f.setLoai_tien(null);
             f.setSo_du(null);
             f.setSo_du_cot(null);
-            f.setLoai_tai_khoan(null); // Them 1310
+            f.setLoai_tk(null); // Them 1310
 
             SoDuDAO dao = new SoDuDAO(conn);
             String strWhere = "";
@@ -226,7 +233,7 @@ public class SoDuAction extends AppAction {
             vo.setInsert_date(f.getInsert_date());
             vo.setSo_du_cot(f.getSo_du_cot());
             vo.setLoai_tien(f.getLoai_tien());
-            vo.setLoai_tai_khoan(f.getLoai_tai_khoan()); // Them 1310
+            vo.setLoai_tk(f.getLoai_tk()); // Them 1310
 
             //Insert data
             long sd = dao.insert(vo);
@@ -273,6 +280,9 @@ public class SoDuAction extends AppAction {
             vo.setInsert_date(f.getInsert_date());
             vo.setLoai_tien(f.getLoai_tien());
             vo.setNgay_gd(f.getNgay_gd());
+            vo.setLoai_tk(f.getLoai_tk());
+            System.out.println(f.getLoai_tk());
+          System.out.println(f.getMa_kb());    
             //Update CSDL
             long sd = dao.update(vo);
             if (sd < 1) {

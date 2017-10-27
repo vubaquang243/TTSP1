@@ -101,7 +101,7 @@ public class DuyetDNQTAction extends AppAction {
                 Msg066 msg066 = new Msg066(conn);
                 DuyetDNQTDAO dao = new DuyetDNQTDAO(conn);
                 String result = msg066.sendMessage(strID, strManager);
-                dao.updateData(strID, params);
+                dao.updateData(strID,strManager, params);
                 gson = new GsonBuilder().setVersion(1.0).create();
                 strJson = gson.toJson(result);
                 jsonObj.addProperty("result", strJson);

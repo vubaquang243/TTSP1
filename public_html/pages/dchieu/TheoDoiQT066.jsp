@@ -264,7 +264,7 @@
                     </html:select>
                   </td>
                   <td align="right">Số tiền</td>
-                  <td><html:text property="so_tien" styleId="so_tien" onkeydown="if(event.keyCode==13) event.keyCode=9;" onblur="changeCurrency(this);" />(QT thu/chi)</td>
+                  <td><html:text property="so_tien" styleId="so_tien" onkeydown="if(event.keyCode==13) event.keyCode=9;" onblur="changeCurrency(this);" maxlength="20"/>(QT thu/chi)</td>
                 </tr>
              </table>
            </div>

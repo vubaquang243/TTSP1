@@ -296,26 +296,26 @@
           <td> 
            <table width="100%" cellspacing="0" cellpadding="0" align="center" class="bordertableChungTu">
             <tr>
-              <td align="right" width="14%">
+              <td align="right" width="10%">
                 <label for="kho_bac">
                   <fmt:message key="tknhkb.page.lable.kho_bac"/>
                 </label>
               </td>
-              <td class="promptText" align="right" width="36%">
-                 <html:text property="ma_kb" styleId="ma_kb" styleClass="fieldText" style="width:120px;" maxlength="4"
+              <td class="promptText" align="right" width="40%">
+                 <html:text property="ma_kb" styleId="ma_kb" styleClass="fieldText" style="width:130px;" maxlength="4"
                    onkeydown="nextFocus();"  onblur="textlostfocus(this);getTen_KB('ma_kb','ten_kb','kb_id')" onfocus="textfocus(this);"/>
                 <html:text property="ten_kb" styleId="ten_kb" styleClass="fieldTextTrans" readonly="true" onkeydown="nextFocus();"
                      onmouseout="UnTip()" onmouseover="Tip(this.value)" style="WIDTH: 200px;"/>
                  <html:hidden property="kb_id" styleId="kb_id"/>
                   <html:hidden property="id" styleId="id"/>
               </td>
-              <td width="14%" align="right">
+              <td width="10%" align="right">
                 <label for="ngan_hang">
                   <fmt:message key="tknhkb.page.lable.ten_nh"/>
                 </label>
               </td>
             <td class="promptText">
-            <html:text property="ma_nh" styleId="ma_nh" styleClass="fieldText" style="width:120px;"  maxlength="8"
+            <html:text property="ma_nh" styleId="ma_nh" styleClass="fieldText" style="width:125px;"  maxlength="8"
                      onkeydown="nextFocus();" onblur="textlostfocus(this);getTen_NH('ma_nh','ten_nh','nh_id')" onfocus="textfocus(this);"/>
                 <html:text property="ten" styleId="ten_nh" styleClass="fieldTextTrans" readonly="true" onkeydown="nextFocus();"
                      onmouseout="UnTip()" onmouseover="Tip(this.value)" style="WIDTH: 200px;"/>
@@ -331,7 +331,7 @@
             </td>
             <td class="promptText">
              <html:text styleId="so_tk" property="so_tk"
-                           styleClass="fieldText" style="width:120px;" maxlength="18" 
+                           styleClass="fieldText" style="width:130px;" maxlength="18" 
                            onblur="textlostfocus(this);"  onkeydown="nextFocus();"
                            onfocus="textfocus(this);"/>
             </td>
@@ -342,7 +342,7 @@
             </td>
             <td class="promptText" colspan="3">
             <html:select styleClass="selectBox" property="trang_thai"
-                           styleId="trang_thai" style="width:120px;"
+                           styleId="trang_thai" style="width:130px;"
                            onblur="textlostfocus(this);"  onkeydown="nextFocus();"
                            onfocus="textfocus(this);">
               <html:option value="01" >Hoạt động</html:option>  
@@ -383,10 +383,10 @@
             </td>
             <td class="promptText" align="right">
               <html:select styleClass="selectBox" property="loai_tk"
-                           styleId="loai_tk" style="width:120px;"
+                           styleId="loai_tk" style="width:130px;"
                            onblur="textlostfocus(this);"  onkeydown="nextFocus();"
                            onfocus="textfocus(this);">
-              <html:option value="01" >TK ti&#7873;n g&#7917;i</html:option>  
+              <html:option value="01" >TK thanh toán tổng hợp</html:option>  
               <html:option value="02" >TK thanh to&#225;n</html:option>
               <html:option value="03" >TK chuy&#234;n thu</html:option>
               </html:select>
@@ -398,7 +398,7 @@
             </td>
             <td class="promptText" align="right">
               <html:select styleClass="selectBox" property="loai_gd"
-                           styleId="loai_gd" style="width:120px;"
+                           styleId="loai_gd" style="width:130px;"
                            onblur="textlostfocus(this);"  onkeydown="nextFocus();"
                            onfocus="textfocus(this);">
               <html:option value="01" >C&#243; TTSP v&#224; PHT</html:option>  
@@ -410,7 +410,7 @@
           <tr>
             <td align="right" bordercolor="#e1e1e1" >Loại tiền</td>
             <td>
-              <html:select property="ma_nt" styleId="ma_nt" onkeydown="if(event.keyCode==13) event.keyCode=9;" style="width:120px;">  
+              <html:select property="ma_nt" styleId="ma_nt" onkeydown="if(event.keyCode==13) event.keyCode=9;" style="width:130px;">  
                 <html:option value="">Chọn loại tiền</html:option>
                 <html:optionsCollection name="tienTe" value="ma" label="ma"/>
               </html:select>

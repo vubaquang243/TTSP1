@@ -242,6 +242,10 @@
                                                 style="border:0px;font-size:10px;float:left;" />
                                               <input  id="rowSelected" type="hidden" 
                                                 value="<bean:write name="list_ltt" property="id"/>" />
+                                                <input  name="tongsotien" type="hidden" 
+                                                value="<bean:write name="list_ltt" property="tong_sotien"/>" />
+                                                <input  name="ntid" type="hidden" 
+                                                value="<bean:write name="list_ltt" property="nt_id"/>" />
                                             </td>
                                             <td width="30%;" align="center">
                                               <logic:equal value="01" name="list_ltt" property="trang_thai">
@@ -323,7 +327,7 @@
                                       %>
                                       <tr>
                                         <td align="left" colspan="3">                                        
-                                        Loại tiền: <html:select property="nt_id_tke_tong" styleId="nt_id_tke_tong" onchange="changeMaNTThongKeTong(this,'getTongMonTongTienAction.do');" style="width:95px;height:20px;vlaign:middle" styleClass="fieldTextCode" >
+                                        Loại tiền: <html:select property="nt_id_tke_tong" styleId="nt_id_tke_tong" onchange="changeMaNTThongKeTongJS(this);" style="width:95px;height:20px;vlaign:middle" styleClass="fieldTextCode" >
                                           <%--<html:optionsCollection name="listDMTienTe" value="id" label="ma" />
                                           onfocus="this.defaultIndex=this.selectedIndex;" onchange="this.selectedIndex=this.defaultIndex;"123123
                                           --%>
@@ -3231,5 +3235,6 @@
       f.target='_form';
       f.submit(); 
   } 
+ changeMaNTThongKeTongJS(null);
 </script>
 <%@ include file="/includes/ttsp_bottom.inc"%>

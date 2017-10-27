@@ -1181,13 +1181,14 @@ function formatNumberCOAJQueryDivTimkiem() {
         nt_id = 'VND';
     if (nt_id_old == null || '' == nt_id_old || nt_id_old == 'undefined')
         nt_id_old = nt_id;
-   
+   if(obj.value !=''){
     var final_value = convertCurrencyToNumber(obj.value,nt_id_old);    
    
     var formated_value = CurrencyFormatted(final_value, nt_id);
   
     obj.value = formated_value;
     document.getElementById("tong_sotien").value = obj.value;
+   }
     document.getElementById("nt_id_find_old").value = nt_id;
 }
 function formatTienTe(strTongTien, strNT_Id) {
@@ -2347,7 +2348,6 @@ function refreshGridLTT(strUserType, strUrlRefresh, strUrlAction) {
     else {
         urlRefresh = 'listLttAdd.do';
     }
-
     jQuery.ajax( {
         type : "POST", url : urlRefresh, data :  {
             "action" : 'REFRESH', "nd" : Math.random() * 100000
@@ -2363,7 +2363,7 @@ function refreshGridLTT(strUserType, strUrlRefresh, strUrlAction) {
                         jQuery("#dialog-message").html(data.error);
                         jQuery("#dialog-message").dialog("open");
                     }
-                    else if (data.error == undefined) {
+                    else if (data.error == undefined) {                    
                         fillData2TableMasterLTTDi(data, strUserType, strUrlAction);
                     }
                 }
@@ -2376,6 +2376,8 @@ function refreshGridLTT(strUserType, strUrlRefresh, strUrlAction) {
         }
     });
 }
+
+
 
 //fill data table
 function fillData2TableMasterLTTDi(data, strUserType, strUrlAction) {
@@ -3853,7 +3855,7 @@ function changeMaNTThongKeTong(obj, url){
             dataType : 'json',  success : function (data, textstatus) {
                 if (textstatus != null && textstatus == 'success') {
                     if (data == null) {
-                        alert('Kh�ng l?y ???c d? li?u');
+                        alert('Không lấy được dữ liệu');
                         return;
                     }
                     else {                   
@@ -3865,6 +3867,46 @@ function changeMaNTThongKeTong(obj, url){
         });
     }
 }
+
+function changeMaNTThongKeTongJS(obj){    
+    var vtongsotien =  document.getElementsByName('tongsotien');
+    var vntid =  document.getElementsByName('ntid');
+    var vntidtemp = '';
+    var vcheck = true;
+    var tongtien = 0;
+    var vcount = 0;
+    if(vntid.length>0){
+     if((obj != null && obj.value == '') || obj == null){
+    for(var i = 0; i< vntid.length; i++){
+      if(i >0 && vntidtemp != vntid[i].value){
+        vcheck = false;
+      }
+      tongtien = tongtien + Number(vtongsotien[i].value);
+      vntidtemp = vntid[i].value;
+    }
+       if(vcheck == true){
+        jQuery("#tong_so_mon").val(''+vntid.length);
+        jQuery("#tong_so_tien").val(CurrencyFormatted(tongtien, vntidtemp));
+       }else{
+        jQuery("#tong_so_mon").val(''+vntid.length);
+        jQuery("#tong_so_tien").val('0');
+       }
+     }else{
+      for(var i = 0; i< vntid.length; i++){
+        if(obj.value == vntid[i].value){
+         tongtien = tongtien + Number(vtongsotien[i].value);
+         vcount ++;
+        }
+      }
+       jQuery("#tong_so_mon").val(''+vcount);
+       jQuery("#tong_so_tien").val(CurrencyFormatted(tongtien, obj.value));
+      }
+    }else{
+      jQuery("#tong_so_mon").val('0');
+      jQuery("#tong_so_tien").val('0');
+    }
+}
+
 function changeMaNT() {
     var i;
     var tbl = document.getElementById('tblThongTinChiTietCOA');

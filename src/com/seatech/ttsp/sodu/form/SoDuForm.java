@@ -19,7 +19,7 @@ public class SoDuForm  extends ActionForm{
     private String ten_nhkb_nhan;
     private String id_nhkb_nhan;
     private String ten_nhkb_nhan1;
-    private String loai_tai_khoan;
+    private String loai_tk;
 
     public void setPageNumber(String pageNumber) {
         this.pageNumber = pageNumber;
@@ -151,12 +151,12 @@ public class SoDuForm  extends ActionForm{
         return ten_nhkb_nhan1;
     }
 
-    public void setLoai_tai_khoan(String loai_tai_khoan) {
-        this.loai_tai_khoan = loai_tai_khoan;
+    public void setLoai_tk(String loai_tk) {
+        this.loai_tk = loai_tk;
     }
 
-    public String getLoai_tai_khoan() {
-        return loai_tai_khoan;
+    public String getLoai_tk() {
+        return loai_tk;
     }
 
 }

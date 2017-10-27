@@ -17,7 +17,6 @@
         type = "text/javascript" > 
 </script>
 
-<script type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/lov.js"></script>
 
 <%@ page import="com.seatech.framework.common.jsp.PagingBean"%>
 <%@ page import="com.seatech.framework.AppConstants"%>
@@ -32,32 +31,10 @@
       f.action = 'listSoDuAction.do?pageNumber=' + page;
       jQuery("#TCuuDMuc").submit();
   } 
-  //<!--Them Danh muc KB-->
-  
-    jQuery(document).ready(function () {
-      jQuery('#ma_kb').focus();
-      
-       jQuery("#dialog-form-lov-dm").dialog({
-          autoOpen: false,resizable : false,
-          maxHeight: "700px",
-          width: "550px",
-          modal: true
-      });
-      
-      // xoa
-      // xoa
+
    
   });
   
-  function callLov(){
-      jQuery("#loai_lov").val("DMKBTCUUQT");
-      jQuery("#ma_field_id_lov").val("ma_nhkb_nhan");
-      jQuery("#ten_field_id_lov").val("ten_nhkb_nhan");
-      jQuery("#id_field_id_lov").val("id_nhkb_huyen");
-      jQuery("#ma_cha_field_id_lov").val("id_nhkb_tinh");
-      jQuery("#dialog-form-lov-dm").dialog( "open" );
-    }
-
   function check(type) {
       var f = document.forms[0];
 
@@ -70,28 +47,6 @@
       f.submit();
   }
 
-
-  
-  function getTenKhoBacSoDu(){
-    var ma_kb = jQuery('#ma_kb').val();
-//    jQuery.ajax({
-//      type : "POST",
-//      url : "getTenKhoBac.do",
-//      data : {
-//        "ma_kb" : ma_kb
-//      },
-//      success : function(data){
-//          if(data !== "false"){
-//            $("#ten_nhkb_nhan").val(data);  
-//          }else{
-//            alert("Mã NH/KB không tồn tại!");
-//          }
-//      },
-//      error : function (textstatus) {
-//              alert(textstatus);
-//      }
-//    })
-  }
 </script>
 <div class="app_error">
   <html:errors/>  
@@ -129,7 +84,7 @@
           <td width="10%" align="right">
            Mã kho bạc
           </td>
-          <td align="left" width="20%">
+          <td align="left" width="15%">
                 <html:text property="ma_kb" 
                            maxlength="8"
                            styleId="ma_kb"
@@ -138,19 +93,14 @@
                            onblur="getTenNganHang('ma_kb', 'ten_nhkb_nhan', 'id_nhkb_nhan'),textlostfocus(this); this.style.backgroundColor='#ffffff';"
                            styleClass="promptText"/><font color="Red">(*)</font>
             </td>
-            <td width="30%" align="left">
+            <td width="35%" align="left">
             <html:text property="ten_nhkb_nhan" readonly="true" styleId="ten_nhkb_nhan"
                            styleClass="fieldTextTrans" onmouseout="UnTip()"
                            onkeydown="if(event.keyCode==13) event.keyCode=9;"/>
                  
               <html:hidden property="id_nhkb_nhan" styleId="id_nhkb_nhan" value=""/>
             </td>
-            <td  rowspan="5" align="left">
-                  <button type="button" style=" height:60px" onclick="callLov();" class="ButtonCommon" accesskey="t" >
-                    <span class="sortKey">D</span>anh m&#7909;c KB
-                  </button>
-            </td>
-            <td width="5%" align="right">Số dư
+            <td width="10%" align="right">Số dư
             </td>
            <td align="left" width="25%">
                 <html:text property="so_du"
@@ -160,8 +110,6 @@
                            onkeypress="return numberBlockKey(event)"
                            onkeyup="checkKey123('so_du')"
                            styleClass="promptText"/>
-            </td>
-            <td width="5%" align="left">
             <font color="Red">(*)</font>
             </td>
             </tr>
@@ -230,7 +178,7 @@
                       button : "ngay"
                   });
                 </script>
-                (dd/mm/yyyy)<font color="Red">(*)</font>
+                <font color="Red">(*)</font>(dd/mm/yyyy)
               </td>
         </tr>
          <tr>
@@ -264,8 +212,9 @@
               Loại tài khoản
             </td>
             <td>
-                <html:select styleClass="selectBox" property="loai_tai_khoan"
-                                           styleId="loai_tai_khoan" style="width:125px;height:20px">
+                <html:select styleClass="selectBox" property="loai_tk"
+                                           styleId="loai_tk" style="width:125px;height:20px">
+                        <html:option value="00">Chọn loại tài khoản</html:option>  
                         <html:option value="01">Thanh toán tổng hợp</html:option>
                         <html:option value="02">Thanh toán</html:option>
                         <html:option value="03">Chuyên thu</html:option>
@@ -275,7 +224,7 @@
             <td align="right">
            
             </td>
-            <td align="left" width="30%">
+            <td align="left" width="10%">
                
             </td>
             <td  align="left">
@@ -311,10 +260,7 @@
     <span id="message_confirm"></span>
   </p>
 </div>
-<div id="dialog-form-lov-dm" title="Tra c&#7913;u danh m&#7909;c Kho b&#7841;c">
-  <p class="validateTips"></p>
-  <%@include file="/pages/lov/lovDMKBTCUUSODU.jsp" %>
-</div>
+
 <%@ include file="/includes/ttsp_bottom.inc"%>
 
 <script type="text/javascript">
@@ -328,6 +274,7 @@
           var ma_nh = jQuery('#ma_nh').val();
           var ngay_gd = jQuery('#ngay_gd').val();
           var so_du = jQuery('#so_du').val();
+          var loai_tk = jQuery('#loai_tk').val();
           
           if (ma_kb == null || ma_kb == '') {
               alert(GetUnicode('Hãy nhập mã kho bạc'));
@@ -368,6 +315,10 @@
             alert('Phải nhập số dư');
             jQuery('#so_du').focus();
             return false;
+          }else if(loai_tk === '00'){
+              alert('Phải chọn loại tài khoản!');
+              jQuery('#loai_tk').focus();
+              return false;
           }
 
           document.getElementById("bt").disabled = true;

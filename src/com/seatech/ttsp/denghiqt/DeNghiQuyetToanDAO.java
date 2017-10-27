@@ -4,9 +4,14 @@ import com.seatech.framework.datamanager.AppDAO;
 
 
 import com.seatech.framework.datamanager.Parameter;
+import com.seatech.framework.exception.DatabaseConnectionFailureException;
+import com.seatech.framework.exception.SelectStatementException;
 import com.seatech.framework.utils.TTSPUtils;
 
 import java.sql.Connection;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import java.util.Vector;
 
@@ -39,5 +44,16 @@ public class DeNghiQuyetToanDAO extends AppDAO{
       params.add(new Parameter(vo.getLoaiTien(), true));
       
       return (int)(executeStatement(query, params, conn) > 0 ? Long.parseLong(idQToan) : 0);
+    }
+    
+    public boolean checkNgayNghi(String ngay)throws DatabaseConnectionFailureException,
+                                                  SelectStatementException,
+                                                  SQLException{
+          boolean bReturn = false;
+          String strSQL = "select 1 from sp_ngay_nghi where to_date(ngay,'yyyymmdd')= TO_DATE('"+ ngay + "','dd/mm/yyyy')";
+            System.out.printf(strSQL);
+          ResultSet rs = executeSelectStatement(strSQL,null,conn);
+          bReturn = rs.next();
+          return  bReturn; 
     }
 }

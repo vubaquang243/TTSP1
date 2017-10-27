@@ -19,14 +19,15 @@
       href="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/css/jquery-ui-1.8.2.custom.css"/>
 
 <script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/jquery-ui-1.8.11.custom.min.js" type="text/javascript"></script>
-<script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/quyettoan.js" type="text/javascript"></script>
-<script type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/traCuuKhoBac.js"></script>
+<script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/LenhThanhToan.js" type="text/javascript"></script>
+<script type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/lov.js"></script>
+
 <script type="text/javascript">
   jQuery.noConflict();
   
   
   jQuery(document).ready(function () {    
-      
+      //getTenKhoBacLTT('','');      
       jQuery("#dialog-form-lov-dm").dialog({
           autoOpen: false,resizable : false,
           maxHeight: "700px",
@@ -53,47 +54,42 @@
         var loai_tai_khoan = jQuery("#loai_tai_khoan").val();
         var tinh_trang_so_du = jQuery("#tinh_trang_so_du").val();
         var ngay_gd = jQuery("#ngay_gd").val();
+        var pageNumber = jQuery("#pageNumber").val();
         if(ma_KB_tinh == "")
         ma_KB_tinh = "000";
-        document.forms[0].action = "traCuuSoDu.do?ma_bk_tinh=" + ma_KB_tinh;
+        document.forms[0].action = "traCuuSoDu.do?ma_bk_tinh=" + ma_KB_tinh + "&ma_KB_huyen=" +ma_KB_huyen + "&ma_ngan_hang=" + ma_ngan_hang
+          +"&loai_tien="+loai_tien+"&han_muc="+han_muc+"&loai_tai_khoan="+loai_tai_khoan+"&tinh_trang_so_du="+tinh_trang_so_du+"&ngay_gd="+ngay_gd;
+        if(pageNumber == undefined){
+        pageNumber = 1;
+        document.forms[0].action +="&page="+pageNumber;
+        }else{
+        document.forms[0].action +="&page="+pageNumber;
+        }
         document.forms[0].submit();
       });
-      
-      jQuery('.updateRecord').click(function(){
-        var so_du = jQuery(this).closest("tr").find('#soDu').text().trim();
-        var ma_kb = jQuery(this).closest("tr").find('#ma_kb').text().trim();
-        var ma_nh = jQuery(this).closest("tr").find('#ma_nh').text().trim();
-        var loai_tien = jQuery(this).closest("tr").find('#loaiTien').text().trim();
-        var ngay_gd = jQuery(this).closest("tr").find('#ngay_giao_dich').text().trim();
-        var so_du_cot = jQuery(this).closest("tr").find('#soDuCOT').text().trim();        
-        document.forms[0].action = "updateSoDuAction.do?so_du="+so_du+"&ma_kb="+ma_kb+"&ma_nh="+ma_nh+"&loai_tien="+loai_tien+"&ngay_gd="+ngay_gd+"&so_du_cot="+so_du_cot;
-        document.forms[0].submit();
-      });
-      
-     jQuery('.deleteRecord').click(function(){
-         var ma_kb = jQuery(this).closest("tr").find('#ma_kb').text().trim();
-         var ma_nh = jQuery(this).closest("tr").find('#ma_nh').text().trim();
-         var loai_tien = jQuery(this).closest("tr").find('#loaiTien').text().trim();
-         var ngay_gd = jQuery(this).closest("tr").find('#ngay_giao_dich').text().trim();
-         jQuery(this).closest("tr").addClass('delete');
-         jQuery.ajax({
-          type : "POST",
-          url : "deleteSoDu.do",
-          data : {"ma_kb" : ma_kb, "ma_nh" : ma_nh, "loai_tien" : loai_tien, "ngay_gd" : ngay_gd},
-          success : function(data, textstatus){
-              if(data != null){
-                var result = new Object();
-                result = JSON.parse(data[0]);
-                if(result == "success"){
-                alert("Xóa bản ghi thành công");
-                  jQuery('table#table_ket_qua tr.delete').remove();
-                }else{
-                  alert("Xóa bản ghi không thành công");
-                }
-              }
+      //getParams
+      var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+          sURLVariables = sPageURL.split('&'),
+          sParameterName,
+          i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+          sParameterName = sURLVariables[i].split('=');
+
+          if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
           }
-         });
-      });
+        }
+      };
+      
+        jQuery("#loai_tien").val(getUrlParameter('loai_tien'));
+        console.log(getUrlParameter('loai_tien'));
+        jQuery("#han_muc").val(getUrlParameter('han_muc'));
+        jQuery("#loai_tien option[value="+getUrlParameter('loai_tien')+"]").attr("selected",true);
+        jQuery("#loai_tai_khoan option[value="+getUrlParameter('loai_tai_khoan')+"]").attr("selected",true);
+        jQuery("#tinh_trang_so_du option[value="+getUrlParameter('tinh_trang_so_du')+"]").attr("selected",true);
+        jQuery("#ngay_gd").val(getUrlParameter('ngay_gd'));
       
       jQuery("a#previous").click(function(){
         var a = jQuery("#pageNumber").val();
@@ -124,18 +120,82 @@
               jQuery('#id_kho_bac_huyen').append('<option value="0000">Chọn thông tin tra cứu<\/option>');
               for(var i = 0; i < lstNHKBHuyen.size(); i++){
                 jQuery('#id_kho_bac_huyen').append('<option value="'+ lstNHKBHuyen[i].ma +'" >'+ lstNHKBHuyen[i].ten + '<\/option>');
+                jQuery('#id_kho_bac_huyen option[value='+ getUrlParameter('ma_KB_huyen') +']').attr("selected",true);
               }
             }
           }
         }
         });
       }
+      
+      //get ngan hang
+      var kb_id_huyen = getUrlParameter('ma_KB_huyen');//jQuery("#id_kho_bac_huyen option:selected").val();
+      if(kb_id_huyen != ""){
+        jQuery.ajax({
+          type : "POST",
+          url : "getListNganHang.do",
+          data : {"kb_id_huyen" : kb_id_huyen},
+          success : function(data, textstatus){
+            if(data != null){
+              var lstNganHang = new Object();
+              lstNganHang = JSON.parse(data[0]);
+              if(lstNganHang.size() != 0){
+                jQuery('#id_ngan_hang option').remove();
+                jQuery('#id_ngan_hang').append('<option value="">Chọn thông tin tra cứu<\/option>');
+                for(var i = 0; i < lstNganHang.size(); i++){
+                  jQuery('#id_ngan_hang').append('<option value="'+ lstNganHang[i].ma_nh +'">'+ lstNganHang[i].ten_nh +'<\/option>');
+                  jQuery('#id_ngan_hang option[value='+ getUrlParameter('ma_ngan_hang') +']').attr("selected",true);
+                }
+              }
+            }
+          }
+        });
+      }
+      
+      //get loai tien
+      var nganHang  = getUrlParameter('ma_ngan_hang');
+       if(nganHang != ""){
+          jQuery.ajax({
+            type : "POST",
+            url : "getCateMoney.do",
+            data : {"nganhang_id" : nganHang},
+            success : function(data, textstatus){
+              if(data != null){
+                var lstLoaiTien = new Object();
+                lstLoaiTien = JSON.parse(data[0]);
+                if(lstLoaiTien.size() != 0){
+                  jQuery('#loai_tien option').remove();
+                  jQuery('#loai_tien').append('<option value="">--Chọn loại tiền--<\/option>');
+                  for(var i = 0; i < lstLoaiTien.size(); i++){
+                    jQuery('#loai_tien').append('<option value="' + lstLoaiTien[i].loai_tien + '" >'+ lstLoaiTien[i].loai_tien +'<\/option>');
+                    jQuery('#loai_tien option[value="'+ getUrlParameter('loai_tien') +'"]').attr("selected",true);
+                  }
+                }
+              }
+            }
+          });
+       }
   });
   
   function goPage(page) {
       jQuery('#pageNumber').val( page);
       var vform = jQuery('#frmTraCuuSoDu')[0];       
       vform.submit();            
+      var ma_KB_tinh = jQuery("#id_kho_bac_tinh").val();
+        var ma_KB_huyen = jQuery("#id_kho_bac_huyen").val();
+        var ma_ngan_hang = jQuery("#id_ngan_hang").val();
+        var loai_tien = jQuery("#loai_tien").val();
+        var han_muc = jQuery("#han_muc").val();
+        var loai_tai_khoan = jQuery("#loai_tai_khoan").val();
+        var tinh_trang_so_du = jQuery("#tinh_trang_so_du").val();
+        var ngay_gd = jQuery("#ngay_gd").val();
+        var pageNumber = jQuery("#pageNumber").val();
+        if(ma_KB_tinh == "")
+        ma_KB_tinh = "000";
+        document.forms[0].action = "traCuuSoDu.do?ma_bk_tinh=" + ma_KB_tinh + "&ma_KB_huyen=" +ma_KB_huyen + "&ma_ngan_hang=" + ma_ngan_hang
+          +"&loai_tien="+loai_tien+"&han_muc="+han_muc+"&loai_tai_khoan="+loai_tai_khoan+"&tinh_trang_so_du="+tinh_trang_so_du+"&ngay_gd="+ngay_gd;
+        if(pageNumber != 1 && pageNumber != 0)document.forms[0].action +="&page="+pageNumber;
+        document.forms[0].submit();
   }
   
   function changeForeignCurrency(nStr){
@@ -171,7 +231,7 @@
     var tu_han_muc = jQuery("#tu_han_muc").val();
     var den_han_muc = jQuery("#den_han_muc").val();
     var so_du_cot = jQuery("#so_du_COT").val();
-    if(loai_tien != "")
+    if(loai_tien != ""){
     if(loai_tien == "VND"){
         jQuery("#so_du").val(changeVNDCurrency(so_du));
         jQuery("#tu_han_muc").val(changeVNDCurrency(tu_han_muc));
@@ -182,15 +242,16 @@
         jQuery("#tu_han_muc").val(changeForeignCurrency(tu_han_muc));
         jQuery("#den_han_muc").val(changeForeignCurrency(den_han_muc));
         jQuery("#so_du_COT").val(changeForeignCurrency(so_du_cot));
-    }
+    }}
   }
-  function callLov(){      
-      jQuery("#loai_lov").val("DMKBTCUUQT");
-      jQuery("#id_kho_bac_tinh_1").val(jQuery('#id_kho_bac_tinh').val());
-      jQuery("#id_kho_bac_huyen_1").val(jQuery('#id_kho_bac_huyen').val());
+    function callLov(){      
+      jQuery("#loai_lov").val("DMKBTCUU");
+      jQuery("#ma_field_id_lov").val("ma_nhkb_nhan");
+      jQuery("#ten_field_id_lov").val("ten_nhkb_nhan");
+      jQuery("#id_field_id_lov").val("id_nhkb_huyen");
+      jQuery("#ma_cha_field_id_lov").val("id_nhkb_tinh");
       jQuery("#dialog-form-lov-dm").dialog( "open" );      
     }
-    
     function getThongTinKB(){
       var kb_id = jQuery("#id_kho_bac_tinh").val();
       if(kb_id != ""){
@@ -212,6 +273,45 @@
           }
         }
         });
+      }else{
+        jQuery('#id_kho_bac_huyen option').remove();
+        jQuery('#id_kho_bac_huyen').append('<option value="selected" >Chọn thông tin tra cứu<\/option>');
+        jQuery('#id_ngan_hang option').remove();
+        jQuery('#id_ngan_hang').append('<option value="">Chọn thông tin tra cứu<\/option>');
+        jQuery('#loai_tien option').remove();
+        jQuery('#loai_tien').append('<option value="">--Chọn loại tiền--<\/option>');
+      }
+    }
+    
+    function getThongTinKB(ma){
+      var kb_id = jQuery("#id_kho_bac_tinh").val();
+      if(kb_id != ""){
+        jQuery.ajax({
+        type : "POST",
+        url : "getNHKBHuyen.do",
+        data : {"kb_id" : kb_id},
+        success : function(data, textstatus){
+          if(data != null){
+            var lstNHKBHuyen = new Object();
+            lstNHKBHuyen = JSON.parse(data[0]);
+            if(lstNHKBHuyen.size() != 0){
+              jQuery('#id_kho_bac_huyen option').remove();
+              jQuery('#id_kho_bac_huyen').append('<option value="selected" >Chọn thông tin tra cứu<\/option>');
+              for(var i = 0; i < lstNHKBHuyen.size(); i++){
+                jQuery('#id_kho_bac_huyen').append('<option value="'+ lstNHKBHuyen[i].ma +'" >'+ lstNHKBHuyen[i].ten + '<\/option>');
+                jQuery("#id_kho_bac_huyen option[value='"+ ma +"']").attr("selected",true);
+              }
+            }
+          }
+        }
+        });
+      }else{
+        jQuery('#id_kho_bac_huyen option').remove();
+        jQuery('#id_kho_bac_huyen').append('<option value="selected" >Chọn thông tin tra cứu<\/option>');
+        jQuery('#id_ngan_hang option').remove();
+        jQuery('#id_ngan_hang').append('<option value="">Chọn thông tin tra cứu<\/option>');
+        jQuery('#loai_tien option').remove();
+        jQuery('#loai_tien').append('<option value="">--Chọn loại tiền--<\/option>');
       }
     }
     
@@ -236,6 +336,11 @@
             }
           }
         });
+      }else{
+        jQuery('#id_ngan_hang option').remove();
+        jQuery('#id_ngan_hang').append('<option value="">Chọn thông tin tra cứu<\/option>');
+        jQuery('#loai_tien option').remove();
+        jQuery('#loai_tien').append('<option value="">--Chọn loại tiền--<\/option>');
       }
     }
     
@@ -260,8 +365,11 @@
               }
             }
           });
+       }else{
+          jQuery('#loai_tien option').remove();
+          jQuery('#loai_tien').append('<option value="">--Chọn loại tiền--<\/option>');
        }
-    }
+    }    
 </script>
 <table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
     <tbody>
@@ -335,10 +443,6 @@
       <option value="03">Chuyên thu</option>
     </html:select>
   </td>
-  <td colspan="3" rowspan="2">
-    <button id="btnTra_cuu">Tra cứu</button>
-    <button id="btn_Thoat">Thoát</button>
-  </td>
   </tr>
   <tr>
   <td align="right">Tình trạng số dư</td>
@@ -365,6 +469,10 @@
           });
         </script>
   </td>
+  <td colspan="3">
+    <button id="btnTra_cuu">Tra cứu</button>
+    <button id="btn_Thoat">Thoát</button>
+  </td>
   </tr>
 </table>
 </fieldset>
@@ -373,6 +481,6 @@
 </html:form>
 <div id="dialog-form-lov-dm" title="Tra c&#7913;u danh m&#7909;c Kho b&#7841;c">
   <p class="validateTips"></p>
-  <%@include file="/pages/lov/traCuuKhoBac.jsp" %>
+  <%@include file="/pages/lov/lovDMKBTCUUSODU.jsp" %>
 </div>
 <%@ include file="/includes/ttsp_bottom.inc"%>

@@ -45,7 +45,7 @@ public class TraCuuSoDuDAO extends AppDAO {
     public Collection getNHKBTinh(String strWhere,
                                   Vector vParams) throws Exception {
         try {
-            String strQuery = "select ma, ten from sp_dm_htkb where cap = 5 OR cap = 1 order by ma asc";
+            String strQuery = "select ma, ten from sp_dm_htkb where cap = 5 order by ma asc";
             if (strWhere != "")
                 strQuery += strWhere;
             return executeSelectStatement(strQuery, vParams, CLASS_NAME_VO,
@@ -58,7 +58,7 @@ public class TraCuuSoDuDAO extends AppDAO {
     public Collection getNHKBHuyen(String strWhere,
                                    Vector vParams) throws Exception {
         try {
-            String strQuery = "select ma, ten from sp_dm_htkb where cap = 3 ";
+            String strQuery = "select ma, ten from sp_dm_htkb where 1=1 ";
             if (strWhere != "") {
                 strQuery += strWhere;
             }

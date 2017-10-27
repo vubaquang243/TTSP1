@@ -44,6 +44,8 @@
   String chkSoDu = request.getAttribute("chkSoDu")==null?"":request.getAttribute("chkSoDu").toString();
   String qtoan_ko_dchieu = request.getAttribute("qtoan_ko_dchieu")==null?"":request.getAttribute("qtoan_ko_dchieu").toString();
   String qtth = request.getAttribute("qtth")==null?"":request.getAttribute("qtth").toString();
+  //20171025 thuongdt bo sung them ton tai 066
+  String ton_tai_066 = request.getAttribute("ton_tai_066")==null?"":request.getAttribute("ton_tai_066").toString();
 %>
 <script type="text/javascript">
   jQuery.noConflict();
@@ -59,7 +61,8 @@
       var chkSoDu="<%=chkSoDu%>";
        var qtth="<%=qtth%>";
     var chuahoanthanh="<%=chuahoanthanh%>";
-    
+    //20171025 thuongdt bo sung them ton tai 066
+    var ton_tai_066 = "<%=ton_tai_066%>";
 //    var qtoan_ko_dchieu="<%=qtoan_ko_dchieu%>";
 //        alert(qtoan_ko_dchieu);
 //        alert(size);
@@ -72,6 +75,10 @@
     }
     if(chkSoDu!=null && '' != chkSoDu){
       alert(GetUnicode('Số dư tài khoản âm. Không thể lập đề nghị quyết toán.'));
+    }
+    //20171025 thuongdt bo sung them ton tai 066
+    if(ton_tai_066!=null && '' != ton_tai_066){
+      alert(GetUnicode('Đã tồn tại điện 066 điện tử'));
     }
     
      if(qtth!=null && '' != qtth){
@@ -174,7 +181,7 @@
                   <logic:iterate id="UDlist" name="colDChieu" indexId="index">
                  <tr class="ui-widget-content jqgrow ui-row-ltr" 
                       id="row_qt_<bean:write name="index"/>"
-                      onclick="rowSelectedFocusXNDC('row_qt_<bean:write name="index"/>');
+                      onclick="disBt_onclick();rowSelectedFocusXNDC('row_qt_<bean:write name="index"/>');
                                fillDataXNDC('XNDCTHopNgoaiTeAction.do',
                                '<bean:write name="UDlist" property="ngay_dc"/>',
                                '<bean:write name="UDlist" property="receive_bank"/>',
@@ -693,12 +700,17 @@
                           <input type="text" title="<bean:write name="items" property="so_thu_chu"/>"  name="so_thu" disabled="disabled"  id="so_thu"  value="<fmt:formatNumber type="currency"  currencySymbol=""><bean:write name="items" property="so_thu"/></fmt:formatNumber>" class="fieldTextRight" />
                          
                          </td>
+                         <%if(loai_gd.equals("03")){%>
                          <td width="20%" align="left" style="padding-left:15px">
                              Lãi chuyên thu
                         </td>
                          <td width="25%" align="right">                                       
                           <input type="text"  name="so_lai_thu" disabled="disabled"  id="so_lai_thu"  value="" class="fieldTextRight" />
                          </td>
+                         <%}else{%>
+                             <td width="20%" align="left" style="padding-left:15px"></td>
+                             <td width="25%" align="right">  </td>
+                         <%}%>
                       </tr>
                       <tr>
                         <td  align="left">
@@ -733,12 +745,17 @@
                          <td width="25%" align="right">                                       
                           <input type="text"  name="so_thu" disabled="disabled"  id="so_thu"  value="" class="fieldTextRight" />
                          </td>
+                         <%if(loai_gd.equals("03")){%>
                          <td width="20%" align="left" style="padding-left:15px">
                              Lãi chuyên thu
                         </td>
                          <td width="25%" align="right">                                       
                           <input type="text"  name="so_lai_thu" disabled="disabled"  id="so_lai_thu"  value="" class="fieldTextRight" />
                          </td>
+                         <%}else{%>
+                            <td width="20%" align="left" style="padding-left:15px"></td>
+                            <td width="25%" align="right">   </td>
+                         <%}%>
                       </tr>
                       <tr>
                         <td align="left">
@@ -870,11 +887,11 @@
           <html:hidden property="cho_phep_sua" styleId="cho_phep_sua" />
           <html:hidden property="cho_phep_qtoan_tam" value="" styleId="cho_phep_qtoan_tam" />
           <html:hidden property="cho_phep_nhap_tcong" value="" styleId="cho_phep_nhap_tcong" />          
-          <button type="button"  accesskey="t" onclick="check('create','')" id="bt">
+          <button type="button"  accesskey="t" onclick="check('create','')" id="bt" disabled="disabled">
             <span class="sortKey">T</span>&#7841;o &#273;i&#7879;n đề nghị
           </button>
         <%}else{%>
-          <button type="button"  accesskey="x" onclick="check('XN','')" id="bt">
+          <button type="button"  accesskey="x" onclick="check('XN','')" id="bt" disabled="disabled">
             <span class="sortKey">X</span>ác nhận
           </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
         <%}%>           
@@ -1115,27 +1132,30 @@ function checkKey(txt_id){
     var strRowSelected="<%=strRowSelected%>";
     if(strRowSelected!=null && '' != strRowSelected){
       var chkdate = "<%=chkdate%>";
-      //var qtoan_ko_dchieu="<%=qtoan_ko_dchieu%>";
+//      var qtoan_ko_dchieu="<%=qtoan_ko_dchieu%>";
       stt= strRowSelected.substr(7,5);
       sttNext=parseInt(stt);
       tthai_dxn=document.getElementById("tthai_"+sttNext).value;
       tthai_kq=document.getElementById("tthaikq_"+sttNext).value;
-      if(tthai_dxn=='01'||tthai_kq!='02'){
-          if (tthai_dxn=='00'||tthai_dxn==null || ''==tthai_dxn){
+      //thuongdt-20170516 them check trang thai tt=02, tt dxn 00,01 cho phep xac nhan
+      if(tthai_kq =='02' &&(tthai_dxn=='01' || tthai_dxn=='00')){
+           document.getElementById("bt").disabled=false;
+      }else if(tthai_dxn=='01'||tthai_kq!='02'){
+          //Them cau if duoi day de khi tthai_kq==00 thi bt sang
+          if(tthai_kq=='00'){
             document.getElementById("bt").disabled=false;
-          }else document.getElementById("bt").disabled=true;
-      }else if (tthai_dxn=='00'||tthai_dxn==null || ''==tthai_dxn){
-          
-          document.getElementById("bt").disabled=false
-          document.getElementById("inbt").disabled=true;;
+          }
+      }else if (tthai_kq=='00'){     
+        if(tthai_dxn=='00'||tthai_dxn==null || ''==tthai_dxn){
+          document.getElementById("bt").disabled=false;
+          document.getElementById("inbt").disabled=true;
+          }
       }else if (tthai_dxn=='02'||tthai_dxn=='03'){
-            document.getElementById("bt").disabled=true;
+            
             document.getElementById("bt_tcong").disabled=true;
       }
       if(chkdate!=null && ""!=chkdate){
-        if(document.getElementById("bt_update") != null){
-            document.getElementById("bt_update").disabled = true; 
-        }
+        document.getElementById("bt_update").disabled=true; 
         document.getElementById("bt_tcong").disabled=true;
       }
     }else{
@@ -1385,6 +1405,29 @@ function check(type,bk_id) {
 //    e.parseNumber({ format: "#,##0", locale: "us" });
 //    e.formatNumber({ format: "#,##0", locale: "us" });
 //}
+//20171025 thuongdt bo sung them
+function disBt_onclick(){
+  try
+    { 
+      var vbt = document.getElementById("bt");
+      var vinbt = document.getElementById("inbt");
+      var vbt_update = document.getElementById("bt_update");
+      var vbt_tcong = document.getElementById("bt_tcong");
+      if(vbt != null)
+       document.getElementById("bt").disabled=true;
+      if(vbt_update != null)
+        document.getElementById("bt_update").disabled=true;
+      if(vbt_tcong != null)
+       document.getElementById("bt_tcong").disabled=true;
+       if(vinbt != null)
+       document.getElementById("inbt").disabled=true;
+   }
+    catch(error)
+    {      
+        return false;
+    }
+    return true;
+}
 </script>
 
 `

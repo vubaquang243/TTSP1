@@ -458,7 +458,7 @@ public class SKeTKAction extends AppAction {
                     params.add(new Parameter(f.getTu_ngay(), true));
                 }
                 if (f.getLoai_tien() != null && !"".equals(f.getLoai_tien())) {
-                    whereClause += "a.loai_tien_du_dau='?' ";
+                    whereClause += " and a.loai_tien_du_dau=? ";
                     params.add(new Parameter(f.getLoai_tien(), true));
                 } else {
                     whereClause +=

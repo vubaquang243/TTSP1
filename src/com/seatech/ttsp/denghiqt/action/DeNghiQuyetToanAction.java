@@ -28,7 +28,10 @@ import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 
+import java.text.SimpleDateFormat;
+
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -253,13 +256,13 @@ public class DeNghiQuyetToanAction extends AppAction {
             if (type.equals("04"))
                 p_type = "1";
             CallableStatement statement = conn.prepareCall(strSQL);
-            statement.registerOutParameter(1, java.sql.Types.INTEGER);
+            statement.registerOutParameter(1, java.sql.Types.NUMERIC);
             statement.setString(2, p_type);
             statement.setString(3, NHKBChuyen);
             statement.setString(4, ma_nh);
             statement.setString(5, loai_tien);
             statement.executeUpdate();
-            int result = statement.getInt(1);
+            String result = String.valueOf(statement.getLong(1));
             gson = new GsonBuilder().setVersion(1.0).create();
             strJson = gson.toJson(result);
             jsonObj.addProperty("getCurren", strJson);

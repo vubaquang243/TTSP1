@@ -6,6 +6,7 @@
 <%@ page import="com.seatech.framework.AppKeys" %>
 <%@ page import="com.seatech.framework.AppConstants" %>
 <%@ page import="java.util.Collection" %>
+<%@ page import="java.lang.String" %>
 <%@ page import="com.seatech.framework.utils.StringUtil"%>
 <%@ include file="/includes/ttsp_header.inc"%>
 <link rel="stylesheet"  type="text/css" href="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/css/style.css"/>
@@ -42,6 +43,7 @@
         
         //
        // $('#ngayQT').attr('disabled','disabled');
+       
       });
       
       function onChange(){
@@ -94,6 +96,7 @@
       $(document).ready(function(){
        var time = new Date();
         var display = "";
+        console.log(time.getDay());
         if(time.getDate() < 10){
           display += "0" + (time.getDate()) + '/';
         }else display+= (time.getDate()) + '/';
@@ -276,7 +279,7 @@
           <td width="30%">
             <html:select styleClass="selectBox" property="maNH"
                 styleId="maNH" style="width: 255px;" onblur="onChange(); getSoTienChi();" >
-                <option value="">---Chọn loại ngân hàng---</option>
+                <option value="">---Chọn ngân hàng---</option>
                 <html:optionsCollection label="ten" value="ma_nh" name="dmNH"/>
            </html:select>
           </td>          
@@ -296,7 +299,7 @@
             <td width="20%" style="text-align : right;padding-right:5px">Loại quyết toán </td>
             <td width="30%">
             <html:select styleClass="selectBox" property="loaiQT" onblur="getSoTienChi(); changeInput(); resetInput();"
-                styleId="loaiQT" style="width: 255px;">
+                styleId="loaiQT" style="width: 255px;" onchange="changeInput();">
                 <option value="">---Chọn loại quyết toán---</option>
                 <option value="04">Bù chi ngày lỗi</option>
                 <option value="05">Thấu chi</option>
@@ -308,13 +311,13 @@
             <td width="20%" style="text-align : right;padding-right:5px">Số tiền quyết toán thu </td>
             <td width="30%">
               <html:text property="QToanBu"  styleId="QToanBu" onkeypress="return numberBlockKey1();" style="width: 255px;text-align:right;"
-                onblur="changeMoney();" onkeydown="if(event.keyCode==13) event.keyCode=9;" />
+                onblur="changeMoney();" onkeydown="if(event.keyCode==13) event.keyCode=9;" maxlength="20" />
             </td>
 
             <td width="20%" style="text-align : right;padding-right:5px">Số tiền quyết toán chi </td>
             <td width="30%">
               <html:text property="QToanChi" styleId="QToanChi" onkeypress="return numberBlockKey1();" style="width: 255px;text-align:right;" 
-              onkeydown="if(event.keyCode==13) event.keyCode=9;" onblur="changeMoney();" />
+              onkeydown="if(event.keyCode==13) event.keyCode=9;" onblur="changeMoney();" maxlength="20" />
             </td>
           </tr>
          

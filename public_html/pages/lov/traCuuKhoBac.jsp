@@ -5,13 +5,11 @@
   <form action="traCuuKhoBac.do" method="post">
     <table style="width:100%;height:100%;">
       <tr>
-        <td id="id_kho_bac" >Mã kho bạc</td>
+        <td id="id_kho_bac" >Mã</td>
         <td>
-          <input type="text" name="ma_kb" id="ma_kb" size="10" onkeydown="if(event.keyCode==13) event.keyCode=9;"/>
-          <input type="hidden" id="id_kho_bac_tinh_1" />
-          <input type="hidden" id="id_kho_bac_huyen_1" />
+          <input type="text" name="ma_kb" id="ma_kb" size="10" onkeydown="if(event.keyCode==13) event.keyCode=9;"/>          
         </td>
-        <td id="ten_kho_bac">Tên kho bạc</td>
+        <td id="ten_kho_bac">Tên</td>
         <td>
           <input type="text" name="ten_kb" id="ten_kb" size="40" onkeydown="if(event.keyCode==13) event.keyCode=9;"/>
         </td>
@@ -25,8 +23,8 @@
       <table cellspacing="0" width="100%">
         <thead>
           <tr>
-            <th width="20%" class="ui-state-default ui-th-column">M&atilde;</th>
-            <th width="77%" class="ui-state-default ui-th-column">T&ecirc;n</th>
+            <th width="20%" class="ui-state-default ui-th-column">Mã kb</th>
+            <th width="77%" class="ui-state-default ui-th-column">Tên kb</th>
             <th class="ui-state-default ui-th-column">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
           </tr>
         </thead>

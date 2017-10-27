@@ -102,6 +102,7 @@ public class LenhQTTCAction extends AppAction {
             LenhQTTCForm f = (LenhQTTCForm)form;
             LenhQTTCVO lenhQT = init(request, dao, session, params);
             if (lenhQT != null) {
+               if(!dao.checkLQT(lenhQT.getSoLenhQuyetToan())){
                 int result = dao.insert(lenhQT, params);
                 if (result > 0) {
                     conn.commit();
@@ -117,6 +118,9 @@ public class LenhQTTCAction extends AppAction {
                     request.setAttribute("msg",
                                          "Thêm mới không thành công ! Vui lòng kiểm tra lại dữ liệu");
                 }
+               }else{
+                  request.setAttribute("msg", "Đã tồn tại lệnh quyết toán."); 
+                }                
             } else {
                 request.setAttribute("msg",
                                      "Thêm mới không thành công ! Vui lòng kiểm tra lại dữ liệu");

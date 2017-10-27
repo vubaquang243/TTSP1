@@ -36,8 +36,8 @@ public class DuyetDNQTDAO extends AppDAO {
         }
     }
 
-    public int updateData(String id, Vector params) throws Exception {
-        String query = "Update sp_066 Set trang_thai = '02' Where id = " + id;
+    public int updateData(String id,String nguoiKS, Vector params) throws Exception {
+        String query = "Update sp_066 Set trang_thai = '02', ngay_ks = sysdate, nguoi_ks = '"+nguoiKS+"'  Where id = " + id;
         try {
             return (int)(executeStatement(query, params, conn));
         } catch (Exception e) {

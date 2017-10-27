@@ -128,7 +128,7 @@ function fillLovDMKBTCUUSODU() {
     var loai = jQuery("#loai_lov").val();
 
     if (loai == null || loai == '') {
-        loai = "DMKBTCUU";
+        loai = "DMKBSODU";
     }
     if (ma == null)
         ma = "";
@@ -254,37 +254,15 @@ function setIntoFieldLOVTCUUSODU(id, ma, ten,ma_cha){
   var ma_cha_field_id = jQuery("#ma_cha_field_id_lov").val();
 //  alert(ma+'----'+ma_cha);
   
-  if(ma_cha=='0001'){
-    jQuery("#"+id_field_id).val("");  
-    jQuery("#"+ma_field_id).val(ma);
-    jQuery("#"+ten_field_id).val(ten);
-    jQuery("#"+ma_cha_field_id).val(ma);
-    
-
+  if(ma_cha=='0001'){    
+    jQuery("#id_kho_bac_tinh option[value='"+ ma +"']").attr("selected",true);
     
   }else if(ma_cha!='0001'){
-  
-    jQuery("#"+id_field_id).val(id);  
-    jQuery("#"+ma_field_id).val(ma);
-    jQuery("#"+ten_field_id).val(ten);
-    jQuery("#"+ma_cha_field_id).val(ma_cha);
+    jQuery("#id_kho_bac_tinh option[value='"+ ma_cha +"']").attr("selected",true);
+    getThongTinKB(ma);
+    //jQuery("#id_kho_bac_huyen option[value='"+ ma +"']").attr("selected",true);
   }
   
-  // Get ma_kb = sh_kb
-  var ma_kb = "";
-  jQuery.ajax({
-    type :"POST",
-    url : "getMaKBac8So.do",
-    data :{
-      "sh_kb" : ma
-    },
-    success : function(data){
-      jQuery("#ma_kb").val(JSON.parse(data[0]));  
-    },
-    error : function(textstatus){
-      alert(textstatus);
-    }
-  });
   jQuery("#tblLovDM").html("");  
   jQuery("#ma_lov").val("");
   jQuery("#ten_lov").val("");
