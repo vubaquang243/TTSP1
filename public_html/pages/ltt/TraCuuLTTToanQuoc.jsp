@@ -49,7 +49,7 @@
           jQuery("#huyen").val("0003");
         }catch(ex){}
       }
-      jQuery("#tong_mon_field").val(CurrencyFormatted('<%=strTong_Mon%>', 'VND'));
+      jQuery("#tong_mon_field").val(CurrencyFormatted2('<%=strTong_Mon%>', 'VND'));
       var tu_ngay_field = jQuery("#tu_ngay"), 
       den_ngay_field = jQuery("#den_ngay"),
       den_ngay_nhan_field = jQuery("#den_ngay_nhan"),
@@ -71,7 +71,7 @@
       add(den_ngay_field).add(trang_thai_field).add(ma_kb_huyen_field).add(so_tien_field)
       .add(tu_lenh_field).add(den_lenh_field).add(loai_lenh_field).add(den_ngay_nhan_field).add(tu_ngay_nhan_field);
       ma_nh_field.focus();
-      jQuery("#so_tien_temp").val((so_tien_field.val()!='' && so_tien_field.val()!='undefined' && so_tien_field.val()!='0' )?CurrencyFormatted(so_tien_field.val(),'VND'):'' );
+      jQuery("#so_tien_temp").val((so_tien_field.val()!='' && so_tien_field.val()!='undefined' && so_tien_field.val()!='0' )?CurrencyFormatted2(so_tien_field.val(),jQuery("#ma_nt").val()):'' );
       //dialog message
       dialog_message.dialog( {
           autoOpen : false, modal : true, buttons :  {
@@ -168,9 +168,9 @@
       });
 
   });
-  function changeValue(value){
-    jQuery("#so_tien_temp").val(CurrencyFormatted(value,'VND'));
-    jQuery("#so_tien").val(value);
+  function changeValue(tx_id){
+    jQuery("#"+tx_id).val(CurrencyFormatted2(jQuery("#"+tx_id).val(),jQuery("#ma_nt").val()));
+    jQuery("#so_tien").val(jQuery("#"+tx_id).val());
   }
   
   function makeGetRequestView(id){
@@ -446,8 +446,8 @@ function getTenKhoBacLTT(ma,ma_cha) {
           <html:hidden  property="so_tien" styleId="so_tien"/> 
          <input type="text"  id="so_tien_temp"
              class="fieldTextRight"
-             onkeydown="if(event.keyCode==13) event.keyCode=9;" onblur="changeValue(this.value);"
-             tabindex="104" onkeypress="return numbersonly(this,event,true)"
+             onkeydown="if(event.keyCode==13) event.keyCode=9;" onblur="changeValue('so_tien_temp');"
+             tabindex="104" onkeypress="return numbersonly2(event,true)"
              style="WIDTH: 95%;"/> 
         </td>
       </tr>
@@ -659,7 +659,7 @@ function getTenKhoBacLTT(ma,ma_cha) {
         </td>
         <td class="promptText" align="left" valign="middle">
           <html:select onkeydown="if(event.keyCode==13) event.keyCode=9;" style="width:100%;height:20px;"
-                       property="ma_nt" styleId="ma_nt" >
+                       property="ma_nt" styleId="ma_nt" onchange="changeValue('so_tien_temp')">
             <html:option value="">--Chọn loại tiền--</html:option>
             <html:optionsCollection name="tienTe" value="ma" label="ma"/>
           </html:select>
@@ -794,7 +794,7 @@ function getTenKhoBacLTT(ma,ma_cha) {
                           </fmt:formatNumber>
                         </logic:equal>
                         <logic:notEqual property="nt_id" name="items" value="177">
-                          <fmt:setLocale value="en_US"/>
+                          <fmt:setLocale value="vi_VI"/>
                           <fmt:formatNumber type="currency" currencySymbol="">
                             <bean:write  name="items" property="tong_sotien"/>
                           </fmt:formatNumber>

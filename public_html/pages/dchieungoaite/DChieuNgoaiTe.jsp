@@ -219,7 +219,7 @@
                 </td>
                 </logic:equal>
                 <logic:notEqual value="VND" name="UDlist" property="loai_tien">
-                <fmt:setLocale value="en_US"/>
+                <fmt:setLocale value="vi_VI"/>
                   <td align="right">
                   <fmt:formatNumber type="currency" currencySymbol="">
                     <bean:write name="UDlist" property="sotien_thu" />
@@ -452,7 +452,7 @@
               
            <logic:notEmpty name="colKQDCCT">
            <tr>
-              <td colspan="10"><b>L&#7879;nh thanh to&#225;n &#273;i</b></td>
+              <td colspan="12"><b>L&#7879;nh thanh to&#225;n &#273;i</b></td>
               </tr>
           <logic:iterate id="items" name="colKQDCCT" indexId="stt">
           <logic:equal name="items" property="di_den" value="DI" > <!-- lenh thanh toan di -->
@@ -488,7 +488,7 @@
                     </fmt:formatNumber>
                   </logic:equal>
                   <logic:notEqual value="VND" name="items" property="loai_tien">
-                    <fmt:setLocale value="en_US"/>
+                    <fmt:setLocale value="vi_VI"/>
                     <fmt:formatNumber type="currency"  currencySymbol="">
                       <bean:write name="items" property="f32as3"/>
                     </fmt:formatNumber>
@@ -518,11 +518,11 @@
              </logic:equal>
              </logic:equal>
              </logic:iterate>
-             <tr><td colspan="10">&nbsp;</td></tr>
+             <tr><td colspan="12">&nbsp;</td></tr>
              </logic:notEmpty>             
              <logic:notEmpty name="colKQDCCT">
              <tr> 
-              <td colspan="10"><b>L&#7879;nh thanh to&#225;n &#273;&#7871;n</b></td>
+              <td colspan="12"><b>L&#7879;nh thanh to&#225;n &#273;&#7871;n</b></td>
               </tr>
               <logic:iterate id="items" name="colKQDCCT" indexId="stt">
               <logic:equal name="items" property="di_den" value="DEN" > <!-- lenh thanh toan -->
@@ -557,7 +557,7 @@
                       </fmt:formatNumber>
                     </logic:equal>
                     <logic:notEqual value="VND" name="items" property="loai_tien">
-                      <fmt:setLocale value="en_US"/>
+                      <fmt:setLocale value="vi_VI"/>
                       <fmt:formatNumber maxFractionDigits="2"  type="currency"  currencySymbol="">
                         <bean:write name="items" property="f32as3"/>
                       </fmt:formatNumber>
@@ -586,7 +586,7 @@
             </logic:equal>
             </logic:equal>
           </logic:iterate>
-          <tr><td colspan="10">&nbsp;</td></tr>
+          <tr><td colspan="12">&nbsp;</td></tr>
           </logic:notEmpty>
           
          </table>              
@@ -659,7 +659,7 @@
                
           <logic:notEmpty name="colKQDCCT">
            <tr>
-              <td colspan="9"><b>&#272;i&#7879;n tra so&#225;t &#273;i</b></td>
+              <td colspan="11"><b>&#272;i&#7879;n tra so&#225;t &#273;i</b></td>
               </tr>
             <logic:iterate id="items" name="colKQDCCT" indexId="stt">
             <logic:equal name="items" property="di_den" value="DI" > 
@@ -710,13 +710,13 @@
                 </logic:equal>
         </logic:equal>
         </logic:iterate>
-        <tr><td colspan="9">&nbsp;</td></tr>
+        <tr><td colspan="11">&nbsp;</td></tr>
         </logic:notEmpty>
             
              
           <logic:notEmpty name="colKQDCCT">
           <tr> 
-              <td colspan="9"><b>&#272;i&#7879;n tra so&#225;t &#273;&#7871;n</b></td>
+              <td colspan="11"><b>&#272;i&#7879;n tra so&#225;t &#273;&#7871;n</b></td>
               </tr>
             <logic:iterate id="items" name="colKQDCCT" indexId="stt">
             <logic:equal name="items" property="di_den" value="DEN" > 
@@ -768,7 +768,7 @@
                 </logic:equal>
         </logic:equal>
         </logic:iterate>
-        <tr><td colspan="9">&nbsp;</td></tr>
+        <tr><td colspan="11">&nbsp;</td></tr>
         </logic:notEmpty>
         
         </table>

@@ -53,6 +53,7 @@
   //chuyen doi dinh dang ngoai te
   function changeForeignCurrency(nStr){
         nStr += '';
+        nStr = nStr.replace(/\,/g,"");
         x = nStr.split('.');
         x1 = x[0];
         x2 = x.length > 1 ? '.' + x[1] : '';
@@ -66,6 +67,8 @@
   //xu ly dinh dang tien te viet nam
   function changeVNDCurrency(nStr){
     nStr += '';
+    nStr = nStr.replace(/\./g,"");
+    nStr = nStr.replace(/\,/g,"");
     x1 = nStr;
       x1 = x1.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
     return x1;
@@ -82,6 +85,26 @@
     }else{
       str.value = changeForeignCurrency(str.value);
     }}
+  }
+  
+  // taidd dinh dang lai tien 20171130
+   function changeValue(txt_id, allowNegativeNumber) {  
+      var value = jQuery("#"+txt_id +"").val().replace(/\s/g,"");
+      var loai_tien = jQuery("#loai_tien").val();
+      
+      if(allowNegativeNumber == undefined){
+        allowNegativeNumber = false;
+      }
+      
+      if(value == ""){
+        return;
+      }
+        if(loai_tien == "VND"){
+          jQuery("#"+txt_id +"").val(CurrencyFormatted2(value, 'VND', allowNegativeNumber));
+        }else{
+          jQuery("#"+txt_id +"").val(CurrencyFormatted2(value, 'USD', allowNegativeNumber));
+        }
+
   }
 </script>
 
@@ -203,8 +226,8 @@
                       <html:option value="">---Ch&#7885;n lo&#7841;i &#273;&#7889;i chi&#7871;u---</html:option>
                       <html:option value="01">QT tự động</html:option>
                       <html:option value="02">QT lập mới</html:option>
-                      <html:option value="04">QT bù số chi ngày lỗi</html:option>
-                      <html:option value="06">QT bù số thu ngày lỗi</html:option>
+                      <html:option value="04">QT bù số chi</html:option>
+                     <!-- <html:option value="06">QT bù số thu ngày lỗi</html:option> -->
                       <html:option value="05">QT thấu chi</html:option>
                       <html:option value="07">QT loại khác</html:option>
                   </html:select>                 
@@ -257,14 +280,14 @@
                 <tr>
                   <td align="right">Loại tiền</td>
                   <td>
-                    <html:select property="loai_tien" styleId="loai_tien" onkeydown="if(event.keyCode==13) event.keyCode=9;" onblur="resetInput();">  
-                        <html:option value="">---Chọn---</html:option>  
+                    <html:select property="loai_tien" styleId="loai_tien" onkeydown="if(event.keyCode==13) event.keyCode=9;" onchange="changeValue('so_tien');">  
                         <html:option value="VND">VND</html:option>
                         <html:optionsCollection name="dmTienTe" value="ma" label="ma"/>
                     </html:select>
                   </td>
                   <td align="right">Số tiền</td>
-                  <td><html:text property="so_tien" styleId="so_tien" onkeydown="if(event.keyCode==13) event.keyCode=9;" onblur="changeCurrency(this);" maxlength="20"/>(QT thu/chi)</td>
+                  <td><html:text property="so_tien" styleId="so_tien" onkeydown="if(event.keyCode==13) event.keyCode=9;"
+                      onblur="changeValue('so_tien');" onkeypress="return numbersonly2(event,true);" maxlength="20" style="text-align : right;"/>(QT thu/chi)</td>
                 </tr>
              </table>
            </div>
@@ -279,8 +302,8 @@
         <td>
          <fieldset>
             <legend>K&#7871;t qu&#7843; t&#236;m ki&#7871;m</legend>
-            <div>
-              <table width="100%" cellspacing="0" cellpadding="2" class="navigateable focused"
+            <div class="scroll_box">
+              <table width="155%" cellspacing="0" cellpadding="2" class="navigateable focused"
                  bordercolor="#e1e1e1" border="1" align="center"
                   style="BORDER-COLLAPSE: collapse;table-layout:fixed">
                 <thead>
@@ -343,6 +366,10 @@
                   <div align="center" >
                     Mô tả
                 </th>
+                <th class="promptText" bgcolor="#f0f0f0" width="13%">
+                  <div align="center" >
+                   Ngày bù chi
+                </th>
                 <th class="promptText" bgcolor="#f0f0f0"  width="3%"  >
                   <div align="center" >
                      
@@ -385,7 +412,7 @@
                         </td>
                       </logic:equal>
                       <logic:notEqual value="VND" name="items" property="loai_tien">
-                        <fmt:setLocale value="en_US"/>
+                        <fmt:setLocale value="vi_VI"/>
                         <td align="right">
                           <b>
                             <fmt:formatNumber maxFractionDigits="2"  type="currency"  currencySymbol="">
@@ -410,6 +437,21 @@
                         </logic:equal>
                         <logic:equal value="02" name="items" property="loai_qtoan">
                           Lập mới
+                        </logic:equal>
+                        <logic:equal value="03" name="items" property="loai_qtoan">
+                          
+                        </logic:equal>
+                        <logic:equal value="04" name="items" property="loai_qtoan">
+                          Bù chi
+                        </logic:equal>
+                        <logic:equal value="05" name="items" property="loai_qtoan">
+                          Thấu chi
+                        </logic:equal>
+                        <logic:equal value="06" name="items" property="loai_qtoan">
+                          Bù thu
+                        </logic:equal>
+                        <logic:equal value="07" name="items" property="loai_qtoan">
+                          Loại khác
                         </logic:equal>
                       </td>
                       <td align="center">
@@ -448,6 +490,13 @@
                           <bean:write name="items" property="mo_ta"/>
                         </div>
                       </td>
+                      <!--20171117 thuongdt bo sung them ngay bu chi-->
+                      <td align="center" title="<bean:write name="items" property="ngay_bu_chi"/>">
+                        <div style="width:70px;" >
+                          <bean:write name="items" property="ngay_bu_chi"/>
+                        </div>
+                      </td>
+                      
                       <td align="center">
                             <span id="refresh" onclick="chk_print('print','<bean:write name="items" property="id"/>','<bean:write name="items" property="kq_dxn_thop"/>','<bean:write name="items" property="loai_tien"/>')"  title="In" style="cursor:pointer;"><img src="<%=request.getContextPath()%>/styles/images/icon_print_small.png" /></span>
                        </td>

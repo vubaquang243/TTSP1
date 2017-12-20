@@ -78,12 +78,14 @@ function DChieu4Detail(id){
                             if (lstMT900Inf.size() > 0) {
                                 for (i = 0;i < lstMT900Inf.size();i++) {
                                     // 20170221 sua them format so tien su dung ham CurrencyFormatted2
-                                    strTRTag = strTRTag + "<tr>" + "<td align='center'>" + lstMT900Inf[i].mt_id + "</td><td align='center'>" + lstMT900Inf[i].ma_kb + "</td>" + "<td align='left'>" + lstMT900Inf[i].ten_kb + "</td>" + "<td align='center'>" + lstMT900Inf[i].ngay_ct + "</td>" + "<td align='right'>" + CurrencyFormatted2(lstMT900Inf[i].so_tien == null ? 0 : lstMT900Inf[i].so_tien) + "</td>" + "<td align='left'>";
+                                    strTRTag = strTRTag + "<tr>" + "<td align='center'>" + lstMT900Inf[i].mt_id + "</td><td align='center'>" + lstMT900Inf[i].ma_kb + "</td>" + "<td align='left'>" + lstMT900Inf[i].ten_kb + "</td>" + "<td align='center'>" + lstMT900Inf[i].ngay_ct + "</td>" + "<td align='right'>" + CurrencyFormatted2(lstMT900Inf[i].so_tien == null ? 0 : lstMT900Inf[i].so_tien) + "</td>"+  "<td align='center'>" + lstMT900Inf[i].loai_tien + "</td>" + "<td align='left'>";
                                     if (lstMT900Inf[i].trang_thai == '00') {
-                                        strTRTag = strTRTag + GetUnicode("SGD KBNN thi&#7871;u  &#8211; H&#7897;i s&#7903; ch&#237;nh NH th&#7915;a");
+                                     //20171124 thuongdt sua SGD KBNN sang Cục KT - KBNN
+                                        strTRTag = strTRTag + GetUnicode("Cục KT - KBNN thi&#7871;u  &#8211; H&#7897;i s&#7903; ch&#237;nh NH th&#7915;a");
                                     }
                                     else if (lstMT900Inf[i].trang_thai == '01') {
-                                        strTRTag = strTRTag + GetUnicode("SGD KBNN  th&#7915;a &#8211; H&#7897;i s&#7903; ch&#237;nh NH thi&#7871;u");
+                                     //20171124 thuongdt sua SGD KBNN sang Cục KT - KBNN
+                                        strTRTag = strTRTag + GetUnicode("Cục KT - KBNN th&#7915;a &#8211; H&#7897;i s&#7903; ch&#237;nh NH thi&#7871;u");
                                     }
                                     strTRTag += "</td>" + "</tr>";                                    
                                 }
@@ -99,12 +101,14 @@ function DChieu4Detail(id){
                             if (lstMT910Inf.size() > 0) {                                
                                 for (i = 0;i < lstMT910Inf.size();i++) {
                                     // 20170221 sua them format so tien su dung ham CurrencyFormatted2
-                                    strTRTag = strTRTag + "<tr>" + "<td align='center'>" + lstMT910Inf[i].mt_id +  "</td>" + "<td align='center'>" + lstMT910Inf[i].ma_kb + "</td>" + "<td align='left'>" + lstMT910Inf[i].ten_kb + "</td>" + "<td align='center'>" + lstMT910Inf[i].ngay_ct + "</td>" + "<td align='right'>" + CurrencyFormatted2(lstMT910Inf[i].so_tien == null ? 0 : lstMT910Inf[i].so_tien) + "</td>" + "<td align='left'>";
+                                    strTRTag = strTRTag + "<tr>" + "<td align='center'>" + lstMT910Inf[i].mt_id +  "</td>" + "<td align='center'>" + lstMT910Inf[i].ma_kb + "</td>" + "<td align='left'>" + lstMT910Inf[i].ten_kb + "</td>" + "<td align='center'>" + lstMT910Inf[i].ngay_ct + "</td>" + "<td align='right'>" + CurrencyFormatted2(lstMT910Inf[i].so_tien == null ? 0 : lstMT910Inf[i].so_tien) + "</td>"+  "<td align='center'>" + lstMT910Inf[i].loai_tien + "</td>" + "<td align='left'>";
                                     if (lstMT910Inf[i].trang_thai == '00') {
-                                        strTRTag = strTRTag + GetUnicode("SGD KBNN thi&#7871;u  &#8211; H&#7897;i s&#7903; ch&#237;nh NH th&#7915;a");
+                                     //20171124 thuongdt sua SGD KBNN sang Cục KT - KBNN
+                                        strTRTag = strTRTag + GetUnicode("Cục KT - KBNN thi&#7871;u  &#8211; H&#7897;i s&#7903; ch&#237;nh NH th&#7915;a");
                                     }
                                     else if (lstMT910Inf[i].trang_thai == '01') {
-                                        strTRTag = strTRTag + GetUnicode("SGD KBNN  th&#7915;a &#8211; H&#7897;i s&#7903; ch&#237;nh NH thi&#7871;u");
+                                     //20171124 thuongdt sua SGD KBNN sang Cục KT - KBNN
+                                        strTRTag = strTRTag + GetUnicode("Cục KT - KBNN  th&#7915;a &#8211; H&#7897;i s&#7903; ch&#237;nh NH thi&#7871;u");
                                     }
                                     strTRTag += "</td>" + "</tr>";
                                 }                                

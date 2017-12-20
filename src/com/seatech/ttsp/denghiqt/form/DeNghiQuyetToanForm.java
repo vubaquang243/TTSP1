@@ -21,6 +21,8 @@ public class DeNghiQuyetToanForm extends AppForm {
 
     private List listData;
     
+    private String ngayBuChi;
+    
     public void setNgayQT(String ngayQT) {
         this.ngayQT = ngayQT;
     }
@@ -83,5 +85,13 @@ public class DeNghiQuyetToanForm extends AppForm {
 
     public List getListData() {
         return listData;
+    }
+
+    public void setNgayBuChi(String ngayBuChi) {
+        this.ngayBuChi = ngayBuChi;
+    }
+
+    public String getNgayBuChi() {
+        return ngayBuChi;
     }
 }

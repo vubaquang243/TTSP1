@@ -93,6 +93,8 @@
                 <html:hidden property="shkb" styleId="shkb" />   
                 <html:hidden property="so_tk" styleId="so_tk" />
                 <html:hidden property="ma_dvsdns" styleId="ma_dvsdns" />
+                <html:hidden property="loai_tk" styleId="loai_tk" />
+                
                 <logic:notEqual value="" name="TrienKhaiForm" property="exeption">
                   <font color="Red"><bean:write name="TrienKhaiForm" property="exeption"/></font>
                 </logic:notEqual>  

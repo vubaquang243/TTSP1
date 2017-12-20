@@ -66,6 +66,9 @@ public class saoketkVO {
   private BigDecimal ps_no_ttsp_sg;
   private String ma_nt;
   
+  //20171130 thuongdt them tt_chot_so
+  private String tt_chot_so;
+  
     public void setId(String id) {
         this.id = id;
     }
@@ -536,5 +539,13 @@ public class saoketkVO {
 
     public String getMa_nt() {
         return ma_nt;
+    }
+
+    public void setTt_chot_so(String tt_chot_so) {
+        this.tt_chot_so = tt_chot_so;
+    }
+
+    public String getTt_chot_so() {
+        return tt_chot_so;
     }
 }

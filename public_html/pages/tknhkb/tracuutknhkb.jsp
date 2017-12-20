@@ -44,7 +44,21 @@
       width: "550px",
       modal: true
     });    
+    
   });
+  
+  jQuery(document).ready(function(){
+    setTimeout(setDV_NHKB_huyen, 200);
+    
+    function setDV_NHKB_huyen(){
+      var ma_dv = <%=request.getAttribute("ma_dv")%> + "";
+    jQuery("#ngan_hang option[value='"+ma_dv+"']").attr("selected",true);
+    var nhkb_huyen = <%=request.getAttribute("nhkb_huyen")%> + "";
+    jQuery("#nhkb_huyen option[value='"+nhkb_huyen+"']").attr("selected",true);
+    }
+    
+  })
+  
 </script>
 
 <div class="app_error">
@@ -252,8 +266,8 @@
         <td>
          <fieldset>
             <legend>K&#7871;t qu&#7843; t&#236;m ki&#7871;m</legend>
-            <div>
-              <table width="100%" cellspacing="0" cellpadding="2" class="navigateable focused"
+            <div class="scroll_box">
+              <table width="155%" cellspacing="0" cellpadding="2" class="navigateable focused"
                  bordercolor="#e1e1e1" border="1" align="center"
                   style="BORDER-COLLAPSE: collapse;table-layout:fixed">
                 <thead>
@@ -341,7 +355,19 @@
                       <td align="left" title="<bean:write name="items" property="ten_nh"/>" style="text-overflow:ellipsis;white-space:nowrap;  width:100px; overflow:hidden; font-size:11px">
                           <bean:write name="items" property="ten_nh" />
                       </td>
-                      <td align="right">
+                      <td align="right" class="td_ham_muc_co" title='<logic:equal property="ma_nt" name="items" value="VND">
+                              <fmt:setLocale value="vi_VI"/>
+                              <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                                <bean:write name="items" property="han_muc_co"/>
+                              </fmt:formatNumber>
+                            </logic:equal>
+                            <logic:notEqual property="ma_nt" name="items" value="VND">
+                              <fmt:setLocale value="en_US"/>
+                              <fmt:formatNumber type="currency" currencySymbol="">
+                                <bean:write  name="items" property="han_muc_co"/>
+                              </fmt:formatNumber>
+                            </logic:notEqual>'>
+                      
                          <b>
                             <logic:equal property="ma_nt" name="items" value="VND">
                               <fmt:setLocale value="vi_VI"/>
@@ -357,7 +383,16 @@
                             </logic:notEqual>
                          </b>
                       </td>
-                      <td align="right">
+                      <td align="right" title='<logic:equal property="ma_nt" name="items" value="VND">
+                            <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                              <bean:write  name="items" property="han_muc_no"/>
+                            </fmt:formatNumber>
+                          </logic:equal>
+                          <logic:notEqual property="ma_nt" name="items" value="VND">
+                            <fmt:formatNumber type="currency" currencySymbol="">
+                              <bean:write  name="items" property="han_muc_no"/>
+                            </fmt:formatNumber>
+                          </logic:notEqual>'>
                         <b>
                           <logic:equal property="ma_nt" name="items" value="VND">
                             <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
@@ -438,10 +473,19 @@ function goPage(page) {
       f.submit();
   }
   function check(type) { 
+    
     if (type == 'find') {
-     f.action = 'lstTKNHKB.do';  
+      var hieu_luc_tungay = jQuery('#hieu_luc_tungay').val();
+      var hieu_luc_denngay = jQuery('#hieu_luc_den_ngay').val();
+      if(hieu_luc_tungay != "" && hieu_luc_denngay != ""){
+         if(hieu_luc_tungay > hieu_luc_denngay){
+          alert("Ngày hiệu lực không được lớn hơn ngày hết hiệu lực.");
+          return false;
+         }
+      }
+      f.action = 'lstTKNHKB.do';  
     }else if (type == 'add') {
-     f.action = 'themtaikhoan.do?action=ADD.do';  
+     f.action = 'themtaikhoan.do?action=ADD.do';
     }else if (type == 'print') {
       ngay_qtoan= jQuery('#ngay_qtoan').val();
       if(ngay_qtoan.trim()==null || ""==ngay_qtoan.trim()){

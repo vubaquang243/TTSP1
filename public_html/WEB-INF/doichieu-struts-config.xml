@@ -14,7 +14,7 @@
                type="com.seatech.ttsp.doichieu.form.DCNoiBoForm"/>
     <form-bean name="DuyetXNDChieu3Form"
                type="com.seatech.ttsp.dchieu.form.DuyetXNDChieu3Form"/>
-    <!-- 2017 doi chieu ngoai te toan quoc -->
+    <!--nang cap 2017 doi chieu ngoai te toan quoc begin-->
     <form-bean name="DChieu3NgoaiTeForm"
                type="com.seatech.ttsp.dchieu.form.DChieu3NgoaiTeForm"/>
     <form-bean name="DChieu3NgoaiTeCTietForm"
@@ -25,6 +25,7 @@
                type="com.seatech.ttsp.dchieu.form.KQDChieu3NgoaiTeCTietForm"/>
     <form-bean name="DuyetXNDChieu3NgoaiTeForm"
                type="com.seatech.ttsp.dchieu.form.DuyetXNDChieu3NgoaiTeForm"/>
+     <!--nang cap 2017 doi chieu ngoai te toan quoc end-->
   </form-beans>
   <action-mappings>
     <!-- doi chieu tk gui-->
@@ -218,7 +219,7 @@
       <forward name="notRight" path="/pages/main/errorQuyen.jsp"/>
     </action>
     
-   <!-- 2017 doi chieu thu cong ngoai te toan quoc -->
+   <!--nang cap 2017 doi chieu ngoai te toan quoc begin-->
    <action parameter="print" name="DChieu3NgoaiTeForm"  path="/PrintDChieu3NgoaiTeAction" scope="request"
             type="com.seatech.ttsp.dchieu.action.DChieu3NgoaiTeAction">
       <forward name="success" path="/pages/dchieu/DoiChieu3NgoaiTe.jsp"/>
@@ -277,5 +278,6 @@
       <forward name="failure" path="/pages/dchieu/DoiChieu3NgoaiTe.jsp"/>
       <forward name="errorQuyen" path="/pages/user/phanquyen/PhanQuyen.jsp"/>
     </action>
+    <!--nang cap 2017 doi chieu ngoai te toan quoc end-->
   </action-mappings>
 </struts-config>

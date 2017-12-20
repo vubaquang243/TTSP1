@@ -33,6 +33,10 @@ public class BKE_QuyetToanVO {
     private String loai_htoan;
     private String tcg_loai_tk;
     private String tcg_loai_tien;
+    //20171206 TaiDD them moi theo yeu cau ngoai hop dong 2017
+    private String ten;
+    private String ma_dv;
+    private String ten_nh;
     
     public void setId(String id) {
         this.id = id;
@@ -240,5 +244,29 @@ public class BKE_QuyetToanVO {
 
     public String getTcg_loai_tien() {
         return tcg_loai_tien;
+    }
+
+    public void setTen(String ten) {
+        this.ten = ten;
+    }
+
+    public String getTen() {
+        return ten;
+    }
+
+    public void setMa_dv(String ma_dv) {
+        this.ma_dv = ma_dv;
+    }
+
+    public String getMa_dv() {
+        return ma_dv;
+    }
+
+    public void setTen_nh(String ten_nh) {
+        this.ten_nh = ten_nh;
+    }
+
+    public String getTen_nh() {
+        return ten_nh;
     }
 }

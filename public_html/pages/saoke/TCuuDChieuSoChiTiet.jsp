@@ -18,12 +18,16 @@
       href="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/css/jquery-ui-1.8.2.custom.css"/>
 <script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/jquery-ui-1.8.11.custom.min.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/jquery.jec-1.3.2.js"></script>
-<script type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/lov.js"></script>
+<script type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/lov1.js"></script>
 <%
   String dchieu3 = request.getAttribute("dchieu3")==null?"":request.getAttribute("dchieu3").toString();
   String strTinh = request.getAttribute("dftinh")==null?"":request.getAttribute("dftinh").toString();
   String kb_huyen = request.getAttribute("kb_huyen")==null?"":request.getAttribute("kb_huyen").toString();
   String ngan_hang = request.getAttribute("ngan_hang")==null?"":request.getAttribute("ngan_hang").toString();
+  String capuser = request.getAttribute("capuser")==null?"":request.getAttribute("capuser").toString();
+  String dm_kb_huyen = request.getAttribute("kb_huyen")==null?"":request.getAttribute("kb_huyen").toString();
+  String dm_ngan_hang = request.getAttribute("ngan_hang")==null?"":request.getAttribute("ngan_hang").toString();
+  String dm_so_tk = request.getAttribute("so_tk")==null?"":request.getAttribute("so_tk").toString();
 %>
 <script type="text/javascript">
     jQuery.noConflict();
@@ -36,6 +40,19 @@
           width: "550px",
           modal: true
       });
+      var kb_tinh = jQuery('#kb_tinh').val();
+      var capUser = '<%=capuser%>';
+      if(kb_tinh != "" && capUser == 5){
+        getNHKBHuyen();
+        getTenNHang();
+        getSoTK();
+      }
+      
+      var dm_kb_huyen = '<%=dm_kb_huyen%>';
+      if(dm_kb_huyen != ""){
+        getNHKBHuyen(dm_kb_huyen);
+        jQuery('#kb_huyen').focus();
+      }
     });
     
     function check(type) {
@@ -48,12 +65,12 @@
     }
     
     function callLov(){      
-        jQuery("#loai_lov").val("DMKBTCUU");
-        jQuery("#ma_field_id_lov").val("ma_nhkb_nhan");
-        jQuery("#ten_field_id_lov").val("ten_nhkb_nhan");
-        jQuery("#id_field_id_lov").val("id_nhkb_huyen");
-        jQuery("#id_cha_field_id_lov").val("id_nhkb_tinh");
-        jQuery("#dialog-form-lov-dm").dialog( "open" );
+      jQuery("#loai_lov").val("DMKBTCUU");
+      jQuery("#ma_field_id_lov").val("ma_nhkb_nhan");
+      jQuery("#ten_field_id_lov").val("ten_nhkb_nhan");
+      jQuery("#id_field_id_lov").val("id_nhkb_huyen");
+      jQuery("#ma_cha_field_id_lov").val("id_nhkb_tinh");
+      jQuery("#dialog-form-lov-dm").dialog( "open" );      
     }
     
     function getTenNHang() {
@@ -101,29 +118,6 @@
               });
           }
       }
-      
-    function getTenKhoBacDC(id,id_cha) {
-        jQuery.ajax( {
-          type : "POST", url : "getKB.do", data :  {"kb_id" : id},
-          success : function (data, textstatus) {
-              if (textstatus != null && textstatus == 'success') {
-                  if (data != null) {
-                      for(i = 0; i < document.getElementById('kb_huyen').options.length ;i++){
-                           if(document.getElementById('kb_huyen').options[i].value == data[0].id){
-                               document.getElementById('kb_huyen').options[i].selected=true;
-                               getTenNHang();
-                               getSoTK();
-                               break;
-                           }
-                      }
-                  }
-              }
-          },
-          error : function (textstatus) {
-              alert(textstatus);
-          }
-        });
-    }
         
     function changeNganHang(){
         if(jQuery('#ngan_hang').val().length == 0 ){
@@ -172,6 +166,61 @@
               });
           }
       }
+      
+      function getNHKBHuyen(){
+        var kb_tinh = jQuery('#kb_tinh option:selected').val();
+        if(kb_tinh != ""){
+          jQuery.ajax({
+          type : "POST",
+          url : "getKhoBacHuyen.do",
+          data : {"kb_id" : kb_tinh},
+          success : function(data, textstatus){
+            if(data != null){
+              var lstNHKBHuyen = new Object();
+              lstNHKBHuyen = JSON.parse(data[0]);
+              if(lstNHKBHuyen.size() != 0){
+                jQuery('#kb_huyen option').remove();
+                jQuery('#kb_huyen').append('<option value="">-----Chọn kho bạc huyện-----<\/option>');
+                for(var i = 0; i < lstNHKBHuyen.size(); i++){
+                  jQuery('#kb_huyen').append('<option value="'+ lstNHKBHuyen[i].ma +'" >'+ lstNHKBHuyen[i].ten + '<\/option>');
+                }
+              }
+            }
+          }
+          });
+        }else{
+          jQuery('#kb_huyen option').remove();
+          jQuery('#kb_huyen').append('<option value="">-----Chọn kho bạc huyện-----<\/option>');
+        }
+      }
+      
+      function getNHKBHuyen(ma){
+        var kb_tinh = jQuery('#kb_tinh option:selected').val();
+        if(kb_tinh != ""){
+          jQuery.ajax({
+          type : "POST",
+          url : "getKhoBacHuyen.do",
+          data : {"kb_id" : kb_tinh},
+          success : function(data, textstatus){
+            if(data != null){
+              var lstNHKBHuyen = new Object();
+              lstNHKBHuyen = JSON.parse(data[0]);
+              if(lstNHKBHuyen.size() != 0){
+                jQuery('#kb_huyen option').remove();
+                jQuery('#kb_huyen').append('<option value="">-----Chọn kho bạc huyện-----<\/option>');
+                for(var i = 0; i < lstNHKBHuyen.size(); i++){
+                  jQuery('#kb_huyen').append('<option value="'+ lstNHKBHuyen[i].ma +'" >'+ lstNHKBHuyen[i].ten + '<\/option>');
+                  jQuery('#kb_huyen option[value="'+ma+'"]').attr("selected",true);
+                }
+              }
+            }
+          }
+          });
+        }else{
+          jQuery('#kb_huyen option').remove();
+          jQuery('#kb_huyen').append('<option value="">-----Chọn kho bạc huyện-----<\/option>');
+        }
+      }
 </script>
 
 <title>Tra cứu đối chiếu sổ chi tiết</title>
@@ -208,30 +257,43 @@
           bordercolor="#e1e1e1" width="100%">
     <tbody>
       <tr>
-        <td width="15%" align="right" bordercolor="#e1e1e1">Kho bạc</td>
+        <td width="15%" align="right" bordercolor="#e1e1e1">Kho bạc tỉnh</td>
+        <td width="35%" bordercolor="#e1e1e1">
+          <html:select property="kb_tinh" styleId="kb_tinh" style="width:100%"
+                       onkeydown="if(event.keyCode==13) event.keyCode=9;" onchange="getNHKBHuyen();">
+          <logic:equal value="0001" name="strMaKBTinh" >
+            <html:option value="">-----Chọn kho bạc tỉnh-----</html:option>
+          </logic:equal>
+          <logic:equal value="0002" name="strMaKBTinh" >
+            <html:option value="">-----Chọn kho bạc tỉnh-----</html:option>
+          </logic:equal>
+            <html:optionsCollection name="lstKBTinh" label="ten" value="ma" />
+          </html:select>
+        </td>
+        <td align="right" width="15%" bordercolor="#e1e1e1">
+          <label for="tu_ngay">
+            Kho bạc huyện
+          </label>
+        </td>
         <td width="35%" bordercolor="#e1e1e1">
           <html:select property="kb_huyen" styleId="kb_huyen" style="width:100%"
                        onchange="getTenNHang();getSoTK();"
-                       onkeydown="if(event.keyCode==13) event.keyCode=9;">
-            <%if(request.getAttribute("dftinh") != null){%>
-            <html:option value="">-----Chọn kho bạc-----</html:option>
-            <%}%>
-            <html:optionsCollection name="dmucKB" value="id" label="kb_huyen"/>
+                       onkeydown="if(event.keyCode==13) event.keyCode=9;" onblur="getTenNHang();getSoTK();">    
+            <logic:equal value="0001" name="strMaKBTinh" >
+              <html:option value="">-----Chọn kho bạc huyện-----</html:option>
+            </logic:equal>
+             <logic:equal value="0002" name="strMaKBTinh" >
+              <html:option value="">-----Chọn kho bạc huyện-----</html:option>
+            </logic:equal>
+            <html:optionsCollection name="lstKBHuyen" label="ten" value="ma" />
           </html:select>
         </td>
-         <%if(request.getAttribute("dchieu3") != null){%>
-            <td  align="left" colspan="2"  bordercolor="#e1e1e1">
-              <button type="button" onclick="callLov()" class="ButtonCommon" accesskey="t" style="width:90pt" >
-                <span class="sortKey">D</span>anh m&#7909;c KB
-              </button>
-            </td>
-          <%}%>
         </tr>
         <tr>
         <td width="15%" align="right" bordercolor="#e1e1e1">Ngân hàng</td>
         <td bordercolor="#e1e1e1" width="35%">
           <html:select property="ngan_hang" styleId="ngan_hang" style="width:100%"
-                       onchange="changeNganHang()"
+                       onchange="changeNganHang(); getSoTK();"
                        onkeydown="if(event.keyCode==13) event.keyCode=9;">
             <html:option value="">-----Chọn ng&acirc;n
                                   h&agrave;ng-----</html:option>
@@ -336,6 +398,20 @@
               <span class="sortKey">T</span>ra cứu
             </button>
           </span>
+          <logic:equal value="0001" name="strMaKBTinh" >
+          <span id="tracuu_dmkb">
+              <button type="button" onclick="callLov()" class="ButtonCommon" accesskey="t" style="width:90pt" >
+                <span class="sortKey">D</span>anh m&#7909;c KB
+              </button>
+          </span>
+          </logic:equal>
+          <logic:equal value="0002" name="strMaKBTinh" >
+          <span id="tracuu_dmkb">
+              <button type="button" onclick="callLov()" class="ButtonCommon" accesskey="t" style="width:90pt" >
+                <span class="sortKey">D</span>anh m&#7909;c KB
+              </button>
+          </span>
+          </logic:equal>
           <span id="thoat"> 
             <button type="button" onclick="check('close')" class="ButtonCommon" accesskey="o">
               Th<span class="sortKey">o</span>&aacute;t
@@ -445,7 +521,7 @@
 </html:form>
 <div id="dialog-form-lov-dm" title="Tra c&#7913;u danh m&#7909;c Kho b&#7841;c">
   <p class="validateTips"></p>
-  <%@include file="/pages/lov/lovDMKBTCUU.jsp" %>
+  <%@include file="/pages/lov/lovDMKBTCUUSODU.jsp" %>
 </div>
 <%@ include file="/includes/ttsp_bottom.inc"%>
 <script type="text/javascript">

@@ -41,12 +41,14 @@ public class TCuuBKeQToanAction extends AppAction {
         try {
             conn = getConnection(request);
             TCuuBKeQToanForm frm = (TCuuBKeQToanForm)form;
-//            QuyetToanDAO dao = new QuyetToanDAO(conn);
+            //            QuyetToanDAO dao = new QuyetToanDAO(conn);
             Collection colTCuu = new ArrayList();
             DMTienTeDAO tienTeDAO = new DMTienTeDAO(conn);
+            QuyetToanDAO dao = new QuyetToanDAO(conn);
             List tienTe =
                 tienTeDAO.simpleMaNgoaiTe(" AND a.MA_NT <> 'VND' ", null);
-
+			//20171207 QuangVB load DM ngan hang HO	
+            Collection lstNganHang = dao.getDMNH("", null);
 
             int phantrang = (AppConstants.APP_NUMBER_ROW_ON_PAGE);
             String page = frm.getPageNumber();
@@ -56,13 +58,14 @@ public class TCuuBKeQToanAction extends AppAction {
             Integer numberRowOnPage = phantrang;
             Integer totalCount[] = new Integer[1];
 
-//            String strTCuu =
-//                " AND (a.ngay_htoan= trunc(sysdate) OR ( a.trang_thai='01' AND a.ngay_htoan < trunc(sysdate)))";
-//
-//            colTCuu =
-//                    dao.getTCuuBKe_ptrang(strTCuu, null, currentPage, numberRowOnPage,
-//                                          totalCount);
-
+            //            String strTCuu =
+            //                " AND (a.ngay_htoan= trunc(sysdate) OR ( a.trang_thai='01' AND a.ngay_htoan < trunc(sysdate)))";
+            //
+            //            colTCuu =
+            //                    dao.getTCuuBKe_ptrang(strTCuu, null, currentPage, numberRowOnPage,
+            //                                          totalCount);
+			//20171207 QuangVB load DM ngan hang HO	
+            request.setAttribute("lstNganHang", lstNganHang);
             request.setAttribute("colTCuu", colTCuu);
             request.setAttribute("tienTe", tienTe);
 
@@ -87,7 +90,11 @@ public class TCuuBKeQToanAction extends AppAction {
         }
         return mapping.findForward("success");
     }
-
+/**
+*@modify: QuangVB
+*@modify-date: 11/12/2017
+*@see: sua code ham view bo sung cac tieu chi tim kiem dao ung yeu cap nang cap ngoai hop dong 2017
+*/
     public ActionForward view(ActionMapping mapping, ActionForm form,
                               HttpServletRequest request,
                               HttpServletResponse response) throws Exception {
@@ -123,57 +130,77 @@ public class TCuuBKeQToanAction extends AppAction {
                 frm.getTrang_thai() == null ? "" : frm.getTrang_thai();
             String ma_nt =
                 frm.getTcg_loai_tien() == null ? "" : frm.getTcg_loai_tien();
-
+            String loai_quyet_toan =
+                frm.getLoai_quyet_toan() == null ? "" : frm.getLoai_quyet_toan();
+            String ma_nhan_vien =
+                frm.getMa_thanh_toan_vien() == null ? "" : frm.getMa_thanh_toan_vien();
+            String ngan_hang = frm.getNgan_hang() == null ? "" : frm.getNgan_hang();
+            String ngay_bke = frm.getNgay_bke() == null ? "" : frm.getNgay_bke();
+			//20171215 thuongdt them moi ngay_tao sua loi nsd thoat khong load lai du lieu
+            String ngay_tao = frm.getNgay_tao() == null ? "" : frm.getNgay_tao();
+            if(!ngay_tao.equals(""))
+            frm.setNgay_bke(ngay_tao);
             String strTCuu = "";
             if (ma_nt != null && !"".equals(ma_nt)) {
-                strTCuu += " and tcg_loai_tien='" + ma_nt + "'";
+                strTCuu += " and a.tcg_loai_tien='" + ma_nt + "'";
             }
-
             if (so_bke != null && !"".equals(so_bke)) {
-                strTCuu += " AND UPPER(ID) LIKE UPPER('%" + so_bke + "%')";
+                strTCuu += " AND UPPER(a.ID) LIKE UPPER('%" + so_bke + "%')";
+            }
+            if (frm.getNgay_bke() != null && !"".equals(frm.getNgay_bke())) {
+                strTCuu +=
+                        " AND trunc(a.ngay_tao) = to_date('" + frm.getNgay_bke() +
+                        "','dd/mm/yyyy') ";
             }
             if (tthai != null && !"".equals(tthai)) {
-                strTCuu += " AND trang_thai='" + tthai + "'";
+                strTCuu += " AND a.trang_thai='" + tthai + "' ";
             }
-            if ((den_ngay == null || "".equals(den_ngay)) &&
-                (tu_ngay != null && !"".equals(tu_ngay))) {
+            if (tu_ngay != null && !"".equals(tu_ngay)) {
                 strTCuu +=
-                        " and ((a.ngay_htoan <=  to_date(sysdate) and a.ngay_htoan >=  to_date('" +
-                        tu_ngay + "','DD-MM-YYYY'))) ";
-            } else if (den_ngay != null && !"".equals(den_ngay) &&
-                       (tu_ngay == null || "".equals(tu_ngay))) {
-                strTCuu +=
-                        " and (a.ngay_htoan <=  to_date('" + den_ngay + "','DD-MM-YYYY')) ";
-            } else if (tu_ngay != null && !"".equals(tu_ngay) &&
-                       den_ngay != null && !"".equals(den_ngay)) {
-                strTCuu +=
-                        " and ((a.ngay_htoan >=  to_date('" + tu_ngay + "','DD-MM-YYYY') and a.ngay_htoan <=  to_date('" +
-                        den_ngay + "','DD-MM-YYYY'))) ";
+                        " and a.ngay_htoan >=  to_date('" + tu_ngay + "','DD-MM-YYYY') ";
             }
-
+            if (den_ngay != null && !"".equals(den_ngay)) {
+                strTCuu +=
+                        " and a.ngay_htoan <= to_date('" + den_ngay + "','DD-MM-YYYY') ";
+            }
+            if (loai_quyet_toan != null && !"".equals(loai_quyet_toan)) {
+                strTCuu +=
+                        " and a.tcg_loai_qtoan = '" + loai_quyet_toan + "' ";
+            }
+            if (ma_nhan_vien != null && !"".equals(ma_nhan_vien)) {
+				//20171215 thuongdt upper va like ma_nhan_vien cho phep nhap tu do khi tra cuu bke
+                strTCuu += " and upper(d.ma_nsd) like upper('" + ma_nhan_vien + "%') ";
+            }
+            if (frm.getNgan_hang() != null && !"".equals(frm.getNgan_hang())) {
+                strTCuu += " and b.ma_dv = '" + frm.getNgan_hang() + "' ";
+            }
+            //20171215 thuongdt them moi ma ngan hang them moi tieu chi tim kiem theo yeu cau nang cap ngoai hop dong 2017
+          if (frm.getNgan_hang() != null && !"".equals(frm.getNgan_hang())) {
+              strTCuu += " and b.ma_dv = '" + frm.getNgan_hang() + "' ";
+          }
             colTCuu =
                     dao.getTCuuBKe_ptrang(strTCuu, null, currentPage, numberRowOnPage,
                                           totalCount);
             String tcuu =
-                "&trang_thai=" + tthai + "&tu_ngay=" + tu_ngay + "&den_ngay=" +
-                den_ngay + "&so_bke=" + so_bke + "&currentPage=" + currentPage;
+                "&ma_thanh_toan_vien=" + ma_nhan_vien + "&ngan_hang=" +
+                ngan_hang + "&trang_thai=" + tthai + "&tu_ngay=" +
+                tu_ngay + "&den_ngay=" + den_ngay + "&so_bke1=" + so_bke +
+                "&ngay_bang_ke=" + ngay_bke +"&loai_quyet_toan="+loai_quyet_toan+ "&currentPage=" +
+                currentPage;
+
+            PagingBean pagingBean = new PagingBean();
+            pagingBean.setCurrentPage(currentPage);
+            pagingBean.setNumberOfRow(totalCount[0].intValue());
+            pagingBean.setRowOnPage(numberRowOnPage);
+            request.setAttribute("PAGE_KEY", pagingBean);
+
+            Collection lstNganHang = dao.getDMNH("", null);
+            request.setAttribute("lstNganHang", lstNganHang);
             request.setAttribute("colTCuu", colTCuu);
             request.setAttribute("tcuu", tcuu);
             request.setAttribute("tienTe", tienTe);
 
             request.setAttribute("loai_tien", ma_nt);
-            PagingBean pagingBean = new PagingBean();
-            if (currentPage == 1) {
-                pagingBean.setCurrentPage(1);
-                pagingBean.setNumberOfRow(1);
-                pagingBean.setRowOnPage(15);
-                request.setAttribute("PAGE_KEY", pagingBean);
-            } else {
-            pagingBean.setCurrentPage(currentPage);
-            pagingBean.setNumberOfRow(totalCount[0].intValue());
-            pagingBean.setRowOnPage(numberRowOnPage);
-            request.setAttribute("PAGE_KEY", pagingBean);
-            }
 
         } catch (Exception e) {
             throw e;
@@ -203,6 +230,8 @@ public class TCuuBKeQToanAction extends AppAction {
 
             String so_bke = frm.getSo_bke() == null ? "" : frm.getSo_bke();
             String tu_ngay = frm.getTu_ngay() == null ? "" : frm.getTu_ngay();
+			//20171215 thuongdt them moi ngay_tao sua loi nsd thoat khong load lai du lieu
+            String ngay_tao = frm.getNgay_tao() == null ? "" : frm.getNgay_tao();
             String den_ngay =
                 frm.getDen_ngay() == null ? "" : frm.getDen_ngay();
             String tthai =
@@ -214,10 +243,10 @@ public class TCuuBKeQToanAction extends AppAction {
                 request.setAttribute("chucdanh", strUserInfo);
             } else if (strUserInfo.indexOf(AppConstants.NSD_KTT) != -1) {
                 request.setAttribute("chucdanh", strUserInfo);
-            }else {
-              request.setAttribute("chucdanh", "QT");
+            } else {
+                request.setAttribute("chucdanh", "QT");
             }
-            
+
             params = new Vector();
             qtDAO = new QuyetToanDAO(conn);
             strWhereClause = " a.id ='" + so_bke + "'";
@@ -252,8 +281,9 @@ public class TCuuBKeQToanAction extends AppAction {
                                                                          currentPage,
                                                                          numberRowOnPage,
                                                                          totalCount);
+				//20171215 thuongdt them moi ngay_tao sua loi nsd thoat khong load lai du lieu														 
                 String tcuu =
-                    "?trang_thai=" + tthai + "&tu_ngay=" + tu_ngay + "&den_ngay=" +
+                    "?trang_thai=" + tthai + "&ngay_tao="+ngay_tao+"&tu_ngay=" + tu_ngay + "&den_ngay=" +
                     den_ngay + "&currentPage=" + currentPage;
                 PagingBean pagingBean = new PagingBean();
                 pagingBean.setCurrentPage(currentPage);
@@ -262,7 +292,7 @@ public class TCuuBKeQToanAction extends AppAction {
                 request.setAttribute("lstQuyetToan", lstQuyetToan);
                 request.setAttribute("PAGE_KEY", pagingBean);
                 request.setAttribute("view", "view");
-              request.setAttribute("tcuu", tcuu);
+                request.setAttribute("tcuu", tcuu);
             }
 
         } catch (Exception e) {
@@ -277,6 +307,4 @@ public class TCuuBKeQToanAction extends AppAction {
         else
             return null;
     }
-
-
 }

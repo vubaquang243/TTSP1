@@ -100,6 +100,7 @@ public class TinTucDAO extends AppDAO {
         Collection reval = null;
         try {
             String strSQL = "";
+			//20171023 QuangVB sua order by cau lenh querry
             strSQL +=
                     " SELECT a.id, a.tieu_de, a.noi_dung, a.ngay_tao, a.ngay_dang," +
                     " a.ngay_het_han, a.nguoi_tao, a.trang_thai, a.dv_dang " +

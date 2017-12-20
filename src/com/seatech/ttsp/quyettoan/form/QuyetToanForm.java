@@ -68,7 +68,7 @@ public class QuyetToanForm extends ActionForm {
     private String pageNumber;
     private String loai_tk;
     private String ttin_lenh_goc;
-    
+    private String nhap_thu_cong;
         
     public void setId(String id) {
         this.id = id;
@@ -566,5 +566,12 @@ public class QuyetToanForm extends ActionForm {
         return ttin_lenh_goc;
     }
 
-   
+
+    public void setNhap_thu_cong(String nhap_thu_cong) {
+        this.nhap_thu_cong = nhap_thu_cong;
+    }
+
+    public String getNhap_thu_cong() {
+        return nhap_thu_cong;
+    }
 }

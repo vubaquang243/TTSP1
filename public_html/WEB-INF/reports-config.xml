@@ -28,6 +28,8 @@
     <form-bean name="BKePhiPOSForm" type="com.seatech.ttsp.phipos.BKePhiPOSForm"/>
 	 <!--2016 them moi form tra cuu cac bang ke giao dich thu cong-->
     <form-bean name="BKeGDichTCongForm" type="com.seatech.ttsp.reports.bkegdichtcong.forms.BKeGDichTCongForm"/>
+    <!-- 20171122 thuongdt bo sung them bao cao tong hop so thu chi toan quoc -->
+     <form-bean name="BCTHopQTThuChiForm" type="com.seatech.ttsp.reports.thopthuchi.BCTHopQTThuChiForm"/>
   </form-beans>
   <action-mappings>
     <action  name="SoLieuTTSPForm" path="/SoLieuTTSP" scope="request"
@@ -158,12 +160,14 @@
       <forward name="success" path="/pages/rpt_saoketk/SaoKeTK.jsp"/>
       <forward name="failure" path="/pages/rpt_saoketk/SaoKeTK.jsp"/>
     </action>
+    <!--20170923 QuangVB bo sung update sao ke cho phep nsd chot so sao ke begin-->
     <action  name="skeForm" path="/skeTKUpdateAction" scope="request"
              parameter="update"
             type="com.seatech.ttsp.reports.sketk.actions.SKeTKAction">
       <forward name="success" path="/pages/rpt_saoketk/SaoKeTK.jsp"/>
       <forward name="failure" path="/pages/rpt_saoketk/SaoKeTK.jsp"/>
     </action>
+    <!--20170923 QuangVB bo sung update sao ke cho phep nsd chot so sao ke end-->
     <action  name="skeForm" path="/skeTKPrintAction" scope="request"
              parameter="print"
             type="com.seatech.ttsp.reports.sketk.actions.SKeTKAction">
@@ -452,5 +456,27 @@
       <forward name="failure" path="/pages/rpt_gdich_tcong/BKe_GDich_TCong.jsp"/>
    </action> 
     <!--2016 end them moi tra cuu cac bang ke giao dich thu cong-->
+    
+    
+    <!-- 20171122 thuongdt bo sung them bao cao tong hop so thu chi toan quoc begin-->
+    <action  name="BCTHopQTThuChiForm" path="/BCTHopQTThuChi" scope="request"
+            type="com.seatech.ttsp.reports.thopthuchi.BCTHopQTThuChiAction">
+      <forward name="success" path="/pages/rpt_thop_qtoan_thuchi/BCTHopQTThuChi.jsp"/>
+    </action>
+    
+    <action  name="BCTHopQTThuChiForm" path="/ViewBCTHopQTThuChi" scope="request"
+            type="com.seatech.ttsp.reports.thopthuchi.BCTHopQTThuChiAction"
+           parameter="view">
+      <forward name="success" path="/pages/rpt_thop_qtoan_thuchi/BCTHopQTThuChi.jsp"/>
+    </action>
+    
+    <action  name="BCTHopQTThuChiForm" path="/PrintBCTHopQTThuChi" scope="request"
+            type="com.seatech.ttsp.reports.thopthuchi.BCTHopQTThuChiAction"
+            parameter="print">
+      <forward name="success" path="/pages/rpt_thop_qtoan_thuchi/BCTHopQTThuChi.jsp"/>
+      <forward name="failure" path="/pages/rpt_thop_qtoan_thuchi/BCTHopQTThuChi.jsp"/>
+    </action>
+    
+     <!-- 20171122 thuongdt bo sung them bao cao tong hop so thu chi toan quoc end-->
   </action-mappings>
 </struts-config>

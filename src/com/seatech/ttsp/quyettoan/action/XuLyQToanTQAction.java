@@ -471,9 +471,9 @@ public class XuLyQToanTQAction extends AppAction {
         if (isCancelled(request)) {
             return mapping.findForward(AppConstants.FAILURE);
         }
-        if (!checkPermissionOnFunction(request, "QTOAN.TQUOC.XLyBKE")) {
-            return mapping.findForward("errorQuyen");
-        }
+        //if (!checkPermissionOnFunction(request, "QTOAN.TQUOC.XLyBKE")) {
+          //  return mapping.findForward("errorQuyen");
+        //}
         Connection conn = null;
         String reportName = null;
         InputStream reportStream = null;
@@ -590,7 +590,8 @@ public class XuLyQToanTQAction extends AppAction {
                 String strWhereClauseTSo =
                     " and LOAI_HTOAN = ? AND ma_nh = ? ";
                 Vector paramsForTSo = new Vector();
-                paramsForTSo.add(new Parameter(strKHLoaiHachToanCo, true));
+               // 20171205 thuongdt dao lai tk no, co
+                paramsForTSo.add(new Parameter(strKHLoaiHachToanNo, true));
                 paramsForTSo.add(new Parameter(strMaNH, true));
                 tsoVO = tsoDAO.getDmTSoHToan(strWhereClauseTSo, paramsForTSo);
                 parameterMap.put("p_TK_NO",
@@ -598,7 +599,8 @@ public class XuLyQToanTQAction extends AppAction {
 
 
                 paramsForTSo = new Vector();
-                paramsForTSo.add(new Parameter(strKHLoaiHachToanNo, true));
+              // 20171205 thuongdt dao lai tk no, co
+                paramsForTSo.add(new Parameter(strKHLoaiHachToanCo, true));
                 paramsForTSo.add(new Parameter(strMaNH, true));
                 tsoVO = tsoDAO.getDmTSoHToan(strWhereClauseTSo, paramsForTSo);
                 parameterMap.put("p_TK_CO",

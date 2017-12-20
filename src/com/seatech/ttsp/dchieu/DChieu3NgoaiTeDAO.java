@@ -41,7 +41,7 @@ public class DChieu3NgoaiTeDAO extends AppDAO {
                     " a.sodu_daungay, a.tong_thu, a.tong_chi, a.so_du_cuoi_ngay, a.mt_id,  " + 
                     " a.msg_id, a.trang_thai, a.lan_dc, to_char(a. ngay_thien_dc,'dd/MM/yyyy') as ngay_thien_dc,c.trang_thai trang_thai_kq " + 
                     " FROM sp_bk_dc3_ngoai_te a, sp_kq_dc3_ngoai_te c" + 
-                    "	WHERE   a.mt_id = c.bk_id(+)";
+                    "	WHERE   a.id = c.bk_id(+)";
 
             strSQL +=
                     strWhere + " ORDER BY   a.send_bank, a.ngay_dc, a.lan_dc DESC";
@@ -206,7 +206,7 @@ public class DChieu3NgoaiTeDAO extends AppDAO {
                   " a.receive_bank, a.creator, a.created_date, a.manager," + 
                   " a.verified_date, a.sodu_daungay, a.tong_thu, a.tong_chi," + 
                   " a.so_du_cuoi_ngay, a.trang_thai, b.ket_qua, a.trang_thai trang_thai_bk, a.msg_id," + 
-                  " b.trang_thai trang_thai_kq, to_char(a.ngay_thien_dc,'dd/MM/yyyy') as ngay_thien_dc" + 
+                  " b.trang_thai trang_thai_kq, to_char(a.ngay_thien_dc,'dd/MM/yyyy') as ngay_thien_dc,a.LOAI_TIEN" + 
                   " FROM   sp_bk_dc3_ngoai_te a, sp_kq_dc3_ngoai_te b" + 
                   "	WHERE   a.id = b.bk_id(+) ";
 
@@ -348,11 +348,33 @@ public class DChieu3NgoaiTeDAO extends AppDAO {
       }
   }
   
+  public DChieu3NgoaiTeVO getdc3NTe(String whereClause,
+                              Vector params) throws Exception {
+      try {
+          String strSQL = "";
+          strSQL +=
+                  " SELECT a.id,to_char(a.ngay_dc,'dd/MM/yyyy') as ngay_dc, a.send_bank, a.receive_bank,  a.creator, a.created_date, a.manager, \n" + 
+                  " a.verified_date, a.loai_tien,  a.sodu_daungay, a.tong_thu, a.tong_chi, a.so_du_cuoi_ngay, a.mt_id,   a.msg_id, \n" + 
+                  " a.trang_thai, a.lan_dc, to_char(a. ngay_thien_dc,'dd/MM/yyyy') as ngay_thien_d\n" + 
+                  " FROM sp_bk_dc3_ngoai_te a where 1=1 "+whereClause;
+          DChieu3NgoaiTeVO vo =
+              (DChieu3NgoaiTeVO)findByPK(strSQL.toString(), params,
+                                    strValueObjectVO, conn);
+          return vo;
+      } catch (Exception ex) {
+          DAOException daoEx =
+              new DAOException(strValueObjectVO + ".getMaSGD(): " +
+                               ex.getMessage(), ex);
+  //          daoEx.printStackTrace();
+          throw daoEx;
+      }
+  }
+  
   public Collection getTTBangKe(String strWhere, Vector vParams) throws Exception{
-      
+      //20171211 thuongdt them ngay_dc a.NGAY_DC
       try{
         String strQuery = "SELECT DISTINCT(a.sodu_daungay), a.tong_thu, a.tong_chi, a.so_du_cuoi_ngay, " +
-            "a.loai_tien FROM sp_bk_dc3_ngoai_te a JOIN sp_bk_dc3_ngoai_te_ctiet b ON a.mt_id = b.bk_id " +
+            "a.loai_tien,a.NGAY_DC  FROM sp_bk_dc3_ngoai_te a JOIN sp_bk_dc3_ngoai_te_ctiet b ON a.mt_id = b.bk_id(+) " +
             "WHERE 1=1 ";
           if(strWhere != "") strQuery += strWhere;
         return executeSelectStatement(strQuery, vParams, strValueObjectVO, conn); 

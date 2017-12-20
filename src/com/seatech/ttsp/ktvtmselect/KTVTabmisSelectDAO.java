@@ -100,10 +100,11 @@ public class KTVTabmisSelectDAO extends AppDAO {
      * @return: Danh sach NSD
      * @see:
      * */
-    public Collection getListTTVSelectKTVTABMIST(Long kb_id, String orderBy) throws Exception {
+    public Collection getListTTVSelectKTVTABMIST(String ma_ttv, String ma_ktv_tabmis,Long kb_id, String orderBy) throws Exception {
         Collection reval = null;
         StringBuffer strSQL = new StringBuffer();
         Vector params = new Vector();
+        // 2017-12-5 : taidd them tim kiem theo ma_ttv va mt_ktv_tabmis.
         params.add(new Parameter(kb_id, true));
         try {
             strSQL.append(" SELECT a.id as ttv_id, a.ma_nsd, a.ten_nsd, b.id as ktv_id, b.ma, b.ten, ");
@@ -115,6 +116,7 @@ public class KTVTabmisSelectDAO extends AppDAO {
             strSQL.append(" AND b.loai_nhom='TTV' ");
             strSQL.append(" AND a.trang_thai='01' ");
             strSQL.append(" AND a.kb_id=?)  a INNER JOIN sp_ktv_tabmis b ON a.kb_id=b.kb_id ");
+            strSQL.append(" WHERE a.ma_nsd LIKE '%" + ma_ttv.toUpperCase() + "%' AND b.ma LIKE '%"+ ma_ktv_tabmis.toUpperCase() +"%' ");
             strSQL.append(" ORDER BY ischeck "+orderBy+" , a.ten_nsd, lower(b.ten) ");
             reval =
                     executeSelectStatement(strSQL.toString(), params, CLASS_NAME_VO,

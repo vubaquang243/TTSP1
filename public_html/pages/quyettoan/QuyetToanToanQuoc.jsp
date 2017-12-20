@@ -291,7 +291,9 @@
                           Loại tiền
                           </td>
                           <td style="text-align:left">
+                          <!--20171130 thuongdt bo sung them tat ca (theo yeu cau nang cap)-->
                             <html:select styleClass="selectBox" property="tcg_loai_tien" styleId="tcg_loai_tien" style="width:100%;height:20px" onkeydown="if(event.keyCode==13) event.keyCode=9;" >
+                              <html:option value="">Tất cả</html:option>
                               <html:option value="VND">VND</html:option>
                               <html:optionsCollection label="ma" value="ma" name="lstLoaiTien"/>
                             </html:select>                                              
@@ -480,7 +482,7 @@
                                 </fmt:formatNumber>
                             </c:when>
                             <c:otherwise>
-                                <fmt:setLocale value="en_US"/>
+                                <fmt:setLocale value="vi_VI"/>
                                 <fmt:formatNumber maxFractionDigits="2"  type="currency"  currencySymbol="">
                                     <bean:write name="items" property="so_tien"/>
                                 </fmt:formatNumber>

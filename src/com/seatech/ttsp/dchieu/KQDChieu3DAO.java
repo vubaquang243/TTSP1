@@ -192,6 +192,31 @@ public class KQDChieu3DAO extends AppDAO {
           throw daoEx;
       }
   }
+  public KQDChieu3VO getKQDC3NTe(String strWhere,
+                                   Vector vParam) throws Exception {
+
+      //      Collection reval = null;
+      try {
+
+          String strSQL = "";
+          strSQL +=
+                  "SELECT a.id, a.bk_id, a.lan_dc, to_char(a.ngay_dc,'DD/MM/YYYY') ngay_dc, a.send_bank, a.receive_bank," + 
+                  " a.creator, a.manager, to_char(a.created_date,'DD-MM-YYYY HH24:mi:ss') created_date, a.verified_date, a.msg_id," + 
+                  " a.insert_date, a.so_du_kbnn, a.chenh_lech, a.trang_thai, a.ket_qua," + 
+                  " a.ngay_thien_dc, b.ma_nsd, a.msg_refid " + 
+                  " FROM  sp_kq_dc3_ngoai_te a, sp_nsd b WHERE  a.creator = b.id" + strWhere;
+          KQDChieu3VO dcVO =
+              (KQDChieu3VO)findByPK(strSQL.toString(), vParam,
+                                         strValueObjectVO, conn);
+          return dcVO;
+      } catch (Exception ex) {
+          DAOException daoEx =
+              new DAOException(strValueObjectVO + ".getKQDC3(): " +
+                               ex.getMessage(), ex);
+  //          daoEx.printStackTrace();
+          throw daoEx;
+      }
+  }
 
   
 }

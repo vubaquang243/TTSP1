@@ -23,7 +23,7 @@ public class UserVO {
 
     // sp_nsd_nhom trong UserVO getUser
     private Long nhom_id;
-
+    private String nhom;
 
     private String ma;
     private String ma_cha;
@@ -195,5 +195,14 @@ public class UserVO {
 
     public String getUser_may_truycap() {
         return user_may_truycap;
+    }
+
+
+    public void setNhom(String nhom) {
+        this.nhom = nhom;
+    }
+
+    public String getNhom() {
+        return nhom;
     }
 }

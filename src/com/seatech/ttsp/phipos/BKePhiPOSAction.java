@@ -301,7 +301,7 @@ public class BKePhiPOSAction extends AppAction {
         Vector params = new Vector();
 
         if (frm.getMa_nh() != null && !"".equals(frm.getMa_nh().trim())) {
-            condition.append(" AND a.send_bank = ?");
+            condition.append(" AND a.ma_nh = ?");
             params.add(new Parameter(frm.getMa_nh(), true));
         }
         if (frm.getTu_ngay() != null && !"".equals(frm.getTu_ngay().trim())) {

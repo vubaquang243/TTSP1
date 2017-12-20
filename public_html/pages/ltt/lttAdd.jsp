@@ -659,7 +659,7 @@
                                                      <html:text property="dien_giai"  style="width:97%;"  styleId="dien_giai"  styleClass="fieldText" />
                                                   </td>
                                                   <td align="right">
-                                                     <html:text property="so_tien" style="width:96%;" styleId="so_tien" onkeypress="return numberBlockKeySoTien(this, document.forms[0].nt_id.options[document.forms[0].nt_id.options.selectedIndex].innerText);"  
+                                                     <html:text property="so_tien" style="width:96%;" styleId="so_tien" onkeypress="return numbersonly2(event, true);"  
                                                      onkeydown="skipTabReadonlyField1(event, 'id_delete_row');" 
                                                      onblur="formatNumberCOAJQuery(this);validSoTien(this);cal_tongtienCOA();" 
                                                      onfocus="checkSotienBeforForcus(this, document.forms[0].nt_id.options[document.forms[0].nt_id.options.selectedIndex].innerText);"

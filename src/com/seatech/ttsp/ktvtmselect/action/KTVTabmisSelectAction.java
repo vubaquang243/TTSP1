@@ -55,10 +55,19 @@ public class KTVTabmisSelectAction extends AppAction {
             if(f.isIsCheckSort()){
                 orderBy = " DESC ";
             }
+            String ma_ttv = "";
+            String ma_ktv_tabmis = "";
+            if(f.getMa_ttv() != null){
+              ma_ttv = f.getMa_ttv();
+            }
+            
+            if(f.getMa_ttv() != null){
+              ma_ktv_tabmis = f.getMa_ktv_tabmis();
+            }
             
             // lấy trong KTVtabmisDAO hàm getKTVTabmisListByNSD để hiển thị ng check
             KTVTabmisSelectDAO dao = new KTVTabmisSelectDAO(conn);
-            Collection listKTV = dao.getListTTVSelectKTVTABMIST(nKbID, orderBy);
+            Collection listKTV = dao.getListTTVSelectKTVTABMIST(ma_ttv, ma_ktv_tabmis, nKbID, orderBy);
             request.setAttribute("lstKTV", listKTV);
             resetToken(request);
             saveToken(request);
@@ -116,8 +125,7 @@ public class KTVTabmisSelectAction extends AppAction {
         } finally {
             close(conn);
         }
-        KTVTabmisSelectForm fff = new KTVTabmisSelectForm();
-        return list(mapping, fff, request, response);
+        return list(mapping, form, request, response);
 
     }
 

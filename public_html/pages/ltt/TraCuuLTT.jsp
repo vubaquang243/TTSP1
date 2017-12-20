@@ -3,7 +3,6 @@
 <%@ taglib uri="/WEB-INF/tlds/struts-logic.tld" prefix="logic"%>
 <%@ taglib uri="/WEB-INF/tlds/fmt.tld" prefix="fmt"%>
 <%@ taglib uri="/WEB-INF/tlds/struts-bean.tld" prefix="bean"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jstl/core"%>
 <%@ page import="com.seatech.framework.AppKeys"%>
 <%@ page import="com.seatech.framework.AppConstants"%>
 <fmt:setBundle basename="com.seatech.ttsp.resource.TraCuuLTTResource"/>
@@ -22,24 +21,32 @@
 <script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/LenhThanhToan.js"
         type="text/javascript">
 </script>
+<script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/utils.js"
+        type = "text/javascript" > 
+</script>
 <title>
   <fmt:message key="TraCuuLTT.page.title"/>
 </title>
 <%
   String strTong_Mon = request.getAttribute("tong_mon")!=null?request.getAttribute("tong_mon").toString():"";
+  String strCap_user = request.getAttribute("capuser")!=null?request.getAttribute("capuser").toString():"";
 %>
 <script type="text/javascript">
   var target = '<%=(request.getParameter("targetid")!=null)?"?targetid="+request.getParameter("targetid"):""%>';
   jQuery.noConflict();
   jQuery(document).ready(function () {
+      
       if (jQuery("#tong_so_tien").val() != null && '' != jQuery("#tong_so_tien").val()){      
-          if (jQuery("#ma_nt").val() != null && '' != jQuery("#ma_nt").val()){      
-            jQuery("#so_tien").val(CurrencyFormatted(jQuery("#tong_so_tien").val(), jQuery("#ma_nt").val()));
+        if (jQuery("#ma_nt").val() != null && '' != jQuery("#ma_nt").val()){      
+            jQuery("#so_tien").val(CurrencyFormatted2(jQuery("#tong_so_tien").val(), jQuery("#ma_nt").val()));
+            //20171031 thuongdt bo sung truong hop khong load dc so tien
+            if( jQuery("#so_tien").val() == '0')
+              jQuery("#so_tien").val(jQuery("#tong_so_tien").val());
           }else{
             jQuery("#so_tien").val(jQuery("#tong_so_tien").val());
           }
-      }
-      jQuery("#tong_mon_field").val(CurrencyFormatted('<%=strTong_Mon%>', 'VND')); 
+      }     
+      jQuery("#tong_mon_field").val(CurrencyFormatted2('<%=strTong_Mon%>', 'VND')); 
       var tu_ngay_field = jQuery("#tu_ngay"), 
       den_ngay_field = jQuery("#den_ngay"),
       tu_ngay_nhan_field = jQuery("#tu_ngay_nhan"), 
@@ -188,19 +195,19 @@
       });
 
   });
-  function changeValue(value) {
+  function changeValue(tx_id) {
+     var value = jQuery("#" + tx_id).val();
      var ma_nt = jQuery("#ma_nt").val();
        if(value == '' || value =='null')
-          value = 0;
-          
-      if(ma_nt != ''){
-        value = convertCurrencyToNumber(value,jQuery("#ma_nt").val());
-      }      
+          value = "";
+           
       jQuery("#tong_so_tien").val(value);
       
       if(ma_nt != ''){
-        jQuery("#so_tien").val(CurrencyFormatted(value, ma_nt)); 
+        jQuery("#" + tx_id).val(CurrencyFormatted2(value, ma_nt)); 
       }
+      
+      jQuery("#" + tx_id).val(CurrencyFormatted2(value, ma_nt)); 
   }
   function makeGetRequestView(id, type) {
       var urlRequest = null;
@@ -356,7 +363,9 @@
   function changeMaNTTraCuu(){
     if(jQuery("#ma_nt").val() != ''){
       if(jQuery("#tong_so_tien").val() != ''){
-        jQuery("#so_tien").val(CurrencyFormatted(jQuery("#tong_so_tien").val(), jQuery("#ma_nt").val()));
+        jQuery("#so_tien").val(CurrencyFormatted2(jQuery("#tong_so_tien").val(), jQuery("#ma_nt").val()));
+        //20171109 thuongdt bo xung reset lai tong_so_tien khi so_tien change
+        jQuery("#tong_so_tien").val(jQuery("#so_tien").val());
       }
     }
     if(jQuery("#ma_nt").val() == 'VND'){
@@ -462,9 +471,9 @@
           </label>
         </td>
         <td class="promptText" align="right" width="100">
-            <input type="text" tabindex="104" onkeypress="return numbersonly(this,event,true)"
+            <input type="text" tabindex="104" onkeypress="return numbersonly2(event,true);"
                    class="fieldTextRight" onkeydown="if(event.keyCode==13) event.keyCode=9;"
-                   onblur="if (this.value !='') {changeValue(this.value);}" id="so_tien" maxlength="20"  style="WIDTH: 150px;"/>
+                   onblur="if(this.value !='') {changeValue('so_tien');}" id="so_tien" maxlength="20"  style="WIDTH: 150px;"></input>
           <html:hidden property="tong_sotien" styleId="tong_so_tien"/>
         </td>
       </tr>
@@ -660,7 +669,13 @@
             </html:select>
           </logic:present>
           <logic:notPresent name="MAT4">
-            <html:select styleClass="selectBox" property="kb_tinh" styleId="kb_tinh" style="width:100%;height:20px" onkeydown="if(event.keyCode==13) event.keyCode=9;" >
+            <html:select styleClass="selectBox" property="kb_tinh" styleId="kb_tinh" style="width:100%;height:20px"  onchange="getKBHuyen(this)" onkeydown="if(event.keyCode==13) event.keyCode=9;" >
+             <!-- 20171102 thuongdt bo sung bo truong hop user cap tinh vào tra cuu onchange sai "Kho bac huyen"-->
+             <%if(strCap_user.equals("1")){%>             
+             <html:option value="">
+              <fmt:message key="TraCuuLTT.page.kbTinh.default"/>
+              </html:option>
+              <%}%>
             <html:optionsCollection label="ten" value="ma" name="lstKBTinh"/>
           </html:select>
           </logic:notPresent>
@@ -681,6 +696,11 @@
           </logic:present>
           <logic:notPresent name="MAT4">
             <html:select styleClass="selectBox" property="kb_huyen" styleId="kb_huyen" style="width:100%;height:20px" onkeydown="if(event.keyCode==13) event.keyCode=9;" >
+            <%if(!strCap_user.equals("3")){%>             
+             <html:option value="">
+              <fmt:message key="TraCuuLTT.page.kbHuyen.default"/>
+              </html:option>
+              <%}%>
             <html:optionsCollection label="ten" value="ma_nh" name="lstKBHuyen"/>
           </html:select>
           </logic:notPresent>
@@ -853,7 +873,7 @@
                     </fmt:formatNumber>
                   </logic:equal>
                   <logic:notEqual property="nt_id" name="items" value="177">
-                    <fmt:setLocale value="en_US"/>
+                    <fmt:setLocale value="vi_VI"/>
                     <fmt:formatNumber type="currency" currencySymbol="">
                       <bean:write  name="items" property="tong_sotien"/>
                     </fmt:formatNumber>
@@ -900,16 +920,15 @@
               </td>
               <td colspan="2" align="right">
                 <b>
-                  <c:if test="${isVN eq true}">
+                  <%if((Boolean)(request.getAttribute("isVN"))){%>
                     <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
                       <bean:write name="lltVO" property="tong_tien" scope="request" />
                     </fmt:formatNumber>
-                  </c:if>
-                  <c:if test="${isVN ne true}">
+                  <%}else{%>
                     <fmt:formatNumber type="currency" currencySymbol="">
                       <bean:write name="lltVO" property="tong_tien" scope="request" />
                     </fmt:formatNumber>
-                  </c:if>
+                  <%}%>
                 </b>
               </td>
               <td colspan="4">
@@ -946,4 +965,6 @@
     <span id="message"></span>
   </p>
 </div>
+
+
 <%@ include file="/includes/ttsp_bottom.inc"%>

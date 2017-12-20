@@ -75,6 +75,17 @@
                     <html:option value="true">Đã chọn</html:option>
                   </html:select>
                 </td>
+                <td width="10%" align="right">Mã TTV : </td>
+                <td>
+                  <html:text property="ma_ttv" style="font-size:12px;width:100%" onkeypress="if(event.keyCode == 13) this.form.submit()" onblur="this.form.submit()" />
+                </td>
+                <td width="10%" align="right">Mã KTV Tabmis : </td>
+                <td>
+                  <html:text property="ma_ktv_tabmis" style="font-size:12px;width:100%" onkeypress="if(event.keyCode == 13) this.form.submit()" onblur="this.form.submit()" />
+                    
+                </td>
+                
+                <td></td>
                 <td></td>
               </tr>
             </table>

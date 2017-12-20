@@ -20,13 +20,14 @@ public class BKePhiPOSDAO extends AppDAO{
                                               Integer currentPage,
                                               Integer numberRowOnPage,
                                               Integer[] totalCount) throws Exception {
+      //20171213 thuongdt sua cau sql lay maxid phi POS
       String strSQL = 
             "  SELECT a.id, a.ma_nh, a.ma_kb, a.ma_dvcn_the, a.ten_dvcn_the," + 
             "       a.nguoi_tao, a.ngay_tao, a.nguoi_ks, a.ngay_ks, to_char(a.tu_ngay,'dd/mm/yyyy') tu_ngay," + 
             "       to_char(a.den_ngay,'dd/mm/yyyy') den_ngay, a.so_tk, a.phi, a.vat, a.phi_sau_vat, to_char(a.ngay_nhan,'dd/mm/yyyy hh24:mi:ss') ngay_nhan," + 
             "       a.msg_id" + 
-            "  FROM sp_bke_phi_pos a, sp_dm_ngan_hang b, sp_dm_ngan_hang c WHERE" + 
-            " a.ma_nh = b.ma_nh AND a.ma_kb = c.ma_nh " + condition + 
+            "  FROM ( select * from sp_bke_phi_pos where id in (select max(id) from sp_bke_phi_pos a where 1=1 AND a.ma_kb = '01701003' "+condition+" group by a.MA_NH,a.MA_KB, a.TU_NGAY,a.DEN_NGAY)) a, sp_dm_ngan_hang b, sp_dm_ngan_hang c WHERE" + 
+            " a.ma_nh = b.ma_nh AND a.ma_kb = c.ma_nh " +
             " ORDER BY  a.den_ngay, a.tu_ngay DESC ";
       return (List)executeSelectWithPaging(conn, strSQL.toString(), vParam, BKE_PHI_POS_VO, currentPage, numberRowOnPage, totalCount);
   }

@@ -24,6 +24,7 @@ public class DeNghi_QuyetToanVO {
     
     private String dmNH;
     
+    private String ngay_loi;
     
     public void setNganHang(String nganHang) {
         this.nganHang = nganHang;
@@ -111,5 +112,13 @@ public class DeNghi_QuyetToanVO {
 
     public String getDmNH() {
         return dmNH;
+    }
+
+    public void setNgay_loi(String ngay_loi) {
+        this.ngay_loi = ngay_loi;
+    }
+
+    public String getNgay_loi() {
+        return ngay_loi;
     }
 }

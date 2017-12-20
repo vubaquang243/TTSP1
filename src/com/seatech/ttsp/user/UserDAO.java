@@ -84,6 +84,7 @@ public class UserDAO extends AppDAO {
         StringBuffer strSQL = new StringBuffer();
         try {
             strSQL.append("SELECT a.id,a.kb_id ,b.ma,b.ma_cha, a.ten_nsd, a.ma_tabmis, a.chuc_danh, a.ma_nsd, ");
+            strSQL.append("(SELECT wm_concat(loai_nhom) FROM sp_nhom_nsd n1, sp_nsd_nhom n2 WHERE n1.id = n2.nhom_id AND n2.nsd_id = a.id) nhom, ");
             strSQL.append(" a.trang_thai, a.ngay_tao, a.nguoi_tao, a.ip_truycap, a.session_id, a.tgian_truycap,a.domain, a.login_failure, a.mac_address, a.ten_may_truycap, a.user_may_truycap ");
 
             strSQL.append(" FROM sp_nsd a ");

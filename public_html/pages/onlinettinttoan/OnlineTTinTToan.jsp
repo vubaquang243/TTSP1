@@ -178,7 +178,7 @@
        <td >
         <fieldset>
         <legend>&#272;i&#7873;u ki&#7879;n t&#236;m ki&#7871;m</legend>
-        <div>
+        <div >
           <table  class="data-grid" id="data-grid" border="1" cellspacing="0" cellpadding="2" style="width:100%" >
               <tr align="center">
                 <td align="right" bordercolor="#e1e1e1" width="20%" style="margin-right">Ng&#226;n h&#224;ng&nbsp;:
@@ -237,8 +237,8 @@
         <td>
          <fieldset>
             <legend>K&#7871;t qu&#7843; t&#236;m ki&#7871;m</legend>
-            <div style="height:50px;overflow-y: scroll;width:100%">
-              <table cellspacing="0" width="100%" cellpadding="2" class="navigateable focused"
+<!--            <div class="scroll_box">
+              <table cellspacing="0" width="155%" cellpadding="2" class="navigateable focused"
                  bordercolor="#e1e1e1" border="1" align="center"
                  style="BORDER-COLLAPSE: collapse;table-layout:fixed">
                 <thead >
@@ -310,7 +310,18 @@
                 <td colspan="6" align="right"> 
                 <b>Tổng số </b>
                 </td>
-                <td align="right">
+                <td align="right" title='<logic:equal property="ma_nt" name="items" value="VND">
+                    <fmt:setLocale value="vi_VI"/>
+                    <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                      <bean:write name="items" property="han_muc_no"/>
+                    </fmt:formatNumber>
+                    </logic:equal>
+                    <logic:notEqual property="ma_nt" name="items" value="VND">
+                      <fmt:setLocale value="en_US"/>
+                      <fmt:formatNumber type="currency" currencySymbol="">
+                        <bean:write  name="items" property="han_muc_no"/>
+                      </fmt:formatNumber>
+                    </logic:notEqual>'>
                     <font color="Red"><b>
                     
                     <logic:equal property="ma_nt" name="items" value="VND">
@@ -328,7 +339,16 @@
                     
                     </b></font> 
                 </td>
-                <td align="right">
+                <td align="right" title='<logic:equal property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                      <bean:write  name="items" property="du_dau_ngay"/>
+                    </fmt:formatNumber>
+                    </logic:equal>
+                    <logic:notEqual property="ma_nt" name="items" value="VND">
+                      <fmt:formatNumber type="currency" currencySymbol="">
+                        <bean:write  name="items" property="du_dau_ngay"/>
+                      </fmt:formatNumber>
+                    </logic:notEqual>'>
                     <font color="Red"><b>
                     
                     <logic:equal property="ma_nt" name="items" value="VND">
@@ -344,7 +364,16 @@
                     
                     </b></font> 
                 </td>
-                <td align="right">
+                <td align="right" title='<logic:equal property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                      <bean:write  name="items" property="ps_thu"/>
+                    </fmt:formatNumber>
+                    </logic:equal>
+                    <logic:notEqual property="ma_nt" name="items" value="VND">
+                      <fmt:formatNumber type="currency" currencySymbol="">
+                        <bean:write  name="items" property="ps_thu"/>
+                      </fmt:formatNumber>
+                    </logic:notEqual>'>
                     <font color="Red"><b>
                     
                     <logic:equal property="ma_nt" name="items" value="VND">
@@ -360,7 +389,16 @@
                     
                     </b></font>
                 </td>
-                <td align="right">
+                <td align="right" title='<logic:equal property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                      <bean:write  name="items" property="ps_chi"/>
+                    </fmt:formatNumber>
+                  </logic:equal>
+                  <logic:notEqual property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" currencySymbol="">
+                      <bean:write  name="items" property="ps_chi"/>
+                    </fmt:formatNumber>
+                  </logic:notEqual>'>
                   
                   <font color="Red"><b>
                   
@@ -377,7 +415,16 @@
                   
                   </b></font>
                   </td>
-                  <td align="right">
+                  <td align="right" title='<logic:equal property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                      <bean:write name="items" property="chenh_lech"/>
+                    </fmt:formatNumber>
+                  </logic:equal>
+                  <logic:notEqual property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" currencySymbol="">
+                      <bean:write name="items" property="chenh_lech"/>
+                    </fmt:formatNumber>
+                  </logic:notEqual>'>
                   <font color="Red"><b>
                   
                   <logic:equal property="ma_nt" name="items" value="VND">
@@ -401,10 +448,217 @@
             </thead>
             </table>
             </div>
+-->            
+<!-- 15-11-2017 Taidd gộp 2 bảng tổng số và các kho bạc riêng rẽ vào với nhau-->
             <div style="height:400px;overflow-y: scroll;width:100%">
-            <table cellspacing="0" width="100%" cellpadding="2" class="navigateable focused"
+            <table cellspacing="0" width="155%" cellpadding="2" class="navigateable focused"
                  bordercolor="#e1e1e1" border="1" align="center"
                  style="BORDER-COLLAPSE: collapse;table-layout:fixed">
+                 <thead >
+                <th class="promptText" bgcolor="#f0f0f0" width="3%">
+                  <div align="center">
+                    STT
+                  </div>
+                </th>
+                <th class="promptText" bgcolor="#f0f0f0" width="12%">
+                  <div align="center" >
+                    T&#234;n KBNN
+                  </div>
+                </th>
+                <th class="promptText" bgcolor="#f0f0f0" width="4%">
+                  <div align="center">
+                    M&#227; KBNN
+                  </div>
+                </th>
+                <th class="promptText" bgcolor="#f0f0f0" width="6%">
+                  <div align="center">
+                    M&#227; CNNH
+                  </div>
+                </th>
+                
+                <th class="promptText" bgcolor="#f0f0f0" width="5%">
+                  <div align="center">
+                    Lo&#7841;i t&#224;i kho&#7843;n
+                  </div>
+                </th>
+                <th class="promptText" bgcolor="#f0f0f0" width="10%">
+                  <div align="center">
+                    S&#7889; hi&#7879;u t&#224;i kho&#7843;n
+                  </div>
+                </th>
+                
+                <th class="promptText" bgcolor="#f0f0f0" width="10%">
+                  <div align="center" >
+                   H&#7841;n m&#7913;c s&#7889; d&#432; n&#7907; TK
+                  </div>
+                </th>
+                <th class="promptText" bgcolor="#f0f0f0" width="11%">
+                  <div align="center" >
+                  D&#432; &#273;&#7847;u ng&#224;y
+                  </div>
+                </th>
+                <th class="promptText" bgcolor="#f0f0f0" width="10%">
+                  <div align="center" >
+                  T&#7893;ng PS thu
+                  </div>
+                </th>
+                <th class="promptText"  bgcolor="#f0f0f0" width="10%">
+                  <div align="center" >
+                    T&#7893;ng PS chi
+                  </div>
+                </th>
+                <th class="promptText" bgcolor="#f0f0f0"  width="12%">
+                  <div align="center">
+                   S&#7889; d&#432; t&#7841;i th&#7901;i &#273;i&#7875;m
+                  </div>
+                </th>
+                <th class="promptText" bgcolor="#f0f0f0" width="7%">
+                  <div align="center" >
+                   Th&#7901;i gian
+                  </div>
+                </th>
+                <tr>
+                 <logic:notEmpty name="colSum">
+                 <logic:iterate id="items" name="colSum" indexId="stt">
+                <td colspan="6" align="right"> 
+                <b>Tổng số </b>
+                </td>
+                <td align="right" title='<logic:equal property="ma_nt" name="items" value="VND">
+                    <fmt:setLocale value="vi_VI"/>
+                    <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                      <bean:write name="items" property="han_muc_no"/>
+                    </fmt:formatNumber>
+                    </logic:equal>
+                    <logic:notEqual property="ma_nt" name="items" value="VND">
+                      <fmt:setLocale value="vi_VI"/>
+                      <fmt:formatNumber type="currency" currencySymbol="">
+                        <bean:write  name="items" property="han_muc_no"/>
+                      </fmt:formatNumber>
+                    </logic:notEqual>'>
+                    <font color="Red"><b>
+                    
+                    <logic:equal property="ma_nt" name="items" value="VND">
+                    <fmt:setLocale value="vi_VI"/>
+                    <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                      <bean:write name="items" property="han_muc_no"/>
+                    </fmt:formatNumber>
+                    </logic:equal>
+                    <logic:notEqual property="ma_nt" name="items" value="VND">
+                      <fmt:setLocale value="vi_VI"/>
+                      <fmt:formatNumber type="currency" currencySymbol="">
+                        <bean:write  name="items" property="han_muc_no"/>
+                      </fmt:formatNumber>
+                    </logic:notEqual>
+                    
+                    </b></font> 
+                </td>
+                <td align="right" title='<logic:equal property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                      <bean:write  name="items" property="du_dau_ngay"/>
+                    </fmt:formatNumber>
+                    </logic:equal>
+                    <logic:notEqual property="ma_nt" name="items" value="VND">
+                      <fmt:formatNumber type="currency" currencySymbol="">
+                        <bean:write  name="items" property="du_dau_ngay"/>
+                      </fmt:formatNumber>
+                    </logic:notEqual>'>
+                    <font color="Red"><b>
+                    
+                    <logic:equal property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                      <bean:write  name="items" property="du_dau_ngay"/>
+                    </fmt:formatNumber>
+                    </logic:equal>
+                    <logic:notEqual property="ma_nt" name="items" value="VND">
+                      <fmt:formatNumber type="currency" currencySymbol="">
+                        <bean:write  name="items" property="du_dau_ngay"/>
+                      </fmt:formatNumber>
+                    </logic:notEqual>
+                    
+                    </b></font> 
+                </td>
+                <td align="right" title='<logic:equal property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                      <bean:write  name="items" property="ps_thu"/>
+                    </fmt:formatNumber>
+                    </logic:equal>
+                    <logic:notEqual property="ma_nt" name="items" value="VND">
+                      <fmt:formatNumber type="currency" currencySymbol="">
+                        <bean:write  name="items" property="ps_thu"/>
+                      </fmt:formatNumber>
+                    </logic:notEqual>'>
+                    <font color="Red"><b>
+                    
+                    <logic:equal property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                      <bean:write  name="items" property="ps_thu"/>
+                    </fmt:formatNumber>
+                    </logic:equal>
+                    <logic:notEqual property="ma_nt" name="items" value="VND">
+                      <fmt:formatNumber type="currency" currencySymbol="">
+                        <bean:write  name="items" property="ps_thu"/>
+                      </fmt:formatNumber>
+                    </logic:notEqual>
+                    
+                    </b></font>
+                </td>
+                <td align="right" title='<logic:equal property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                      <bean:write  name="items" property="ps_chi"/>
+                    </fmt:formatNumber>
+                  </logic:equal>
+                  <logic:notEqual property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" currencySymbol="">
+                      <bean:write  name="items" property="ps_chi"/>
+                    </fmt:formatNumber>
+                  </logic:notEqual>'>
+                  
+                  <font color="Red"><b>
+                  
+                  <logic:equal property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                      <bean:write  name="items" property="ps_chi"/>
+                    </fmt:formatNumber>
+                  </logic:equal>
+                  <logic:notEqual property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" currencySymbol="">
+                      <bean:write  name="items" property="ps_chi"/>
+                    </fmt:formatNumber>
+                  </logic:notEqual>
+                  
+                  </b></font>
+                  </td>
+                  <td align="right" title='<logic:equal property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                      <bean:write name="items" property="chenh_lech"/>
+                    </fmt:formatNumber>
+                  </logic:equal>
+                  <logic:notEqual property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" currencySymbol="">
+                      <bean:write name="items" property="chenh_lech"/>
+                    </fmt:formatNumber>
+                  </logic:notEqual>'>
+                  <font color="Red"><b>
+                  
+                  <logic:equal property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" maxFractionDigits="0" currencySymbol="">
+                      <bean:write name="items" property="chenh_lech"/>
+                    </fmt:formatNumber>
+                  </logic:equal>
+                  <logic:notEqual property="ma_nt" name="items" value="VND">
+                    <fmt:formatNumber type="currency" currencySymbol="">
+                      <bean:write name="items" property="chenh_lech"/>
+                    </fmt:formatNumber>
+                  </logic:notEqual>
+                  
+                  </b></font>
+                </td>
+                <td>
+                </td>
+            </logic:iterate>
+          </logic:notEmpty>
+            </tr>
+            </thead>
               <tbody class="navigateable focused"  cellspacing="0"   cellpadding="1" bordercolor="#e1e1e1" id="tbodyTTinTToan">    
               <logic:notEmpty name="colTTinTToan">
                 <logic:iterate id="items" name="colTTinTToan" indexId="stt">

@@ -27,13 +27,27 @@
   //************************************ LOAD PAGE **********************************
   jQuery(document).ready(function () {
      jQuery('#so_du').focus();
-     var loai_tk =<%=request.getParameter("loai_tk")%>;
+     var loai_tk = <%=request.getParameter("loai_tk")%> + "";
      if(loai_tk !== ""){
         loai_tk++;
         jQuery("#loai_tk").find(":nth-child(" + loai_tk +")").attr("selected", true);
      }
   });
+  function changeValue(txt_id, allowNegativeNumber) {  
+      var value = jQuery("#"+txt_id +"").val().replace(/\s/g,"");
+      var loai_tien = jQuery("#loai_tien").val();
+      
+      if(allowNegativeNumber == undefined){
+        allowNegativeNumber = false;
+      }
+        
+        if(loai_tien == "VND"){
+          jQuery("#"+txt_id +"").val(CurrencyFormatted2(value, 'VND', allowNegativeNumber));
+        }else{
+          jQuery("#"+txt_id +"").val(CurrencyFormatted2(value, 'USD', allowNegativeNumber));
+        }
 
+  }
 </script>
 <div class="app_error">
   <html:errors/>
@@ -86,7 +100,8 @@
                              readonly="true"
                              styleClass="promptText"
                              size="35%"
-                             value='<%=request.getParameter("ma_kb")%>'/>
+                             value='<%=request.getParameter("ma_kb")%>'
+                             style='width:200px'/>
                 </td>
                 
                 <td width="15%" align="right">Ngày giao dịch</td>
@@ -96,7 +111,8 @@
                              onblur="this.style.backgroundColor='#ffffff'"                       
                              styleClass="promptText"
                              readonly="true"
-                             value='<%=request.getParameter("ngay_gd")%>'/>
+                             value='<%=request.getParameter("ngay_gd")%>'
+                             style='width:200px'/>
                 </td>
               </tr>
                
@@ -109,16 +125,18 @@
                              onblur="this.style.backgroundColor='#ffffff'"
                              readonly="true"
                              styleClass="promptText"   
-                             value='<%=request.getParameter("ma_nh")%>'/>
+                             value='<%=request.getParameter("ma_nh")%>'
+                             style='width:200px'/>
                 </td>
                <td width="15%" align="right">Số dư</td>
                 <td align="left" width="30%">
                   <html:text property="so_du" styleId="so_du" size="35%"
                              onfocus="this.style.backgroundColor='#ffffb5'"
-                             onkeypress="return numberBlockKey(event)"
-                             onkeyup="checkKey123('so_du')"
+                             onblur="if (this.value !='') {changeValue('so_du');};textlostfocus(this); this.style.backgroundColor='#ffffff';" 
+                              onkeypress="return numbersonly2(event,false) "
                              styleClass="promptText"
-                             value='<%=request.getParameter("so_du")%>'/>
+                             value='<%=request.getParameter("so_du")%>'
+                             style="text-align:right;width:200px"/>
                 </td>
               </tr>
               <tr>
@@ -128,18 +146,22 @@
                              onkeypress="true"
                              onfocus="this.style.backgroundColor='#ffffb5'"
                              onblur="this.style.backgroundColor='#ffffff'"
+                             onchange="changeValue('so_du_cot');changeValue('so_du', true);"
                              readonly="true"
                              styleClass="promptText"   
-                             value='<%=request.getParameter("loai_tien")%>'/>
+                             value='<%=request.getParameter("loai_tien")%>'
+                             style='width:200px'/>
                 </td>
                 <td width="15%" align="right">Số dư COT</td>
                 <td align="left" width="30%">
                   <html:text property="so_du_cot" styleId="so_du_cot" size="35%"
                              onfocus="this.style.backgroundColor='#ffffb5'"
-                             onkeypress="return numberBlockKey(event)"
                              styleClass="promptText"
-                             onkeyup="checkKey123('so_du_cot')" 
-                             value='<%=request.getParameter("so_du_cot")%>'/>
+                             onblur="this.style.backgroundColor='#ffffff';textlostfocus(this);if (this.value !='') {changeValue('so_du_cot');}"
+                            onkeypress="return numbersonly2(event,true) "
+                             value='<%=request.getParameter("so_du_cot")%>'
+                             style="text-align:right;width:200px"
+                             />
                 </td>             
               </tr>
               <tr>
@@ -160,7 +182,7 @@
             </td>
             <td>
                 <html:select styleClass="selectBox" property="loai_tk"
-                                           styleId="loai_tk" style="width:75%;height:20px">                  
+                                           styleId="loai_tk" style="width:200px;height:20px">                  
                         <html:option value="00">Chọn loại tài khoản</html:option>  
                         <html:option value="01">Thanh toán tổng hợp</html:option>
                         <html:option value="02">Thanh toán</html:option>

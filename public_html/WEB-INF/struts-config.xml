@@ -74,7 +74,7 @@
     <form-bean name="DSachTKhoanNHKBForm"
                type="com.seatech.ttsp.ttthanhtoan.form.DSachTKhoanNHKBForm"/>
     <!--2016 end them moi form -->
-    <!--  2017 them moi form -->
+    <!-- nang cap 2017 them moi form -->
     <form-bean name="DeNghiQTForm"
                type="com.seatech.ttsp.denghiqt.form.DeNghiQuyetToanForm"/>
     <form-bean name="DuyetDNQTForm"
@@ -89,7 +89,7 @@
                type="com.seatech.ttsp.tknhkb.form.TKNHKBacForm"/>          
      <form-bean name="traCuuKhoBacForm"
                type="com.seatech.ttsp.tracuukhobac.form.TraCuuKhoBacForm"/>               
-    <!-- 2017 end them moi -->
+     <!-- nang cap 2017 them moi form -->
   </form-beans>
   <global-forwards type="org.apache.struts.action.ActionForward">
     <forward name="login" path="/login.jsp?action=02"/>
@@ -1045,6 +1045,9 @@
       <forward name="failure" path="/pages/ttthanhtoan/DSachTKhoanNHKB.jsp"/>
     </action>
     <!--end them moi tra cuu danh sach tai khoan ngan hang kho bac-->
+    
+     <!-- nang cap 2017 begin -->
+    
     <!-- Them moi de nghi quyet toan -->
     <action path="/deNghiQuyetToan" name="DeNghiQTForm" scope="request"
             type="com.seatech.ttsp.denghiqt.action.DeNghiQuyetToanAction">
@@ -1100,6 +1103,14 @@
       <forward name="failure"
                path="/pages/lenhqtthucong/lenhquyettoanthucong.jsp"/>
     </action>
+    <action path="/updateLenhQuyetToanThuCong" name="LenhQTTCForm" scope="request"
+            parameter="update"
+            type="com.seatech.ttsp.lenhqtthucong.action.LenhQTTCAction">
+      <forward name="success"
+               path="/pages/lenhqtthucong/lenhquyettoanthucong.jsp"/>
+      <forward name="failure"
+               path="/pages/lenhqtthucong/lenhquyettoanthucong.jsp"/>
+    </action>
     <action path="/traCuuTenNH" name="LenhQTTCForm" scope="request"
             parameter="view"
             type="com.seatech.ttsp.lenhqtthucong.action.LenhQTTCAction">
@@ -1114,6 +1125,12 @@
     </action>
     <action path="/getLoaiTien" name="LenhQTTCForm" scope="request"
             parameter="search"
+            type="com.seatech.ttsp.lenhqtthucong.action.LenhQTTCAction">
+      <forward name="success"
+               path="/pages/lenhqtthucong/lenhquyettoanthucong.jsp"/>
+    </action>
+    <action path="/getSoLenhQuyetToan" name="LenhQTTCForm" scope="request"
+            parameter="approvedLttExc"
             type="com.seatech.ttsp.lenhqtthucong.action.LenhQTTCAction">
       <forward name="success"
                path="/pages/lenhqtthucong/lenhquyettoanthucong.jsp"/>
@@ -1175,6 +1192,10 @@
       <forward name="success" path="/pages/tracuusodu/TraCuuSoDu.jsp"/>
       <forward name="failure" path="/pages/tracuusodu/TraCuuSoDu.jsp"/>
     </action>
+    <action parameter="update" path="/getKhoBacHuyen" scope="request"
+            type="com.seatech.ttsp.tracuusodu.action.TraCuuSoDuAction">
+      <forward name="success" path="/pages/saoke/TCuuDChieuSoChiTiet.jsp"/>
+    </action>
     <action parameter="add" path="/getListNganHang"
             name="TraCuuSoDuForm" scope="request"
             type="com.seatech.ttsp.tracuusodu.action.TraCuuSoDuAction">
@@ -1204,6 +1225,7 @@
             type="com.seatech.ttsp.dmkb.action.LoadMaKhoBacAction">
       <forward name="success" path="/pages/sodu/addSodu.jsp"/>
     </action>
+     <!-- nang cap 2017 begin -->
   </action-mappings>
   <message-resources parameter="com.seatech.ttsp.ApplicationResources"/>
 </struts-config>

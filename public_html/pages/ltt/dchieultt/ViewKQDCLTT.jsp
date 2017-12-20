@@ -175,7 +175,7 @@ if(colTHKQDC != null){
     <fmt:setLocale value="vi_VI"/>
   </logic:equal>
   <logic:notEqual value="VND" name="lttTabmisForm" property="ma_nt">
-    <fmt:setLocale value="en_US"/>
+    <fmt:setLocale value="vi_VI"/>
     <c:set var="isNgoaiTe" value="${true}" scope="request"/>
   </logic:notEqual>
   <input type="hidden" name="lttTabmisForm" value="<bean:write name="lttTabmisForm" property="trang_thai"/>" id="trang_thai_hidden"/>
@@ -339,7 +339,7 @@ if(colTHKQDC != null){
                       </fmt:formatNumber> 
                       </logic:equal>
                       <logic:notEqual value="VND" name="UDlist1" property="ma">
-                        <fmt:setLocale value="en_US"/>
+                        <fmt:setLocale value="vi_VI"/>
                         <fmt:formatNumber maxFractionDigits="10"  type="currency"  currencySymbol="">
                         <bean:write name="UDlist1" property="so_tien_di"/>
                       </fmt:formatNumber> 
@@ -358,7 +358,7 @@ if(colTHKQDC != null){
                       </fmt:formatNumber> 
                       </logic:equal>
                       <logic:notEqual value="VND" name="UDlist1" property="ma">
-                        <fmt:setLocale value="en_US"/>
+                        <fmt:setLocale value="vi_VI"/>
                         <fmt:formatNumber maxFractionDigits="10"  type="currency"  currencySymbol="">
                         <bean:write name="UDlist1" property="so_tien_den"/>
                       </fmt:formatNumber> 
@@ -376,7 +376,7 @@ if(colTHKQDC != null){
                       </fmt:formatNumber> 
                       </logic:equal>
                       <logic:notEqual value="VND" name="UDlist1" property="ma">
-                        <fmt:setLocale value="en_US"/>
+                        <fmt:setLocale value="vi_VI"/>
                         <fmt:formatNumber maxFractionDigits="10"  type="currency"  currencySymbol="">
                         <bean:write name="UDlist1" property="so_tien_qtoan_thu"/>
                       </fmt:formatNumber> 
@@ -393,7 +393,7 @@ if(colTHKQDC != null){
                       </fmt:formatNumber> 
                       </logic:equal>
                       <logic:notEqual value="VND" name="UDlist1" property="ma">
-                        <fmt:setLocale value="en_US"/>
+                        <fmt:setLocale value="vi_VI"/>
                         <fmt:formatNumber maxFractionDigits="10"  type="currency"  currencySymbol="">
                         <bean:write name="UDlist1" property="so_tien_qtoan_chi"/>
                       </fmt:formatNumber> 

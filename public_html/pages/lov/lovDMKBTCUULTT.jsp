@@ -1,4 +1,3 @@
-    
 <div style="width:500px;height:550px; border-top: 1px solid green;
                                                                           border-right: 1px solid green;
                                                                           border-bottom: 1px solid green;
@@ -8,11 +7,11 @@
       <tr>
         <td>M&atilde;</td>
         <td>
-          <input type="text" name="ma_lov" id="ma_lov" size="10" onkeydown="if(event.keyCode==13) event.keyCode=9;"/>
+          <input type="text" name="ma_lov" id="ma_lov" size="10" onkeydown="if(event.keyCode==13 ) event.keyCode = 9; if(event.keyCode == 9)fillLovDMKBTCUULTT();"/>
         </td>
         <td>T&ecirc;n</td>
         <td>
-          <input type="text" name="ten_lov" id="ten_lov" size="40" onkeydown="if(event.keyCode==13) fillLovDMKBTCUULTT();"/>
+          <input type="text" name="ten_lov" id="ten_lov" size="40" onkeydown="if(event.keyCode==13 || event.keyCode==9) { setIntoFieldLOVTCUULTT2()};"/>
            
           <input type="hidden" name="loai_lov" id="loai_lov"/>
            

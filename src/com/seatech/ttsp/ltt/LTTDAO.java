@@ -1359,7 +1359,7 @@ public class LTTDAO extends AppDAO {
         StringBuffer sbWhereClause = new StringBuffer();
         try {
             sbWhereClause.append("select count(0) as tong_so_mon from sp_ltt a ");
-            sbWhereClause.append("where a.trang_thai <> '06' and a.ngay_tt >= to_char(SYSDATE,'YYYYmmDD') ");
+            sbWhereClause.append("where a.ngay_nhan > SYSDATE-15 AND a.trang_thai <> '06' and a.ngay_tt >= to_char(SYSDATE,'YYYYmmDD') ");
             sbWhereClause.append(whereClause);
             ResultSet rs =
                 executeSelectStatement(sbWhereClause.toString(), params, conn);
@@ -1383,7 +1383,7 @@ public class LTTDAO extends AppDAO {
         StringBuffer sbWhereClause = new StringBuffer();
         try {
             sbWhereClause.append("select nvl(sum(a.tong_sotien),0) as tongsotien from sp_ltt a ");
-            sbWhereClause.append("where a.trang_thai <> '06' and a.ngay_tt >= to_char(SYSDATE,'YYYYmmDD') ");
+            sbWhereClause.append("where a.ngay_nhan > SYSDATE-15 AND a.trang_thai <> '06' and a.ngay_tt >= to_char(SYSDATE,'YYYYmmDD') ");
             sbWhereClause.append(whereClause);
             ResultSet rs =
                 executeSelectStatement(sbWhereClause.toString(), params, conn);
@@ -1407,7 +1407,7 @@ public class LTTDAO extends AppDAO {
         StringBuffer sbWhereClause = new StringBuffer();
         try {
             sbWhereClause.append("select nvl(count(0),0) as tong_so_mon from sp_ltt a left join sp_dm_ngan_hang b on a.nhkb_chuyen = b.id left join sp_dm_ngan_hang c on  a.nhkb_nhan = c.id ");
-            sbWhereClause.append("where a.trang_thai <> '06' and ");
+            sbWhereClause.append("where a.ngay_nhan > SYSDATE-15 AND a.trang_thai <> '06' and ");
             sbWhereClause.append("a.ngay_ks_nh >= sp_util_pkg.fnc_get_ngay_gio_cutoftime(?,c.ma_nh, b.ma_nh) ");
             sbWhereClause.append(whereClause);
             ResultSet rs =
@@ -1432,7 +1432,7 @@ public class LTTDAO extends AppDAO {
         StringBuffer sbWhereClause = new StringBuffer();
         try {
             sbWhereClause.append("select nvl(sum(tong_sotien),0) as tongsotien from sp_ltt a left join sp_dm_ngan_hang b on a.nhkb_chuyen = b.id left join sp_dm_ngan_hang c on  a.nhkb_nhan = c.id ");
-            sbWhereClause.append("where a.trang_thai <> '06' and ");
+            sbWhereClause.append("where a.ngay_nhan > SYSDATE-15 AND a.trang_thai <> '06' and ");
             sbWhereClause.append("a.ngay_ks_nh >= sp_util_pkg.fnc_get_ngay_gio_cutoftime(?,c.ma_nh, b.ma_nh) ");
             sbWhereClause.append(whereClause);
             ResultSet rs =

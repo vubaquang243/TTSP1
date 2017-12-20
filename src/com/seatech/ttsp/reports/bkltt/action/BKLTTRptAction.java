@@ -247,7 +247,7 @@ public class BKLTTRptAction extends AppAction {
             TTThanhToanVO vo = new TTThanhToanVO();
             String strCap = " and ma=" + kb_code;
             vo = ttdao.getCap(strCap, null);
-            String strNH = " and b.id=" + strMaKB;
+            String strNH = " and b.ma=" + strMaKB;
             colNH = ttdao.getListNH(strNH, null);
 
             java.lang.reflect.Type listNH =

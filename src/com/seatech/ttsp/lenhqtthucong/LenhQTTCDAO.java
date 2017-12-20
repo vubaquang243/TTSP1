@@ -30,9 +30,9 @@ public class LenhQTTCDAO extends AppDAO{
                 "NGAY_INSERT,LOAI_QTOAN,QTOAN_DVI,NGUOI_NHAP_NH,NGAY_NHAP_NH,NGUOI_KS_NH,NGAY_KS_NH," +
                 "NDUNG_TT,SO_TIEN,MA_NT,TTV_CHUYEN_KS,NGAY_CHUYEN_KS,TK_CHUYEN,MA_NH_CHUYEN,TEN_NH_CHUYEN,TEN_KH_CHUYEN," +
                 "TK_NHAN,MA_NH_NHAN,TEN_NH_NHAN,TEN_KH_NHAN,TRANG_THAI,LOAI_HACH_TOAN,NGAY_GUI,MA_TCHIEU_GD," +
-                "MA_KB,ID_REF,TRANG_THAI_DC,LAI_PHI,LOAI_TK,NHAP_THU_CONG) VALUES (?,?,?,TO_DATE(?,'DD/MM/YYYY'),TO_DATE(?,'DD/MM/YYYY')," +
+                "MA_KB,ID_REF,TRANG_THAI_DC,LAI_PHI,LOAI_TK,NHAP_THU_CONG,LDO_HACH_TOAN,SO_TCHIEU) VALUES (?,?,?,TO_DATE(?,'DD/MM/YYYY'),TO_DATE(?,'DD/MM/YYYY')," +
                 "SYSDATE,?,?,?,TO_DATE(?,'DD/MM/YYYY HH24:MI:SS'),?,TO_DATE(?,'DD/MM/YYYY HH24:MI:SS'),?,?,?,?,SYSDATE,?,?,?,?,?,?,?,?,?,?,SYSDATE,?," +
-                "?,?,?,?,?,?)";
+                "?,?,?,?,?,?,?,?)";
             params.add(new Parameter(lenhQT.getSoLenhQuyetToan(),true));
             params.add(new Parameter(lenhQT.getMaNHKBChuyen(), true));
             params.add(new Parameter(lenhQT.getMaNHKBNhan(),true));
@@ -52,10 +52,12 @@ public class LenhQTTCDAO extends AppDAO{
             params.add(new Parameter(lenhQT.getMaNHPhatLenh(),true));
             params.add(new Parameter(lenhQT.getTenTaiKhoanPhatLenh(),true));
             params.add(new Parameter(lenhQT.getTenKHChuyen(),true));
-            params.add(new Parameter(lenhQT.getTenTaiKhoanNhanLenh(),true));
+            params.add(new Parameter(lenhQT.getTaiKhoanNhanLenh(),true));
+          
+            //params.add(new Parameter(lenhQT.getTenTaiKhoanNhanLenh(),true));
             params.add(new Parameter(lenhQT.getMaNHNhanLenh(),true));
             params.add(new Parameter(lenhQT.getTenNHNhanLenh(),true));
-            params.add(new Parameter(lenhQT.getTenKHNhan(),true));
+            params.add(new Parameter(lenhQT.getTenTaiKhoanNhanLenh(),true));
             params.add(new Parameter(lenhQT.getTrangThai(),true));            
             params.add(new Parameter(lenhQT.getPhuongAnHachToan(),true));          
             params.add(new Parameter(lenhQT.getSoThamChieuGiaoDich(),true));
@@ -65,6 +67,8 @@ public class LenhQTTCDAO extends AppDAO{
             params.add(new Parameter(lenhQT.getLaiPhi(),true));
             params.add(new Parameter(lenhQT.getLoaiTK(),true));
             params.add(new Parameter(lenhQT.getNhapThuCong(),true));
+            params.add(new Parameter(lenhQT.getLdo_hach_toan(),true));
+            params.add(new Parameter(lenhQT.getSoThamChieuLienQuan(),true));
             
             return (int)executeStatement(sqlQuery, params, conn) > 0 ? 1 : 0;
         }catch(Exception e){
@@ -75,7 +79,7 @@ public class LenhQTTCDAO extends AppDAO{
     public Collection getNguoiKiemSoat(String strWhere, Vector params) throws Exception{
         try{
             String strSQL = "SELECT c.ten tenkb,a.so_tk sotk,b.ma_nh manh, b.ten tennh FROM sp_tknh_kb a, sp_dm_ngan_hang b, sp_dm_htkb c " +
-                "where a.nh_id=b.id and a.kb_id = c.id AND c.ma = '0003' and a.trang_thai = '01' and a.loai_tk = '01' " + strWhere;
+                "where a.nh_id=b.id and a.kb_id = c.id AND c.ma = '0002' and a.trang_thai = '01' and a.loai_tk = '01' " + strWhere;
             return executeSelectStatement(strSQL, params, strValueObject, conn);
         }catch(Exception e){
             throw e;
@@ -83,7 +87,8 @@ public class LenhQTTCDAO extends AppDAO{
     }
     public Collection getNameChiNhanhNH(String strWhere, Vector params) throws Exception{
         try{
-            String strSQL = "SELECT ten FROM sp_dm_ngan_hang WHERE ma_nh = " + strWhere;
+            String strSQL = "SELECT c.ten tenkb,a.so_tk sotk,b.ma_nh manh, b.ten tennh FROM sp_tknh_kb a, sp_dm_ngan_hang b, sp_dm_htkb c " +
+                "where a.nh_id=b.id and a.kb_id = c.id and a.trang_thai = '01' " + strWhere;
             return executeSelectStatement(strSQL, params, strValueObject, conn);
         }catch(Exception e){
             throw e;
@@ -114,4 +119,14 @@ public class LenhQTTCDAO extends AppDAO{
      bReturn = rs.next();
      return  bReturn;  
    }
+    
+    public int updateData(String strQuery,Vector params) throws Exception{
+        try{
+            String query = strQuery;
+            return executeStatement(query, params, conn);
+        }catch(Exception e){
+            throw e;
+        }
+      
+    }
 }

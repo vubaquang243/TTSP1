@@ -28,6 +28,10 @@ import java.util.Iterator;
 
 import com.seatech.ttsp.dchieu.GDichTCongVO;
 
+import java.math.BigDecimal;
+
+import java.util.BitSet;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -57,6 +61,8 @@ public class DuyetXNDCTHop1Action extends AppAction {
             HttpSession session = request.getSession();
             Collection colTTSP = new ArrayList();
             Collection colPHT = new ArrayList();
+            //20171009 thuongdt bo sung tra cuu qt thu ngay nghi
+            Collection colPHT_T7 = new ArrayList();
             Collection colTHDC = new ArrayList();
             Collection colGDTCong = new ArrayList();
             DChieu1DAO dao = new DChieu1DAO(conn);
@@ -174,6 +180,8 @@ public class DuyetXNDCTHop1Action extends AppAction {
 //                receive_bank + "' and to_char(ngay_qtoan,'DD/MM/RRRR')='" +
 //                ngay_dc + "'";
             String str066 = "";
+			
+			// 20170923 thuongdt bo sung lay du lieu sau khi duyet bi mat du lieu tren form begin
             if(id == null || "".equals(id)) { 
                 str066 =
               " AND a.nhkb_chuyen= '" + kb_chuyen + "' and a.nhkb_nhan='" +
@@ -184,20 +192,33 @@ public class DuyetXNDCTHop1Action extends AppAction {
               " AND a.nhkb_chuyen= '" + kb_chuyen + "' and a.nhkb_nhan in (select receive_bank from sp_065 where id = '"+id+"') and to_char(a.ngay_qtoan,'DD/MM/RRRR')='" +
               ngay_dc + "' and a.loai_qtoan <> '03' AND a.loai_tien ='VND' "; 
             }
+			// 20170923 thuongdt bo sung lay du lieu sau khi duyet bi mat du lieu tren form end
             col066 = dao.getData066(str066, null);
 
             colTTSP = dao.getTTSP_PHT(strTTSP, null);
             colPHT = dao.getTTSP_PHT(strPHT, null);
             colTHDC = dao.getXNTHData(strTTSP, null);
-
+            
+          String strWhere = 
+              " AND a.ma_kb= '" + kb_chuyen + "' and a.ma_nh='" +
+              receive_bank + "' and to_char(a.ngay_gd,'DD/MM/RRRR')='" +
+              ngay_dc + "' AND a.loai_tien = 'VND' ";
+           
+          //20171009 thuongdt bo sung them tim kiem du lieu ngay nghi begin
+            colPHT_T7 = dao.getPHT_PS_T7( receive_bank, kb_chuyen, ngay_dc);
+            String strLaiCThu = dao.getLaiChuyenThu(strWhere);
             GDichTCongVO gdTCongVO = new GDichTCongVO();
             XNKQDCDataVO xNKQDCDataVO = null;
             Iterator iter = colTHDC.iterator();
             while(iter.hasNext()){
               xNKQDCDataVO = (XNKQDCDataVO)iter.next();
-              gdTCongVO.setSo_thu(xNKQDCDataVO.getTien_thu_tcong_kbnn());
+              gdTCongVO.setSo_thu(xNKQDCDataVO.getTien_thu_tcong_kbnn().add(new BigDecimal("-"+strLaiCThu)));
               gdTCongVO.setSo_chi(xNKQDCDataVO.getTien_chi_tcong_kbnn());
-            }            
+              gdTCongVO.setLai_chuyen_thu(new BigDecimal("0")); 
+            }
+            
+          //20171009 thuongdt bo sung them tim kiem du lieu ngay nghi end
+            
             colGDTCong.add(gdTCongVO);
 
             String ngay_cuoi_nam = ngay_dc.substring(0, 5);
@@ -260,6 +281,13 @@ public class DuyetXNDCTHop1Action extends AppAction {
                 request.setAttribute("col066", col066);
                 request.setAttribute("size", col066.size());
             }
+          //20171009 thuongdt bo sung tra cuu qt thu ngay nghi
+            request.setAttribute("colPHT_T7", colPHT_T7);
+            request.setAttribute("loai_gd", loai_gd);
+            request.setAttribute("laicthu", strLaiCThu);
+          
+            
+            
             request.setAttribute("colTTSP", colTTSP);
             request.setAttribute("colPHT", colPHT);
             request.setAttribute("colGDTCong", colGDTCong);

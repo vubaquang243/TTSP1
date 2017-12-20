@@ -72,7 +72,10 @@
     if(request.getAttribute("status") != null){
     String StrStatus = request.getAttribute("status").toString();
     String id = request.getAttribute("nsdID")==null?"":request.getAttribute("nsdID").toString();
+
     %>
+    
+    
     <font color="Red" dir="ltr">
       <fmt:message key="<%=StrStatus%>">
         <fmt:param>

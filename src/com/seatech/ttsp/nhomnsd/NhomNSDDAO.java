@@ -6,6 +6,7 @@ import com.seatech.framework.datamanager.Parameter;
 import com.seatech.framework.exception.DAOException;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import java.util.Collection;
@@ -282,4 +283,48 @@ public class NhomNSDDAO extends AppDAO {
                                ex.getMessage(), ex);
     }
 }
+  
+  /**
+   * @create-name: thuongdt
+   * @create-date: 06/12/2017
+   * @param: whereClause menh de where, vParam Vector
+   * @see: Lay ra thong tin nhom NSD
+   * @return: Collection NhomNSDVO
+   * */
+  public Collection getNhomNSDListByUser(String whereClause, Vector vParam) throws Exception {
+      StringBuffer strSQL = new StringBuffer();
+      try {
+          strSQL.append("SELECT a.id, a.ten_nhom, a.loai_nhom  FROM sp_nhom_nsd a inner join sp_nsd_nhom b ");
+          strSQL.append("on a.id = b.nhom_id ");
+          strSQL.append(whereClause);
+          return executeSelectStatement(strSQL.toString(), vParam,
+                                        CLASS_NAME_VO, conn);
+      } catch (Exception ex) {
+          throw new DAOException(CLASS_NAME_DAO +
+                                 ".getNhomNSDListByUser(): " +
+                                 ex.getMessage(), ex);
+      }
+  }
+  
+    public int countNSDInNhom(int nhom_id) throws Exception{
+        Vector vParam = new Vector();
+        String strSQL = "";
+        int nExc = 0;
+        try {
+            strSQL = "select count(*) sl from sp_nsd_nhom where nhom_id = " + nhom_id;
+            PreparedStatement ps = conn.prepareStatement(strSQL);
+            ResultSet rs = ps.executeQuery();
+            if(rs!=null){
+                rs.next();
+            }
+            nExc = rs.getInt(1);
+        } catch (Exception ex) {
+            throw new DAOException(CLASS_NAME_DAO +
+                                   ".countNSDInNhom(): " +
+                                   ex.getMessage(), ex);
+        }
+        
+        return nExc;
+    }
 }
+

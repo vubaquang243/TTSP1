@@ -45,6 +45,8 @@ public class SendKQDC1 {
     private String TRAN_CODE_1 = "065";
     private String TRAN_CODE_3 = "069";
     private String TRAN_CODE_2 = "067";
+    //20171108 thuongdt bo sung them tran code moi
+    private String TRAN_CODE_3NTE = "089";
 
     Connection conn = null;
 
@@ -1720,7 +1722,266 @@ public class SendKQDC1 {
           }
       return strMsgID;
   }
+/**
+ * @create: ThuongDT
+ * @create-date: 08/11/2017
+ * @see: them moi ham send msg doi chieu 3 ngoai te(dien 089)
+ * @param: strKQDCID ma ket qua doi chieu, user_id ma nsd lap DXN
+ * */
+  public String sendMessageDC3NTe(String strKQDCID, String user_id) throws Exception {
+      String strMsgID = "";
+      StringBuffer sbMsg = new StringBuffer();
 
+      setThamSoQuyetToan();
+      KQDChieu3DAO kqdcDAO = new KQDChieu3DAO(conn);
+
+      Vector vtParam = new Vector();
+      String strKQDC1 = " and a.id ='" + strKQDCID + "'";
+      KQDChieu3VO kqdcVO = kqdcDAO.getKQDC3NTe(strKQDC1, null);
+      //
+      String strMaNH = kqdcVO.getReceive_bank();
+      vtParam = new Vector();
+      vtParam.add(new Parameter(strMaNH.substring(2, 5), true));
+      DMNHangDAO dmdao = new DMNHangDAO(conn);
+      DMNHangHOVO dmvo = dmdao.getDMNHangHO(" and a.ma_dv = ? ", vtParam);
+
+      if (dmvo == null) {
+          throw (new TTSPException()).createException("TTSP-1009",
+                                                      "Kh&#244;ng t&#236;m th&#7845;y m&#227; &#7913;ng d&#7909;ng nh&#7853;n t&#432;&#417;ng &#7913;ng v&#7899;i m&#227; ng&#226;n h&#224;ng nh&#7853;n\n Duy&#7879;t l&#7879;nh kh&#244;ng th&#224;nh c&#244;ng.");
+      }
+      APP_RECIEVE_CODE = dmvo.getMa_ung_dung();
+      APP_RECIEVE_NAME = dmvo.getTen_ung_dung();
+      TTSPUtils ttspUtils = new TTSPUtils(conn);
+      strMsgID =
+              ttspUtils.getMsgLTTID(this.APP_SEND_CODE, this.APP_RECIEVE_CODE);
+
+      MsgHeader msgHeader = new MsgHeader();
+      msgHeader.setVersion(AppConstants.VERSION_MSG);
+      msgHeader.setSender_code(APP_SEND_CODE);
+      msgHeader.setSender_name(APP_SEND_NAME);
+      msgHeader.setReveiver_code(APP_RECIEVE_CODE);
+      msgHeader.setReceiver_name(APP_RECIEVE_NAME);
+      msgHeader.setTran_code(TRAN_CODE_3NTE);
+      msgHeader.setMsg_id(strMsgID);
+      msgHeader.setMsg_refid(kqdcVO.getMsg_refid() == null ? "" : kqdcVO.getMsg_refid());
+
+      sbMsg.append(AppConstants.XML_VERSION);
+      sbMsg.append("<DATA>");
+      sbMsg.append(msgHeader.getHeader());
+
+      sbMsg.append("<BODY>");
+      sbMsg.append("<MT_ID>");
+      sbMsg.append(strKQDCID);
+      sbMsg.append("</MT_ID>");
+      sbMsg.append("<BK_ID>");
+      sbMsg.append(kqdcVO.getBk_id());
+      sbMsg.append("</BK_ID>");
+      sbMsg.append("<KET_QUA>");
+  //      sbMsg.append(kqdcVO.getKet_qua());
+      sbMsg.append(Integer.parseInt(kqdcVO.getKet_qua()));
+      sbMsg.append("</KET_QUA>");
+      sbMsg.append("<LAN_DC>");
+      sbMsg.append(kqdcVO.getLan_dc());
+      sbMsg.append("</LAN_DC>");
+      sbMsg.append("<NGAY_DC>");
+      sbMsg.append(kqdcVO.getNgay_dc().replace("/","-"));
+      sbMsg.append("</NGAY_DC>");
+      sbMsg.append("<SEND_BANK>");
+      sbMsg.append(kqdcVO.getSend_bank());
+      sbMsg.append("</SEND_BANK>");
+      sbMsg.append("<RECEIVE_BANK>");
+      sbMsg.append(kqdcVO.getReceive_bank());
+      sbMsg.append("</RECEIVE_BANK>");
+      sbMsg.append("<CREATED_DATE>");
+      sbMsg.append(kqdcVO.getCreated_date().replace("/","-"));
+      sbMsg.append("</CREATED_DATE>");
+      sbMsg.append("<CREATOR>");
+      sbMsg.append(kqdcVO.getMa_nsd());
+      sbMsg.append("</CREATOR>");
+      sbMsg.append("<MANAGER>");
+      sbMsg.append(user_id);
+      sbMsg.append("</MANAGER>");
+      sbMsg.append("<VERIFIED_DATE>");
+      sbMsg.append(StringUtil.DateToString(new Date(),
+                                           AppConstants.DATE_TIME_FORMAT_SEND_ORDER));
+      sbMsg.append("</VERIFIED_DATE>");
+
+      sbMsg.append("<SODU_KBNN>");
+      sbMsg.append(kqdcVO.getSo_du_kbnn() == null ? "0" :
+                 kqdcVO.getSo_du_kbnn());
+      sbMsg.append("</SODU_KBNN>");
+
+      sbMsg.append("<CHENH_LECH>");
+    sbMsg.append(kqdcVO.getChenh_lech() == null ? "" :
+               kqdcVO.getChenh_lech());
+      sbMsg.append("</CHENH_LECH>");
+
+    KQDChieu3CTietDAO dchieu3CtietDAO= new KQDChieu3CTietDAO(conn);
+    KQDChieu3CTietVO kqCTietVO = null;
+    
+    Collection colMT900 = null;
+    String strWhere = " AND a.kq_id='"+strKQDCID+"' AND a.mt_type='900'";    
+     colMT900 = dchieu3CtietDAO.getKQDChieu3CTietList(strWhere, null);
+      sbMsg.append("<MT900>");
+      sbMsg.append("<KB_THIEU>");
+      if (colMT900 != null) {
+          Iterator iter1 = colMT900.iterator();
+          while (iter1.hasNext()) {
+              kqCTietVO = (KQDChieu3CTietVO)iter1.next();
+              String tthai = kqCTietVO.getTrang_thai();
+              if ("00".equals(tthai)) {
+                  sbMsg.append("<ROW>");
+                      sbMsg.append("<NGAY_CT>");
+                sbMsg.append(kqCTietVO.getNgay_ct() == null ? "" :
+                             kqCTietVO.getNgay_ct().replace("/", "-"));
+                      sbMsg.append("</NGAY_CT>");
+                  sbMsg.append("<MA_KB>");
+                  sbMsg.append(kqCTietVO.getMa_kb());
+                  sbMsg.append("</MA_KB>");
+                  sbMsg.append("<TEN_KB>");
+                  sbMsg.append(kqCTietVO.getTen_kb());
+                  sbMsg.append("</TEN_KB>");
+                  sbMsg.append("<MT_ID>");
+                  sbMsg.append(kqCTietVO.getMt_id());
+                  sbMsg.append("</MT_ID>");
+                  sbMsg.append("<SO_TIEN>");
+                  sbMsg.append(kqCTietVO.getSo_tien());
+                  sbMsg.append("</SO_TIEN>");
+                  sbMsg.append("</ROW>");
+              }
+          }
+      }
+      sbMsg.append("</KB_THIEU>");
+      
+        sbMsg.append("<KB_THUA>");
+        if (colMT900 != null) {
+            Iterator iter1 = colMT900.iterator();
+            while (iter1.hasNext()) {
+                kqCTietVO = (KQDChieu3CTietVO)iter1.next();
+                String tthai = kqCTietVO.getTrang_thai();
+                if ("01".equals(tthai)) {
+                    sbMsg.append("<ROW>");
+                        sbMsg.append("<NGAY_CT>");
+                  sbMsg.append(kqCTietVO.getNgay_ct() == null ? "" :
+                               kqCTietVO.getNgay_ct().replace("/", "-"));
+                        sbMsg.append("</NGAY_CT>");
+                    sbMsg.append("<MA_KB>");
+                    sbMsg.append(kqCTietVO.getMa_kb());
+                    sbMsg.append("</MA_KB>");
+                    sbMsg.append("<TEN_KB>");
+                    sbMsg.append(kqCTietVO.getTen_kb());
+                    sbMsg.append("</TEN_KB>");
+                    sbMsg.append("<MT_ID>");
+                    sbMsg.append(kqCTietVO.getMt_id());
+                    sbMsg.append("</MT_ID>");
+                    sbMsg.append("<SO_TIEN>");
+                    sbMsg.append(kqCTietVO.getSo_tien());
+                    sbMsg.append("</SO_TIEN>");
+                    sbMsg.append("</ROW>");
+                }
+            }
+        }
+        sbMsg.append("</KB_THUA>");
+      
+      sbMsg.append("</MT900>");
+
+    Collection colMT910 = null;
+    String strMT910 = " AND a.kq_id='"+strKQDCID+"' AND a.mt_type='910'";    
+     colMT910 = dchieu3CtietDAO.getKQDChieu3CTietList(strMT910, null);
+      sbMsg.append("<MT910>");
+      sbMsg.append("<KB_THIEU>");
+      if (colMT910 != null) {
+          Iterator iter1 = colMT910.iterator();
+          while (iter1.hasNext()) {
+              kqCTietVO = (KQDChieu3CTietVO)iter1.next();
+              String tthai = kqCTietVO.getTrang_thai();
+              if ("00".equals(tthai)) {
+                  sbMsg.append("<ROW>");
+                      sbMsg.append("<NGAY_CT>");
+                sbMsg.append(kqCTietVO.getNgay_ct() == null ? "" :
+                             kqCTietVO.getNgay_ct().replace("/", "-"));
+                      sbMsg.append("</NGAY_CT>");
+                  sbMsg.append("<MA_KB>");
+                  sbMsg.append(kqCTietVO.getMa_kb());
+                  sbMsg.append("</MA_KB>");
+                  sbMsg.append("<TEN_KB>");
+                  sbMsg.append(kqCTietVO.getTen_kb());
+                  sbMsg.append("</TEN_KB>");
+                  sbMsg.append("<MT_ID>");
+                  sbMsg.append(kqCTietVO.getMt_id());
+                  sbMsg.append("</MT_ID>");
+                  sbMsg.append("<SO_TIEN>");
+                  sbMsg.append(kqCTietVO.getSo_tien());
+                  sbMsg.append("</SO_TIEN>");
+                  sbMsg.append("</ROW>");
+              }
+          }
+      }
+      sbMsg.append("</KB_THIEU>");
+      
+        sbMsg.append("<KB_THUA>");
+        if (colMT910 != null) {
+            Iterator iter1 = colMT910.iterator();
+            while (iter1.hasNext()) {
+                kqCTietVO = (KQDChieu3CTietVO)iter1.next();
+                String tthai = kqCTietVO.getTrang_thai();
+                if ("01".equals(tthai)) {
+                    sbMsg.append("<ROW>");
+                        sbMsg.append("<NGAY_CT>");
+                  sbMsg.append(kqCTietVO.getNgay_ct() == null ? "" :
+                               kqCTietVO.getNgay_ct().replace("/", "-"));
+                        sbMsg.append("</NGAY_CT>");
+                    sbMsg.append("<MA_KB>");
+                    sbMsg.append(kqCTietVO.getMa_kb());
+                    sbMsg.append("</MA_KB>");
+                    sbMsg.append("<TEN_KB>");
+                    sbMsg.append(kqCTietVO.getTen_kb());
+                    sbMsg.append("</TEN_KB>");
+                    sbMsg.append("<MT_ID>");
+                    sbMsg.append(kqCTietVO.getMt_id());
+                    sbMsg.append("</MT_ID>");
+                    sbMsg.append("<SO_TIEN>");
+                    sbMsg.append(kqCTietVO.getSo_tien());
+                    sbMsg.append("</SO_TIEN>");
+                    sbMsg.append("</ROW>");
+                }
+            }
+        }
+        sbMsg.append("</KB_THUA>");
+      
+      sbMsg.append("</MT910>");
+      sbMsg.append("</BODY>");
+      sbMsg.append("<SECURITY>");
+      sbMsg.append("<SIGNATURE>");
+      sbMsg.append("</SIGNATURE>");
+      sbMsg.append("</SECURITY>");
+      sbMsg.append("</DATA>");
+      //Build log msg
+      MsgDAO msgDAO = new MsgDAO(conn);
+      MsgVO msg = new MsgVO();
+
+      msg.setMsg_content(sbMsg.toString());
+      msg.setMsg_id(strMsgID);
+      msg.setMsg_type(TRAN_CODE_3NTE);
+      msg.setSender(APP_SEND_CODE);
+      msg.setReciever(APP_RECIEVE_CODE);
+      //Put msg to queue
+          MQClient client = new MQClient();
+ //         rao tam test
+//          client.putMsgToQueue(sbMsg.toString(), MQ_HOSTNAME, MQ_CHANEL,
+//                               MQ_PORT, MQ_MANAGER_NAME, MQ_NAME);
+
+          //Ghi log
+          try {
+              msgDAO.insert(msg);
+          } catch (Exception e) {
+              Exception ex =
+                  new Exception("Loi ghi log(com.seatech.ttsp.proxy.giaodien.bank.SendKQDC1.sendMessage()): " +
+                                e.getMessage());
+              ex.printStackTrace();
+          }
+      return strMsgID;
+  }
 
 
 

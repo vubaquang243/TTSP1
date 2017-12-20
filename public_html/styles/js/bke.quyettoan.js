@@ -367,7 +367,7 @@ function buttonForBKeQToan() {
     jQuery("#daylai").hide();
     jQuery("#huy").hide();
     jQuery("#duyet").hide();
-    jQuery("#in").hide();
+    jQuery("#in").show();
     jQuery("#thoat").show();
 }
 

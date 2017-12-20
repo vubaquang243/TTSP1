@@ -27,7 +27,7 @@ public class KQDChieu3NgoaiTeCTietDAO extends AppDAO {
 
           String strSQL =" SELECT a.id, a.kq_id, a.bk_id, a.insert_date, to_char(a.ngay_ct,'dd/MM/yyyy') as ngay_ct," +
           " a.ma_kb, a.ten_kb, a.mt_id, a.so_tien, a.trang_thai, a.mt_type, a.ma_nh, b.send_bank," + 
-          " b.receive_bank, (SELECT ten_nh FROM sp_dm_nh_ho  where ma_nh= a.ma_nh) as ten_receive_bank, b.lan_dc " + 
+          " b.receive_bank, (SELECT ten_nh FROM sp_dm_nh_ho  where ma_nh= a.ma_nh) as ten_receive_bank, b.lan_dc,b.ma_nt loai_tien " + 
           "  FROM sp_kq_dc3_ngoai_te_ctiet a inner join sp_kq_dc3_ngoai_te b on b.id=a.kq_id WHERE 1=1 ";          
           strSQL += strWhere + " ORDER BY ma_kb,ngay_ct, a.trang_thai ASC ";
            reval = executeSelectStatement(strSQL.toString(), vParam, strValueObjectVO,conn);

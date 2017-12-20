@@ -23,6 +23,7 @@
 <script type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/lov.js"></script>
 
 <script type="text/javascript">
+
   jQuery.noConflict();
   
   
@@ -34,6 +35,20 @@
           width: "550px",
           modal: true
       });
+      
+      //
+       //lay ngay hien tai  
+      var time = new Date();
+      var display = "";
+        if(time.getDate() < 10){
+          display += "0" + (time.getDate()) + '/';
+        }else display+= (time.getDate()) + '/';
+        if((time.getMonth() + 1) < 10){
+          display += "0" + (time.getMonth() + 1) + '/';
+        }else display += (time.getMonth() + 1) + '/';
+        display += time.getFullYear();
+      jQuery('#ngay_gd').val(display);
+      
       if(jQuery("#kb_tinh").val() == '0003'){
           try{
             jQuery("#kb_huyen").val("0003");
@@ -45,6 +60,7 @@
           document.forms[0].submit();
           jQuery(this).dialog("close");
       });
+      
       jQuery("#btnTra_cuu").click(function(){
         var ma_KB_tinh = jQuery("#id_kho_bac_tinh").val();
         var ma_KB_huyen = jQuery("#id_kho_bac_huyen").val();
@@ -54,19 +70,45 @@
         var loai_tai_khoan = jQuery("#loai_tai_khoan").val();
         var tinh_trang_so_du = jQuery("#tinh_trang_so_du").val();
         var ngay_gd = jQuery("#ngay_gd").val();
-        var pageNumber = jQuery("#pageNumber").val();
+        var pageNumber = jQuery("#pageNumber").val();       
+        //20171117 thuongdt bat them code tra cuu gioi han theo ngay giao dich
+        if(checkNgay_GD()){
+        
         if(ma_KB_tinh == "")
         ma_KB_tinh = "000";
         document.forms[0].action = "traCuuSoDu.do?ma_bk_tinh=" + ma_KB_tinh + "&ma_KB_huyen=" +ma_KB_huyen + "&ma_ngan_hang=" + ma_ngan_hang
           +"&loai_tien="+loai_tien+"&han_muc="+han_muc+"&loai_tai_khoan="+loai_tai_khoan+"&tinh_trang_so_du="+tinh_trang_so_du+"&ngay_gd="+ngay_gd;
         if(pageNumber == undefined){
         pageNumber = 1;
-        document.forms[0].action +="&page="+pageNumber;
+        document.forms[0].action +="&page="+pageNumber;   
         }else{
         document.forms[0].action +="&page="+pageNumber;
         }
-        document.forms[0].submit();
+         document.forms[0].submit();
+        
+        }      
       });
+      //20171117 thuongdt bat them code tra cuu gioi han theo ngay giao dich
+      function checkNgay_GD(){
+        var ngay_gd = jQuery("#ngay_gd").val();
+        if(ngay_gd == null || ngay_gd == ''){
+          alert('Nhập ngày giao dich.');
+          jQuery("#ngay_gd").focus();
+          return false;
+        }else{ 
+          var vngay_gd = ngay_gd.split("/");
+          var vmounth = Number(vngay_gd[1])-1
+          var dateTemp = new Date(vngay_gd[2],''+vmounth ,vngay_gd[0])
+         if(dateTemp > new Date()){
+          alert('Ngày giao dich phải nhỏ hơn hoặc bằng ngày hiện tại.');
+          jQuery("#ngay_gd").focus();
+          return false;
+         }
+         
+        }
+        return true;
+      }
+      
       //getParams
       var getUrlParameter = function getUrlParameter(sParam) {
         var sPageURL = decodeURIComponent(window.location.search.substring(1)),
@@ -82,13 +124,12 @@
           }
         }
       };
-      
         jQuery("#loai_tien").val(getUrlParameter('loai_tien'));
-        console.log(getUrlParameter('loai_tien'));
         jQuery("#han_muc").val(getUrlParameter('han_muc'));
         jQuery("#loai_tien option[value="+getUrlParameter('loai_tien')+"]").attr("selected",true);
         jQuery("#loai_tai_khoan option[value="+getUrlParameter('loai_tai_khoan')+"]").attr("selected",true);
         jQuery("#tinh_trang_so_du option[value="+getUrlParameter('tinh_trang_so_du')+"]").attr("selected",true);
+        if(getUrlParameter('ngay_gd') != undefined)
         jQuery("#ngay_gd").val(getUrlParameter('ngay_gd'));
       
       jQuery("a#previous").click(function(){
@@ -127,54 +168,58 @@
         }
         });
       }
+ 
+ //20171204 thuongdt bo load ngan hang, loai tien begin
       
       //get ngan hang
-      var kb_id_huyen = getUrlParameter('ma_KB_huyen');//jQuery("#id_kho_bac_huyen option:selected").val();
-      if(kb_id_huyen != ""){
-        jQuery.ajax({
-          type : "POST",
-          url : "getListNganHang.do",
-          data : {"kb_id_huyen" : kb_id_huyen},
-          success : function(data, textstatus){
-            if(data != null){
-              var lstNganHang = new Object();
-              lstNganHang = JSON.parse(data[0]);
-              if(lstNganHang.size() != 0){
-                jQuery('#id_ngan_hang option').remove();
-                jQuery('#id_ngan_hang').append('<option value="">Chọn thông tin tra cứu<\/option>');
-                for(var i = 0; i < lstNganHang.size(); i++){
-                  jQuery('#id_ngan_hang').append('<option value="'+ lstNganHang[i].ma_nh +'">'+ lstNganHang[i].ten_nh +'<\/option>');
-                  jQuery('#id_ngan_hang option[value='+ getUrlParameter('ma_ngan_hang') +']').attr("selected",true);
-                }
-              }
-            }
-          }
-        });
-      }
+//      var kb_id_huyen = getUrlParameter('ma_KB_huyen');//jQuery("#id_kho_bac_huyen option:selected").val();
+//      if(kb_id_huyen != ""){
+//        jQuery.ajax({
+//          type : "POST",
+//          url : "getListNganHang.do",
+//          data : {"kb_id_huyen" : kb_id_huyen},
+//          success : function(data, textstatus){
+//            if(data != null){
+//              var lstNganHang = new Object();
+//              lstNganHang = JSON.parse(data[0]);
+//              if(lstNganHang.size() != 0){
+//                jQuery('#id_ngan_hang option').remove();
+//                jQuery('#id_ngan_hang').append('<option value="">Chọn thông tin tra cứu<\/option>');
+//                for(var i = 0; i < lstNganHang.size(); i++){
+//                  jQuery('#id_ngan_hang').append('<option value="'+ lstNganHang[i].ma_nh +'">'+ lstNganHang[i].ten_nh +'<\/option>');
+//                  jQuery('#id_ngan_hang option[value='+ getUrlParameter('ma_ngan_hang') +']').attr("selected",true);
+//                }
+//              }
+//            }
+//          }
+//        });
+//      }
       
       //get loai tien
-      var nganHang  = getUrlParameter('ma_ngan_hang');
-       if(nganHang != ""){
-          jQuery.ajax({
-            type : "POST",
-            url : "getCateMoney.do",
-            data : {"nganhang_id" : nganHang},
-            success : function(data, textstatus){
-              if(data != null){
-                var lstLoaiTien = new Object();
-                lstLoaiTien = JSON.parse(data[0]);
-                if(lstLoaiTien.size() != 0){
-                  jQuery('#loai_tien option').remove();
-                  jQuery('#loai_tien').append('<option value="">--Chọn loại tiền--<\/option>');
-                  for(var i = 0; i < lstLoaiTien.size(); i++){
-                    jQuery('#loai_tien').append('<option value="' + lstLoaiTien[i].loai_tien + '" >'+ lstLoaiTien[i].loai_tien +'<\/option>');
-                    jQuery('#loai_tien option[value="'+ getUrlParameter('loai_tien') +'"]').attr("selected",true);
-                  }
-                }
-              }
-            }
-          });
-       }
+//      var nganHang  = getUrlParameter('ma_ngan_hang');
+//       if(nganHang != ""){
+//          jQuery.ajax({
+//            type : "POST",
+//            url : "getCateMoney.do",
+//            data : {"nganhang_id" : nganHang},
+//            success : function(data, textstatus){
+//              if(data != null){
+//                var lstLoaiTien = new Object();
+//                lstLoaiTien = JSON.parse(data[0]);
+//                if(lstLoaiTien.size() != 0){
+//                  jQuery('#loai_tien option').remove();
+//                  jQuery('#loai_tien').append('<option value="">--Chọn loại tiền--<\/option>');
+//                  for(var i = 0; i < lstLoaiTien.size(); i++){
+//                    jQuery('#loai_tien').append('<option value="' + lstLoaiTien[i].loai_tien + '" >'+ lstLoaiTien[i].loai_tien +'<\/option>');
+//                    jQuery('#loai_tien option[value="'+ getUrlParameter('loai_tien') +'"]').attr("selected",true);
+//                  }
+//                }
+//              }
+//            }
+//          });
+//       }
+
+ //20171204 thuongdt bo load ngan hang, loai tien end
   });
   
   function goPage(page) {
@@ -200,12 +245,12 @@
   
   function changeForeignCurrency(nStr){
         nStr += '';
-        x = nStr.split('.');
+        x = nStr.split(',');
         x1 = x[0];
-        x2 = x.length > 1 ? '.' + x[1] : '';
+        x2 = x.length > 1 ? ',' + x[1] : '';
        var rgx = /(\d+)(\d{3})/;
        while (rgx.test(x1)) {
-          x1 = x1.replace(rgx, '$1' + ',' + '$2');
+          x1 = x1.replace(rgx, '$1' + '.' + '$2');
         }
         return x1 + x2;
       }
@@ -276,10 +321,11 @@
       }else{
         jQuery('#id_kho_bac_huyen option').remove();
         jQuery('#id_kho_bac_huyen').append('<option value="selected" >Chọn thông tin tra cứu<\/option>');
-        jQuery('#id_ngan_hang option').remove();
-        jQuery('#id_ngan_hang').append('<option value="">Chọn thông tin tra cứu<\/option>');
-        jQuery('#loai_tien option').remove();
-        jQuery('#loai_tien').append('<option value="">--Chọn loại tiền--<\/option>');
+        //20171204 thuongdt bo load ngan hang, loai tien
+        //jQuery('#id_ngan_hang option').remove();
+        //jQuery('#id_ngan_hang').append('<option value="">Chọn thông tin tra cứu<\/option>');
+        //jQuery('#loai_tien option').remove();
+        //jQuery('#loai_tien').append('<option value="">--Chọn loại tiền--<\/option>');
       }
     }
     
@@ -308,16 +354,17 @@
       }else{
         jQuery('#id_kho_bac_huyen option').remove();
         jQuery('#id_kho_bac_huyen').append('<option value="selected" >Chọn thông tin tra cứu<\/option>');
-        jQuery('#id_ngan_hang option').remove();
-        jQuery('#id_ngan_hang').append('<option value="">Chọn thông tin tra cứu<\/option>');
-        jQuery('#loai_tien option').remove();
-        jQuery('#loai_tien').append('<option value="">--Chọn loại tiền--<\/option>');
+        //20171204 thuongdt bo load ngan hang, loai tien
+        //jQuery('#id_ngan_hang option').remove();
+        //jQuery('#id_ngan_hang').append('<option value="">Chọn thông tin tra cứu<\/option>');
+        //jQuery('#loai_tien option').remove();
+        //jQuery('#loai_tien').append('<option value="">--Chọn loại tiền--<\/option>');
       }
     }
     
     function getThongTinNganHang(){
       var kb_id_huyen = jQuery("#id_kho_bac_huyen").val();
-      if(kb_id_huyen != ""){
+      if(kb_id_huyen != "" && kb_id_huyen != "selected"){
         jQuery.ajax({
           type : "POST",
           url : "getListNganHang.do",
@@ -389,7 +436,7 @@
 <table cellspacing="0" cellpadding="3" width="100%">
   <tr>
     <td width="5%" align="right">Kho bạc tỉnh</td>
-    <td width="10%"><html:select property="id_kho_bac_tinh" styleId="id_kho_bac_tinh" onblur="getThongTinKB();" style="width : 170px;" onkeydown="if(event.keyCode==13) event.keyCode=9;">
+    <td width="10%"><html:select property="id_kho_bac_tinh" styleId="id_kho_bac_tinh" onblur="getThongTinKB();" onchange="getThongTinKB();" style="width : 170px;" onkeydown="if(event.keyCode==13) event.keyCode=9;">
           <option value="">Chọn thông tin tra cứu</option>
           <logic:notEmpty name="lstNHKBTinh">
           <html:optionsCollection name="lstNHKBTinh" label="ten" value="ma" />
@@ -397,7 +444,8 @@
         </html:select>
     </td>
     <td width="5%" align="right">Kho bạc huyện</td>
-    <td width="6%"><html:select property="id_kho_bac_huyen" styleId="id_kho_bac_huyen" onblur="getThongTinNganHang();" style="width : 170px;" onkeydown="if(event.keyCode==13) event.keyCode=9;">
+    <!--20171204 thuongdt bo load ngan hang onblur="getThongTinNganHang();" onchange="getThongTinNganHang();"-->    
+    <td width="6%"><html:select property="id_kho_bac_huyen" styleId="id_kho_bac_huyen" style="width : 170px;" onkeydown="if(event.keyCode==13) event.keyCode=9;">
           <option value="">Chọn thông tin tra cứu</option>
         </html:select>
     </td>
@@ -410,14 +458,17 @@
   <tr>
   <td align="right">Hệ thống ngân hàng</td>
   <td>
-    <html:select property="id_ngan_hang" styleId="id_ngan_hang" style="width : 170px;" onblur="getLoaiTien();" onkeydown="if(event.keyCode==13) event.keyCode=9;">
+  <!--20171204 thuongdt bo load loai tien onblur="getLoaiTien();" onchange="getLoaiTien();-->  
+    <html:select property="id_ngan_hang" styleId="id_ngan_hang" style="width : 170px;"  onkeydown="if(event.keyCode==13) event.keyCode=9;">
         <option value="">Chọn thông tin tra cứu</option>
+        <html:optionsCollection name="dmNH" value="ma_dv" label="ten_nh"/>  
     </html:select>
     </td>
   <td align="right">Loại tiền</td>
   <td>
     <html:select property="loai_tien" styleId="loai_tien" onblur="resetInput();" onkeydown="if(event.keyCode==13) event.keyCode=9;">
       <option value="">--Chọn loại tiền--</option>
+       <html:optionsCollection name="dmTienTe" value="ma" label="ma"/>
     </html:select>
   </td>
   </tr>
@@ -447,7 +498,10 @@
   <tr>
   <td align="right">Tình trạng số dư</td>
   <td><html:select property="tinh_trang_so_du" styleId="tinh_trang_so_du">
-    <option value="01" selected="selected"> > Hạn mức</option>
+    <option value=""> Tất cả</option>
+    <!--20171130 thuongdt them tieu chi han muc nho hon 0-->
+    <option value="00"> Nhỏ hơn 0 </option>
+    <option value="01"> > Hạn mức</option>
     <option value="02"> = Hạn mức</option>
     <option value="03"> < Hạn mức</option>
   </html:select></td>
@@ -460,7 +514,7 @@
         style="WIDTH: 40%;"/>
         <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/calendar/calbtn.gif"
         border="0" id="ngay_gd_btn" width="10%"
-        style="vertical-align:middle;"/>
+        style="vertical-align:middle;"/><span style="color:red;padding-left:5px">(*)</span>
         <script type="text/javascript">
           Calendar.setup( {
           inputField : "ngay_gd", // id of the input field
@@ -470,7 +524,7 @@
         </script>
   </td>
   <td colspan="3">
-    <button id="btnTra_cuu">Tra cứu</button>
+    <input type="button" id="btnTra_cuu" value="Tra cứu">    
     <button id="btn_Thoat">Thoát</button>
   </td>
   </tr>

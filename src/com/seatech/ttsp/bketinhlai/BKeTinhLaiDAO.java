@@ -16,7 +16,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
-
+/**
+ * @modify: thuongdt
+ * @modify-date: 05/12/2017
+ * @see: sua cau querry lay max id dam bao nhan 070 khong bi trung du lieu
+ * @find: 20171205
+ * */
 public class BKeTinhLaiDAO extends AppDAO {
     Connection conn = null;
     private String  bkeTinhLaiVO = "com.seatech.ttsp.bketinhlai.BKeTinhLaiVO";
@@ -25,7 +30,6 @@ public class BKeTinhLaiDAO extends AppDAO {
     public BKeTinhLaiDAO(Connection conn) {
         this.conn = conn;
     }
-
     public Collection getListBKeTinhLai_PTrang(String strWhere, Vector vParam,
                                                Integer page, Integer count,
                                                Integer[] totalCount) throws Exception {
@@ -34,15 +38,15 @@ public class BKeTinhLaiDAO extends AppDAO {
         try {
 
             String strSQL = "";
-
+            //20171205
             strSQL +=
                     "SELECT a.id, a.mt_id, a.send_bank, a.reveive_bank, a.send_date," +
                     " a.creator, a.create_date, a.manager, a.verified_date, to_char(a.ngay,'DD/MM/YYYY') ngay," +
                     " a.sodu_cuoingay, a.lai_suat, a.lai, a.ghi_chu, a.msg_id," +
                     " a.insert_date, a.so_tk" +
-                    "  FROM sp_bke_tinh_lai a , sp_dm_manh_shkb b, sp_dm_htkb c" +
+                    " from sp_bke_tinh_lai a where id in (select max(a.id)  FROM sp_bke_tinh_lai a , sp_dm_manh_shkb b, sp_dm_htkb c" +
                     " WHERE		b.shkb = c.ma and a.reveive_bank = b.ma_nh AND a.ma_nt_goc = 'VND'"; // chinh 'ma_nt_goc' should be 'vnd'
-            strSQL += strWhere + " order by a.ngay desc ";
+            strSQL += strWhere + " group by a.SEND_BANK,a.REVEIVE_BANK,a.NGAY,a.MA_NT,a.SO_TK) order by a.ngay desc ";
             return executeSelectWithPaging(conn, strSQL.toString(), vParam,
                                             bkeTinhLaiVO, page, count,
                                            totalCount);

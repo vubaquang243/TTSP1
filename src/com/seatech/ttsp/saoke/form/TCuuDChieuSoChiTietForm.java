@@ -5,6 +5,8 @@ import com.seatech.framework.strustx.AppForm;
 public class TCuuDChieuSoChiTietForm extends AppForm {
     private String pageNumber;
     private String kb_id;
+    //20171124 thuongdt bo sung them tra cuu theo don vi tinh
+    private String kb_tinh;
     private String kb_huyen;
     private String ngan_hang;
     private String trangthai;
@@ -13,8 +15,6 @@ public class TCuuDChieuSoChiTietForm extends AppForm {
     private String from_date;
     private String to_date;
     private String so_tk;
-    
-    
 
     public void setPageNumber(String pageNumber) {
         this.pageNumber = pageNumber;
@@ -86,5 +86,13 @@ public class TCuuDChieuSoChiTietForm extends AppForm {
 
     public String getSo_tk() {
         return so_tk;
+    }
+
+    public void setKb_tinh(String kb_tinh) {
+        this.kb_tinh = kb_tinh;
+    }
+
+    public String getKb_tinh() {
+        return kb_tinh;
     }
 }

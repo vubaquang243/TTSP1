@@ -19,6 +19,7 @@ public class SoDuForm  extends ActionForm{
     private String ten_nhkb_nhan;
     private String id_nhkb_nhan;
     private String ten_nhkb_nhan1;
+	//20171025 taidd bo sung them loai_tk
     private String loai_tk;
 
     public void setPageNumber(String pageNumber) {

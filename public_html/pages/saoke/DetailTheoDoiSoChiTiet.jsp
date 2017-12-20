@@ -26,7 +26,9 @@
     function check(type) {
         var f = document.forms[0];
         f.submit();
-    }    
+    } 
+    
+
 </script>
 <%@ include file="/includes/ttsp_header.inc"%>
 <title>Chi tiết</title>
@@ -55,17 +57,44 @@
     </table>
     <table style="BORDER-COLLAPSE: collapse;margin:auto;margin-top:20px;font-size:10pt" border="1" cellspacing="0" bordercolor="#999999" width="70%">
            <thead>
-            <tr>
-              <th colspan="4">Hệ thống ngân hàng <%=request.getAttribute("nganHang")%></th>
-            </tr>
-            <tr>
-              <th colspan="4">Ngày <%=request.getParameter("date")%></th>
-            </tr>
+           <c:if test="${requestScope.existSaoKeTK != null}">
+                <tr>
+                  <th colspan="5">Hệ thống ngân hàng <%=request.getAttribute("nganHang")%></th>
+                </tr>
+            </c:if>
+            <c:if test="${requestScope.existSaoKeTK == null}">
+                <tr>
+                  <th colspan="4">Hệ thống ngân hàng <%=request.getAttribute("nganHang")%></th>
+                </tr>
+            </c:if>
+            <c:if test="${requestScope.existSaoKeTK != null}">
+                <tr>
+                  <th colspan="5">Ngày <%=request.getParameter("date")%></th>
+                </tr>
+            </c:if>
+            <c:if test="${requestScope.existSaoKeTK == null}">
+                <tr>
+                  <th colspan="4">Ngày <%=request.getParameter("date")%></th>
+                </tr>
+            </c:if>
+            <c:if test="${requestScope.existSaoKeTK != null}">
+                <tr>
+                  <th colspan="5">Đơn vị chốt sổ: <span id = "dv_chotso"/></th>
+                </tr>
+            </c:if>
+             <c:if test="${requestScope.existSaoKeTK == null}">
+                <tr>
+                  <th colspan="4">Đơn vị chốt sổ: <span id = "dv_chotso"/></th>
+                </tr>
+            </c:if>
             <tr>
               <th width="10%">STT</th>
               <th width="15%">Mã KBNN</th>
-              <th width="50%">Tên đơn vị</th>
-              <th>Trạng thái</th>
+              <th width="40%">Tên đơn vị</th>
+              <th width="15%">Trạng thái</th>
+               <c:if test="${requestScope.existSaoKeTK != null}">
+               <th width="15%">Trạng thái chốt sổ</th>
+               </c:if>
             </tr>
            </thead>
            <tbody>
@@ -77,6 +106,16 @@
                   <td><div align="center"><bean:write name="item" property="shkb"/></div></td>
                   <td><div align="left"><bean:write name="item" property="ten_kb"/></div></td>
                   <td><div align="center" style="color:green;"><bean:write name="item" property="trang_thai"/></div></td>
+                  <!--20171130 thuongdt bo sung them tt_chot_so-->
+                  <td>
+                  <logic:equal value="00" name="item" property="tt_chot_so" >
+                    <div align="center">Chưa chốt sổ</div>
+                  </logic:equal>
+                  <logic:equal value="01" name="item" property="tt_chot_so" >
+                    <div align="center">Đã chốt sổ</div>
+                  </logic:equal>
+                  </td>
+                  <input type="hidden" name="tt_chot_so" value="<bean:write name="item" property="tt_chot_so"/>"/>
                 </tr>
               </c:forEach>
             </c:if>
@@ -107,4 +146,22 @@
     <html:hidden property="from_date" value='<%=request.getParameter("from_date")%>'/>
     <html:hidden property="to_date" value='<%=request.getParameter("to_date")%>'/>
 </html:form>
+
+<script type="text/javascript">
+    checktt_chot_so();
+   function checktt_chot_so(){
+      var vDVCS = document.getElementById ("dv_chotso");
+      var vTTDVCS = document.getElementsByName ("tt_chot_so");
+      var sodv = 0;
+      if(vDVCS != null){
+        for(var i = 0; i < vTTDVCS.length; i++){
+          if(vTTDVCS[i].value == '01'){
+            sodv++;
+          }
+        }
+        vDVCS.innerHTML = sodv+'/'+vTTDVCS.length
+      }
+   }
+    
+</script>
 <%@ include file="/includes/ttsp_bottom.inc"%>

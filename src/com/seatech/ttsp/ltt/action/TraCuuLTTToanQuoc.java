@@ -10,6 +10,7 @@ import com.seatech.framework.datamanager.Parameter;
 import com.seatech.framework.strustx.AppAction;
 import com.seatech.framework.utils.DateUtils;
 import com.seatech.framework.utils.FontUtil;
+import com.seatech.framework.utils.StringUtil;
 import com.seatech.ttsp.dchieu.DChieu1DAO;
 import com.seatech.ttsp.dchieu.DChieu1VO;
 import com.seatech.ttsp.dmkb.DMKBacDAO;
@@ -348,6 +349,9 @@ public class TraCuuLTTToanQuoc extends AppAction {
                     String den_ngay_nhan_back =
                         request.getParameter("den_ngay_nhan_back");
                     String so_tien_back = request.getParameter("so_tien_back");
+                    if(so_tien_back!= null){
+                      so_tien_back = StringUtil.formatMoneyVNDToDouble(request.getParameter("so_tien_back"));
+                    }
                     String ma_nt_back = request.getParameter("ma_nt_back");
                     if (f != null && f.getTinh() != null) {
                         if (!f.getTinh().equalsIgnoreCase(SGD)) {
@@ -385,7 +389,7 @@ public class TraCuuLTTToanQuoc extends AppAction {
 
                     if (so_tien_back != null &&
                         !STRING_EMPTY.equals(so_tien_back)) {
-                        f.setSo_tien(new Long(so_tien_back));
+                        f.setSo_tien(so_tien_back);
                     } else {
                         f.setSo_tien(null);
                     }
@@ -523,10 +527,10 @@ public class TraCuuLTTToanQuoc extends AppAction {
                     params.add(new Parameter(f.getTu_ltt(), true));
                 }
                 if (f.getSo_tien() != null &&
-                    !STRING_EMPTY.equals(f.getSo_tien()) &&
-                    f.getSo_tien() != 0) {
+                    !STRING_EMPTY.equals(f.getSo_tien())
+                    && !f.getSo_tien().equals("0")) {
                     whereClause += " and t.tong_sotien = ?";
-                    params.add(new Parameter(f.getSo_tien(), true));
+                    params.add(new Parameter(StringUtil.formatMoneyVNDToDouble(f.getSo_tien()), true));
                 }
                 if (f.getTrang_thai() != null &&
                     !STRING_EMPTY.equals(f.getTrang_thai())) {

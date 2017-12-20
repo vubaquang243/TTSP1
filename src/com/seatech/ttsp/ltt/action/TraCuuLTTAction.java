@@ -8,6 +8,7 @@ import com.seatech.framework.datamanager.ReportUtility;
 import com.seatech.framework.strustx.AppAction;
 import com.seatech.framework.utils.DateUtils;
 import com.seatech.framework.utils.StringUtil;
+import com.seatech.framework.utils.TTSPLoadDMuc;
 import com.seatech.ttsp.dmkb.DMKBacDAO;
 import com.seatech.ttsp.dmkb.DMKBacVO;
 import com.seatech.ttsp.dmnh.DMNHangDAO;
@@ -71,11 +72,7 @@ public class TraCuuLTTAction extends AppAction {
                                           HttpServletRequest request,
                                           HttpServletResponse response) throws Exception {
         Connection conn = null;
-        String strMaSGD = "0003";
-        String strCapTinh = "5";
-        String strCapTW = "1";
-        String strWhereClauseKB = null;
-        Vector vParamsKB = null;
+
         try {
             conn = getConnection(request);
 
@@ -96,50 +93,11 @@ public class TraCuuLTTAction extends AppAction {
                     (List)thamchieuDAO.getMaThamChieuList(strWhere, vParam);
 
             request.setAttribute("lstTrangThai", lstTrangThai);
-            // xac dinh user dang nhap thuoc tinh hay huyen
-            HttpSession session = request.getSession();
-            String ma_kb_so_tai =
-                (String)session.getAttribute(AppConstants.APP_KB_CODE_SESSION);
-            DMKBacDAO kbDAO = new DMKBacDAO(conn);
-            ArrayList<DMKBacVO> lstKBTinh = new ArrayList<DMKBacVO>();
-            ArrayList<DMKBacVO> lstKBHuyen = new ArrayList<DMKBacVO>();
-            if (ma_kb_so_tai.equals(strMaSGD)) {
-                request.setAttribute("MAT4", ma_kb_so_tai);
-                vParamsKB = new Vector();
-                strWhereClauseKB = "a.cap=?  or a.ma='" + strMaSGD + "' ";
-                vParamsKB.add(new Parameter(strCapTinh, true));
-                lstKBTinh =
-                        (ArrayList<DMKBacVO>)kbDAO.getDMNHKBList(strWhereClauseKB,
-                                                                 vParamsKB);
-            } else {
-                vParamsKB = new Vector();
-                strWhereClauseKB = "a.ma=? ";
-                vParamsKB.add(new Parameter(ma_kb_so_tai, true));
-                DMKBacVO dmkbVO = kbDAO.getDMKBNH(strWhereClauseKB, vParamsKB);
-                // Neu user thuoc cap tinh. Set kb tinh va kb huyen
-                if (dmkbVO.getCap().equals(strCapTinh) || dmkbVO.getCap().equals(strCapTW)) {
-                    lstKBTinh.add(dmkbVO);
-                    vParamsKB = new Vector();
-                    strWhereClauseKB = " a.ma_cha=? ";
-                    vParamsKB.add(new Parameter(dmkbVO.getMa(), true));
-                    lstKBHuyen =
-                            (ArrayList<DMKBacVO>)kbDAO.getDMNHKBList(strWhereClauseKB,
-                                                                     vParamsKB);
-                } else if(dmkbVO.getCap().equals("2")) {
-                  lstKBTinh.add(dmkbVO);
-                  vParamsKB = new Vector();
-                  strWhereClauseKB = " a.ma_cha=? ";
-                  vParamsKB.add(new Parameter(dmkbVO.getMa_cha(),true));
-                  lstKBHuyen = (ArrayList<DMKBacVO>)kbDAO.getDMNHKBList(strWhereClauseKB, vParamsKB);
-                } else {
-                    lstKBHuyen.add(dmkbVO);
-                    vParamsKB = new Vector();
-                    strWhereClauseKB = " a.ma=? ";
-                    vParamsKB.add(new Parameter(dmkbVO.getMa_cha(), true));
-                    lstKBTinh.add(kbDAO.getDMKBNH(strWhereClauseKB,
-                                                  vParamsKB));
-                }
-            }
+            
+            // GET cap, DMKBHuyen, DMKBTinh -> Session
+            TTSPLoadDMuc tTSPLoadDMuc = new TTSPLoadDMuc(conn);
+            tTSPLoadDMuc.getDanhMucKB(request,response, null);
+            
             List tienTe = tienTeDAO.simpleMaNgoaiTe("", null);
             /**
              * - Nguoi sua: ManhNV
@@ -147,12 +105,8 @@ public class TraCuuLTTAction extends AppAction {
              * - Noi dung: Sua loi ho tro muc cao, loi ko co danh muc
              * - BEGIN
              * **/
-            if(lstKBTinh == null){
-              lstKBTinh = new ArrayList<DMKBacVO>();   
-            }         
-            /**END**/
-            request.setAttribute("lstKBTinh", lstKBTinh);
-            request.setAttribute("lstKBHuyen", lstKBHuyen);
+           ;
+            
             request.setAttribute("tienTe", tienTe);
         } catch (Exception ex) {
             throw new Exception("Tra Cuu LTT: " + ex);
@@ -544,15 +498,13 @@ public class TraCuuLTTAction extends AppAction {
             if (lttForm.getTong_sotien() != null &&
                 !"".equals(lttForm.getTong_sotien())) {
                 szWhereClause.append("and t.tong_sotien =? ");
-//                BigDecimal bigSoTien = null;
-//                if (lttForm.getMa_nt() != null && !"".equals(lttForm.getMa_nt())) {
-//                  bigSoTien =
-//                      StringUtil.convertCurrencyToNumber(lttForm.getTong_sotien().trim(), lttForm.getMa_nt());
-//                }else{
-//                  bigSoTien = new BigDecimal(lttForm.getTong_sotien().trim());
-//                }
+                BigDecimal bigSoTien = null;
+                // 20171129 : taidd dịnh dang lai tien theo mau moi
+                  bigSoTien =
+                     new BigDecimal(StringUtil.formatMoneyVNDToDouble(lttForm.getTong_sotien().trim()));
+
                 param_ltt =
-                        new Parameter(lttForm.getTong_sotien().trim(), true);
+                        new Parameter(bigSoTien, true);
                 v_Param_ltt.add(param_ltt);
             }
 
@@ -692,61 +644,15 @@ public class TraCuuLTTAction extends AppAction {
             /** neu la trung tam thanh toan thi lay ra toan bo kb tinh de lua chon
               * Lay ra danh sach Kho bac tinh
               **/
-            String strCapTinh = "5";
-            String ma_kb_so_tai =
-                (String)session.getAttribute(AppConstants.APP_KB_CODE_SESSION);
-            String maSGD = "0003";
-            Vector vParamsKB = null;
-            String strWhereClauseKB = "";
-            DMKBacDAO kbDAO = new DMKBacDAO(conn);
-            ArrayList<DMKBacVO> lstKBTinh = new ArrayList<DMKBacVO>();
-            ArrayList<DMKBacVO> lstKBHuyen = new ArrayList<DMKBacVO>();
-            if (ma_kb_so_tai.equals(maSGD)) {
-                request.setAttribute("MAT4", ma_kb_so_tai);
-                vParamsKB = new Vector();
-                strWhereClauseKB = "a.cap=?  or a.ma='" + maSGD + "' ";
-                vParamsKB.add(new Parameter(strCapTinh, true));
-                lstKBTinh =
-                        (ArrayList<DMKBacVO>)kbDAO.getDMNHKBList(strWhereClauseKB,
-                                                                 vParamsKB);
-                vParamsKB = new Vector();
-                strWhereClauseKB = " a.ma_cha=? ";
-                vParamsKB.add(new Parameter(lttForm.getKb_tinh(), true));
-                lstKBHuyen =
-                        (ArrayList<DMKBacVO>)kbDAO.getDMNHKBList(strWhereClauseKB,
-                                                                 vParamsKB);
-            } else {
-                vParamsKB = new Vector();
-                strWhereClauseKB = "a.ma=? ";
-                vParamsKB.add(new Parameter(ma_kb_so_tai, true));
-                DMKBacVO dmkbVO = kbDAO.getDMKBNH(strWhereClauseKB, vParamsKB);
-                // Neu user thuoc cap tinh. Set kb tinh va kb huyen
-                if (dmkbVO.getCap().equals(strCapTinh)) {
-                    lstKBTinh.add(dmkbVO);
-                    vParamsKB = new Vector();
-                    strWhereClauseKB = " a.ma_cha=? ";
-                    vParamsKB.add(new Parameter(dmkbVO.getMa(), true));
-                    lstKBHuyen =
-                            (ArrayList<DMKBacVO>)kbDAO.getDMNHKBList(strWhereClauseKB, vParamsKB);
-                } else if(dmkbVO.getCap().equals("2")) {
-                    lstKBTinh.add(dmkbVO);
-                    vParamsKB = new Vector();
-                    strWhereClauseKB = " a.ma_cha=? ";
-                    vParamsKB.add(new Parameter(dmkbVO.getMa_cha(),true));
-                    lstKBHuyen = (ArrayList<DMKBacVO>)kbDAO.getDMNHKBList(strWhereClauseKB, vParamsKB);
-                } else {
-                    lstKBHuyen.add(dmkbVO);
-                    vParamsKB = new Vector();
-                    strWhereClauseKB = " a.ma=? ";
-                    vParamsKB.add(new Parameter(dmkbVO.getMa_cha(), true));
-                    lstKBTinh.add(kbDAO.getDMKBNH(strWhereClauseKB, vParamsKB));
-                }
-            }
-            List tienTe = tienTeDAO.simpleMaNgoaiTe("", null);
+          
+          // GET cap, DMKBHuyen, DMKBTinh -> Session
+          TTSPLoadDMuc tTSPLoadDMuc = new TTSPLoadDMuc(conn);
+          tTSPLoadDMuc.getDanhMucKB(request,response, lttForm.getKb_tinh());
             
-            request.setAttribute("lstKBTinh", lstKBTinh);
-            request.setAttribute("lstKBHuyen", lstKBHuyen);
+            List tienTe = tienTeDAO.simpleMaNgoaiTe("", null);
+            ;
             request.setAttribute("tienTe", tienTe);
+            request.setAttribute("isVN", "VND".equals(lttForm.getMa_nt()));
         } catch (Exception ex) {
             throw new Exception("Tra Cuu LTT: " + ex);
         } finally {

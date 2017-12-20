@@ -153,7 +153,7 @@
                     <td align="left" >
                       <html:select property="loai_tk" style="width:30%" styleId="loai_tk" 
                        onkeydown="if(event.keyCode==13) event.keyCode=9;">
-                       <html:option value="01">TK tiền gửi</html:option>
+                       <html:option value="01">TK thanh toán tổng hợp</html:option>
                        <html:option value="02">TK thanh toán</html:option>
                        <html:option value="03">TK chuyên thu</html:option>
                        </html:select>

@@ -442,4 +442,12 @@ public class LenhQTTCVO {
     public String getTTVChuyenKS() {
         return tTVChuyenKS;
     }
+
+    public void setLdo_hach_toan(String ldo_hach_toan) {
+        this.ldo_hach_toan = ldo_hach_toan;
+    }
+
+    public String getLdo_hach_toan() {
+        return ldo_hach_toan;
+    }
 }

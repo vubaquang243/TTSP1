@@ -25,10 +25,15 @@ public class QuyetToanDAO extends AppDAO {
         "com.seatech.ttsp.quyettoan.QuyetToanVO";
     private static String CLASS_NAME_QTOANTQ_VO =
         "com.seatech.ttsp.quyettoan.BKE_QuyetToanVO";
+	//20171115 Quang VB them moi VO
+    private static String CLASS_NAME_UPDATEQTOAN_VO =
+        "com.seatech.ttsp.quyettoan.UpdateQuyetToanVO";
     private static String CLASS_NAME_TT_VO =
         "com.seatech.ttsp.quyettoan.TThaiVO";
     private static String DD_MM_YYYY_HH_MI_SS = "dd/MM/yyyy HH:mm:ss";
     private static String STRING_EMPTY = "";
+    private static String CLASS_NAME_LENHQTTC =
+        "com.seatech.ttsp.quyettoan.XuLyLenhQuyetToanThuCongVO";
 
     public QuyetToanDAO(Connection conn) {
         this.conn = conn;
@@ -125,8 +130,9 @@ public class QuyetToanDAO extends AppDAO {
 
         return reval;
     }
-    
-    public BigDecimal getTongTien(String whereClause, Vector params) throws Exception {
+
+    public BigDecimal getTongTien(String whereClause,
+                                  Vector params) throws Exception {
         BigDecimal result = new BigDecimal(0);
         StringBuilder strSQL = new StringBuilder();
         try {
@@ -136,16 +142,19 @@ public class QuyetToanDAO extends AppDAO {
             strSQL.append(" left join sp_dm_manh_shkb g on g.ma_nh=a.ma_kb left join sp_dm_htkb h on h.ma = g.shkb ");
             strSQL.append(" left join sp_dm_htkb i on i.ma = h.ma_cha ");
             strSQL.append(" WHERE  d.rv_domain = 'SP_QT.TRANG_THAI' ");
-            if (whereClause != null && !STRING_EMPTY.equalsIgnoreCase(whereClause)) { 
+            if (whereClause != null &&
+                !STRING_EMPTY.equalsIgnoreCase(whereClause)) {
                 strSQL.append(" And " + whereClause);
             }
-            ResultSet rs = executeSelectStatement(strSQL.toString(), params, conn);
-            if(rs.next()){
+            ResultSet rs =
+                executeSelectStatement(strSQL.toString(), params, conn);
+            if (rs.next()) {
                 result = rs.getBigDecimal(1);
             }
             rs.close();
         } catch (Exception ex) {
-            throw new DAOException(CLASS_NAME_DAO + ".getTongTien(): " + ex.getMessage(), ex); 
+            throw new DAOException(CLASS_NAME_DAO + ".getTongTien(): " +
+                                   ex.getMessage(), ex);
         }
         return result;
     }
@@ -192,7 +201,7 @@ public class QuyetToanDAO extends AppDAO {
             strSQL.append(" e.ten_nsd as ten_ktt_hoanthien, a.ngay_chuyen_ks, a.ktt_ks, a.ngay_ks, a.chu_ky, a.tk_chuyen, a.ma_nh_chuyen, a.ten_nh_chuyen, a.ten_kh_chuyen, ");
             strSQL.append(" a.tt_kh_chuyen, a.tk_nhan, a.ma_nh_nhan, a.ten_nh_nhan, a.ten_kh_nhan, a.tt_kh_nhan, a.loai_hach_toan, ");
             strSQL.append(" a.tt_in, a.trang_thai, a.err_code, a.err_desc,a.msg_id,a.so_bk,a.ngay_gui, a.ma_tchieu_gd,a.ldo_hach_toan, ");
-            strSQL.append(" a.ldo_day_lai,a.ma_kb, a.id_ref, a.lai_phi ");
+            strSQL.append(" a.ldo_day_lai,a.ma_kb, a.id_ref, a.lai_phi, a.nhap_thu_cong ");
             strSQL.append(" FROM sp_quyet_toan a inner join sp_dm_ngan_hang b on b.ma_nh =a.ma_nh_chuyen ");
             strSQL.append(" left join sp_nsd c on c.id= a.ttv_chuyen_ks ");
             strSQL.append(" inner join sp_dm_ma_thamchieu d ON a.trang_thai = d.rv_low_value ");
@@ -521,6 +530,18 @@ public class QuyetToanDAO extends AppDAO {
                 }
                 v_param.add(new Parameter(vo.getChu_ky(), true));
             }
+			//20171207 QuangVB them moi Nguoi_ks_nh vao cau tra cuu theo yeu cau nang cap ngoai hop dong 2017
+            if(vo.getNguoi_ks_nh() != null){
+                if(strSQL2 == null){
+                  strSQL2 = new StringBuffer();
+                  strSQL2.append("nguoi_ks_nh = ?");
+                }else{
+                  strSQL2.append(", nguoi_ks_nh = ?");
+                }
+              v_param.add(new Parameter(vo.getNguoi_ks_nh(), true));
+            }
+			//20171120 ThuongDT bo sung them ngay insert lay quyet toan trong ngay
+            strSQL2.append(", ngay_insert = sysdate");
             if (vo.getId() != null) {
                 if (strSQL2 == null) {
                     strSQL2 = new StringBuffer();
@@ -775,17 +796,19 @@ public class QuyetToanDAO extends AppDAO {
         String strSQL = "";
         try {
             strSQL =
-                    " SELECT	a.id, a.trang_thai, TO_CHAR (a.ngay_tao, 'dd/mm/yyyy') ngay_tao," +
-                    " a.nguoi_tao, a.nguoi_ks, (SELECT   ten_nsd FROM   sp_nsd" +
-                    " WHERE   id = a.nguoi_tao) ten_nguoi_tao," +
-                    " (SELECT	 ten_nsd FROM	 sp_nsd WHERE	 id = a.nguoi_ks)" +
-                    " ten_nguoi_ks, TO_CHAR (a.ngay_ks, 'dd/mm/yyyy') ngay_ks," +
+                    " SELECT a.id, a.trang_thai, TO_CHAR (a.ngay_tao,'dd/mm/yyyy') ngay_tao, a.tcg_loai_qtoan, c.ten, " +
+                    " d.ten_nsd nguoi_tao, a.nguoi_ks, (SELECT ten_nsd FROM sp_nsd" +
+                    " WHERE id = a.nguoi_tao) ten_nguoi_tao," +
+                    " (SELECT	ten_nsd FROM	sp_nsd WHERE id = a.nguoi_ks)" +
+                    " ten_nguoi_ks, TO_CHAR(a.ngay_ks,'dd/mm/yyyy') ngay_ks," +
                     " a.so_but_toan, a.so_tien," +
-                    " TO_CHAR (a.ngay_htoan, 'dd/mm/yyyy') ngay_htoan, a.ky_hieu_bke," +
+                    " TO_CHAR(a.ngay_htoan,'dd/mm/yyyy') ngay_htoan, a.ky_hieu_bke," +
                     " a.tcg_ngan_hang, a.tcg_loai_qtoan, a.tcg_kb_tinh," +
-                    " TO_CHAR (a.tcg_ngay_qtoan, 'dd/mm/yyyy') tcg_ngay_qtoan," +
-                    " TO_CHAR (a.tcg_ngay_ttoan, 'dd/mm/yyyy') tcg_ngay_ttoan," +
-                    " a.lydo_daylai, a.loai_htoan, a.tcg_loai_tien FROM	sp_bke_qtoan a WHERE	1 = 1 " +
+                    " TO_CHAR(a.tcg_ngay_qtoan, 'dd/mm/yyyy') tcg_ngay_qtoan," +
+                    " TO_CHAR(a.tcg_ngay_ttoan, 'dd/mm/yyyy') tcg_ngay_ttoan," +
+                    " a.lydo_daylai, a.loai_htoan, a.tcg_loai_tk tcg_loai_tk, a.tcg_loai_tien " +
+                    " FROM	sp_bke_qtoan a, sp_dm_nh_ho b, sp_dm_ngan_hang c, sp_nsd d " +
+                    " WHERE	a.tcg_ngan_hang = b.ma_dv and b.ma_nh = c.ma_nh and a.nguoi_tao= d.id " +
                     strWhere;
 
             strSQL += " order by a.ngay_htoan, a.id";
@@ -798,10 +821,10 @@ public class QuyetToanDAO extends AppDAO {
                                    ex.getMessage(), ex);
         }
     }
-    
+
 
     public Collection<QuyetToanVO> getTtien_Tmon(String strWhere,
-                                    Vector vParam) throws Exception {
+                                                 Vector vParam) throws Exception {
 
         Collection reval = null;
         try {
@@ -822,9 +845,10 @@ public class QuyetToanDAO extends AppDAO {
                     " left join sp_dm_htkb i on i.ma = h.ma_cha left join sp_quyet_toan k on a.id_ref= k.id_ref and k.qtoan_dvi='N' ";
             strSQL +=
                     " left JOIN sp_dm_ma_thamchieu l ON k.trang_thai = l.rv_low_value and l.rv_domain = 'SP_QT.TRANG_THAI' ";
+			//20171207 Quang them left join sp_066 theo mt_refid		
             strSQL += " left join sp_066 sp on a.mt_refid = sp.id ";
             strSQL += " WHERE  a.qtoan_dvi='Y' ";
-            
+
             if (strWhere != null && !STRING_EMPTY.equals(strWhere))
                 strSQL += "and" + strWhere;
 
@@ -863,5 +887,164 @@ public class QuyetToanDAO extends AppDAO {
         return result;
     }
 
+	/**
+	*@create: QuangVB
+	*@create-date: 15/11/2017
+	*@see: them moi ham lay thong tin quyet toan
+	*@param: id_ref id ref, vParams Parameter	
+	*/
+    public UpdateQuyetToanVO getThongTinQuyetToan(String id_ref,
+                                                  Vector vParams) throws Exception {
+        Collection reval = null;
+        UpdateQuyetToanVO vo = null;
+        try {
+            String strQuery =
+                "select a.id, a.nhkb_chuyen, a.nhkb_nhan, b.ten ten_nhkb_nhan, to_char(a.ngay_htoan,'dd/mm/yyyy') ngay_htoan, " +
+                "to_char(a.ngay_qtoan,'dd/mm/yyyy') ngay_qtoan, loai_qtoan, a.so_tchieu, " +
+                "a.nguoi_nhap_nh, to_char(a.ngay_nhap_nh,'dd/mm/yyyy hh24:mi:ss') ngay_nhap_nh, a.nguoi_ks_nh, " +
+                "to_char(a.ngay_ks_nh,'dd/mm/yyyy hh24:mi:ss') ngay_ks_nh, a.ndung_tt, a.so_tien, a.ma_nt, " +
+                "a.tk_chuyen, a.ma_nh_chuyen, a.ten_nh_chuyen, a.ten_kh_chuyen, a.tk_nhan, a.ma_nh_nhan, " +
+                "a.ten_nh_nhan, a.ten_kh_nhan, a.loai_hach_toan, a.ldo_hach_toan, a.ma_tchieu_gd from sp_quyet_toan a, sp_dm_ngan_hang b ";
+            strQuery +=
+                    "where a.nhkb_nhan = b.ma_nh and a.id='" + id_ref + "' ";
+            vo =
+ (UpdateQuyetToanVO)findByPK(strQuery, CLASS_NAME_UPDATEQTOAN_VO, conn);
+            return vo;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+	/**
+	*@create: QuangVB
+	*@create-date: 15/11/2017
+	*@see: them moi ham lay thong tin quyet toan theo id
+	*@param: id id sp_quyet_toan, vParams Parameter	
+	*/
+    public XuLyLenhQuyetToanThuCongVO getThongTinQuyetToanById(String id,
+                                                               Vector vParams) throws Exception {
+        XuLyLenhQuyetToanThuCongVO vo = null;
+        try {
+            String strQuery =
+                "SELECT a.id, a.nhkb_chuyen, a.nhkb_nhan, to_char(a.ngay_htoan,'dd/mm/yyyy') ngay_htoan, to_char(a.ngay_qtoan,'dd/mm/yyyy') ngay_qtoan," +
+                " to_char(a.ngay_insert,'dd/mm/yyyy hh24:mi:ss') ngay_insert, a.loai_qtoan, a.qtoan_dvi, a.so_tchieu," +
+                " a.nguoi_nhap_nh, to_char(a.ngay_nhap_nh,'dd/mm/yyyy hh24:mi:ss') ngay_nhap_nh, a.nguoi_ks_nh, to_char(a.ngay_ks_nh,'dd/mm/yyyy hh24:mi:ss') ngay_ks_nh," +
+                " a.ndung_tt, a.so_tien, a.ma_nt, a.ttv_chuyen_ks," +
+                " to_char(a.ngay_chuyen_ks,'dd/mm/yyyy') ngay_chuyen_ks, a.ktt_ks, to_char(a.ngay_ks,'dd/mm/yyyy hh24:mi:ss') ngay_ks, a.chu_ky, a.tk_chuyen," +
+                " a.ma_nh_chuyen, a.ten_nh_chuyen, a.ten_kh_chuyen, a.tt_kh_chuyen," +
+                " a.tk_nhan, a.ma_nh_nhan, a.ten_nh_nhan, a.ten_kh_nhan," +
+                " a.tt_kh_nhan, a.tt_in, a.trang_thai," +
+                " a.so_bk, a.loai_hach_toan, to_char(a.ngay_gui,'dd/mm/yyyy hh24:mi:ss') ngay_gui, a.ma_tchieu_gd," +
+                " a.ldo_hach_toan, a.ldo_day_lai, a.ma_kb, a.id_ref," +
+                " a.trang_thai_dc, a.lai_phi, a.loai_tk," +
+                " a.nhap_thu_cong " + " FROM sp_quyet_toan a where a.id='" +
+                id + "'";
+            System.out.print(strQuery);
+            vo =
+ (XuLyLenhQuyetToanThuCongVO)findByPK(strQuery, CLASS_NAME_LENHQTTC, conn);
+            return vo;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+   /**
+	*@create: QuangVB
+	*@create-date: 07/12/2017
+	*@see: them moi ham inert quyet toan thu cong
+	*@param: XuLyLenhQuyetToanThuCongVO VO quyet toan, vParams Parameter	
+	*/
+    public int insertLenhQuyetToan(XuLyLenhQuyetToanThuCongVO vo,
+                                   Vector vParams) throws Exception {
+        try {
+            String strQuery =
+                "insert into sp_quyet_toan " + "(id, nhkb_chuyen, nhkb_nhan, ngay_htoan, ngay_qtoan," +
+                "ngay_insert, loai_qtoan, qtoan_dvi, so_tchieu," +
+                "nguoi_nhap_nh, ngay_nhap_nh, nguoi_ks_nh, ngay_ks_nh," +
+                "ndung_tt, so_tien, ma_nt, ttv_chuyen_ks," +
+                "ngay_chuyen_ks, ktt_ks, ngay_ks, tk_chuyen," +
+                "ma_nh_chuyen, ten_nh_chuyen, ten_kh_chuyen," +
+                "tk_nhan, ma_nh_nhan, ten_nh_nhan, ten_kh_nhan," +
+                "tt_in, trang_thai, so_bk, loai_hach_toan, ngay_gui, ma_tchieu_gd," +
+                "ldo_hach_toan, ldo_day_lai, ma_kb, id_ref," +
+                "trang_thai_dc, lai_phi, loai_tk,nhap_thu_cong) values " +
+                "(?,?,?,to_date(?,'dd/mm/yyyy'),to_date(?,'dd/mm/yyyy')," +
+                "to_date(?,'dd/mm/yyyy hh24:mi:ss'),?,?,?," +
+                "?,to_date(?,'dd/mm/yyyy hh24:mi:ss'),?,to_date(?,'dd/mm/yyyy hh24:mi:ss')," +
+                "?,?,?,?," +
+                "to_date(?,'dd/mm/yyyy'),?,to_date(?,'dd/mm/yyyy hh24:mi:ss')," +
+                "?,?,?," + "?,?,?,?," +
+                "?,?,?,?,?,to_date(?,'dd/mm/yyyy hh24:mi:ss'),?," +
+                "?,?,?,?," + "?,?,?,?)";
 
+            vParams.add(new Parameter(vo.getId(), true));
+            vParams.add(new Parameter(vo.getNhkb_chuyen(), true));
+            vParams.add(new Parameter(vo.getNhkb_nhan(), true));
+            vParams.add(new Parameter(vo.getNgay_htoan(), true));
+            vParams.add(new Parameter(vo.getNgay_qtoan(), true)); //1
+
+            vParams.add(new Parameter(vo.getNgay_insert(), true));
+            vParams.add(new Parameter(vo.getLoai_qtoan(), true));
+            vParams.add(new Parameter(vo.getQtoan_dvi(), true));
+            vParams.add(new Parameter(vo.getSo_tchieu(), true)); //2
+
+            vParams.add(new Parameter(vo.getNguoi_nhap_nh(), true));
+            vParams.add(new Parameter(vo.getNgay_nhap_nh(), true));
+            vParams.add(new Parameter(vo.getNguoi_ks_nh(), true));
+            vParams.add(new Parameter(vo.getNgay_ks_nh(), true)); //3
+
+            vParams.add(new Parameter(vo.getNdung_tt(), true));
+            vParams.add(new Parameter(vo.getSo_tien(), true));
+            vParams.add(new Parameter(vo.getMa_nt(), true));
+            vParams.add(new Parameter(vo.getTtv_chuyen_ks(), true)); //4
+
+            vParams.add(new Parameter(vo.getNgay_chuyen_ks(), true));
+            vParams.add(new Parameter(vo.getKtt_ks(), true));
+            vParams.add(new Parameter(vo.getNgay_ks(), true));
+            vParams.add(new Parameter(vo.getTk_chuyen(), true)); //5
+
+            vParams.add(new Parameter(vo.getMa_nh_chuyen(), true));
+            vParams.add(new Parameter(vo.getTen_nh_chuyen(), true));
+            vParams.add(new Parameter(vo.getTen_kh_chuyen(), true)); //6
+
+            vParams.add(new Parameter(vo.getTk_nhan(), true));
+            vParams.add(new Parameter(vo.getMa_nh_nhan(), true));
+            vParams.add(new Parameter(vo.getTen_nh_nhan(), true));
+            vParams.add(new Parameter(vo.getTen_kh_nhan(), true));
+
+            vParams.add(new Parameter(vo.getTt_in(), true));
+            vParams.add(new Parameter(vo.getTrang_thai(), true));
+            vParams.add(new Parameter(vo.getSo_bk(), true));
+            vParams.add(new Parameter(vo.getLoai_hach_toan(), true));
+            vParams.add(new Parameter(vo.getNgay_gui(), true));
+            vParams.add(new Parameter(vo.getMa_tchieu_gd(), true));
+
+            vParams.add(new Parameter(vo.getLdo_hach_toan(), true));
+            vParams.add(new Parameter(vo.getLdo_day_lai(), true));
+            vParams.add(new Parameter(vo.getMa_kb(), true));
+            vParams.add(new Parameter(vo.getId_ref(), true));
+
+            vParams.add(new Parameter(vo.getTrang_thai_dc(), true));
+            vParams.add(new Parameter(vo.getLai_phi(), true));
+            vParams.add(new Parameter(vo.getLoai_tk(), true));
+            vParams.add(new Parameter(vo.getNhap_thu_cong(), true));
+
+            return (int)executeStatement(strQuery, vParams, conn);
+
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+   /**
+	*@create: QuangVB
+	*@create-date: 07/12/2017
+	*@see: them moi ham lay danh muc bang ngan hang HO bo sung them yeu cau tra cuu ngoai hop dong nang cap 2017
+	*@param: strWhere menh de where, vParams Parameter	
+	*/
+    public Collection getDMNH(String strWhere, Vector vParams)throws Exception{
+        try{
+            String strQuery = "Select distinct ma_dv, ten_nh from sp_dm_nh_ho where ma_dv <> '701' " + strWhere;
+            return executeSelectStatement(strQuery, vParams, CLASS_NAME_QTOANTQ_VO, conn);
+        }catch(Exception e){
+            throw e;
+        }
+    }
 }

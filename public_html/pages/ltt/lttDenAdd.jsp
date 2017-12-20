@@ -199,6 +199,11 @@
                                                 style="border:0px;font-size:10px;float:left;" />
                                               <input  id="rowSelected" type="hidden" 
                                                 value="<bean:write name="list_ltt" property="id"/>" />
+                                                
+                                               <input  name="tongsotien" type="hidden" 
+                                                value="<bean:write name="list_ltt" property="tong_sotien"/>" /> 
+                                                <input  name="ntid" type="hidden" 
+                                                value="<bean:write name="list_ltt" property="nt_id"/>" />
                                             </td>
                                             <td  width="30%;" align="center">
                                               <logic:equal value="01" name="list_ltt" property="trang_thai">
@@ -269,7 +274,7 @@
                                       </tr>
                                       <tr>
                                         <td align="left" colspan="3">
-                                        Loại tiền: <html:select property="nt_id_tke_tong" styleId="nt_id_tke_tong" onchange="changeMaNTThongKeTong(this,'getTgMonTgTienLTTDenAction.do');" style="width:95px;height:20px;vlaign:middle" styleClass="fieldTextCode" >
+                                        Loại tiền: <html:select property="nt_id_tke_tong" styleId="nt_id_tke_tong" onchange="changeMaNTThongKeTongJS(this);" style="width:95px;height:20px;vlaign:middle" styleClass="fieldTextCode" >
                                           <%--<html:optionsCollection name="listDMTienTe" value="id" label="ma" />
                                           onfocus="this.defaultIndex=this.selectedIndex;" onchange="this.selectedIndex=this.defaultIndex;"
                                           --%>
@@ -285,6 +290,17 @@
                                           </logic:present>
                                         </logic:notEmpty>
                                       </html:select>
+                                        <!--thuongdt-20171031 phuc vu tra cuu nhanh begin-->
+                                      <logic:notEmpty name="listDMTienTe">
+                                          <logic:present name="listDMTienTe">
+                                            <logic:iterate id="objNT" name="listDMTienTe" type="com.seatech.ttsp.dmtiente.DMTienTeVO" indexId="index">                                              
+                                              <logic:notEqual value="2" name="objNT" property="id" >                                               
+                                                <input  name="tempmant" type="hidden"  value="<bean:write name="objNT" property="ma"/>" />
+                                              </logic:notEqual>
+                                            </logic:iterate>  
+                                          </logic:present>
+                                        </logic:notEmpty>
+                                        <!--thuongdt-20171031 phuc vu tra cuu nhanh end-->
                                         </td>
                                       </tr>
                                       <tr>
@@ -1976,10 +1992,18 @@
   
   function ky(strUserType){
     try {
+        
           var cert = jQuery("#eSign")[0];
           cert.InitCert();                   
           var serial = cert.Serial;       
-
+         // 20171120 thuongdt bo sung canh bao han su dung CTS
+             var strdomain = '<%=strdomain%>';
+            var struser_name = '<%=struser_name%>';
+            var strcheckcts = '<%=strcheckcts%>';           
+            if(!checkCTSdate(cert,strdomain+'/'+struser_name,strcheckcts)){
+             return false;
+            }
+            
           jQuery("#certserial").val(serial);
           var nd = jQuery("#noi_dung_ky").val();
           var sign = cert.Sign(nd);
@@ -2028,5 +2052,6 @@
       document.forms[0].submit();
       window.open(url,'report'); 
 } 
+changeMaNTThongKeTongJS(null);
 </script>
 <%@ include file="/includes/ttsp_bottom.inc"%>

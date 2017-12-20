@@ -73,6 +73,8 @@ public class QuyetToanVO {
     private String err_desc_dv;
     private String loai_tk;
     private String ttin_lenh_goc;
+    //20171106 QuangVB them moi VO trang thai nhap thu cong(nhap_thu_cong)
+    private String nhap_thu_cong;
     
 
     public void setId(String id) {
@@ -595,5 +597,12 @@ public class QuyetToanVO {
         return ttin_lenh_goc;
     }
 
-   
+
+    public void setNhap_thu_cong(String nhap_thu_cong) {
+        this.nhap_thu_cong = nhap_thu_cong;
+    }
+
+    public String getNhap_thu_cong() {
+        return nhap_thu_cong;
+    }
 }

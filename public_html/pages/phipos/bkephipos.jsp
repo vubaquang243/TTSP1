@@ -299,7 +299,7 @@
               jQuery.each(data, function (i, objectDM) {
               // truong hop 1 - luc load khong co thang nao                  
                 document.getElementById('ma_kb').options.add(new Option(objectDM.kb_huyen, objectDM.id));
-              });
+              });             
               if( qthttw == null || qthttw == ''){  // request set dftinh ==null
                 if(document.getElementById('ma_kb').options.length == 2){
                   jQuery("#ma_kb option:eq(0)").remove();
@@ -311,7 +311,7 @@
                   jQuery('#ma_kb option:eq('+kb_huyen+')').attr('selected', true);
                   getTenNHang();
                 }
-              }else{
+              }else{               
                 if(document.getElementById('ma_kb').options.length==2){ // select dong thu 2 neu select box co 2 value voi user cap tinh
                   jQuery("#ma_kb option:eq(1)").attr('selected', true);
                   getTenNHang(); 
@@ -334,12 +334,9 @@
   }
 
   function getTenNHang() {
-    document.getElementById('sendBank').options.length = 1;// clear du lieu option cu
-    //document.getElementById('soTk').options.length = 1;
-    var nhkb_id = document.getElementById("ma_kb").value;//document.forms[0].ma_kb.value;" +
-    var strTinh = "<%=qthttw%>";
-    var sendBank = "<%=idxNH%>";
-
+   if(document.getElementById('ma_nh') != null)
+    document.getElementById('ma_nh').options.length = 1;// clear du lieu option cu
+    var nhkb_id = document.getElementById("ma_kb").value;//document.forms[0].ma_kb.value;"     
     if (nhkb_id != null && "" != nhkb_id){
       jQuery.ajax({
         type: "POST", 
@@ -351,13 +348,13 @@
           if(textstatus != null && textstatus == 'success') {
             if (data != null) {
               jQuery.each(data, function (i, objectDM) {
-                document.getElementById('sendBank').options.add(new Option(objectDM.ten, objectDM.ma_nh))
+                document.getElementById('ma_nh').options.add(new Option(objectDM.ten, objectDM.ma_nh))
               });
             }
-            if(document.getElementById('sendBank').options.length == 2){
+            if(document.getElementById('ma_nh').options.length == 2){
                 jQuery("#sendBank option:eq(0)").remove();
                 //getTK_NH_KB()
-            }else if(document.getElementById('sendBank').options.length > 2){
+            }else if(document.getElementById('ma_nh').options.length > 2){
                               
             }
           }          

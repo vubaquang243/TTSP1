@@ -201,7 +201,6 @@ function fillDataDuyetDC2(act, receive_bank, ngay_dc,bk_id, tr_id) {
 
 
 function rowSelectedFocusXNDC(rowId) {
-    console.log("quang");
     classRowHighLight(rowId);
     jQuery('#' + rowId).find('input').focus();
 }

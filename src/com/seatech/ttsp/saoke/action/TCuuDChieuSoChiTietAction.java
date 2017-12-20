@@ -10,8 +10,11 @@ import com.seatech.framework.common.jsp.PagingBean;
 import com.seatech.framework.datamanager.Parameter;
 import com.seatech.framework.strustx.AppAction;
 import com.seatech.framework.utils.FontUtil;
+import com.seatech.framework.utils.TTSPLoadDMuc;
 import com.seatech.ttsp.dchieu.DChieu1DAO;
 import com.seatech.ttsp.dchieu.DChieu1VO;
+import com.seatech.ttsp.dmkb.DMKBacDAO;
+import com.seatech.ttsp.dmkb.DMKBacVO;
 import com.seatech.ttsp.dmnhkb.DMHTKBacVO;
 import com.seatech.ttsp.dmnhkb.DMNHKBacDAO;
 import com.seatech.ttsp.saoke.form.TCuuDChieuSoChiTietForm;
@@ -19,6 +22,7 @@ import com.seatech.ttsp.saoke.saoketkDAO;
 import com.seatech.ttsp.saoke.saoketkVO;
 import com.seatech.ttsp.tknhkb.TKNHKBacDAO;
 import com.seatech.ttsp.tknhkb.TKNHKBacVO;
+import com.seatech.ttsp.tracuusodu.TraCuuSoDuDAO;
 import com.seatech.ttsp.ttthanhtoan.TTThanhToanDAO;
 
 import java.io.PrintWriter;
@@ -83,7 +87,7 @@ public class TCuuDChieuSoChiTietAction extends AppAction {
             //String tempTrangThai = tCuuForm.getTrangthai();
 
             TKList = new ArrayList();
-            if ("0001".equals(kb_code) || "0002".equals(kb_code)) {
+            if ("0001".equals(kb_code)) {
                 whereCondition = " ";
                 request.setAttribute("dchieu3", "dchieu3");
                 request.setAttribute("dftinh", "dftinh");
@@ -93,6 +97,11 @@ public class TCuuDChieuSoChiTietAction extends AppAction {
                     
                     whereTK = " AND c.id= '" + tCuuForm.getKb_huyen() + "' ";
                 }
+            }else if("0002".equals(kb_code)){
+              whereCondition = " AND a.ma='0002' ";
+              dmNganHang = (List)TTdao.getDMucNH(null, null);
+              
+              whereTK = " AND c.ma= '0002' ";
             } else if ("0003".equals(kb_code)) {
                 whereCondition = " AND a.ma='0003' ";
                 dmNganHang = (List)TTdao.getDMucNH(null, null);
@@ -102,10 +111,8 @@ public class TCuuDChieuSoChiTietAction extends AppAction {
                 whereCondition = " and a.ma_cha='" + kb_code + "'";
                 if (tCuuForm.getKb_huyen() != null &&
                     !"".endsWith(tCuuForm.getKb_huyen())) {
-                   
                     whereTK = " AND c.id= '" + tCuuForm.getKb_huyen() + "' ";
                 } else {
-                   
                     whereTK = " AND c.ma_cha= '" + kb_code + "' ";
                 }
             } else if ("2".equals(cap)) {
@@ -142,6 +149,9 @@ public class TCuuDChieuSoChiTietAction extends AppAction {
             //*********
             
             whereForResult = getConditionForResult(tCuuForm, v_param);
+            request.setAttribute("kb_huyen", tCuuForm.getKb_huyen());
+            request.setAttribute("ngan_hang", tCuuForm.getNgan_hang());
+            request.setAttribute("so_tk", tCuuForm.getSo_tk());
             PagingBean pagingBean = new PagingBean();
             if (isTokenValid(request)) {
                 listTracuu =
@@ -161,8 +171,9 @@ public class TCuuDChieuSoChiTietAction extends AppAction {
                 saveToken(request);
             }
             dmucKB = (List)dao.getDMucKB_huyen(whereCondition, null);
-
-
+            TTSPLoadDMuc ttspLoadDmuc = new TTSPLoadDMuc(conn); 
+            ttspLoadDmuc.getDanhMucKB(request,kb_code);
+            
             request.setAttribute("dmucKB", dmucKB);
             request.setAttribute("listTracuu", listTracuu);
             request.setAttribute("dmNganHang", dmNganHang);
@@ -182,9 +193,14 @@ public class TCuuDChieuSoChiTietAction extends AppAction {
     private String getConditionForResult(TCuuDChieuSoChiTietForm tCuuForm,
                                          Vector v_param) {
         String whereForResult = "";
+        if (tCuuForm.getKb_tinh() != null &&
+            !"".equals(tCuuForm.getKb_tinh().trim())) {
+            whereForResult += " and d.ma_cha = ? ";
+            v_param.add(new Parameter(tCuuForm.getKb_tinh(), true));
+        }
         if (tCuuForm.getKb_huyen() != null &&
             !"".equals(tCuuForm.getKb_huyen().trim())) {
-            whereForResult = " and d.id = ? ";
+            whereForResult += " and d.ma = ? ";
             v_param.add(new Parameter(tCuuForm.getKb_huyen(), true));
         }
         if (tCuuForm.getNgan_hang() != null &&
@@ -287,10 +303,10 @@ public class TCuuDChieuSoChiTietAction extends AppAction {
             String strWhere = "";
             if (!"".equals(nh_id) && nh_id != null) {
                 strWhere =
-                        " AND a.kb_id = " + kb_id + " AND a.nh_id = " + nh_id +
+                        " AND c.ma = " + kb_id + " AND b.ma_nh = " + nh_id +
                         " ";
             } else {
-                strWhere = " AND a.kb_id = " + kb_id + " ";
+                strWhere = " AND c.ma = " + kb_id + " ";
             }
 
             colTK = tkDAO.getTK_NH_KB(strWhere, null);

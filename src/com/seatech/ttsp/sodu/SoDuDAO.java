@@ -10,7 +10,12 @@ import java.sql.PreparedStatement;
 import java.util.Collection;
 import java.util.Vector;
 
-
+/**
+*@modify: taidd
+*@modify-date: 25/10/2017
+*@see: bo sung va tra cuu theo loai tai khoan(loai_tk)
+*@find: 20171025
+*/
 public class SoDuDAO extends AppDAO {
     Connection conn = null;
     private static String CLASS_NAME_DAO =
@@ -26,7 +31,7 @@ public class SoDuDAO extends AppDAO {
                                  Integer count,
                                  Integer[] totalCount) throws Exception {
         try {
-
+         //20171025
             String strSQL =
                 "select id, ma_kb, ma_nh, TO_CHAR(ngay_gd,'dd/mm/yyyy') ngay_gd, so_du, TO_CHAR(insert_date,'dd/mm/yyyy') insert_date, so_du_cot, loai_tien, loai_tk from sp_so_du where 1=1 ";
             strSQL += strWhere + " ORDER BY ma_nh";
@@ -45,7 +50,7 @@ public class SoDuDAO extends AppDAO {
     public Collection getLstSoDu(String strWhere,
                                  Vector vParam) throws Exception {
         try {
-
+             //20171025
             String strSQL =
           "select id, ma_kb, ma_nh, TO_CHAR(ngay_gd,'dd/mm/yyyy') ngay_gd, so_du, TO_CHAR(insert_date,'dd/mm/yyyy') insert_date, so_du_cot, loai_tien, loai_tk from sp_so_du where 1=1 ";
             strSQL += strWhere + " ORDER BY ma_nh";
@@ -66,6 +71,7 @@ public class SoDuDAO extends AppDAO {
           long sd = 0;
           String strSQL = "";
           try {
+		  //20171025
               strSQL =
                       "insert into sp_so_du (ma_kb, ma_nh, ngay_gd, so_du, insert_date, so_du_cot, loai_tien, id, loai_tk) values (?,?, TO_DATE(?,'dd/mm/yy'), ?, SYSDATE, ?, ?, sp_so_du_seq.nextval,?)";
               PreparedStatement pstt = conn.prepareStatement(strSQL);
@@ -91,6 +97,7 @@ public class SoDuDAO extends AppDAO {
           long sd = 0;
           String strSQL = "";
           try {
+		   //20171025
               strSQL =
                       "update sp_so_du set so_du = ?, so_du_cot = ? , loai_tk = ? , insert_date = SYSDATE  where ma_kb =? and ma_nh = ? and ngay_gd = to_date(?,'dd/mm/yyyy') and loai_tien = ?";
               PreparedStatement pstt = conn.prepareStatement(strSQL);

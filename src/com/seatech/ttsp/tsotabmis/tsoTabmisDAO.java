@@ -29,19 +29,20 @@ public class tsoTabmisDAO extends AppDAO {
         Collection reval = null;
         String strSQL = "";
         try {
+            //20171115 thuongdt sua lai cau querry dap ung tham so KB theo căp NH-KB va order by theo ngay va ten tham so
             strSQL +=
                     "SELECT	DISTINCT d5.id id_kb_tinh, d5.id_cha, d4.ma, d4.id id_kb_huyen," +
-                    " d1.ma_nh ma_nh, d3.ma_nh ma_kb, d2.ten ten_ngan_hang," +
-                    " d4.ten ten_kb_huyen, d5.ten ten_kb_tinh, a.ten_ts," +
-                    " a.giatri_ts, a.mo_ta, a.cho_phep_sua, a.kb_id," +
-                    " to_char(a.ngay_cap_nhat,'dd/MM/yyyy') ngay_cap_nhat, a.dvi_sua,ma_nsd" +
+                    "a.ma_nh ma_nh, d3.ma_nh ma_kb, d2.ten ten_ngan_hang, d4.ten ten_kb_huyen, " +
+                    "d5.ten ten_kb_tinh, a.ten_ts, a.giatri_ts, a.mo_ta, a.cho_phep_sua, a.kb_id, " +
+                   "to_char(a.ngay_cap_nhat,'dd/MM/yyyy') ngay_cap_nhat, a.dvi_sua,ma_nsd  " +
                     "  FROM	sp_thamso_kb a, sp_tso_cutoftime d1, sp_dm_ngan_hang d2," +
                     " sp_dm_manh_shkb d3, sp_dm_htkb d4, sp_dm_htkb d5" +
                     " WHERE d1.ma_nh_kb = d3.ma_nh" +
                     " AND d3.shkb = d4.ma AND d5.id = d4.id_cha" +
-                    " AND d1.ma_nh = d2.ma_nh AND d4.id = a.kb_id" +
+                    " AND a.ma_nh = d2.ma_nh AND d4.id = a.kb_id" +
                     " AND a.cho_phep_sua='Y' " + strWhere + " and d1.NGAY_GD like sysdate "+
-                    " ORDER BY  ltrim(REPLACE(ten_kb_tinh,'KBNN','')),ltrim(REPLACE(ten_kb_huyen,'KBNN','')), a.ten_ts";
+                    //" ORDER BY ngay_cap_nhat desc, ltrim(REPLACE(ten_kb_tinh,'KBNN','')),ltrim(REPLACE(ten_kb_huyen,'KBNN',''))";
+                    " ORDER BY  to_date(NGAY_CAP_NHAT,'dd/MM/yyyy') desc , ten_ts ";
             return executeSelectWithPaging(conn, strSQL.toString(), vParam,
                                            strValueObjectVO, page, count,
                                            totalCount);
@@ -77,7 +78,8 @@ public class tsoTabmisDAO extends AppDAO {
 
           StringBuffer strSQL = new StringBuffer();
 
-          strSQL.append("select distinct ten_ts from sp_thamso_kb");
+          strSQL.append("select distinct ten_ts from sp_thamso_kb where ten_ts not in('CHO_PHEP_DNQT_BU_SO_THU_NGAY_LOI'," + 
+          "'CHO_PHEP_QUYET_TOAN_TAM','CHO_PHEP_QUYET_TOAN_BU','CHO_PHEP_CHON_DC_KHOP_DUNG') order by ten_ts");
           reval = executeSelectStatement(strSQL.toString(), vParam, strValueObjectVO, this.conn);
       } catch (Exception ex) {
           DAOException daoEx =
@@ -105,14 +107,15 @@ public class tsoTabmisDAO extends AppDAO {
       if (vo.getMa_nsd() != null&& !"".equals(vo.getMa_nsd())) {
           strSQL.append(", ma_nsd = ? ");
           v_param.add(new Parameter(vo.getMa_nsd(), true));
-      }      
+      } 
+      strSQL.append(" where 1=1 ");
+      
       if (vo.getId_kb_tinh() != null && !"".equals(vo.getId_kb_tinh())) {
-          strSQL.append(" where kb_id in (SELECT	DISTINCT a.id " + 
+          strSQL.append(" and kb_id in (SELECT	DISTINCT a.id " + 
           " FROM	sp_dm_htkb a, sp_tknh_kb b, sp_dm_htkb c " + 
           " WHERE	a.id = b.kb_id AND a.id_cha = c.id and c.id=? )");
           v_param.add(new Parameter(vo.getId_kb_tinh(), true));
-      }
-      strSQL.append(" where 1=1 ");
+      }      
       
       if (vo.getId_kb_huyen() != null&& !"".equals(vo.getId_kb_huyen())){
           strSQL.append(" and kb_id = ? ");
@@ -127,6 +130,7 @@ public class tsoTabmisDAO extends AppDAO {
           strSQL.append(" and  ma_nh = ? ");
           v_param.add(new Parameter(vo.getMa_nh(), true));
       }
+      
       nExc = executeStatement(strSQL.toString(), v_param, conn);
 
       return nExc;

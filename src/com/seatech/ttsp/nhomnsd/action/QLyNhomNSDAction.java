@@ -335,7 +335,11 @@ public class QLyNhomNSDAction extends AppAction {
             Vector vParam = new Vector();
             vParam.add(new Parameter(f.getId(), true));
             vo = dao.getNhomNSD(strWhere, vParam);
-            if (vo == null) {
+            if(dao.countNSDInNhom(Integer.valueOf(f.getId()) ) > 0){
+                request.setAttribute("status",
+                                     "qlynhomnsd.listphannhomnsd.failure.xoa.daco");
+                request.setAttribute("nsdID", nsdID);
+            }else if (vo == null) {
                 request.setAttribute("status",
                                      "qlynhomnsd.listphannhomnsd.failure.xoa.daxoa");
                 request.setAttribute("nsdID", nsdID);

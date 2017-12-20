@@ -32,7 +32,7 @@
         jQuery('#abc option:eq('+idxNH+')').attr('selected', true);
       }
       
-        defaultRowSelectedDC3(role);
+        defaultRowSelectedDC4(role);
         var contexRoot='<%=AppConstants.NNT_APP_CONTEXT_ROOT%>',
         sodu_daungay=jQuery("#sodu_daungay"),
         ketchuyen_chi=jQuery("#ketchuyen_chi"),
@@ -78,7 +78,7 @@
           <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/T1.jpg" width="13" height="30"/>
         </td>
         <td background="<%=request.getContextPath()%>/styles/images/T2.jpg" width="75%">
-          <span class="title2">Đối chiếu thủ công ngoại tệ toàn quốc</span>
+          <span class="title2">Đối chiếu lệnh quyết toán ngoại tệ toàn quốc</span>
         </td>
         <td width="62">
           <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/T3.jpg" width="62" height="30"/>
@@ -95,19 +95,22 @@
 
   <table style="BORDER-COLLAPSE: collapse" border="0" cellspacing="0" class="tableBound" bordercolor="#999999" width="100%">
   <tr>
-  </tr>
-    <tr>
-    
-      <td width="40%">
-              <div align="center">
-              Th&#244;ng tin NH&nbsp;         
+   <td colspan="2">
+     <div align="left" style = 'padding-left: 40px'>
+              Thông tin ngân hàng      
                <html:select property="nhkb_nhan" styleId="abc" onchange="change()"
-                             style="width: 60%"
+                             style="width: 220px"
                              onkeydown="if(event.keyCode==13) event.keyCode=9;">  
                     <html:option value="000">-----Ch&#7885;n ng&#226;n h&#224;ng-----</html:option>
                     <html:optionsCollection name="dmucNH" value="ma_nh" label="ten_nh"/>
                 </html:select> 
         </div>
+   </td>
+  </tr>
+    <tr>
+    
+      <td width="40%">
+              
         <fieldset>
           <legend>Danh s&#225;ch b&#7843;ng k&#234;</legend>
           <div>
@@ -132,8 +135,8 @@
                 </tr>
               </thead>
             </table>
-          </div>
-          <div style="height:175px;" class="ui-jqgrid-bdiv ui-widget-content">
+          </div> 
+          <div style="height:205px;" class="ui-jqgrid-bdiv ui-widget-content">
             <div> 
               <table class="data-grid" id="data-grid"
                      style="BORDER-COLLAPSE: collapse;" cellspacing="0"
@@ -144,7 +147,7 @@
                        <tr style="width:100%;" class="ui-widget-content jqgrow ui-row-ltr select-row-table"
                             id="row_dts_<bean:write name="index"/>"                                                   
                             ondblclick="rowSelectedFocus('row_dts_<bean:write name="index"/>');" 
-                            onclick="rowSelectedFocus('row_dts_<bean:write name="index"/>');DChieu4Detail('<bean:write name="bangkelist" property="id"/>'); getTTBangKe();">
+                            onclick="rowSelectedFocus('row_dts_<bean:write name="index"/>');DChieu4Detail('<bean:write name="bangkelist" property="id"/>'); getTTBangKe();disBT('<bean:write name="bangkelist" property="trang_thai"/>','<bean:write name="bangkelist" property="trang_thai_kq"/>')">
                           <td  width="25%" align="center" id="td_dts_<bean:write name="index"/>">
                             <input size="8" tabindex="100" name="row_item" id="<bean:write name="index"/>" 
                             type="text" style="border:0px;" value="<bean:write name="bangkelist" property="send_bank"/>" 
@@ -226,27 +229,28 @@
 
       <td>
         <fieldset>
-          <legend>Thông tin bảng kê</legend>
+          <legend>Thông tin tổng hợp bảng kê</legend>
           <div>
             <html:hidden property="id"  styleId="id"/>
             <html:hidden property="send_bank" styleId="send_bank"/>
-            <html:hidden property="ngay_dc"  styleId="ngay_dc"/>
+            <html:hidden property="ngay_dc" styleId="ngay_dc"/>
             <html:hidden property="trang_thai_in"  styleId="trang_thai_in"/>
             <html:hidden property="kq_id"  styleId="kq_id"/>
             <html:hidden property="lan_dc"  styleId="lan_dc"/>
-            
-              <table width="99%" cellspacing="0" border="0.5">
+            <!-- //20171211 thuongdt load lai ngay doi chieu truong hop rong-->
+            <input type="hidden" name ="nngay_dc"/>
+              <table width="97%" cellspacing="0" border="1" bordercolor="#999999" style="BORDER-COLLAPSE: collapse" >
                 <tr style="height : 30px">
-                  <th width="22%">Số dư tài khoản đầu ngày</th>
-                  <th width="22%">Tổng quyết toán chi toàn quốc</th>
-                  <th width="22%">Tổng quyết toán thu toàn quốc</th>
-                  <th width="22%">Số dư cuối ngày</th>
-                  <th width="10%">Loại tiền</th>
+                  <th width="12%">Loại tiền</th>
+                  <th width="22%">Số dư TK đầu ngày</th>
+                  <th width="22%">Tổng QT chi toàn quốc</th>
+                  <th width="22%">Tổng QT thu toàn quốc</th>
+                  <th width="22%">Số dư TK cuối ngày</th>                  
                 </tr>
               </table>
           </div>
           <div style="height:200px;" class="ui-jqgrid-bdiv ui-widget-content">
-            <table width="99%" cellspacing="0" cellpadding="1"
+            <table width="100%" cellspacing="0" cellpadding="1"
                      bordercolor="#e1e1e1" border="1" align="center"
                      style="BORDER-COLLAPSE: collapse" id="thong_tin_bang_ke">
             </table>
@@ -256,10 +260,10 @@
      </tr>
     <tr>
       <td align="center" colspan="3">
-       <button type="button" accesskey="t" style="width:170px" id="btnInBKDC" onclick="check('print')" >
+       <button type="button" accesskey="t" style="width:170px" id="btnInBKDC" onclick="check('print')" disabled="disabled" >
          In kết quả đối chiếu
         </button>
-        <button type="button" accesskey="t" style="width:170px" id="btnDC" onclick="SubmitDC4('frmBangKeDC3NgoaiTe')">
+        <button type="button" accesskey="t" style="width:170px" id="btnDC" onclick="SubmitDC4('frmBangKeDC3NgoaiTe')" disabled="disabled" >
           Thực hiện đối chiếu
         </button>
       </td>
@@ -305,6 +309,11 @@
                     </div>
                   </th>
                   <th class="promptText" bgcolor="#f0f0f0">
+                    <div align="center">
+                      Loại tiền
+                    </div>
+                  </th>
+                  <th class="promptText" bgcolor="#f0f0f0">
                     <div align="center">          
                       Trạng thái
                     </div>
@@ -333,13 +342,16 @@
                     <bean:write name="items" property="so_tien"/>
                     </fmt:formatNumber>
                   </td>
-                 
+                 <td align="center">
+                    <bean:write name="items" property="loai_tien"/>
+                  </td>
+                  <!--20171124 thuongdt sua SGD KBNN sang Cục KT - KBNN -->
                   <td align="center">
                     <logic:equal value="00" property="trang_thai" name="items">
-                      SGD KBNN thiếu  – Hội sở chính NH thừa
+                      Cục KT - KBNN thiếu  – Hội sở chính NH thừa
                     </logic:equal>
                     <logic:equal value="01" property="trang_thai" name="items">
-                       SGD KBNN  thừa – Hội sở chính NH thiếu 
+                       Cục KT - KBNN  thừa – Hội sở chính NH thiếu 
                     </logic:equal>
                   </td>
                 </tr>
@@ -381,6 +393,11 @@
                     </div>
                   </th>
                   <th class="promptText" bgcolor="#f0f0f0">
+                    <div align="center">
+                      Loại tiền
+                    </div>
+                  </th>
+                  <th class="promptText" bgcolor="#f0f0f0">
                     <div align="center">          
                       Trạng thái
                     </div>
@@ -409,13 +426,16 @@
                     <bean:write name="items" property="so_tien"/>
                   </fmt:formatNumber>
                   </td>
-                 
+                  <td align="center">
+                    <bean:write name="items" property="loai_tien"/>
+                  </td>
+                  <!--20171124 thuongdt sua SGD KBNN sang Cục KT - KBNN -->
                   <td align="center">
                     <logic:equal value="00" property="trang_thai" name="items">
-                      SGD KBNN thiếu  – Hội sở chính NH thừa
+                      Cục KT - KBNN thiếu  – Hội sở chính NH thừa
                     </logic:equal>
                     <logic:equal value="01" property="trang_thai" name="items">
-                       SGD KBNN  thừa – Hội sở chính NH thiếu 
+                       Cục KT - KBNN thừa – Hội sở chính NH thiếu 
                     </logic:equal>
                   </td>                  
                 </tr>  
@@ -431,16 +451,16 @@
     <tr>
       <td align="right" colspan="3">
         <input type="hidden" id="eventAction"/>
-        <button type="button" onclick="confirmTaoDXNhan(); check('duyet')" id="btnTaoDXN" accesskey="t">
+        <button type="button" onclick="confirmTaoDXNhan(); check('duyet')" id="btnTaoDXN" accesskey="t" disabled="disabled">
           <span class="sortKey">T</span>
           ạo điện X&aacute;c nhận
         </button>
          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-        <button  type="button" onclick="check('view')" accesskey="i">
+        <button  type="button" onclick="check('view')" id="chitietDXN" accesskey="i" disabled="disabled"  >
               Ch<span class="sortKey">i</span> ti&#7871;t b&#7843;ng k&#234;
             </button>
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-        <button type="button" onclick="check('close')" accesskey="o">
+        <button type="button" onclick="check('close')" accesskey="o" >
           Th
           <span class="sortKey">o</span>
           &aacute;t
@@ -471,7 +491,9 @@
   function check(type) {  
   var f = document.forms[0];	
       if (type == 'print') {
-        f.action = 'PrintDChieu3NgoaiTeAction.do';    
+      //20171211 thuongdt load lai ngay doi chieu truong hop rong
+      document.getElementsByName('nngay_dc')[0].value = document.getElementById('ngay_dc').value;
+       f.action = 'PrintDChieu3NgoaiTeAction.do';    
                 var params = ['scrollbars=1,height='+(screen.height-100),'width='+screen.width].join(',');            
         newDialog = window.open('', '_form', params);  
         f.target='_form';
@@ -493,8 +515,7 @@
        f.submit();
   }
    function change() {
-      var ma;
-      
+      var ma;      
       var frm = document.forms[0];
       ma=jQuery('#abc').val();
       if(ma!=null && ''!=ma){
@@ -505,16 +526,17 @@
   
   function changeForeignCurrency(nStr){
         nStr += '';
-        x = nStr.split('.');
+        nStr = nStr.replace(".",",");
+        x = nStr.split(',');
         x1 = x[0];
-        x2 = x.length > 1 ? '.' + x[1] : '';
+        x2 = x.length > 1 ? ',' + x[1] : '';
        var rgx = /(\d+)(\d{3})/;
        while (rgx.test(x1)) {
-          x1 = x1.replace(rgx, '$1' + ',' + '$2');
+          x1 = x1.replace(rgx, '$1' + '.' + '$2');
         }
         return x1 + x2;
       }
-  
+      
   function getTTBangKe(){
     var ngay_doi_chieu = jQuery('table#data-grid tr.ui-state-highlight').find('#ngay_dc').val();
     var mt_id = jQuery('table#data-grid tr.ui-state-highlight').find('#mt_id').val();
@@ -529,11 +551,13 @@
           if(strValue.size() != 0){
           jQuery('table#thong_tin_bang_ke tr.ui-row-ltr').remove();
             for(var i = 0; i < strValue.size(); i++){
-              strTable = "<tr class='ui-widget-content ui-row-ltr' style='height : 25px;' ><td width='22%'>" + changeForeignCurrency(strValue[i].sodu_daungay) + "<\/td>";
-              strTable += "<td width='22%'>" + changeForeignCurrency(strValue[i].tong_chi) + "<\/td>";
-              strTable += "<td width='23%'>" + changeForeignCurrency(strValue[i].tong_thu) + "<\/td>";
-              strTable += "<td width='23%'>" + changeForeignCurrency(strValue[i].so_du_cuoi_ngay) + "<\/td>";
-              strTable += "<td width='10%'>" + strValue[i].loai_tien + "<\/td><\/tr>";
+              strTable = "<tr class='ui-widget-content ui-row-ltr' style='height : 25px;' >" ;
+              strTable += "<td width='12%' align='center'>" + strValue[i].loai_tien + "<\/td>";
+              strTable += "<td width='22%' align='right' style='padding-right:2px'>" + changeForeignCurrency(strValue[i].sodu_daungay) + "<\/td>";
+              strTable += "<td width='22%' align='right' style='padding-right:2px'>" + changeForeignCurrency(strValue[i].tong_chi) + "<\/td>";
+              strTable += "<td width='22%' align='right' style='padding-right:2px'>" + changeForeignCurrency(strValue[i].tong_thu) + "<\/td>";
+              strTable += "<td width='22%' align='right' style='padding-right:2px'>" + changeForeignCurrency(strValue[i].so_du_cuoi_ngay) + "<\/td>";              
+              strTable +="<\/tr>";
               jQuery('table#thong_tin_bang_ke').append(strTable);
             }
           }else{
@@ -541,5 +565,32 @@
           }
       }
     });
+  }  
+  //20171102 thuongdt bo sung
+ function disBT(trang_thai,trang_thai_kq){ 
+  if((trang_thai == '01' || trang_thai == '02') && trang_thai_kq == '00' ){  
+    document.getElementById("btnTaoDXN").disabled=false;
+    document.getElementById("btnInBKDC").disabled=false;
+    document.getElementById("chitietDXN").disabled=false;   
+    document.getElementById("btnDC").disabled=true;  
+  }else if((trang_thai == '01' || trang_thai == '02') &&  trang_thai_kq == '01'){  
+    document.getElementById("btnTaoDXN").disabled=true;
+    document.getElementById("btnInBKDC").disabled=false;
+    document.getElementById("chitietDXN").disabled=false;   
+    document.getElementById("btnDC").disabled=true;  
   }
+  else if(trang_thai == '00'){
+    document.getElementById("btnTaoDXN").disabled=true;
+    document.getElementById("btnInBKDC").disabled=true;
+    document.getElementById("chitietDXN").disabled=true;   
+    document.getElementById("btnDC").disabled=false;  
+  }else{
+    document.getElementById("btnTaoDXN").disabled=true;
+    document.getElementById("btnInBKDC").disabled=true;
+    document.getElementById("chitietDXN").disabled=true;   
+    document.getElementById("btnDC").disabled=true;    
+  }
+ 
+ } 
+  
 </script>

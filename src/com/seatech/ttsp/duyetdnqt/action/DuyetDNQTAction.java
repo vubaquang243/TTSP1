@@ -36,13 +36,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 /**
+ * QuangVB
  * Class dùng cho việc duyệt đè nghị quyết toán
  *
  */
 public class DuyetDNQTAction extends AppAction {
     /*
      *
-     * Hàm main
+     * Load các điều kiện, vào màn hình
      *
      * */
 
@@ -52,20 +53,28 @@ public class DuyetDNQTAction extends AppAction {
         Connection conn = null;
         Collection listData = null;
         Vector params = null;
-        DuyetDNQTForm frmDuyet = (DuyetDNQTForm) form;
+        DuyetDNQTForm frmDuyet = (DuyetDNQTForm)form;
         try {
             params = new Vector();
             conn = getConnection();
             DuyetDNQTDAO dao = new DuyetDNQTDAO(conn);
             HttpSession session = request.getSession();
-            String strQuery = "and 1=1 ";
+            dao.changeTrangThaiHetHieuLuc(null);
+            conn.commit();
+            String id_kb =
+                session.getAttribute(AppConstants.APP_KB_CODE_SESSION) ==
+                null ? "" :
+                session.getAttribute(AppConstants.APP_KB_CODE_SESSION).toString();
+            String strQuery = "and d.ma='" + id_kb + "' ";
             String page = frmDuyet.getPageNumber();
-            if(page == null){
-                page = "1"; }
+            if (page == null) {
+                page = "1";
+            }
             Integer currentPage = new Integer(page);
             Integer row = new Integer(15);
             Integer totalCount[] = new Integer[1];
-            listData = dao.getData(strQuery, params, currentPage, row, totalCount);
+            listData =
+                    dao.getData(strQuery, params, currentPage, row, totalCount);
             request.setAttribute("listData", listData);
             PagingBean pagingBean = new PagingBean();
             pagingBean.setCurrentPage(currentPage);
@@ -73,6 +82,7 @@ public class DuyetDNQTAction extends AppAction {
             pagingBean.setNumberOfRow(row);
             request.setAttribute("PAGE_KEY", pagingBean);
         } catch (Exception e) {
+            conn.rollback();
             throw new Exception(e.getMessage());
         }
         return mapping.findForward("success");
@@ -81,6 +91,7 @@ public class DuyetDNQTAction extends AppAction {
     /*
      * Duyet de nghi quyet toan
      */
+
     public ActionForward add(ActionMapping mapping, ActionForm form,
                              HttpServletRequest request,
                              HttpServletResponse response) throws Exception {
@@ -92,16 +103,23 @@ public class DuyetDNQTAction extends AppAction {
         try {
             conn = getConnection();
             String strID = request.getParameter("soLenh");
+            String loai_tien = request.getParameter("loaiTien");
+            strID = strID.trim();
             HttpSession session = request.getSession();
             String strManager =
-                session.getAttribute(AppConstants.APP_USER_CODE_SESSION) ==
+                session.getAttribute(AppConstants.APP_USER_ID_SESSION) ==
                 null ? "" :
-                session.getAttribute(AppConstants.APP_USER_CODE_SESSION).toString();
+                session.getAttribute(AppConstants.APP_USER_ID_SESSION).toString();
             if (!strManager.equals("")) {
                 Msg066 msg066 = new Msg066(conn);
                 DuyetDNQTDAO dao = new DuyetDNQTDAO(conn);
-                String result = msg066.sendMessage(strID, strManager);
-                dao.updateData(strID,strManager, params);
+                String result = "";
+                if (loai_tien.equals("VND")) {
+                    result = msg066.sendMessage(strID, strManager);
+                } else {
+                    result = msg066.sendMessageNgoaiTe(strID, strManager);
+                }
+                dao.updateData(strID, strManager, result, params);
                 gson = new GsonBuilder().setVersion(1.0).create();
                 strJson = gson.toJson(result);
                 jsonObj.addProperty("result", strJson);
@@ -148,9 +166,10 @@ public class DuyetDNQTAction extends AppAction {
         return mapping.findForward("success");
     }
 
-  /*
+    /*
    * Huy de nghi quyet toan
    */
+
     public ActionForward updateExc(ActionMapping mapping, ActionForm form,
                                    HttpServletRequest request,
                                    HttpServletResponse response) throws Exception {
@@ -177,7 +196,7 @@ public class DuyetDNQTAction extends AppAction {
                 PrintWriter out = response.getWriter();
                 out.println(jsonArr.getAsJsonArray().toString());
                 out.flush();
-                out.close();                
+                out.close();
                 conn.commit();
             } else {
                 result = "fail";

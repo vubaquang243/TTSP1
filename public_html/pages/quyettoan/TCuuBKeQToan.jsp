@@ -26,8 +26,7 @@
   jQuery.noConflict();
   //************************************ LOAD PAGE **********************************
   jQuery(document).init(function () {
-
-
+      
   });
 </script>
 
@@ -72,7 +71,7 @@
                     <fmt:message key="QTToanQuoc.page.tcuu.tthai"/>&nbsp;
                   </td>
                   <td  width="30%">
-                    <html:select property="trang_thai" styleId="trang_thai" style="width:40%" onchange="tthaival()"
+                    <html:select property="trang_thai" styleId="trang_thai" style="width:50%" onchange="tthaival()"
                                  onkeydown="if(event.keyCode==13) event.keyCode=9;">  
                         <html:option value="01">Ch&#7901; duy&#7879;t</html:option>
                         <html:option value="02">&#272;&#227; duy&#7879;t</html:option>
@@ -81,11 +80,11 @@
                          <html:option value="">T&#7845;t c&#7843;</html:option>
                     </html:select>
                   </td>
-                  <td  align="right" >Lo&#7841;i ti&#7873;n</td>
+                  <td  align="right" width="20%" >Lo&#7841;i ti&#7873;n</td>
                           <td align="left" >
                               <html:select styleClass="selectBox" property="tcg_loai_tien" 
                                            styleId="tcg_loai_tien"
-                                           onkeydown="if(event.keyCode==13) event.keyCode=9;" >
+                                           onkeydown="if(event.keyCode==13) event.keyCode=9;" style="width : 100px" >
                                 <html:option value="">--chọn--</html:option>          
                                 <html:option value="VND">VND</html:option>
                                 <html:optionsCollection value="ma" label="ma" name="tienTe"/>
@@ -133,6 +132,45 @@
                       });
                     </script>
                   </td>
+                  <td align="right" >Loại quyết toán</td>
+                  <td>
+                  <html:select property="loai_quyet_toan" styleId="loai_quyet_toan" 
+                    onkeydown="if(event.keyCode==13) event.keyCode=9;">
+                    <html:option value="">Loại quyết toán</html:option>
+                    <html:option value="D">Quyết toán thu</html:option>
+                    <html:option value="C">Quyết toán chi</html:option>
+                  </html:select>
+                  </td>
+              </tr>
+              <tr>
+                <td align="right" >Mã thanh toán viên</td>
+                <td>
+                  <html:text property="ma_thanh_toan_vien" styleId="ma_thanh_toan_vien" style="width : 60%;" 
+                  onkeydown="if(event.keyCode==13) event.keyCode=9;" maxlength="30" />
+                </td>
+                <td>Ngày tạo bảng kê</td>
+                <td>
+                  <html:text property="ngay_bke" styleId="ngay_bke" styleClass="fieldText" 
+                        onkeypress="return numbersonly(this,event,true) "
+                       onblur="javascript:mask(this.value,this,'2,5','/');CheckDate(this);CheckDateOnClient('ngay_bke');"
+                       onkeydown="if(event.keyCode==13) event.keyCode=9;" style="width:25%"
+                       tabindex="107" />
+                  <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/calendar/calbtn.gif"
+                     border="0" id="ngay_bke_btn"
+                     style="vertical-align:middle;width:20"/>   
+                    <script type="text/javascript">
+                      Calendar.setup( {
+                          inputField : "ngay_bke", // id of the input field
+                          ifFormat : "%d/%m/%Y", // the date format
+                          button : "ngay_bke_btn"// id of the button
+                      });
+                    </script>
+                </td>
+                <td align="right">Ngân hàng</td>
+                <td><html:select property="ngan_hang" styleId="ngan_hang" >
+                    <option value=""> Chọn ngân hàng </option>
+                    <html:optionsCollection name="lstNganHang" value="ma_dv" label="ten_nh" />
+                    </html:select> </td>
               </tr>
            </table>
          </div>
@@ -147,10 +185,6 @@
           </td>
       </tr>
       </tr>
-            <%
-        com.seatech.framework.common.jsp.PagingBean pagingBean = (com.seatech.framework.common.jsp.PagingBean)request.getAttribute("PAGE_KEY");
-      int rowBegin = (pagingBean.getCurrentPage() -1) * 15;
-      %>
       <tr>
         <td>
          <fieldset>
@@ -160,7 +194,7 @@
                  bordercolor="#e1e1e1" border="1" align="center"
                  style="BORDER-COLLAPSE: collapse">
                 <thead>
-                <th class="promptText" bgcolor="#f0f0f0" width="15%">
+                <th class="promptText" bgcolor="#f0f0f0" width="10%">
                   <div align="center" >
                     <fmt:message key="QTToanQuoc.page.tcuu.sobke"/>
                   </div>
@@ -170,7 +204,12 @@
                     <fmt:message key="QTToanQuoc.page.tcuu.ngayttoan"/>
                   </div>
                 </th>
-                <th class="promptText" bgcolor="#f0f0f0" width="15%">
+                <th class="promptText" bgcolor="#f0f0f0" width="13%">
+                  <div align="center">
+                    Tên ngân hàng
+                  </div>
+                </th>
+                <th class="promptText" bgcolor="#f0f0f0" width="13%">
                   <div align="center">
                     <fmt:message key="QTToanQuoc.page.tcuu.sotien"/>
                   </div>
@@ -195,24 +234,46 @@
                     <fmt:message key="QTToanQuoc.page.tcuu.ngayduyet"/>
                   </div>
                 </th>
+                <th class="promptText" bgcolor="#f0f0f0" width="10%">
+                  <div align="center" >
+                    Loại quyết toán
+                  </div>
+                </th>
                 <th class="promptText" bgcolor="#f0f0f0" width="20%">
                   <div align="center" >
                     <fmt:message key="QTToanQuoc.page.tcuu.tthai"/>
                   </div>
                 </th>
-                
+                <th class="promptText" bgcolor="#f0f0f0" width="20%">
+                  <div align="center" >
+                    Loại tài khoản
+                  </div>
+                </th>
+                <th class="promptText" bgcolor="#f0f0f0" width="20%">
+                  <div align="center" >
+                    Loại tiền
+                  </div>
+                </th>
+                </thead>
               <tbody class="navigateable focused" cellspacing="0" style="width:100%" cellpadding="1" bordercolor="#e1e1e1">             
               <logic:notEmpty name="colTCuu">
-              <logic:present name="colTCuu" >          
+              <%  
+                  com.seatech.framework.common.jsp.PagingBean pagingBean = (com.seatech.framework.common.jsp.PagingBean)request.getAttribute("PAGE_KEY");
+                  int rowBegin = (pagingBean.getCurrentPage() -1) * 15;
+                %>
+              <logic:present name="colTCuu" >  
                 <logic:iterate id="items" name="colTCuu" indexId="stt">
                 <tr class='<%=stt % 2 == 0 ? "trDanhSachChan" : "trDanhSachLe"%>'>
                   <td align="center">
-                    <a href="<html:rewrite page="/ViewDetailBKeQToan.do"/>?so_bke=<bean:write name="items" property="id"/><%=tcuu%>">
+                    <a target="_blank" href="<html:rewrite page="/ViewDetailBKeQToan.do"/>?&so_bke=<bean:write name="items" property="id"/>&ngay_tao=<bean:write name="items" property="ngay_tao"/><%=tcuu%>">
                       <bean:write name="items" property="id"/>
                     </a>
                   </td>
                   <td align="center">
                     <bean:write name="items" property="ngay_htoan"/>
+                  </td>
+                  <td align="center">
+                    <bean:write name="items" property="ten"/>
                   </td>
                   <td align="right">
                   <!--20171005 thuongdt bo sung them format so tien theo loai tien tuong ung start-->
@@ -237,6 +298,14 @@
                   <td align="center">
                     <bean:write name="items" property="ngay_ks"/>
                   </td>
+                  <td>
+                     <logic:equal value="C" property="tcg_loai_qtoan" name="items">
+                      Quyết toán chi
+                     </logic:equal>
+                     <logic:equal value="D" property="tcg_loai_qtoan" name="items">
+                      Quyết toán thu
+                     </logic:equal>
+                  </td>
                   <td align="center">
                       <logic:equal value="01" property="trang_thai" name="items">
                         Ch&#7901; duy&#7879;t
@@ -251,13 +320,32 @@
                         H&#7911;y
                       </logic:equal>
                   </td>
+                  <td align="center">
+                   <logic:equal value="01" property="tcg_loai_tk" name="items">
+                      Tiền gửi
+                   </logic:equal>
+                   <logic:equal value="02" property="tcg_loai_tk" name="items">
+                     Thanh toán
+                   </logic:equal>
+                   <logic:equal value="03" property="tcg_loai_tk" name="items">
+                      Chuyên thu
+                   </logic:equal>
+                  </td>
+                  <td>
+                    <bean:write name="items" property="tcg_loai_tien"/>
+                  </td>
                 </tr>
                 </logic:iterate>
                 </logic:present>
+                <tr>
+                 <td colspan="12" align="center" >                 
+                  <%= com.seatech.framework.common.jsp.JspUtil.pagingHTML(pagingBean,"#0000ff") %>
+                  </td>
+                </tr>
               </logic:notEmpty>
               <logic:empty name="colTCuu">
                 <tr>
-                <td colspan="9" align="center">
+                <td colspan="12" align="center">
                   <font color="red"><fmt:message key="QTToanQuoc.page.tcuu.empty"/></font>
                 </td>
                 </tr>
@@ -268,12 +356,6 @@
           </fieldset>
           </td>
       </tr>
-       <tr>
-          <td >                 
-         <%= com.seatech.framework.common.jsp.JspUtil.pagingHTML(pagingBean,"#0000ff") %>
-          </td>
-      </tr>
-
       
     </table> 
     <html:hidden property="pageNumber" value="1"/>

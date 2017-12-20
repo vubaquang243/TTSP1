@@ -256,20 +256,26 @@ public class DChieu3NgoaiTeAction extends AppAction {
         String strMsg = "";
         String strKQuaID = "";
         String errorCode = "";
+        String strWhereClauseVO = "";
         try {
             conn = getConnection(request);
             DChieu3NgoaiTeForm doiChieu4Form = (DChieu3NgoaiTeForm)form;
             String strBKeID = doiChieu4Form.getId();
+           String p_ngay_dc = doiChieu4Form.getNgay_dc();
+           String p_loai_tien = doiChieu4Form.getLoai_tien();
             HttpSession session = request.getSession();
             DChieu3NgoaiTeDAO dchieu4DAO = new DChieu3NgoaiTeDAO(conn);
             DChieu3NgoaiTeVO vo = new DChieu3NgoaiTeVO();
             vo = dchieu4DAO.getMaSGD(null, null);
-
+            if(p_ngay_dc == null || "".equals(p_ngay_dc)){
+            strWhereClauseVO = " and id='"+strBKeID+"'";
+            DChieu3NgoaiTeVO DC3NTvo = dchieu4DAO.getdc3NTe(strWhereClauseVO,   null);
+              p_ngay_dc = DC3NTvo.getNgay_dc();
+            }
             if (isTokenValid(request)) {
 
                 CallableStatement cs = null;
-                String p_ngay_dc = doiChieu4Form.getNgay_dc();
-                String p_loai_tien = doiChieu4Form.getLoai_tien();
+                
                 String p_loai_dc = "THUCONG";
                 Long p_nguoi_tao_id =
                     new Long(session.getAttribute(AppConstants.APP_USER_ID_SESSION).toString());
@@ -285,6 +291,7 @@ public class DChieu3NgoaiTeAction extends AppAction {
                 cs.execute();
                 strKQuaID = cs.getString(5);
                 errorCode = cs.getString(6);
+                String deserrorCode = cs.getString(7);
             }
             if ("".equals(strKQuaID)) {
                 String strWhereClause =
@@ -542,6 +549,11 @@ public class DChieu3NgoaiTeAction extends AppAction {
             String strW = "'" + send_bank + "'";
             kqDChieu4VO = kqDChieu4DAO.getTenNH(strW, null);
             String tenNH = kqDChieu4VO.getTen();
+            
+            //20171211 thuongdt load lai ngay doi chieu truong hop rong
+            String[] ngaytemp =  request.getParameterValues("nngay_dc");
+            if (ngay_dc == null || "".equals(ngay_dc))
+              ngay_dc  =ngaytemp[0];
 
             if (ngay_dc != null && !"".equals(ngay_dc)) {
                 sbSubHTML.append("<input type=\"hidden\" name=\"lan_dc\" value=\"" +
@@ -564,9 +576,9 @@ public class DChieu3NgoaiTeAction extends AppAction {
                 ReportUtility rpUtilites = new ReportUtility();
                 String fileName = "";
                 if (trang_thai.equals("02")) {
-                    fileName = "/rpt_DChieu_KQua_TGui_kd";
+                    fileName = "/rpt_DChieu_KQua_TGui_NTe_kd";
                 } else if (trang_thai.equals("01")) {
-                    fileName = "/rpt_DChieu_KQua_TGui_kl";
+                    fileName = "/rpt_DChieu_KQua_TGui_NTe_kl";
                 }
                 reportStream =
                         getServlet().getServletConfig().getServletContext().getResourceAsStream(REPORT_DIRECTORY +

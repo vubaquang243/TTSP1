@@ -2452,7 +2452,7 @@ function fillData2TableMasterLTTDi(data, strUserType, strUrlAction) {
             else 
                 strSoYCTT_ID = objectLTTDi.so_yctt;
 
-            strSoYCTT_ID = "<input name=\"row_item\" id=\"" + i + "\" type=\"text\" value=\"" + strSoYCTT_ID + "\" onkeydown=\"arrowUpDownLTT(event);\" readonly=\"true\"  style=\"border:0px;font-size:10px;float:left;width:106px;\" />" + "<input  id=\"rowSelected\" type=\"hidden\" value=\'" + objectLTTDi.id + "\'/>";
+            strSoYCTT_ID = "<input name=\"row_item\" id=\"" + i + "\" type=\"text\" value=\"" + strSoYCTT_ID + "\" onkeydown=\"arrowUpDownLTT(event);\" readonly=\"true\"  style=\"border:0px;font-size:10px;float:left;width:106px;\" />" + "<input  id=\"rowSelected\" type=\"hidden\" value=\'" + objectLTTDi.id + "\'/>"+"<input  name=\"tongsotien\"  type=\"hidden\" value=\'" + objectLTTDi.tong_sotien + "\'/>"+"<input  name=\"ntid\"  type=\"hidden\" value=\'" + objectLTTDi.nt_id + "\'/>";
 
             strTableData = strTableData + "<tr onmouseover=\"lttMouseOver('row_ltt_" + i + "');\"  onmouseout=\"lttMouseOut('row_ltt_" + i + "');\" " + "class=\"ui-widget-content jqgrow ui-row-ltr\" id=\"row_ltt_" + i + "\" onclick=\"loadDetailLTTJson('" + strUrlAction + "', '" + objectLTTDi.id + "', 'row_ltt_" + i + "', '" + strUserType + "');\">" + "<td width=\"44%;\" align=\"left\">" + strSoYCTT_ID + "<\/td>" + "<td width=\"30%;\" align=\"center\"> <img src=\"" + strImg + "\" border=\"0\" title=\"" + strTitle + "\" <\/td>" + "<\/tr>";
 
@@ -2485,6 +2485,27 @@ function fillData2TableMasterLTTDi(data, strUserType, strUrlAction) {
         strNumberResultSearch = data.length;
     var strAlert = "K&#7871;t qu&#7843;: " + strNumberResultSearch + " L&#7879;nh thanh to&#225;n th&#7887;a m&#227;n.";
     jQuery("#resultSearch").html(GetUnicode(strAlert));
+
+//20171010 thuongdt bo sung tra cuu nhanh begin
+
+    var vtempmant = document.getElementsByName('tempmant');
+    var vnt_id_find = jQuery("#nt_id_find").val();
+    var vindx = 0;
+    if(vnt_id_find != ''){
+    for(var i =0; i<vtempmant.length; i++){
+      vindx ++;
+      if(vtempmant[i].value == vnt_id_find ){        
+        break;
+      }
+    }
+    document.getElementById("nt_id_tke_tong").selectedIndex = vindx;
+    }else{
+      jQuery("#nt_id_tke_tong").val('');
+    }
+  var loaiTien = document.getElementById('nt_id_tke_tong');
+  
+  changeMaNTThongKeTongJS(loaiTien);
+//20171010 thuongdt bo sung tra cuu nhanh end
 }
 
 /**
@@ -3868,7 +3889,12 @@ function changeMaNTThongKeTong(obj, url){
     }
 }
 
-function changeMaNTThongKeTongJS(obj){    
+
+/**
+*20171010 thuongdt bo sung ham tra cuu nhanh su dung js kiem tra tinh tong tien tong lenh
+*param: obj
+**/
+function changeMaNTThongKeTongJS(obj){ 
     var vtongsotien =  document.getElementsByName('tongsotien');
     var vntid =  document.getElementsByName('ntid');
     var vntidtemp = '';
@@ -3876,20 +3902,20 @@ function changeMaNTThongKeTongJS(obj){
     var tongtien = 0;
     var vcount = 0;
     if(vntid.length>0){
-     if((obj != null && obj.value == '') || obj == null){
-    for(var i = 0; i< vntid.length; i++){
-      if(i >0 && vntidtemp != vntid[i].value){
-        vcheck = false;
-      }
-      tongtien = tongtien + Number(vtongsotien[i].value);
-      vntidtemp = vntid[i].value;
-    }
+     if(obj == null || obj.value == '') {
+        for(var i = 0; i< vntid.length; i++){
+          if(i >0 && vntidtemp != vntid[i].value){
+            vcheck = false;
+          }
+          tongtien = tongtien + Number(vtongsotien[i].value);
+          vntidtemp = vntid[i].value;
+        }
        if(vcheck == true){
         jQuery("#tong_so_mon").val(''+vntid.length);
-        jQuery("#tong_so_tien").val(CurrencyFormatted(tongtien, vntidtemp));
+        jQuery("#tong_so_tien").val(CurrencyFormatted(tongtien, vntidtemp));        
        }else{
         jQuery("#tong_so_mon").val(''+vntid.length);
-        jQuery("#tong_so_tien").val('0');
+        jQuery("#tong_so_tien").val('');
        }
      }else{
       for(var i = 0; i< vntid.length; i++){
@@ -3899,7 +3925,7 @@ function changeMaNTThongKeTongJS(obj){
         }
       }
        jQuery("#tong_so_mon").val(''+vcount);
-       jQuery("#tong_so_tien").val(CurrencyFormatted(tongtien, obj.value));
+       jQuery("#tong_so_tien").val(CurrencyFormatted(tongtien, obj.value));      
       }
     }else{
       jQuery("#tong_so_mon").val('0');

@@ -5,6 +5,7 @@
 <%@ taglib uri="/WEB-INF/tlds/struts-logic.tld" prefix="logic"%>
 <%@ taglib uri="/WEB-INF/tlds/fmt.tld" prefix="fmt"%>
 <%@ page import="com.seatech.framework.AppConstants"%>
+<%@ page import="com.seatech.ttsp.quyettoan.UpdateQuyetToanVO"%>
 <%@ include file="/includes/ttsp_header.inc"%>
 <link type="text/css" rel="stylesheet"
       href="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/css/style.css"/>
@@ -20,6 +21,11 @@
 <script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/quyettoan.js"
         type="text/javascript">
 </script>
+<% 
+  String loai_nhom = session.getAttribute(AppConstants.APP_ROLE_LIST_SESSION) == null ? "" : session.getAttribute(AppConstants.APP_ROLE_LIST_SESSION).toString();
+  String trang_thai_cho_duyet = request.getAttribute("trang_thai_cho_duyet") == null ? "" : request.getAttribute("trang_thai_cho_duyet").toString();
+  String userLogin = session.getAttribute(AppConstants.APP_USER_NAME_SESSION) == null ? "" : session.getAttribute(AppConstants.APP_USER_NAME_SESSION).toString();
+%>
 <fmt:setBundle basename="com.seatech.ttsp.resource.XuLyLenhQuyetToanResource"/>
 <object id="eSign" name="eSign" height="0" width="0" classid="CLSID:7525E7C6-84C6-4180-AFA3-A5FED8C8A261" VIEWASTEXT codebase='VSTeTokenSetup.cab'></object>
     <html:form styleId="frmQT" action="/XuLyLenhQuyetToanList.do">
@@ -103,7 +109,7 @@
                                                         id="row_qt_<bean:write name="index"/>"
                                                         ondblclick="rowSelectedFocusQT('row_qt_<bean:write name="index"/>');"
                                                         onclick="rowSelectedFocusQT('row_qt_<bean:write name="index"/>');
-                                                                 fillDataQuyetToan('<bean:write name="items" property="id"/>','row_qt_<bean:write name="index"/>');"
+                                                                 fillDataQuyetToan('<bean:write name="items" property="id"/>','row_qt_<bean:write name="index"/>'); selectRow(this);"
                                                         >
                                                         <td width="40%;"  align="center" id="td_qt_<bean:write name="index"/>">
                                                           <input type="hidden" id="col_qt_<bean:write name="index"/>" 
@@ -112,18 +118,21 @@
                                                           <input name="row_item" id="col_qt" 
                                                           type="text" style="border:0px;font-size:10px;" onkeydown="arrowUpDownQT(event)"
                                                           value="<bean:write name="items" property="id_ref"/>" 
-                                                          readonly="true"/> 
+                                                          readonly="true"/>
+                                                          <input type="hidden" id="nhap_thu_cong" name="nhap_thu_cong" value="<bean:write name="items" property="nhap_thu_cong"/>" />
                                                         </td>
                                                         <td width="28%;" align="center">
                                                          <logic:equal name="items"
                                                                        property="trang_thai"
                                                                        value="00">
                                                                         <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/edit.gif" border="0" title="Chờ TTV hoàn thiện"/>                                         
+                                                                        <input type="hidden" id="trang_thai" name="trang_thai" value="00" />
                                                           </logic:equal>
                                                           <logic:equal name="items"
                                                                        property="trang_thai"
                                                                        value="01">
                                                             <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/wait.jpeg" border="0" title="Chờ KTT duyệt"/>
+                                                            <input type="hidden" id="trang_thai" name="trang_thai" value="01" />
                                                           </logic:equal>                                           
                                                           <logic:equal name="items"
                                                                        property="trang_thai"
@@ -131,6 +140,7 @@
                                                                 <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/return.jpeg"
                                                                  border="0"
                                                                  title="KTT đẩy lại"/> 
+                                                                 <input type="hidden" id="trang_thai" name="trang_thai" value="02" />
                                                            </logic:equal>  
                                                            <logic:equal name="items"
                                                                        property="trang_thai"
@@ -138,12 +148,14 @@
                                                                 <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/active.gif"
                                                                  border="0"
                                                                  title="Đã tạo bảng kê"/> 
+                                                                 <input type="hidden" id="trang_thai" name="trang_thai" value="04" />
                                                           </logic:equal>                                           
                                                           <logic:equal name="items"
                                                                        property="trang_thai"
                                                                        value="03">
                                                             <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/sended-but.jpg"
                                                                  border="0" title="Đã duyệt"/>
+                                                                 <input type="hidden" id="trang_thai" name="trang_thai" value="03" />
                                                           </logic:equal>
                                                          <!-- new
                                                         -->
@@ -152,24 +164,28 @@
                                                                        value="11">
                                                             <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/sended-but.jpg"
                                                                  border="0" title="Chờ chạy giao diện"/>
+                                                                 <input type="hidden" id="trang_thai" name="trang_thai" value="11" />
                                                           </logic:equal>
                                                           <logic:equal name="items"
                                                                        property="trang_thai"
                                                                        value="12">
                                                             <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/send-success.jpg"
                                                                  border="0" title="Giao diện thành công"/>
+                                                                 <input type="hidden" id="trang_thai" name="trang_thai" value="12" />
                                                           </logic:equal>
                                                           <logic:equal name="items"
                                                                        property="trang_thai"
                                                                        value="13">
                                                             <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/sended-false.jpg"
                                                                  border="0" title="Giao diện không thành công"/>
+                                                                 <input type="hidden" id="trang_thai" name="trang_thai" value="13" />
                                                           </logic:equal>
                                                           <logic:equal name="items"
                                                                        property="trang_thai"
                                                                        value="16">
                                                             <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/sended-false.jpg"
                                                                  border="0" title="Lỗi truyền tin"/>
+                                                                 <input type="hidden" id="trang_thai" name="trang_thai" value="16" />
                                                           </logic:equal>
                                                         </td>
                                                       </tr>
@@ -708,6 +724,15 @@
                     <table class="buttonbar" border="0" cellspacing="0" cellpadding="0" width="100%">
                       <tr align="right">
                         <td> 
+                        <%if(loai_nhom.contains(AppConstants.NSD_TTV)){%>
+                        <span id="update"> 
+                            <button 
+                                    id="btnUpdate" class="ButtonCommon"
+                                    type="button" accesskey="O">
+                              Sửa
+                            </button>
+                          </span>
+                          <%}%>
                         <span id="duyet"> 
                             <button 
                                     id="btnDuyet" class="ButtonCommon"
@@ -788,6 +813,7 @@
   //************************************ LOAD PAGE **********************************
   jQuery(document).init(function () {
     defaultButton();
+    jQuery('#btnUpdate').hide();
     var checkExit = '<%=request.getAttribute("typeView")%>' == 'null' ? false : '<%=request.getAttribute("typeView")%>';
     if(checkExit=='true'){
       jQuery("#refreshSpn").removeAttr("onclick");
@@ -796,6 +822,7 @@
       jQuery("#daylai").hide();
       jQuery("#duyet").hide();
       jQuery("#duyet").hide();
+      jQuery("#update").hide();
       jQuery("#in").show();
       strActionKTT = "PrintSGD";
       //20150320-sua dap ung mua ban ngoai te      
@@ -840,7 +867,6 @@
       defaultRowSelectedQT();
       changeStateArea();
     }
-   
     //dialog message
   jQuery("#dialog-message-check").dialog( {
     autoOpen : false, modal : true, height : 200, width : 430, buttons :  {
@@ -923,6 +949,9 @@
     jQuery("#dialog-message-check").dialog("open");
   });
   jQuery("#btnDuyet").click(function () {
+  var nguoi_nhap = '<%=userLogin%>';
+  var nguoi_nhap_nh = jQuery('#nguoi_nhap_nh').val();
+  if(nguoi_nhap_nh != nguoi_nhap){
       document.forms[0].target='';
       strActionKTT="ACTION_PASS";
       if("Y"==strChkKy){
@@ -933,6 +962,9 @@
           }
       jQuery("#dialog-message-check").html('<fmt:message key="XuLyLenhQT.page.message.confirm_duyet"/>');
       jQuery("#dialog-message-check").dialog("open");
+  }else{
+    alert("Không được phép duyệt lệnh của chính mình");
+  }
   });
   jQuery("#btnChuyen").click(function () { 
       document.forms[0].target='';
@@ -1039,10 +1071,34 @@
 //      f.submit();
 //    } 
     
+    function selectRow(tr){
+       var nhap_thu_cong = jQuery(tr).find('#nhap_thu_cong').val();
+       var so_lenh = jQuery(tr).find('#col_qt').val();
+       var trang_thai = jQuery(tr).find('input#trang_thai').val();
+       if(nhap_thu_cong == "Y" && trang_thai == "02"){
+        jQuery('#btnUpdate').show();
+        jQuery('#btnUpdate').click(function(){
+          document.forms[0].action = "updateLenhQuyetToan.do";
+          document.forms[0].submit();
+        });
+       }else{
+        jQuery('#btnUpdate').hide();
+       }
+    }
+    
     function ky(){
     	try {
             var cert = jQuery("#eSign")[0];
-            cert.InitCert();                   
+            cert.InitCert();  
+            
+           // 20171120 thuongdt bo sung canh bao han su dung CTS
+             var strdomain = '<%=strdomain%>';
+            var struser_name = '<%=struser_name%>';
+            var strcheckcts = '<%=strcheckcts%>';           
+            if(!checkCTSdate(cert,strdomain+'/'+struser_name,strcheckcts)){
+             return false;
+            }
+            
             var serial = cert.Serial;
             jQuery("#certSerial").val(serial);
             
@@ -1064,4 +1120,4 @@
     }
     document.onkeydown =keyDownLHTQT;
 </script>
-<%@ include file="/includes/ttsp_bottom.inc"%>
+<%@ include file="/includes/ttsp_bottom.inc"%>  

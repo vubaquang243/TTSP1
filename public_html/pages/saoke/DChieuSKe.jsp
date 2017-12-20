@@ -323,7 +323,7 @@ if(tcong!=null && ""!=tcong){
                     <fmt:setLocale value="vi_VI"/>
                   </logic:equal>
                   <logic:notEqual value="VND" name="items" property="ma_nt">
-                    <fmt:setLocale value="en_US"/>
+                    <fmt:setLocale value="vi_VI"/>
                   </logic:notEqual>
                   <tr>
                     <td bordercolor="#e1e1e1"  width="10.7%" align="right">

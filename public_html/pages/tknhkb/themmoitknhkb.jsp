@@ -32,6 +32,14 @@
         jQuery("#dialog-message").dialog("open");
       });
        jQuery("#btn_Ghi").click(function (){
+          var hieu_luc_tungay = jQuery('#hieu_luc_tungay').val();
+          var hieu_luc_denngay = jQuery('#hieu_luc_den_ngay').val();
+          if(hieu_luc_tungay != "" && hieu_luc_denngay != ""){
+             if(hieu_luc_tungay > hieu_luc_denngay){
+              alert("Ngày hiệu lực không được lớn hơn ngày hết hiệu lực.");
+              return false;
+             }
+          }
         
 //        var tu_ngay=document.getElementById('hieu_luc_tungay').value;
 //        var den_ngay=document.getElementById('hieu_luc_den_ngay').value;
@@ -61,7 +69,6 @@
               document.getElementById('ma_kb').focus();
               document.forms[0].action = 'ghitknhkb.do';
             }
-             
              document.forms[0].submit();
             
            }
@@ -271,7 +278,7 @@
 <div id="body">
  <html:form styleId="frmthemmoitknhkb"   action="/themtaikhoan.do">
         
-<table border="0" cellspacing="0" cellpadding="0" width="100%"
+<table border="0" cellspacing="2" cellpadding="0" width="100%"
            align="center">
       <tbody>
          <tr>
@@ -294,15 +301,15 @@
       <tbody>
         <tr>
           <td> 
-           <table width="100%" cellspacing="0" cellpadding="0" align="center" class="bordertableChungTu">
+           <table width="100%" cellspacing="2" cellpadding="0" align="center" class="bordertableChungTu">
             <tr>
               <td align="right" width="10%">
-                <label for="kho_bac">
+                <label for="kho_bac" style="padding-right:10px">
                   <fmt:message key="tknhkb.page.lable.kho_bac"/>
                 </label>
               </td>
               <td class="promptText" align="right" width="40%">
-                 <html:text property="ma_kb" styleId="ma_kb" styleClass="fieldText" style="width:130px;" maxlength="4"
+                 <html:text property="ma_kb" styleId="ma_kb" styleClass="fieldText" style="width:140px;" maxlength="4"
                    onkeydown="nextFocus();"  onblur="textlostfocus(this);getTen_KB('ma_kb','ten_kb','kb_id')" onfocus="textfocus(this);"/>
                 <html:text property="ten_kb" styleId="ten_kb" styleClass="fieldTextTrans" readonly="true" onkeydown="nextFocus();"
                      onmouseout="UnTip()" onmouseover="Tip(this.value)" style="WIDTH: 200px;"/>
@@ -310,39 +317,39 @@
                   <html:hidden property="id" styleId="id"/>
               </td>
               <td width="10%" align="right">
-                <label for="ngan_hang">
+                <label for="ngan_hang" style="padding-right:10px">
                   <fmt:message key="tknhkb.page.lable.ten_nh"/>
                 </label>
               </td>
             <td class="promptText">
-            <html:text property="ma_nh" styleId="ma_nh" styleClass="fieldText" style="width:125px;"  maxlength="8"
+            <html:text property="ma_nh" styleId="ma_nh" styleClass="fieldText" style="width:140px;"  maxlength="8"
                      onkeydown="nextFocus();" onblur="textlostfocus(this);getTen_NH('ma_nh','ten_nh','nh_id')" onfocus="textfocus(this);"/>
                 <html:text property="ten" styleId="ten_nh" styleClass="fieldTextTrans" readonly="true" onkeydown="nextFocus();"
-                     onmouseout="UnTip()" onmouseover="Tip(this.value)" style="WIDTH: 200px;"/>
+                     onmouseout="UnTip()" onmouseover="Tip(this.value)" style="WIDTH: 180px;"/>
                  <html:hidden property="nh_id" styleId="nh_id"/>
                  
             </td>
           </tr>
           <tr>
             <td align="right">
-              <label for="so_tk">
+              <label for="so_tk" style="padding-right:10px">
                 <fmt:message key="tknhkb.page.lable.so_tai_khoan"/>
               </label>
             </td>
             <td class="promptText">
              <html:text styleId="so_tk" property="so_tk"
-                           styleClass="fieldText" style="width:130px;" maxlength="18" 
+                           styleClass="fieldText" style="width:140px;" maxlength="18" 
                            onblur="textlostfocus(this);"  onkeydown="nextFocus();"
                            onfocus="textfocus(this);"/>
             </td>
             <td align="right" width="13%">
-              <label for="ma_don_vi_nhan_tra_soat">
+              <label for="ma_don_vi_nhan_tra_soat" style="padding-right:10px">
                 <fmt:message key="tknhkb.page.lable.trang_thai"/>
               </label>
             </td>
             <td class="promptText" colspan="3">
             <html:select styleClass="selectBox" property="trang_thai"
-                           styleId="trang_thai" style="width:130px;"
+                           styleId="trang_thai" style="width:142px;"
                            onblur="textlostfocus(this);"  onkeydown="nextFocus();"
                            onfocus="textfocus(this);">
               <html:option value="01" >Hoạt động</html:option>  
@@ -352,24 +359,24 @@
           </tr>
           <tr>
             <td align="right">
-              <label for="id">
+              <label for="id" style="padding-right:10px">
                 <fmt:message key="tknhkb.page.lable.han_muc_co"/>
               </label>
             </td>
             <td class="promptText" align="left">
-              <html:text property="han_muc_co" styleId="han_muc_co" styleClass="fieldText" style="width:120;"
+              <html:text property="han_muc_co" styleId="han_muc_co" styleClass="fieldText" style="width:140px;"
                          onKeyPress="return numbersonly(this,event,true)"  onkeydown="nextFocus();"  maxlength="18"
                          onblur="textlostfocus(this);"
                          onfocus="textfocus(this);"/>
             </td>
             <td align="right">
-              <label for="ltt_id">
+              <label for="ltt_id" style="padding-right:10px">
                 <fmt:message key="tknhkb.page.lable.han_muc_no"/>
               </label>
             </td>
             <td class="promptText" align="right">
               <html:text property="han_muc_no" styleId="han_muc_no" styleClass="fieldText"
-                         style="width:120;" maxlength="18"  onkeydown="nextFocus();"
+                         style="width:140px;" maxlength="18"  onkeydown="nextFocus();"
                          onKeyPress="return numbersonly(this,event,true)"
                          onblur="textlostfocus(this);"
                          onfocus="textfocus(this);"/>
@@ -377,13 +384,13 @@
           </tr>
           <tr>
             <td align="right">
-              <label for="loai_tk">
+              <label for="loai_tk" style="padding-right:10px">
                 Lo&#7841;i TK
               </label>
             </td>
             <td class="promptText" align="right">
               <html:select styleClass="selectBox" property="loai_tk"
-                           styleId="loai_tk" style="width:130px;"
+                           styleId="loai_tk" style="width:142px;"
                            onblur="textlostfocus(this);"  onkeydown="nextFocus();"
                            onfocus="textfocus(this);">
               <html:option value="01" >TK thanh toán tổng hợp</html:option>  
@@ -392,13 +399,13 @@
               </html:select>
             </td>
             <td align="right">
-              <label for="loai_gd">
+              <label for="loai_gd" style="padding-right:10px">
                 Lo&#7841;i giao d&#7883;ch
               </label>
             </td>
             <td class="promptText" align="right">
               <html:select styleClass="selectBox" property="loai_gd"
-                           styleId="loai_gd" style="width:130px;"
+                           styleId="loai_gd" style="width:142px;"
                            onblur="textlostfocus(this);"  onkeydown="nextFocus();"
                            onfocus="textfocus(this);">
               <html:option value="01" >C&#243; TTSP v&#224; PHT</html:option>  
@@ -408,14 +415,14 @@
             </td>
           </tr>
           <tr>
-            <td align="right" bordercolor="#e1e1e1" >Loại tiền</td>
+            <td align="right" bordercolor="#e1e1e1" style="padding-right:10px" >Loại tiền</td>
             <td>
-              <html:select property="ma_nt" styleId="ma_nt" onkeydown="if(event.keyCode==13) event.keyCode=9;" style="width:130px;">  
+              <html:select property="ma_nt" styleId="ma_nt" onkeydown="if(event.keyCode==13) event.keyCode=9;" style="width:142px;">  
                 <html:option value="">Chọn loại tiền</html:option>
                 <html:optionsCollection name="tienTe" value="ma" label="ma"/>
               </html:select>
             </td>
-            <td align="right" bordercolor="#e1e1e1" >Quyết toán</td>
+            <td align="right" bordercolor="#e1e1e1" style="padding-right:10px">Quyết toán</td>
             <td>
               <html:select property="quyet_toan" styleId="quyet_toan" onkeydown="if(event.keyCode==13) event.keyCode=9;">  
                 <html:option value="Y">Có</html:option>
@@ -425,13 +432,13 @@
             </td>
           </tr>
           <tr>
-             <td align="right" bordercolor="#e1e1e1" >Ngày hiệu lực</td>
+             <td align="right" bordercolor="#e1e1e1" style="padding-right:10px">Ngày hiệu lực</td>
             <td>
               <html:text property="hieu_luc_tungay" styleId="hieu_luc_tungay" styleClass="fieldText"
                        onkeypress="return numbersonly(this,event,true) "
                        onblur="javascript:mask(this.value,this,'2,5','/');CheckDate(this);CheckDateOnClient('hieu_luc_tungay');"
                        onkeydown="if(event.keyCode==13) event.keyCode=9;"
-                       style="WIDTH: 27%;"/>
+                       style="WIDTH: 112px;"/>
               <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/calendar/calbtn.gif"
                    border="0" id="tu_ngay_btn" width="7%"
                    style="vertical-align:middle;"/>
@@ -443,13 +450,13 @@
                 });
               </script>
             </td>
-            <td align="right" bordercolor="#e1e1e1" >Ngày hết hiệu lực</td>
+            <td align="right" bordercolor="#e1e1e1" style="padding-right:10px">Ngày hết hiệu lực</td>
             <td>
               <html:text property="hieu_luc_den_ngay" styleId="hieu_luc_den_ngay" styleClass="fieldText"
                        onkeypress="return numbersonly(this,event,true) "
                        onblur="javascript:mask(this.value,this,'2,5','/');CheckDate(this);CheckDateOnClient('hieu_luc_den_ngay');"
                        onkeydown="if(event.keyCode==13) event.keyCode=9;"
-                       style="WIDTH: 27%;"/>
+                       style="WIDTH: 112px;"/>
               <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/calendar/calbtn.gif"
                    border="0" id="den_ngay_btn" width="7%"
                    style="vertical-align:middle;"/>

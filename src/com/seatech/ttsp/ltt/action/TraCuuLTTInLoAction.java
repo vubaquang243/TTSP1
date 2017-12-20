@@ -8,6 +8,7 @@ import com.seatech.framework.datamanager.Parameter;
 import com.seatech.framework.exception.TTSPException;
 import com.seatech.framework.strustx.AppAction;
 import com.seatech.framework.utils.DateUtils;
+import com.seatech.framework.utils.StringUtil;
 import com.seatech.ttsp.dmkb.DMKBacDAO;
 import com.seatech.ttsp.dmkb.DMKBacVO;
 import com.seatech.ttsp.dmnh.DMNHangDAO;
@@ -488,13 +489,11 @@ public class TraCuuLTTInLoAction extends AppAction {
                 }
             }
 
-            if (lttForm.getTong_sotien() != null &&
-                !"".equals(lttForm.getTong_sotien())) {
+            if (lttForm.getSo_tien() != null &&
+                !"".equals(lttForm.getSo_tien())) {
                 szWhereClause.append("and t.tong_sotien =? ");
-                lttForm.setTong_sotien(lttForm.getTong_sotien().replace(".",
-                                                                        ""));
                 param_ltt =
-                        new Parameter(lttForm.getTong_sotien().trim(), true);
+                        new Parameter(StringUtil.formatMoneyVNDToDouble(lttForm.getSo_tien().trim()), true);
                 v_Param_ltt.add(param_ltt);
             }
 
@@ -1199,7 +1198,7 @@ public class TraCuuLTTInLoAction extends AppAction {
                                 jasperPrints.add(jasperPrint);
                             } else {
                                 throw (new TTSPException().createException("TTSP-9999",
-                                                                           "Không tìm th?y b?n ghi nào!"));
+                                                                           "Khï¿½ng tï¿½m th?y b?n ghi nï¿½o!"));
                             }
                         }
                     }

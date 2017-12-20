@@ -129,7 +129,7 @@
           <fmt:setLocale value="vi_VI"/>
         </c:when>
         <c:otherwise>
-          <fmt:setLocale value="en_US"/>
+          <fmt:setLocale value="vi_VI"/>
         </c:otherwise>
     </c:choose>
     <table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">

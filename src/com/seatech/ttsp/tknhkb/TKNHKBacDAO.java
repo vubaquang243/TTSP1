@@ -11,7 +11,12 @@ import java.sql.Connection;
 import java.util.Collection;
 import java.util.Vector;
 
-
+/**
+ * @modify: thuongdt
+ * @modify-date: 30/10/2017
+ * @see: chuyen han han_muc_no,han_muc_co tu long sang float de thiet lap duoc so du le
+ * @find: 20171030
+ * */
 public class TKNHKBacDAO extends AppDAO {
     private static String DD_MM_YYYY_HH_MI_SS = "dd/MM/yyyy HH:mm:ss";
     private static String CLASS_NAME_DAO =
@@ -48,7 +53,7 @@ public class TKNHKBacDAO extends AppDAO {
                                Vector vParam) throws Exception {
         try {
             String strSQL =
-                "SELECT DISTINCT(b.ma_nh), b.ten" + " FROM sp_tknh_kb a, sp_dm_ngan_hang b, sp_dm_htkb c where a.nh_id=b.id and a.kb_id = c.id ";
+                "SELECT DISTINCT(b.ma_nh), b.ten, a.loai_tk" + " FROM sp_tknh_kb a, sp_dm_ngan_hang b, sp_dm_htkb c where a.nh_id=b.id and a.kb_id = c.id ";
             if (strWhere != null) {
                 strSQL += strWhere;
             }
@@ -170,11 +175,13 @@ public class TKNHKBacDAO extends AppDAO {
                 strSQL2.append(", ?");
                 v_param.add(new Parameter(vo.getLoai_tk(), true));
             }
+            //20171030
             if (vo.getHan_muc_no() != null) {
                 strSQL.append(", han_muc_no");
                 strSQL2.append(", ?");
                 v_param.add(new Parameter(vo.getHan_muc_no(), true));
             }
+            //20171030
             if (vo.getHan_muc_co() != null) {
                 strSQL.append(", han_muc_co");
                 strSQL2.append(", ?");
@@ -236,6 +243,7 @@ public class TKNHKBacDAO extends AppDAO {
                 }
                 v_param.add(new Parameter(vo.getTrang_thai(), true));
             }
+          //20171030
             if (vo.getHan_muc_no() != null) {
                 if (strSQL2 == null) {
                     strSQL2 = new StringBuffer();
@@ -245,6 +253,7 @@ public class TKNHKBacDAO extends AppDAO {
                 }
                 v_param.add(new Parameter(vo.getHan_muc_no(), true));
             }
+          //20171030
             if (vo.getHan_muc_co() != null) {
                 if (strSQL2 == null) {
                     strSQL2 = new StringBuffer();

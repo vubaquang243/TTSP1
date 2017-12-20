@@ -22,7 +22,11 @@ import com.seatech.ttsp.proxy.giaodien.BuildMsgLQT;
 import com.seatech.ttsp.proxy.pki.PKIService;
 import com.seatech.ttsp.quyettoan.QuyetToanDAO;
 import com.seatech.ttsp.quyettoan.QuyetToanVO;
+import com.seatech.ttsp.quyettoan.UpdateQuyetToanVO;
+import com.seatech.ttsp.quyettoan.XuLyLenhQuyetToanThuCongVO;
 import com.seatech.ttsp.quyettoan.form.QuyetToanForm;
+
+import com.seatech.ttsp.tknhkb.TKNHKBacDAO;
 
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -65,7 +69,7 @@ public class XuLyLenhQuyetToanAction extends AppAction {
     public ActionForward list(ActionMapping mapping, ActionForm form,
                               HttpServletRequest request,
                               HttpServletResponse response) throws Exception {
-      /**
+        /**
        * - ManhNV
        * - 22/11/2016
        * - Sua truyen dien 2 lan
@@ -136,9 +140,13 @@ public class XuLyLenhQuyetToanAction extends AppAction {
                             strWhereClause += " ORDER BY d.rv_low_value,a.id ";
                         }
                     }
+                    // check nhom quyen nguoi su dung
+                    String idNSD = session.getAttribute(AppConstants.APP_USER_ID_SESSION).toString();
+                    String kb_id = session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
+                    String strWhere = "and a.kb_id='"+kb_id+"' and a.id='"+idNSD+"'";
+                    //end check nhom quyen nguoi su dung
                     lstDanhSachQuyetToan =
                             (List)dao.getQTList(strWhereClause, vParams);
-
                     request.setAttribute("lstDanhSachQuyetToan",
                                          lstDanhSachQuyetToan);
                     request.setAttribute("chucdanh", strUserInfo);
@@ -173,7 +181,7 @@ public class XuLyLenhQuyetToanAction extends AppAction {
                                    HttpServletRequest request,
                                    HttpServletResponse response) throws Exception {
         Connection conn = null;
-//        QueueManager queueManager = null;//DOUBLE_20161122
+        //        QueueManager queueManager = null;//DOUBLE_20161122
         QuyetToanDAO dao = null;
         QuyetToanVO vo = null;
         JsonObject jsonObj = null;
@@ -189,6 +197,8 @@ public class XuLyLenhQuyetToanAction extends AppAction {
                 dao = new QuyetToanDAO(conn);
                 QuyetToanForm f = (QuyetToanForm)form;
                 HttpSession session = request.getSession();
+              String userLogin = session.getAttribute(AppConstants.APP_USER_NAME_SESSION) == null ? "" : 
+                  session.getAttribute(AppConstants.APP_USER_NAME_SESSION).toString();
                 //ManhNV-20141119: Kiem tra ky va hoan thien cung 1 NSD********
                 Vector vParam = new Vector();
                 vParam.add(new Parameter(f.getId(), true));
@@ -204,7 +214,7 @@ public class XuLyLenhQuyetToanAction extends AppAction {
                 jsonObj = new JsonObject();
 
                 //manhnv-12/05
-//                queueManager = new QueueManager(getThamSoHThong(session));//DOUBLE_20161122
+                //                queueManager = new QueueManager(getThamSoHThong(session));//DOUBLE_20161122
                 //manhnv-12/05
                 if (f.getSo_tien() == null) {
                     f.setSo_tien("0");
@@ -223,6 +233,7 @@ public class XuLyLenhQuyetToanAction extends AppAction {
                     vo.setNgay_chuyen_ks(StringUtil.getCurrentDate());
                     vo.setTrang_thai(AppConstants.TRANG_THAI_QT_CHODUYET);
                     if (dao.update(vo) > 0) {
+                    request.setAttribute("trang_thai_cho_duyet", "01");
                         conn.commit();
                         jsonObj.addProperty("Success", true);
                         jsonObj.addProperty("id", vo.getId());
@@ -240,6 +251,7 @@ public class XuLyLenhQuyetToanAction extends AppAction {
                         vo.setNgay_ks(StringUtil.getCurrentDate());
                         vo.setTrang_thai(AppConstants.TRANG_THAI_QT_DAYLAI);
                         jsonObj.addProperty("typeAction", "daylai");
+                        vo.setLoai_hach_toan("T");
                         if (dao.update(vo) > 0) {
                             conn.commit();
                             jsonObj.addProperty("Success", true);
@@ -290,11 +302,11 @@ public class XuLyLenhQuyetToanAction extends AppAction {
                             try {
                                 // thuc hien send message
                                 //ManhNV - 12/05
-//                                DOUBLE_20161122-BEGIN
-//                                queueManager.setQueueManager();
-//                                SendLQToan sMsgQT =
-//                                    new SendLQToan(conn, queueManager);
-//                              DOUBLE_20161122-END
+                                //                                DOUBLE_20161122-BEGIN
+                                //                                queueManager.setQueueManager();
+                                //                                SendLQToan sMsgQT =
+                                //                                    new SendLQToan(conn, queueManager);
+                                //                              DOUBLE_20161122-END
                                 //ManhNV - 12/05
 
                                 if (DUYET.equalsIgnoreCase(action)) {
@@ -305,8 +317,9 @@ public class XuLyLenhQuyetToanAction extends AppAction {
                                         strHachToanTheoNgayKSNH =
                                                 session.getAttribute(AppConstants.APP_HACH_TOAN_TABMIS_THEO_NGAY_KS_NH_SESSION).toString();
                                     }
-                                    
-                                    BuildMsgLQT sMsgQT = new BuildMsgLQT(conn);//DOUBLE_20161122
+
+                                    BuildMsgLQT sMsgQT =
+                                        new BuildMsgLQT(conn); //DOUBLE_20161122
                                     msgID =
                                             sMsgQT.sendMessage(vo.getId(), "CT",
                                                                session.getAttribute(AppConstants.APP_KB_CODE_SESSION) ==
@@ -315,35 +328,46 @@ public class XuLyLenhQuyetToanAction extends AppAction {
                                                                strHachToanTheoNgayKSNH);
                                     if (msgID != null && !"".equals(msgID)) {
                                         vo.setMsg_id(msgID);
+                                        vo.setNguoi_ks_nh(userLogin);
                                         if (dao.update(vo) > 0) {
-                                            conn.commit();
-//                                          DOUBLE_20161122-BEGIN
-//                                            try {
-//                                                queueManager.commitMQ();
-//                                            } catch (Exception ex) {
-//                                                queueManager.rollbackMQ();
-//                                                //ROLLBACK DB WHEN COMMIT MQ FALSE
-//                                                vo.setChu_ky(null);
-//                                                vo.setKtt_ks(null);
-//                                                vo.setNgay_ks(null);
-//                                                vo.setTrang_thai(AppConstants.TRANG_THAI_QT_CHODUYET);
-//                                                vo.setMsg_id(null);
-//                                                dao.update(vo);
-//                                                conn.commit();
-//                                                throw ex;
-//                                            }
-//                                          DOUBLE_20161122-END
+                                            // insert 1 ban ghi vao sp_quyet_toan
+                                        String idQT = f.getId();
+                                            XuLyLenhQuyetToanThuCongVO lenhQTTCVO =
+                                                dao.getThongTinQuyetToanById(idQT,
+                                                                             null);
+                                            if (lenhQTTCVO.getNhap_thu_cong().equals("Y")) {
+                                                lenhQTTCVO.setQtoan_dvi("N");
+                                                lenhQTTCVO.setTrang_thai("03");
+                                                TTSPUtils utils =
+                                                    new TTSPUtils(conn);
+                                                String id = "";
+                                                if (lenhQTTCVO.getLoai_qtoan().equals("D")) {
+                                                    id = utils.getSoLTT("900");
+                                                    lenhQTTCVO.setId(id);
+                                                } else {
+                                                    id = utils.getSoLTT("910");
+                                                    lenhQTTCVO.setId(id);
+                                                }
+                                            }
+                                            Vector vParams = new Vector();
+                                            int sqlResult =
+                                                dao.insertLenhQuyetToan(lenhQTTCVO,
+                                                                        vParams);
+                                            if (sqlResult > 0)
+                                                conn.commit();
+                                            else
+                                                throw new Exception("Không insert vào được bảng kê quyết toán");
                                             jsonObj.addProperty("Success",
                                                                 true);
                                             jsonObj.addProperty("id",
                                                                 vo.getId());
                                         } else {
                                             //20160317-BEGIN-Rollback MQ khi ko update dc CSDL
-//                                            DOUBLE_20161122-BEGIN
-//                                            if (queueManager != null) {
-//                                                queueManager.rollbackMQ();
-//                                            }
-//                                          DOUBLE_20161122-END
+                                            //                                            DOUBLE_20161122-BEGIN
+                                            //                                            if (queueManager != null) {
+                                            //                                                queueManager.rollbackMQ();
+                                            //                                            }
+                                            //                                          DOUBLE_20161122-END
                                             //20160317-END-Rollback MQ khi ko update dc CSDL
                                             jsonObj.addProperty("Success",
                                                                 false);
@@ -353,21 +377,21 @@ public class XuLyLenhQuyetToanAction extends AppAction {
                                     }
                                 }
                             } catch (Exception ex) {
-//                              DOUBLE_20161122-BEGIN
-//                                if (queueManager != null) {
-//                                    queueManager.rollbackMQ();
-//                                }
-//                              DOUBLE_20161122-END
+                                //                              DOUBLE_20161122-BEGIN
+                                //                                if (queueManager != null) {
+                                //                                    queueManager.rollbackMQ();
+                                //                                }
+                                //                              DOUBLE_20161122-END
                                 jsonObj.addProperty("Failure",
                                                     "SendLQToan.sendBKeMessage() " +
                                                     ex.getMessage());
                             } finally {
                                 //Close MQ
-//                                DOUBLE_20161122-BEGIN
-//                                if (queueManager != null) {
-//                                    queueManager.disconnectMQ();
-//                                }
-//                              DOUBLE_20161122-END
+                                //                                DOUBLE_20161122-BEGIN
+                                //                                if (queueManager != null) {
+                                //                                    queueManager.disconnectMQ();
+                                //                                }
+                                //                              DOUBLE_20161122-END
                             }
                         }
                         jsonObj.addProperty("typeAction", "duyet");
@@ -682,7 +706,7 @@ public class XuLyLenhQuyetToanAction extends AppAction {
                     }
                 }
             } else if ("05".equals(qtVO.getLai_phi())) {
-            //BEGIN 20151123: Dao lai cap hach toan
+                //BEGIN 20151123: Dao lai cap hach toan
                 if (strLoaiHToan.equalsIgnoreCase("T")) {
                     strKHLoaiHachToanCo = "HACH_TOAN_DUNG_THU_POS_NO";
                     strKHLoaiHachToanNo = "HACH_TOAN_DUNG_THU_POS_CO";
@@ -890,5 +914,43 @@ public class XuLyLenhQuyetToanAction extends AppAction {
             return mapping.findForward(AppConstants.SUCCESS);
         else
             return null;
+    }
+
+    public ActionForward update(ActionMapping mapping, ActionForm form,
+                                HttpServletRequest request,
+                                HttpServletResponse response) throws Exception {
+        Connection conn = null;
+        try {
+            conn = getConnection();
+            QuyetToanDAO dao = new QuyetToanDAO(conn);
+            TKNHKBacDAO tkbhkbDAO = new TKNHKBacDAO(conn);
+            QuyetToanForm f = (QuyetToanForm)form;
+            UpdateQuyetToanVO vo =
+                dao.getThongTinQuyetToan(f.getId_ref(), null);
+            HttpSession session = request.getSession();
+
+            String nhkbNhan_id =
+                session.getAttribute(AppConstants.APP_NHKB_CODE_SESSION) ==
+                null ? "" :
+                session.getAttribute(AppConstants.APP_NHKB_CODE_SESSION).toString();
+            String nhkbNhan_name =
+                session.getAttribute(AppConstants.APP_NHKB_NAME_SESSION) ==
+                null ? "" :
+                session.getAttribute(AppConstants.APP_NHKB_NAME_SESSION).toString();
+            String NHKBChuyen =
+                session.getAttribute(AppConstants.APP_KB_ID_SESSION) == null ?
+                "" :
+                session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
+
+            String strQuery = "and a.kb_id = " + NHKBChuyen;
+            Collection dmNH = tkbhkbDAO.getNH_KB(strQuery, null);
+            request.setAttribute("dmNH", dmNH);
+            request.setAttribute("quyetToanObject", vo);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            close(conn);
+        }
+        return mapping.findForward(AppConstants.SUCCESS);
     }
 }

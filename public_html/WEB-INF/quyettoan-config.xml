@@ -17,6 +17,19 @@
       <forward name="failure"
                path="/pages/quyettoan/XuLyLenhQuyetToan.jsp"/>
     </action>
+    
+    <!--nang cap 2017 thuc hien update lenh quyet toan thu cong begin-->
+    <action parameter="update" path="/updateLenhQuyetToan"
+            name="QuyetToanForm" scope="request"
+            type="com.seatech.ttsp.quyettoan.action.XuLyLenhQuyetToanAction">
+      <forward name="success"
+               path="/pages/lenhqtthucong/lenhquyettoanthucong.jsp"/>
+      <forward name="errorQuyen" path="/pages/main/errorQuyen.jsp"/>
+      <forward name="failure"
+               path="/pages/lenhqtthucong/lenhquyettoanthucong.jsp"/>
+    </action>
+    <!--nang cap 2017 thuc hien update lenh quyet toan thu cong end-->
+    
     <action parameter="view" path="/XuLyLenhQuyetToanView"
             name="QuyetToanForm" scope="request"
             type="com.seatech.ttsp.quyettoan.action.XuLyLenhQuyetToanAction">

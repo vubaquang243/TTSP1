@@ -3,7 +3,12 @@ package com.seatech.ttsp.trienkhai.form;
 import java.math.BigDecimal;
 
 import org.apache.struts.action.ActionForm;
-
+/**
+ * @modify: thuongdt
+ * @modify-date: 30/10/2017
+ * @see: chuyen han han_muc_no,han_muc_co tu long sang float de thiet lap duoc so du le
+ * @find: 20171030
+ * */
 public class TrienKhaiForm extends ActionForm{
     private String shkb;
     private String ten;
@@ -26,8 +31,9 @@ public class TrienKhaiForm extends ActionForm{
     private String ngay_tk;
     private String so_tk;
     private String loai_tien;
-    private Long han_muc_no;
-    private Long han_muc_co;
+    //20171030 thuongdt doi type =>> ngoai te co so le
+    private String han_muc_no;
+    private String han_muc_co;
     private String loai_tk;
     private String loai_gd;
     private String quyet_toan;
@@ -196,22 +202,6 @@ public class TrienKhaiForm extends ActionForm{
         return loai_tien;
     }
 
-    public void setHan_muc_no(Long han_muc_no) {
-        this.han_muc_no = han_muc_no;
-    }
-
-    public Long getHan_muc_no() {
-        return han_muc_no;
-    }
-
-    public void setHan_muc_co(Long han_muc_co) {
-        this.han_muc_co = han_muc_co;
-    }
-
-    public Long getHan_muc_co() {
-        return han_muc_co;
-    }
-
     public void setLoai_tk(String loai_tk) {
         this.loai_tk = loai_tk;
     }
@@ -274,5 +264,22 @@ public class TrienKhaiForm extends ActionForm{
 
     public String getCut_of_time() {
         return cut_of_time;
+    }
+
+
+    public void setHan_muc_no(String han_muc_no) {
+        this.han_muc_no = han_muc_no;
+    }
+
+    public String getHan_muc_no() {
+        return han_muc_no;
+    }
+
+    public void setHan_muc_co(String han_muc_co) {
+        this.han_muc_co = han_muc_co;
+    }
+
+    public String getHan_muc_co() {
+        return han_muc_co;
     }
 }

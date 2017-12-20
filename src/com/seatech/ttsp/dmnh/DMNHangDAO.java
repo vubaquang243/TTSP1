@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
 
     /*
@@ -23,6 +24,14 @@ import java.util.Vector;
      * @Modify date: 26/06/2017
      * @see: Them function phuc vu cho bao cao Sao Ke Tai Khoan
      * @find: 20170626
+     * */
+
+     
+     /**
+     *@Modify-name: thuongdt
+     *@Modify-date: 28/11/2017
+     * @see: bo sung tham lay danh sach NH HO
+     * @find: 20171128
      * */
 public class DMNHangDAO extends AppDAO {
     private String CLASS_NAME_VO = "com.seatech.ttsp.dmnh.DMNHangVO";
@@ -335,7 +344,7 @@ public class DMNHangDAO extends AppDAO {
           "       a.tk_cxl_qt_tquoc_co, a.tk_tt_qt_huyen_no, a.tk_tt_qt_huyen_co," +
           "       a.tk_cxl_qt_huyen_no, a.tk_cxl_qt_huyen_co" +
           "  FROM sp_dm_nh_ho a where (1=1) "+strWhereClause;
-        clReturn = executeSelectStatement(strSQL.toString(), null,
+        clReturn = executeSelectStatement(strSQL.toString(), parameters,
                                               CLASS_NAME_HOVO, this.conn);
       return clReturn;
   }
@@ -357,7 +366,6 @@ public class DMNHangDAO extends AppDAO {
 
         return vo;
     }
-
     public DMNHangHOVO getDMNHangBKLTT(String strWhereClause,
                                        Vector parameters) throws Exception {
         String strSQL =

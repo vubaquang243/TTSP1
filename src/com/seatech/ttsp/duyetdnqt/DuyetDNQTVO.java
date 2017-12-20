@@ -16,8 +16,12 @@ public class DuyetDNQTVO {
   private String loaiquyettoan;
   
   private String noidung;
+  
+  private String ngay_tao;
 
-
+  private String trang_thai;
+  
+  private String nguoi_tao;
     public void setSolenh(String solenh) {
         this.solenh = solenh;
     }
@@ -80,5 +84,29 @@ public class DuyetDNQTVO {
 
     public String getNoidung() {
         return noidung;
+    }
+
+    public void setNgay_tao(String ngay_tao) {
+        this.ngay_tao = ngay_tao;
+    }
+
+    public String getNgay_tao() {
+        return ngay_tao;
+    }
+
+    public void setTrang_thai(String trang_thai) {
+        this.trang_thai = trang_thai;
+    }
+
+    public String getTrang_thai() {
+        return trang_thai;
+    }
+
+    public void setNguoi_tao(String nguoi_tao) {
+        this.nguoi_tao = nguoi_tao;
+    }
+
+    public String getNguoi_tao() {
+        return nguoi_tao;
     }
 }

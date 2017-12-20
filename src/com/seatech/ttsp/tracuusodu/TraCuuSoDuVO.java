@@ -19,6 +19,9 @@ public class TraCuuSoDuVO {
    private String id_kb;
    private String id_ngan_hang;
    private String loai_tk;
+   //20171130 thuongdt bo sung them
+   private String so_du_cuoi_ngay;
+   private String ngay_dc_gan;
     public void setMa_kb(String ma_kb) {
         this.ma_kb = ma_kb;
     }
@@ -153,5 +156,21 @@ public class TraCuuSoDuVO {
 
     public String getTen_kb_tinh() {
         return ten_kb_tinh;
+    }
+
+    public void setSo_du_cuoi_ngay(String so_du_cuoi_ngay) {
+        this.so_du_cuoi_ngay = so_du_cuoi_ngay;
+    }
+
+    public String getSo_du_cuoi_ngay() {
+        return so_du_cuoi_ngay;
+    }
+
+    public void setNgay_dc_gan(String ngay_dc_gan) {
+        this.ngay_dc_gan = ngay_dc_gan;
+    }
+
+    public String getNgay_dc_gan() {
+        return ngay_dc_gan;
     }
 }

@@ -31,6 +31,8 @@
   String bthuy = request.getAttribute("bthuy")==null?"":request.getAttribute("bthuy").toString();
   String size = request.getAttribute("size")==null?"":request.getAttribute("size").toString();
 //  String strVSign = session.getAttribute(AppConstants.SETUP_VERIFY).toString();
+   String loai_gd = request.getAttribute("loai_gd")==null?"":request.getAttribute("loai_gd").toString();
+   String laicthu = request.getAttribute("laicthu")==null?"":request.getAttribute("laicthu").toString();
 
 %>
 <script type="text/javascript">
@@ -71,7 +73,7 @@
   <html:hidden property="ndung_ky_066" styleId="ndung_ky_066" />
   
   <!--manhnv-24/06/2013-->
-  <fmt:setLocale value="en_US"/>
+  <fmt:setLocale value="vi_VI"/>
    <table border="0" cellspacing="0" cellpadding="0" width="100%"
            align="center">
       <tbody>
@@ -125,6 +127,9 @@
                                '<bean:write name="UDlist" property="receive_bank"/>',
                                '<bean:write name="UDlist" property="loai_tien"/>',
                                '<bean:write name="UDlist" property="tthai_dxn_thop"/>');">
+                       <!-- 20171121 thuongdt bo sung them ten ngan hang -->
+                       <input type="hidden" id="npten" value="<bean:write name="UDlist" property="ten"/>"/>         
+                               
                    <td align="center">
                     <bean:write name="UDlist" property="ngay_dc"/>                    
                    </td>
@@ -185,7 +190,8 @@
        <html:hidden property="id" styleId="kq_id"/> 
        <td width="50%">
         <fieldset>
-            <legend><font color="Blue">T&#7893;ng h&#7907;p k&#7871;t qu&#7843; &#273;&#7889;i chi&#7871;u</font></legend>
+            <!-- 20171121 thuongdt bo sung them ten ngan hang -->
+            <legend><font color="Blue">T&#7893;ng h&#7907;p k&#7871;t qu&#7843; &#273;&#7889;i chi&#7871;u: </font><span id ="tennh" name = "tennh" style="color:red;"> </span></legend>
             <div style="height:390px;">
               <table width="100%" cellspacing="0" cellpadding="2"
                  bordercolor="#e1e1e1" border="1" align="center"
@@ -537,7 +543,58 @@
                   <html:hidden property="receive_bank" name="items"/>
                         <%--<html:hidden property="ngay_dc" name="items"/>--%>
                   </logic:iterate>
-                  </logic:notEmpty>                
+                  </logic:notEmpty>   
+                  
+                  <!--20171009 thuongdt bo sung du lieu thu doi voi ngay nghi start-->  
+                  <logic:notEmpty name="colPHT_T7">
+                  <logic:iterate id="items" name="colPHT_T7">
+                      <tr>
+                          <td>
+                            + Dữ liệu thu(thứ 7)
+                          </td>
+                          <td align="center">
+                            <fmt:setLocale value="vi_VI"/>
+                        <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
+                            <bean:write name="items" property="tong_mon_pht"/>
+                          </fmt:formatNumber>
+                          </td>
+                          <td align="right">
+                            <fmt:setLocale value="vi_VI"/>
+                        <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
+                            <bean:write name="items" property="tong_ps_pht" />
+                          </fmt:formatNumber>
+                          </td>
+                          <td align="center">
+                           <fmt:setLocale value="vi_VI"/>
+                        <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
+                           <bean:write name="items" property="mon_thu_dtu_kbnn" />
+                           </fmt:formatNumber>
+                          </td>
+                          <td align="right">
+                            <fmt:setLocale value="vi_VI"/>
+                        <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
+                            <bean:write name="items" property="tien_thu_dtu_kbnn"/>
+                            </fmt:formatNumber>
+                          </td>
+                          <td align="center">
+                            <fmt:setLocale value="vi_VI"/>
+                        <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
+                            <bean:write name="items" property="chenh_mthu_dtu_pht" />
+                          </fmt:formatNumber>
+                          </td>
+                          <td align="right">
+                            <fmt:setLocale value="vi_VI"/>
+                        <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
+                            <bean:write name="items" property="chenh_tthu_dtu_pht" />
+                          </fmt:formatNumber>
+                          </td>
+                        </tr>
+                  </logic:iterate>
+                  </logic:notEmpty>
+                   <!--20171009 thuongdt bo sung du lieu thu doi voi ngay nghi start-->
+                  
+                  
+                  
               </table>
               <br/>
               <fieldset>
@@ -557,12 +614,28 @@
                          <td width="25%" align="right">                                       
                           <input type="text" style="width:99%"  name="so_thu" disabled="disabled"  id="so_thu"  value="<fmt:formatNumber  type="currency"  currencySymbol=""><bean:write name="items" property="tien_thu_tcong_kbnn"/></fmt:formatNumber>" class="fieldTextRight" />
                          </td>
+                         <%if(loai_gd.equals("03")){%>
+                         <td width="20%" align="left" style="padding-left:15px">
+                             Lãi chuyên thu
+                        </td>
+                         <td  align="center" colspan="2">
+                          <input type="text"   name="so_lai_thu" disabled="disabled"  id="so_lai_thu"  value="<fmt:setLocale value="vi_VI"/><fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol=""><%=laicthu%></fmt:formatNumber>" class="fieldTextRight" />
+                         </td>
+                         <%}else{%>
+                           <td width="20%" align="left" style="padding-left:15px">
+                              
+                          </td>
+                           <td  align="center" colspan="2">
+                            
+                           </td>
+                         <%}%>
+                         
                       </tr>
                       <tr>
                         <td  align="left">
                             Số chi thủ công
                           </td>
-                          <td  align="right"> 
+                          <td  align="right" colspan="3"> 
                           <input type="text" style="width:99%"  name="so_chi" disabled="disabled"  id="so_chi"   value="<fmt:formatNumber  type="currency"  currencySymbol=""><bean:write name="items" property="tien_chi_tcong_kbnn"/></fmt:formatNumber>" class="fieldTextRight" />                                   
                          </td>            
                       </tr>
@@ -867,26 +940,18 @@
 <script type="text/javascript">
   var f = document.forms[0];
 
-    disBt()
-  function disBt(){
-    var strRowSelected="<%=strRowSelected%>";
-    var chkdate = "<%=chkdate%>";
-    if(strRowSelected!=null && '' != strRowSelected){
-        stt= strRowSelected.substr(7,5);
-        sttNext=parseInt(stt);
-        tthai_dxn=document.getElementById("tthai_"+sttNext).value;
-        if(tthai_dxn=='02'||tthai_dxn=='03'){
-            document.getElementById("bt").disabled=true;
-            document.getElementById("huy_bt").disabled=true;
-        }else if (tthai_dxn=='01'||tthai_dxn=='00'){
-            document.getElementById("bt").disabled=false;
-        }
-    }else{
-        document.getElementById("bt").disabled=true;
-        document.getElementById("inbt").disabled=true;
-        document.getElementById("huy_bt").disabled=true;
+//20171121 thuongdt bo sung them lay thong tin ten ngan hang
+getNganHangTen();
+function getNganHangTen (){   
+    var strRowSelected = "<%=strRowSelected%>";
+    var stt= strRowSelected.substr(7,5);
+    var sttNext=parseInt(stt);    
+    var vtannh = document.getElementsByName('npten')[sttNext];
+    if(vtannh != null){
+    document.getElementsByName('tennh')[0].innerHTML = vtannh.value; 
     }
-  }
+}
+   
   function check(type,id_066,loai_qtoan) {  
       var id=document.getElementById("kq_id").value;
       var strRowSelected="<%=strRowSelected%>";
@@ -982,7 +1047,16 @@
     	try {
             jQuery('#ndung_ky_066').val(jQuery('#ndung_ky_066_'+id_066).val());
             var cert = jQuery("#eSign")[0];
-            cert.InitCert();                   
+            cert.InitCert();
+            
+            // 20171120 thuongdt bo sung canh bao han su dung CTS
+             var strdomain = '<%=strdomain%>';
+            var struser_name = '<%=struser_name%>';
+            var strcheckcts = '<%=strcheckcts%>';           
+            if(!checkCTSdate(cert,strdomain+'/'+struser_name,strcheckcts)){
+             return false;
+            }
+            
             var serial = cert.Serial;
             jQuery("#certserial").val(serial);          
             var noi_dung_ky = jQuery('#ndung_ky_066_'+id_066).val();
@@ -998,12 +1072,11 @@
     //<!--manhnv-24/06/2013-->
     
   sumSelected();
- 
     function sumSelected(){ 
         var size="<%=size%>";
         var tong_thu = 0;
         var tong_chi = 0;
-        
+       
         if('' != size && size != null && '0' != size && size > 0){
             for (i = 0; i < size; i++){
                 var thu = 0;
@@ -1020,13 +1093,38 @@
                 tong_thu = tong_thu + parseFloat(thu);
                 tong_chi = tong_chi + parseFloat(chi);
             }
-            txt_thu_tcong = jQuery('#qtoan_thu').val() - tong_thu;
-            txt_chi_tcong = jQuery('#qtoan_chi').val() - tong_chi;
-            
+            //20171101 thuongdt kiem tra qtoan thu, chi = 0 neu khong co gia tri
+             if(jQuery('#qtoan_thu').val() =='' && jQuery('#qtoan_chi').val() =='') { 
+               txt_thu_tcong = 0;
+               txt_chi_tcong = 0;
+            }else{ 
+               txt_thu_tcong = jQuery('#qtoan_thu').val() - tong_thu;
+               txt_chi_tcong = jQuery('#qtoan_chi').val() - tong_chi;
+            }
             jQuery('#txt_thu_tcong').val(CurrencyFormatted(txt_thu_tcong,'USD'));
             jQuery('#txt_chi_tcong').val(CurrencyFormatted(txt_chi_tcong,'USD'));
         }
     }
     
+     disBt()
+  function disBt(){
+    var strRowSelected="<%=strRowSelected%>";
+    var chkdate = "<%=chkdate%>";
+    if(strRowSelected!=null && '' != strRowSelected){
+        stt= strRowSelected.substr(7,5);
+        sttNext=parseInt(stt);
+        tthai_dxn=document.getElementById("tthai_"+sttNext).value;
+        if(tthai_dxn=='02'||tthai_dxn=='03'){
+            document.getElementById("bt").disabled=true;
+            document.getElementById("huy_bt").disabled=true;
+        }else if (tthai_dxn=='01'||tthai_dxn=='00'){
+            document.getElementById("bt").disabled=false;
+        }
+    }else{
+        document.getElementById("bt").disabled=true;
+        document.getElementById("inbt").disabled=true;
+        document.getElementById("huy_bt").disabled=true;
+    }
+  }
 
 </script>

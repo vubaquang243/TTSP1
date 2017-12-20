@@ -173,6 +173,8 @@ var kb_huyen= '<%=kb_huyen%>';
               </tr>-->
               </logic:empty>
               <logic:notEmpty name="listKBUpdate">
+                 <html:hidden property="nhkb_tinh" value="<%=kb_tinh%>"/>
+                  <html:hidden property="nhkb_huyen" value="<%=kb_huyen%>"/>
                   <tr>
                       <td width="5%" colspan="2" align="right">Giá trị tham số</td>
                       <td width="20%">

@@ -36,7 +36,7 @@ public class DuyetXNDChieu3NgoaiTeAction extends AppAction {
     public ActionForward list(ActionMapping mapping, ActionForm form,
                               HttpServletRequest request,
                               HttpServletResponse response) throws Exception {
-        if (!checkPermissionOnFunction(request, "DCHIEU.DUYETDCHIEU4")) {
+        if (!checkPermissionOnFunction(request, "DCHIEU.DUYETDCHIEU3NTE")) {
             return mapping.findForward("notRight");
         }
         Connection conn = null;
@@ -166,7 +166,7 @@ public class DuyetXNDChieu3NgoaiTeAction extends AppAction {
 
                     String user_id =
                         session.getAttribute(AppConstants.APP_USER_CODE_SESSION).toString();
-                    String msg_id = send.sendMessageDC3(kq_id, user_id);
+                    String msg_id = send.sendMessageDC3NTe(kq_id, user_id);
                     kqDChieu4VO.setMsg_id(msg_id);
                     kqDChieu4DAO.updateKQDC4(kqDChieu4VO);
                     conn.commit();

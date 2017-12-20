@@ -9,6 +9,7 @@ public class SoDuVO {
     private String insert_date;
     private String so_du_cot;
     private String loai_tien;
+	//20171025 taidd bo sung loai_tk
     private String loai_tk;
 
     public void setId(String id) {

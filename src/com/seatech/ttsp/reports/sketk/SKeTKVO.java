@@ -34,6 +34,8 @@ public class SKeTKVO {
     private String nguoi_tao;
     private String insert_date;
     private String ngay_ks;
+	//20171030 QuangVB bo sung them tt_chot_so
+    private String tt_chot_so;
     public void setSend_bank(String send_bank) {
         this.send_bank = send_bank;
     }
@@ -276,5 +278,13 @@ public class SKeTKVO {
 
     public String getNgay_ks() {
         return ngay_ks;
+    }
+
+    public void setTt_chot_so(String tt_chot_so) {
+        this.tt_chot_so = tt_chot_so;
+    }
+
+    public String getTt_chot_so() {
+        return tt_chot_so;
     }
 }

@@ -15,6 +15,14 @@
     jQuery(document).ready(function()
       {
        jQuery("#btn_Ghi").click(function (){
+          var hieu_luc_tungay = jQuery('#hieu_luc_tungay').val();
+          var hieu_luc_denngay = jQuery('#hieu_luc_den_ngay').val();
+          if(hieu_luc_tungay != "" && hieu_luc_denngay != ""){
+             if(hieu_luc_tungay > hieu_luc_denngay){
+              alert("Ngày hiệu lực không được lớn hơn ngày hết hiệu lực.");
+              return false;
+             }
+          }
            if(checkRequire()){
              document.forms[0].action = 'suatknhkb.do';
              document.forms[0].submit();
@@ -200,7 +208,7 @@
             <html:text property="ma_nh" styleId="ma_nh" styleClass="fieldText" style="width:100;" disabled="true"
                     onkeydown="nextFocus();" onblur="textlostfocus(this);getTen_NH('ma_nh','ten_nh','nh_id')" onfocus="textfocus(this);"/>
                 <html:text property="ten" styleId="ten_nh" styleClass="fieldTextTransparent" readonly="true"
-                     onmouseout="UnTip()" onmouseover="Tip(this.value)" style="WIDTH: 200px;"/>
+                     onmouseout="UnTip()" onmouseover="Tip(this.value)" style="WIDTH: 180px;"/>
                  <html:hidden property="nh_id" styleId="nh_id"/>
             </td>
           </tr>

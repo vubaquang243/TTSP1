@@ -190,6 +190,9 @@
                                'row_qt_<bean:write name="index"/>',
                                '<bean:write name="UDlist" property="loai_tien"/>',
                                '<bean:write name="UDlist" property="tthai_dxn_thop"/>');">
+                             <!--20171121 thuongdt bo sung them lay thong tin ten ngan hang -->
+                             <input type="hidden" id="npten" value="<bean:write name="UDlist" property="ten"/>"/>  
+                               
                    <td align="center">
                     <bean:write name="UDlist" property="ngay_dc"/>                    
                    </td>
@@ -249,11 +252,12 @@
         <fmt:setLocale value="vi_VI"/>
       </logic:equal>
       <logic:notEqual value="VND" name="XNDCTHop1Form" property="loai_tien">
-        <fmt:setLocale value="en_US"/>
+        <fmt:setLocale value="vi_VI"/>
       </logic:notEqual>
        
         <fieldset>
-            <legend><font color="Blue">T&#7893;ng h&#7907;p k&#7871;t qu&#7843; &#273;&#7889;i chi&#7871;u</font></legend>
+            <!--20171121 thuongdt bo sung them lay thong tin ten ngan hang -->
+            <legend><font color="Blue">T&#7893;ng h&#7907;p k&#7871;t qu&#7843; &#273;&#7889;i chi&#7871;u: </font> <span id ="tennh" name = "tennh" style="color:red;"> </span></legend>
             <div style="height:370px;">
               <table width="100%" cellspacing="0" cellpadding="2"
                  bordercolor="#e1e1e1" border="1" align="center"
@@ -745,6 +749,7 @@
                          <td width="25%" align="right">                                       
                           <input type="text"  name="so_thu" disabled="disabled"  id="so_thu"  value="" class="fieldTextRight" />
                          </td>
+			  <!--20171009 thuongdt bo sung lai chuyen thu doi voi tai khoan chuyen thu begin-->
                          <%if(loai_gd.equals("03")){%>
                          <td width="20%" align="left" style="padding-left:15px">
                              Lãi chuyên thu
@@ -756,6 +761,7 @@
                             <td width="20%" align="left" style="padding-left:15px"></td>
                             <td width="25%" align="right">   </td>
                          <%}%>
+			  <!--20171009 thuongdt bo sung lai chuyen thu doi voi tai khoan chuyen thu end-->
                       </tr>
                       <tr>
                         <td align="left">
@@ -765,11 +771,13 @@
                           <input type="text"  name="so_chi" disabled="disabled"  id="so_chi"   value="" class="fieldTextRight" />                                   
                           <html:hidden property="ttsp_id"/>
                          </td> 
+			 <!--20171009 thuongdt cho phep nsd duoc cap nhat thu cong begin-->
                          <td  align="center" colspan="2">
                            <button type="button"  accesskey="t" id="bt_tcong" onclick="update_TCong('TCONG')">
                               Cập nhật <span class="sortKey">t</span>hủ công
                             </button>
                          </td>
+			 <!--20171009 thuongdt cho phep nsd duoc cap nhat thu cong end-->
                       </tr>
                       </logic:empty>
                       
@@ -881,9 +889,17 @@
       <tr > 
       <td align="right" colspan="5">
         <%if(chkdate==null || "".equals(chkdate)){%>
+        
+           <!--20171117 thuongdt bo button lap moi theo yeu cau nang cap 2017 begin -->
+          
+          <!--
           <button type="button"  accesskey="l" id="bt_update" onclick="update_TCong('TAM')">
             <span class="sortKey">L</span>ập mới
           </button>
+          -->
+          
+           <!--20171117 thuongdt bo button lap moi theo yeu cau nang cap 2017 end -->
+          
           <html:hidden property="cho_phep_sua" styleId="cho_phep_sua" />
           <html:hidden property="cho_phep_qtoan_tam" value="" styleId="cho_phep_qtoan_tam" />
           <html:hidden property="cho_phep_nhap_tcong" value="" styleId="cho_phep_nhap_tcong" />          
@@ -1107,6 +1123,19 @@
 <%@ include file="/includes/ttsp_bottom.inc"%>
 <script type="text/javascript">
 var f = document.forms[0];
+
+//20171121 thuongdt bo sung them lay thong tin ten ngan hang
+getNganHangTen();
+function getNganHangTen (){   
+    var strRowSelected = "<%=strRowSelected%>";
+    var stt= strRowSelected.substr(7,5);
+    var sttNext=parseInt(stt);    
+    var vtannh = document.getElementsByName('npten')[sttNext];
+    if(vtannh != null){
+    document.getElementsByName('tennh')[0].innerHTML = vtannh.value; 
+    }
+}
+
 function checkKey(txt_id){
   var e= window.event;
   var keyCode = e.keyCode || e.charCode, arrow = {
@@ -1137,10 +1166,12 @@ function checkKey(txt_id){
       sttNext=parseInt(stt);
       tthai_dxn=document.getElementById("tthai_"+sttNext).value;
       tthai_kq=document.getElementById("tthaikq_"+sttNext).value;
-      //thuongdt-20170516 them check trang thai tt=02, tt dxn 00,01 cho phep xac nhan
+      //thuongdt-20170516 them check trang thai tt=02, tt dxn 00,01 cho phep xac nhan     
       if(tthai_kq =='02' &&(tthai_dxn=='01' || tthai_dxn=='00')){
            document.getElementById("bt").disabled=false;
-      }else if(tthai_dxn=='01'||tthai_kq!='02'){
+      }if(tthai_kq =='01' && tthai_dxn=='00'){
+           document.getElementById("bt").disabled=false;
+      } else if(tthai_dxn=='01'||tthai_kq!='02'){
           //Them cau if duoi day de khi tthai_kq==00 thi bt sang
           if(tthai_kq=='00'){
             document.getElementById("bt").disabled=false;
@@ -1236,16 +1267,20 @@ var chkdate="<%=chkdate%>";
                 if(trang_thai != '03'){
                     thu = jQuery('#qtoan_thu_'+i).val();
                     chi = jQuery('#qtoan_chi_'+i).val();
-                }
+                }               
                 tong_thu = tong_thu + parseFloat(thu);
                 tong_chi = tong_chi + parseFloat(chi);
             }
             if(jQuery('#trang_thai_0').val()=='03'){
                 document.getElementById("bt").disabled=false
+            }            
+            if(jQuery('#qtoan_thu').val() =='' && jQuery('#qtoan_chi').val() =='') { 
+               txt_thu_tcong = 0;
+               txt_chi_tcong = 0;
+            }else{            
+              txt_thu_tcong = jQuery('#qtoan_thu').val() - tong_thu;
+              txt_chi_tcong = jQuery('#qtoan_chi').val() - tong_chi;      
             }
-            txt_thu_tcong = jQuery('#qtoan_thu').val() - tong_thu;
-            txt_chi_tcong = jQuery('#qtoan_chi').val() - tong_chi;
-
             jQuery('#txt_thu_tcong').val(CurrencyFormatted(txt_thu_tcong,'USD'));
             jQuery('#txt_chi_tcong').val(CurrencyFormatted(txt_chi_tcong,'USD'));
             

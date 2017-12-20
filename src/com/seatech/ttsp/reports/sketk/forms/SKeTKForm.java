@@ -44,6 +44,7 @@ public class SKeTKForm extends ActionForm {
     private String loai_sao_ke;
     private Long tong_ps_no;
     private Long tong_ps_co;
+	//20171023 QuangVB bo sung them loai tien
     private String loai_tien;
     public void setSotk(String sotk) {
         this.sotk = sotk;

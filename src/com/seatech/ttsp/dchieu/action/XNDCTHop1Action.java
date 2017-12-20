@@ -116,7 +116,10 @@ public class XNDCTHop1Action extends AppAction {
             HttpSession session = request.getSession();
             String strUserInfo =
                 (String)session.getAttribute(AppConstants.APP_ROLE_LIST_SESSION);
-            if (strUserInfo.indexOf(AppConstants.NSD_KTT) != -1) {
+            
+           //20171208 thuongdt cho quyen ttv duoc thuc hien duyet XNDC
+           //  if (strUserInfo.indexOf(AppConstants.NSD_KTT) != -1) {
+           if (strUserInfo.indexOf(AppConstants.NSD_TTV) == -1) {
                 return mapping.findForward("notRight");
             }
 
@@ -125,6 +128,7 @@ public class XNDCTHop1Action extends AppAction {
             XNDCTHop1Form thForm = (XNDCTHop1Form)form;
             Collection colTTSP = new ArrayList();
             Collection colPHT = new ArrayList();
+			//20171009 thuongdt bo sung tra cuu qt thu ngay nghi
             Collection colPHT_T7 = new ArrayList();
             Collection colTHDC = new ArrayList();
             Collection colGDTCong = new ArrayList();
@@ -306,8 +310,9 @@ public class XNDCTHop1Action extends AppAction {
 			//ThuongDT-20161114 -------- BEGIN -------Check colTTSP co gia tri kko
             if(colTTSP.size()>0){
               if ((ngay_dc).equals(sysdate)) {
-                colTHDC = dao.getXNTHData_PS_T7(strTTSP, null,receive_bank, kb_chuyen, ngay_dc);
-               // colTHDC = dao.getXNTHData(strTTSP, null);
+			   //20171009 thuongdt bo sung tra cuu qt thu ngay nghi
+           //     colTHDC = dao.getXNTHData_PS_T7(strTTSP, null,receive_bank, kb_chuyen, ngay_dc);
+                colTHDC = dao.getXNTHData(strTTSP, null);
               }
               request.setAttribute("colTTSP", colTTSP);              
             }else{
@@ -320,6 +325,7 @@ public class XNDCTHop1Action extends AppAction {
             }
 			//ThuongDT-20161114--------- END--------------
             request.setAttribute("colPHT", colPHT);
+			//20171009 thuongdt bo sung tra cuu qt thu ngay nghi
             request.setAttribute("colPHT_T7", colPHT_T7);
             request.setAttribute("qtoan_ko_dchieu", qtoan_ko_dchieu);
 //            String sysdate = StringUtil.DateToString(new Date(), "dd/MM/yyyy");

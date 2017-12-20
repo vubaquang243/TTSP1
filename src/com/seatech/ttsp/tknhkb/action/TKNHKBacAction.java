@@ -237,7 +237,8 @@ public class TKNHKBacAction extends AppAction {
         }
         
         colLstSoTK = tkdao.getLstTK(strLst, null, currentPage, numberRowOnPage, totalCount);
-        
+        request.setAttribute("ma_dv",frm.getMa_dv());
+        request.setAttribute("nhkb_huyen",frm.getNhkb_huyen());
         request.setAttribute("colLstSoTK", colLstSoTK);
         PagingBean pagingBean = new PagingBean();
         pagingBean.setCurrentPage(currentPage);
@@ -324,12 +325,12 @@ public class TKNHKBacAction extends AppAction {
             // saveVisitLog(conn,"", "QLY_TK.TK_NHKB", request.getRemoteAddr(),"");            
             if (i > 0) {
               conn.commit();
-              request.setAttribute("message", "S?a thành công");
+              request.setAttribute("message", "Sửa thành công");
                 list(mapping, form, request, response);
             }
 
         } catch (Exception e) {
-            request.setAttribute("message", "S?a kh�ng thành công");
+            request.setAttribute("message", "Sửa không thành công");
             conn.rollback();
             throw e;
         } finally {

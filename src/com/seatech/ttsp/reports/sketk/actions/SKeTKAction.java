@@ -16,6 +16,7 @@ import com.seatech.framework.datamanager.ReportUtility;
 import com.seatech.framework.exception.TTSPException;
 import com.seatech.framework.strustx.AppAction;
 import com.seatech.framework.utils.StringUtil;
+import com.seatech.framework.utils.TTSPLoadDMuc;
 import com.seatech.ttsp.dmkb.DMKBacDAO;
 import com.seatech.ttsp.dmkb.DMKBacVO;
 import com.seatech.ttsp.dmnh.DMNHangDAO;
@@ -75,24 +76,7 @@ public class SKeTKAction extends AppAction {
                                           HttpServletRequest request,
                                           HttpServletResponse response) throws Exception {
 
-        Connection conn = null;
-        //        ArrayList<TKNHKBacVO> arrTKNHKB = null;
-        String strWhereclause = "";
-        TKNHKBacDAO tknhkbDAO = null;
-        DMKBacDAO kbDAO = null;
-        DMNHangDAO dmnhDAO = null;
-        DMNHangVO dmnhVO = null;
-        DMKBacVO kbVO = null;
-        ArrayList<DMKBacVO> lstDSKBTinh = null;
-        ArrayList<DMKBacVO> lstDSKBHuyen = null;
-        ArrayList<DMNHangVO> lstDSNHang = null;
-        ArrayList<TKNHKBacVO> lstTKNHang = null;
-        Vector vParam = null;
-        String strJson = "";
-        Gson gson = null;
-        JsonObject jsonObj = new JsonObject();
-        //        String strTrang_Thai = "";
-        //        String strKB_ID = "";a.receive_bank=?
+        Connection conn = null;       
         if (isCancelled(request)) {
             return mapping.findForward(AppConstants.FAILURE);
         }
@@ -102,6 +86,7 @@ public class SKeTKAction extends AppAction {
         try {
             conn = getConnection();
             SKeTKForm frm = (SKeTKForm)form;
+            HttpSession session = request.getSession();
             if (frm.getNhkb_tinh() != null || frm.getNhkb_huyen() != null ||
                 frm.getManh() != null || frm.getSotk() != null ||
                 frm.getTu_ngay() != null || frm.getDen_ngay() != null) {
@@ -111,290 +96,19 @@ public class SKeTKAction extends AppAction {
                 request.setAttribute("so_tk", frm.getSotk());
                 request.setAttribute("den_ngay", frm.getDen_ngay());
                 request.setAttribute("tu_ngay", frm.getTu_ngay());
+				//20171213 QuangVB bo sung setAttribute loai_tien
                 request.setAttribute("loai_tien", frm.getLoai_tien());
             }
-            //            Xac dinh kb la kb tinh hay huyen
-            HttpSession session = request.getSession();
-            kbDAO = new DMKBacDAO(conn);
-            tknhkbDAO = new TKNHKBacDAO(conn);
-            dmnhDAO = new DMNHangDAO(conn);
-            // truong hop khi chon kho bac tinh
-            String strFind_KB_Huyen =
-                request.getParameter(AppConstants.REQUEST_ACTION);
-            if (strFind_KB_Huyen != null &&
-                strFind_KB_Huyen.equalsIgnoreCase("Find_KB_Huyen")) {
-                String pMa_Kb_Tinh = request.getParameter("nhkb_tinh");
-                if (pMa_Kb_Tinh != null && !"".equals(pMa_Kb_Tinh)) {
-                    if (pMa_Kb_Tinh.equals(MASGD)) {
-                        strWhereclause = " a.ma = ?";
-                    } else {
-                        strWhereclause = " a.ma_cha = ?";
-                    }
-                    vParam = new Vector();
-                    vParam.add(new Parameter(pMa_Kb_Tinh, true));
-                    lstDSKBHuyen =
-                            (ArrayList<DMKBacVO>)kbDAO.getDMKBList(strWhereclause,
-                                                                   vParam);
-                    if (lstDSKBHuyen != null) {
-                        strWhereclause = " and b.ma=? and a.trang_thai = '01'";
-                        vParam = new Vector();
-                        vParam.add(new Parameter(lstDSKBHuyen.get(0).getMa(),
-                                                 true));
-                        //HungBM - 20170626 - BEGIN
-                        lstDSNHang =
-                                (ArrayList<DMNHangVO>)dmnhDAO.getListNHSaoKeTK(strWhereclause,
-                                                                               vParam);
-                        //HungBM - 20170626 - END
-                        if (lstDSNHang.size() > 0) {
-                            strWhereclause =
-                                    " and a.trang_thai=? and a.kb_id=? and b.ma_nh=?";
-                            String strTrang_Thai = "01";
-                            vParam = new Vector();
-                            vParam.add(new Parameter(strTrang_Thai, true));
-                            vParam.add(new Parameter(lstDSNHang.get(0).getId(),
-                                                     true));
-                            vParam.add(new Parameter(lstDSNHang.get(0).getMa_nh(),
-                                                     true));
-                            lstTKNHang =
-                                    (ArrayList<TKNHKBacVO>)tknhkbDAO.getTK_NH_KB(strWhereclause,
-                                                                                 vParam);
-                        }
-                    }
-                    Type lstDSKBHuyenType =
-                        new TypeToken<ArrayList<DMKBacVO>>() {
-                    }.getType();
-                    gson = new GsonBuilder().
-                            //.registerTypeAdapter(Vector.class, new JsonVectorAdapter())
-                            setVersion(1.1).create();
-                    strJson = gson.toJson(lstDSKBHuyen, lstDSKBHuyenType);
-                    jsonObj.addProperty("lstDMKBHuyen", strJson);
-
-                    Type lstDSNHangType =
-                        new TypeToken<ArrayList<DMNHangVO>>() {
-                    }.getType();
-                    gson = new GsonBuilder().
-                            //.registerTypeAdapter(Vector.class, new JsonVectorAdapter())
-                            setVersion(1.1).create();
-                    strJson = gson.toJson(lstDSNHang, lstDSNHangType);
-                    jsonObj.addProperty("lstDSNHang", strJson);
-
-                    Type lstTKNHangType =
-                        new TypeToken<ArrayList<TKNHKBacVO>>() {
-                    }.getType();
-                    gson = new GsonBuilder().
-                            //.registerTypeAdapter(Vector.class, new JsonVectorAdapter())
-                            setVersion(1.1).create();
-                    strJson = gson.toJson(lstTKNHang, lstTKNHangType);
-                    jsonObj.addProperty("lstTKNHang", strJson);
-
-
-                    JsonArray jsonArr = new JsonArray();
-                    JsonElement jsonEle = jsonObj.get("lstDMKBHuyen");
-                    jsonArr.add(jsonEle);
-                    jsonEle = jsonObj.get("lstDSNHang");
-                    jsonArr.add(jsonEle);
-                    jsonEle = jsonObj.get("lstTKNHang");
-                    jsonArr.add(jsonEle);
-                    response.setContentType(AppConstants.CONTENT_TYPE_JSON);
-                    PrintWriter out = response.getWriter();
-                    out.println(jsonArr.getAsJsonArray().toString());
-                    out.flush();
-                    out.close();
+            request.setAttribute("tt_chot_so","");
+            String nhkb_huyen= frm.getNhkb_huyen();
+            if(nhkb_huyen == null || "".equals(nhkb_huyen)){
+                if("3".equals(session.getAttribute(AppConstants.APP_KB_CAP_SESSION).toString())){
+                  nhkb_huyen = session.getAttribute(AppConstants.APP_KB_CODE_SESSION).toString();
                 }
-            } else if (strFind_KB_Huyen != null &&
-                       strFind_KB_Huyen.equalsIgnoreCase("Find_NH")) {
-                String pMa_Kb_huyen = request.getParameter("nhkb_huyen");
-                strWhereclause = " and b.ma=? and a.trang_thai = '01'";
-                vParam = new Vector();
-                vParam.add(new Parameter(pMa_Kb_huyen, true));
-                //HungBM - 20170626 - BEGIN
-                lstDSNHang =
-                        (ArrayList<DMNHangVO>)dmnhDAO.getListNHSaoKeTK(strWhereclause,
-                                                                       vParam);
-                //HungBM - 20170626 - END
-                if (lstDSNHang.size() > 0) {
-                    strWhereclause =
-                            " and a.trang_thai=? and a.kb_id=? and b.ma_nh=?";
-                    String strTrang_Thai = "01";
-                    vParam = new Vector();
-                    vParam.add(new Parameter(strTrang_Thai, true));
-                    vParam.add(new Parameter(lstDSNHang.get(0).getId(), true));
-                    vParam.add(new Parameter(lstDSNHang.get(0).getMa_nh(),
-                                             true));
-                    lstTKNHang =
-                            (ArrayList<TKNHKBacVO>)tknhkbDAO.getTK_NH_KB(strWhereclause,
-                                                                         vParam);
-                }
-
-
-                Type lstDSNHangType = new TypeToken<ArrayList<DMNHangVO>>() {
-                }.getType();
-                Type lstTKNHangType = new TypeToken<ArrayList<TKNHKBacVO>>() {
-                }.getType();
-                gson = new GsonBuilder().
-                        //.registerTypeAdapter(Vector.class, new JsonVectorAdapter())
-                        setVersion(1.1).create();
-                strJson = gson.toJson(lstDSNHang, lstDSNHangType);
-                jsonObj.addProperty("lstDSNHang", strJson);
-                strJson = gson.toJson(lstTKNHang, lstTKNHangType);
-                jsonObj.addProperty("lstTKNHang", strJson);
-
-                JsonArray jsonArr = new JsonArray();
-                JsonElement jsonEle = jsonObj.get("lstDSNHang");
-                jsonArr.add(jsonEle);
-                jsonEle = jsonObj.get("lstTKNHang");
-                jsonArr.add(jsonEle);
-
-                response.setContentType(AppConstants.CONTENT_TYPE_JSON);
-                PrintWriter out = response.getWriter();
-                out.println(jsonArr.getAsJsonArray().toString());
-                out.flush();
-                out.close();
-            } else if (strFind_KB_Huyen != null &&
-                       strFind_KB_Huyen.equalsIgnoreCase("Find_TK")) {
-                String pMa_nh = request.getParameter("manh");
-                String pMa_kb = request.getParameter("makb");
-                strWhereclause =
-                        " and a.trang_thai=? and c.ma=? and b.ma_nh=?";
-                String strTrang_Thai = "01";
-
-                vParam = new Vector();
-                vParam.add(new Parameter(strTrang_Thai, true));
-                vParam.add(new Parameter(pMa_kb, true));
-                vParam.add(new Parameter(pMa_nh, true));
-                lstTKNHang =
-                        (ArrayList<TKNHKBacVO>)tknhkbDAO.getTK_NH_KB(strWhereclause,
-                                                                     vParam);
-
-                Type lstTKNHangType = new TypeToken<ArrayList<TKNHKBacVO>>() {
-                }.getType();
-                gson = new GsonBuilder().
-                        //.registerTypeAdapter(Vector.class, new JsonVectorAdapter())
-                        setVersion(1.1).create();
-                strJson = gson.toJson(lstTKNHang, lstTKNHangType);
-                jsonObj.addProperty("lstTKNHang", strJson);
-
-                JsonArray jsonArr = new JsonArray();
-                JsonElement jsonEle = jsonObj.get("lstTKNHang");
-                jsonArr.add(jsonEle);
-                response.setContentType(AppConstants.CONTENT_TYPE_JSON);
-                PrintWriter out = response.getWriter();
-                out.println(jsonArr.getAsJsonArray().toString());
-                out.flush();
-                out.close();
-            } else {
-                // Truong hop bat dau khi vao form
-                String strMa_kb =
-                    (String)session.getAttribute(AppConstants.APP_KB_CODE_SESSION);
-                if (strMa_kb.equals(MAKBNN) || strMa_kb.equals(MASGD) ||
-                    strMa_kb.equals(MATTTT)) {
-                    // hien thi tat ca kho bac tinh
-                    strWhereclause = " a.cap=? or a.ma=? ";
-                    vParam = new Vector();
-                    vParam.add(new Parameter(CAP_TINH, true));
-                    vParam.add(new Parameter(MASGD, true));
-                    lstDSKBTinh =
-                            (ArrayList<DMKBacVO>)kbDAO.getDMKBList(strWhereclause,
-                                                                   vParam);
-                    // hien thi mac dinh kho bac huyen la sgd
-
-                    vParam = new Vector();
-                    lstDSKBHuyen = new ArrayList<DMKBacVO>();
-                    if (frm.getNhkb_tinh() != null) {
-                        strWhereclause = "a.ma_cha=? or ma=? ";
-                        vParam = new Vector();
-                        vParam.add(new Parameter(frm.getNhkb_tinh(), true));
-                        vParam.add(new Parameter(frm.getNhkb_tinh(), true));
-                        lstDSKBHuyen =
-                                (ArrayList<DMKBacVO>)kbDAO.getDMKBList(strWhereclause,
-                                                                       vParam);
-                    } else {
-                        strWhereclause = " AND a.ma=? ";
-                        vParam.add(new Parameter(MASGD, true));
-                        kbVO = kbDAO.getDMKB(strWhereclause, vParam);
-                        lstDSKBHuyen.add(kbVO);
-                    }
-                    // hien thi ngan hang cua sgd
-                    strWhereclause = " and b.ma=? and a.trang_thai = '01'";
-                    vParam = new Vector();
-                    if (frm.getNhkb_huyen() != null) {
-                        vParam.add(new Parameter(frm.getNhkb_huyen(), true));
-                    } else {
-                        vParam.add(new Parameter(kbVO.getMa(), true));
-                    }
-                    //HungBM - 20170626 - BEGIN
-                    lstDSNHang =
-                            (ArrayList<DMNHangVO>)dmnhDAO.getListNHSaoKeTK(strWhereclause,
-                                                                           vParam);
-                    //HungBM - 20170626 - END
-                    if (lstDSNHang.size() > 0) {
-                        // hien thi so tai khoan
-                        strWhereclause =
-                                " and a.trang_thai=? and a.kb_id=? and b.ma_nh=?";
-                        String strTrang_Thai = "01";
-                        vParam = new Vector();
-                        vParam.add(new Parameter(strTrang_Thai, true));
-                        vParam.add(new Parameter(lstDSNHang.get(0).getId(),
-                                                 true));
-                        vParam.add(new Parameter(lstDSNHang.get(0).getMa_nh(),
-                                                 true));
-                        lstTKNHang =
-                                (ArrayList<TKNHKBacVO>)tknhkbDAO.getTK_NH_KB(strWhereclause,
-                                                                             vParam);
-                    }
-                } else {
-                    // Xac dinh kho bac dang nhap la tinh hay huyen
-                    strWhereclause = " AND a.ma=?";
-                    vParam = new Vector();
-                    vParam.add(new Parameter(strMa_kb, true));
-                    kbVO = kbDAO.getDMKB(strWhereclause, vParam);
-                    // Neu kho bac la kho bac tinh thi set mac dinh cap tinh la kho bac so tai
-                    if (kbVO.getCap().equals(CAP_TINH)) {
-                        lstDSKBTinh = new ArrayList<DMKBacVO>();
-                        lstDSKBTinh.add(kbVO);
-                    }
-                    // Neu la kho bac cap huyen thi set mac dinh cap huyen la kho bac so tai dong thoi xac dinh kho bac ma kho bac huyen truc thuoc
-                    else {
-                        lstDSKBHuyen = new ArrayList<DMKBacVO>();
-                        lstDSKBHuyen.add(kbVO);
-                        DMKBacVO kbTinhVO = new DMKBacVO();
-                        strWhereclause = " AND a.ma = ? and a.cap=?";
-                        vParam = new Vector();
-                        vParam.add(new Parameter(kbVO.getMa_cha(), true));
-                        vParam.add(new Parameter(CAP_TINH, true));
-                        kbTinhVO = kbDAO.getDMKB(strWhereclause, vParam);
-                        lstDSKBTinh = new ArrayList<DMKBacVO>();
-                        lstDSKBTinh.add(kbTinhVO);
-
-                        // hien thi ngan hang cua sgd
-                        strWhereclause = " and b.ma=? and a.trang_thai = '01'";
-                        vParam = new Vector();
-                        vParam.add(new Parameter(kbVO.getMa(), true));
-                        //HungBM - 20170626 - BEGIN
-                        lstDSNHang =
-                                (ArrayList<DMNHangVO>)dmnhDAO.getListNHSaoKeTK(strWhereclause,
-                                                                               vParam);
-                        //HungBM - 20170626 - END
-                        // hien thi so tai khoan
-                        strWhereclause =
-                                " and a.trang_thai=? and a.kb_id=? and b.ma_nh=?";
-                        String strTrang_Thai = "01";
-                        vParam = new Vector();
-                        vParam.add(new Parameter(strTrang_Thai, true));
-                        vParam.add(new Parameter(lstDSNHang.get(0).getId(),
-                                                 true));
-                        vParam.add(new Parameter(lstDSNHang.get(0).getMa_nh(),
-                                                 true));
-                        lstTKNHang =
-                                (ArrayList<TKNHKBacVO>)tknhkbDAO.getTK_NH_KB(strWhereclause,
-                                                                             vParam);
-                    }
-                }
-                request.setAttribute("lstDSKBTinh", lstDSKBTinh);
-                request.setAttribute("lstDSKBHuyen", lstDSKBHuyen);
-                request.setAttribute("lstDSNHang", lstDSNHang);
-                request.setAttribute("lstTKNHang", lstTKNHang);
             }
+            
+            //20171006 - thuongdt gom lai code su dung ham chung             
+            getformTraCuu(conn, frm.getNhkb_tinh(), nhkb_huyen, request, response);            
         } catch (Exception e) {
             // TODO: Add catch code
             throw e;
@@ -479,6 +193,7 @@ public class SKeTKAction extends AppAction {
                     if (page == null) {
                         page = "1";
                     }
+                    request.setAttribute("tt_chot_so", skVO.getTt_chot_so());
                     // khai bao cac bien phan trang
                     Integer currentPage = new Integer(page);
                     Integer numberRowOnPage = new Integer(15);
@@ -505,139 +220,12 @@ public class SKeTKAction extends AppAction {
                     PagingBean pagingBean = new PagingBean();
                     request.setAttribute("PAGE_KEY", pagingBean);
                 }
+                request.setAttribute("nhkb_tinh", f.getNhkb_tinh());
                 //----------------------------------------------------------------------------
-                // Truong hop bat dau khi vao form
-                String strWhereclause = "";
-                TKNHKBacDAO tknhkbDAO = null;
-                DMKBacDAO kbDAO = null;
-                DMNHangDAO dmnhDAO = null;
-                //                DMNHangVO dmnhVO = null;
-                DMKBacVO kbVO = null;
-                ArrayList<DMKBacVO> lstDSKBTinh = null;
-                ArrayList<DMKBacVO> lstDSKBHuyen = null;
-                ArrayList<DMNHangVO> lstDSNHang = null;
-                ArrayList<TKNHKBacVO> lstTKNHang = null;
-                HttpSession session = request.getSession();
-                SKeTKForm frm = (SKeTKForm)form;
-                //              Vector vParam = null;
-                String strMa_kb =
-                    (String)session.getAttribute(AppConstants.APP_KB_CODE_SESSION);
-                kbDAO = new DMKBacDAO(conn);
-                tknhkbDAO = new TKNHKBacDAO(conn);
-                dmnhDAO = new DMNHangDAO(conn);
-                if (strMa_kb.equals(MAKBNN) || strMa_kb.equals(MASGD) ||
-                    strMa_kb.equals(MATTTT)) {
-                    // hien thi tat ca kho bac tinh
-                    strWhereclause = " a.cap=? or a.ma=? ";
-                    vParam = new Vector();
-                    vParam.add(new Parameter(CAP_TINH, true));
-                    vParam.add(new Parameter(MASGD, true));
-                    lstDSKBTinh =
-                            (ArrayList<DMKBacVO>)kbDAO.getDMKBList(strWhereclause,
-                                                                   vParam);
-                    // hien thi mac dinh kho bac huyen la sgd
-
-                    vParam = new Vector();
-                    lstDSKBHuyen = new ArrayList<DMKBacVO>();
-                    if (frm.getNhkb_tinh() != null) {
-                        strWhereclause = "a.ma_cha=? or ma=? ";
-                        vParam = new Vector();
-                        vParam.add(new Parameter(frm.getNhkb_tinh(), true));
-                        vParam.add(new Parameter(frm.getNhkb_tinh(), true));
-                        lstDSKBHuyen =
-                                (ArrayList<DMKBacVO>)kbDAO.getDMKBList(strWhereclause,
-                                                                       vParam);
-                    } else {
-                        strWhereclause = " AND a.ma=? ";
-                        vParam.add(new Parameter(MASGD, true));
-                        kbVO = kbDAO.getDMKB(strWhereclause, vParam);
-                        lstDSKBHuyen.add(kbVO);
-                    }
-                    // hien thi ngan hang cua sgd
-                    strWhereclause = " and b.ma=? and a.trang_thai = '01'";
-                    vParam = new Vector();
-                    if (frm.getNhkb_huyen() != null) {
-                        vParam.add(new Parameter(frm.getNhkb_huyen(), true));
-                    } else {
-                        vParam.add(new Parameter(kbVO.getMa(), true));
-                    }
-                    //HungBM - 20170626 - BEGIN
-                    lstDSNHang =
-                            (ArrayList<DMNHangVO>)dmnhDAO.getListNHSaoKeTK(strWhereclause,
-                                                                           vParam);
-                    //HungBM - 20170626 - END
-                    if (lstDSNHang.size() > 0) {
-                        // hien thi so tai khoan
-                        strWhereclause =
-                                " and a.trang_thai=? and a.kb_id=? and b.ma_nh=?";
-                        String strTrang_Thai = "01";
-                        vParam = new Vector();
-                        vParam.add(new Parameter(strTrang_Thai, true));
-                        // kiem tra xem dang select len ngan hang nao
-                        DMNHangVO voNHSelected = new DMNHangVO();
-                        for (DMNHangVO voDMNH : lstDSNHang) {
-                            if (voDMNH.getMa_nh().equalsIgnoreCase(frm.getManh())) {
-                                voNHSelected = voDMNH;
-                                break;
-                            }
-                        }
-                        vParam.add(new Parameter(voNHSelected.getId(), true));
-                        vParam.add(new Parameter(voNHSelected.getMa_nh(),
-                                                 true));
-                        lstTKNHang =
-                                (ArrayList<TKNHKBacVO>)tknhkbDAO.getTK_NH_KB(strWhereclause,
-                                                                             vParam);
-                    }
-                } else {
-                    // Xac dinh kho bac dang nhap la tinh hay huyen
-                    strWhereclause = " AND a.ma=?";
-                    vParam = new Vector();
-                    vParam.add(new Parameter(strMa_kb, true));
-                    kbVO = kbDAO.getDMKB(strWhereclause, vParam);
-                    // Neu kho bac la kho bac tinh thi set mac dinh cap tinh la kho bac so tai
-                    if (kbVO.equals(CAP_TINH)) {
-                        lstDSKBTinh = new ArrayList<DMKBacVO>();
-                        lstDSKBTinh.add(kbVO);
-                    }
-                    // Neu la kho bac cap huyen thi set mac dinh cap huyen la kho bac so tai dong thoi xac dinh kho bac ma kho bac huyen truc thuoc
-                    else {
-                        lstDSKBHuyen = new ArrayList<DMKBacVO>();
-                        lstDSKBHuyen.add(kbVO);
-                        DMKBacVO kbTinhVO = new DMKBacVO();
-                        strWhereclause = " AND a.ma = ? and a.cap=?";
-                        vParam = new Vector();
-                        vParam.add(new Parameter(kbVO.getMa_cha(), true));
-                        vParam.add(new Parameter(CAP_TINH, true));
-                        kbTinhVO = kbDAO.getDMKB(strWhereclause, vParam);
-                        lstDSKBTinh = new ArrayList<DMKBacVO>();
-                        lstDSKBTinh.add(kbTinhVO);
-
-                        // hien thi ngan hang cua sgd
-                        strWhereclause = " and b.ma=? and a.trang_thai = '01'";
-                        vParam = new Vector();
-                        vParam.add(new Parameter(kbVO.getMa(), true));
-                        //HungBM - 20170626 - BEGIN
-                        lstDSNHang =
-                                (ArrayList<DMNHangVO>)dmnhDAO.getListNHSaoKeTK(strWhereclause,
-                                                                               vParam);
-                        //HungBM - 20170626 - END
-                        // hien thi so tai khoan
-                        strWhereclause =
-                                " and a.trang_thai=? and a.kb_id=? and b.ma_nh=?";
-                        String strTrang_Thai = "01";
-                        vParam = new Vector();
-                        vParam.add(new Parameter(strTrang_Thai, true));
-                        vParam.add(new Parameter(kbVO.getId(), true));
-                        vParam.add(new Parameter(f.getManh(), true));
-                        lstTKNHang =
-                                (ArrayList<TKNHKBacVO>)tknhkbDAO.getTK_NH_KB(strWhereclause,
-                                                                             vParam);
-                    }
-                }
-                request.setAttribute("lstDSKBTinh", lstDSKBTinh);
-                request.setAttribute("lstDSKBHuyen", lstDSKBHuyen);
-                request.setAttribute("lstDSNHang", lstDSNHang);
-                request.setAttribute("lstTKNHang", lstTKNHang);
+                //20171006 - thuongdt gom lai code su dung ham chung             
+                //SKeTKForm frm = (SKeTKForm)form;
+                getformTraCuu(conn,f.getNhkb_tinh(), f.getNhkb_huyen(), request, response); 
+                
             } else {
                 throw TTSPException.createException("TTSP-9999",
                                                     "Kh&#244;ng t&#236;m th&#7845;y kho b&#7841;c!");
@@ -830,7 +418,7 @@ public class SKeTKAction extends AppAction {
         DMNHangVO dmNHVO = null;
         ArrayList<SKeTKChiTietVO> lstSKe = null;
         String strWhere = null;
-        String whereClause = "";
+        //String whereClause = "";
         Vector vParam = null;
         Vector params = null;
         try {
@@ -843,38 +431,48 @@ public class SKeTKAction extends AppAction {
             Vector v_params = new Vector();
             v_params.add(new Parameter(strIDSK, true));
             dmNHVO = dmNHDAO.getDMNHSBySHKB(strwhereClause, v_params);
+            HttpSession session = request.getSession();
+            String strNSD =
+                session.getAttribute(AppConstants.APP_USER_CODE_SESSION) ==
+                null ? "" :
+                session.getAttribute(AppConstants.APP_USER_CODE_SESSION).toString();
             if (dmNHVO != null) {
                 params = new Vector();
-                if (dmNHVO.getMa_nh() != null &&
-                    !"".equals(dmNHVO.getMa_nh())) {
-                    whereClause += " and a.receive_bank=? ";
-                    params.add(new Parameter(dmNHVO.getMa_nh(), true));
-                }
-                if (f.getManh() != null && !"".equals(f.getManh())) {
-                    whereClause += "and a.send_bank=? ";
-                    params.add(new Parameter(f.getManh(), true));
-                }
-                if (f.getSotk() != null && !"".equals(f.getSotk())) {
-                    whereClause += "and a.so_tk=? ";
-                    params.add(new Parameter(f.getSotk(), true));
-                }
-                if (f.getTu_ngay() != null && !"".equals(f.getTu_ngay())) {
-                    whereClause +=
-                            "and trunc(a.ngay_du_cuoi)= to_date(?" + ",'DD/MM/YYYY') ";
-                    params.add(new Parameter(f.getTu_ngay(), true));
-                }
-                if (f.getLoai_tien() != null && !"".equals(f.getLoai_tien())) {
-                    whereClause += "a.loai_tien_du_dau='?' ";
-                    params.add(new Parameter(f.getLoai_tien(), true));
-                } else {
-                    whereClause +=
-                            "and trunc(a.ngay_du_cuoi)= trunc(sysdate) ";
-                }
+			//20171128 thuongdt bo 	whereClause dung chung menh de where tu cau querry update begin
+				
+//                if (dmNHVO.getMa_nh() != null &&
+//                    !"".equals(dmNHVO.getMa_nh())) {
+//                    whereClause +=
+//                            " and a.receive_bank='" + dmNHVO.getMa_nh() + "' ";
+//                }
+//                if (f.getManh() != null && !"".equals(f.getManh())) {
+//                    whereClause += "and a.send_bank='" + f.getManh() + "' ";
+//                }
+//                if (f.getSotk() != null && !"".equals(f.getSotk())) {
+//                    whereClause += "and a.so_tk='" + f.getSotk() + "' ";
+//                }
+//                if (f.getTu_ngay() != null && !"".equals(f.getTu_ngay())) {
+//                    whereClause +=
+//                            "and trunc(a.ngay_du_cuoi)= to_date('" + f.getTu_ngay() +
+//                            "','DD/MM/YYYY') ";
+//                }
+//                if (f.getLoai_tien() != null && !"".equals(f.getLoai_tien())) {
+//                    whereClause +=
+//                            "and a.loai_tien_du_dau='" + f.getLoai_tien() +
+//                            "' ";
+//                } else {
+//                    whereClause +=
+//                            "and trunc(a.ngay_du_cuoi)= trunc(sysdate) ";
+//                }
+             //20171128 thuongdt bo 	whereClause dung chung menh de where tu cau querry update end
                 int result = 0;
                 SKeTKVO skVO = null;
                 try {
-                    skVO = skDAO.getSK(whereClause, params);
-                    result = skDAO.updateTT_Chot_So(whereClause, params);
+                    String id=f.getId();
+                    String whereUpdate = "and id='"+id+"' ";
+                    result = skDAO.updateTT_Chot_So(whereUpdate, strNSD, null);
+                    //skVO = skDAO.getSK(whereClause, params);
+                    skVO = skDAO.getSK(whereUpdate, params);
                 } catch (Exception e) {
                     executeAction(mapping, form, request, response);
                     throw TTSPException.createException("TTSP-9999",
@@ -882,12 +480,15 @@ public class SKeTKAction extends AppAction {
                 }
                 if (result > 0) {
                     conn.commit();
+                    request.setAttribute("alert", "success");
                     if (skVO != null) {
                         BeanUtils.copyProperties(f, skVO);
                         String page = f.getPageNumber();
                         if (page == null) {
                             page = "1";
                         }
+                        request.setAttribute("tt_chot_so",
+                                             skVO.getTt_chot_so());
                         // khai bao cac bien phan trang
                         Integer currentPage = new Integer(page);
                         Integer numberRowOnPage = new Integer(15);
@@ -926,7 +527,6 @@ public class SKeTKAction extends AppAction {
                     ArrayList<DMKBacVO> lstDSKBHuyen = null;
                     ArrayList<DMNHangVO> lstDSNHang = null;
                     ArrayList<TKNHKBacVO> lstTKNHang = null;
-                    HttpSession session = request.getSession();
                     SKeTKForm frm = (SKeTKForm)form;
                     //              Vector vParam = null;
                     String strMa_kb =
@@ -1068,4 +668,302 @@ public class SKeTKAction extends AppAction {
         else
             return null;
     }
+    
+    
+    
+  public void getformTraCuu(Connection conn, String nhkb_tinh,String nhkb_huyen,HttpServletRequest request,HttpServletResponse response) throws Exception {
+   
+    String strWhereclause = "";
+    Vector vParam = null;
+    TKNHKBacDAO tknhkbDAO = null;
+    DMKBacDAO kbDAO = null;
+    DMNHangDAO dmnhDAO = null;
+    DMKBacVO kbVO = null;
+    ArrayList<DMKBacVO> lstDSKBTinh = null;
+    ArrayList<DMKBacVO> lstDSKBHuyen = null;
+    ArrayList<DMNHangVO> lstDSNHang = null;
+    ArrayList<TKNHKBacVO> lstTKNHang = null;
+    kbDAO = new DMKBacDAO(conn);
+    tknhkbDAO = new TKNHKBacDAO(conn);
+    dmnhDAO = new DMNHangDAO(conn);
+    
+    String strJson = "";
+    Gson gson = null;
+    JsonObject jsonObj = new JsonObject();
+    
+    HttpSession session = request.getSession();
+    String strFind_KB_Huyen =    request.getParameter(AppConstants.REQUEST_ACTION);
+    if (strFind_KB_Huyen != null &&
+        strFind_KB_Huyen.equalsIgnoreCase("Find_KB_Huyen")) {
+        String pMa_Kb_Tinh = request.getParameter("nhkb_tinh");
+        if (pMa_Kb_Tinh != null && !"".equals(pMa_Kb_Tinh)) {
+            if (pMa_Kb_Tinh.equals(MASGD) || pMa_Kb_Tinh.equals(MATTTT)) {
+                strWhereclause = " a.ma = ?";
+            }else {
+                strWhereclause = " a.ma_cha = ?";
+            }
+            vParam = new Vector();
+            vParam.add(new Parameter(pMa_Kb_Tinh, true));
+            lstDSKBHuyen =
+                    (ArrayList<DMKBacVO>)kbDAO.getDMKBList(strWhereclause,
+                                                           vParam);
+            if (lstDSKBHuyen != null) {
+                strWhereclause = " and b.ma=? and a.trang_thai = '01'";
+                vParam = new Vector();
+                vParam.add(new Parameter(lstDSKBHuyen.get(0).getMa(),
+                                         true));
+                lstDSNHang =
+                        (ArrayList<DMNHangVO>)dmnhDAO.getListNHSaoKeTK(strWhereclause,
+                                                                vParam);
+                if (lstDSNHang.size() > 0) {
+                    strWhereclause =
+                            " and a.trang_thai=? and a.kb_id=? and b.ma_nh=?";
+                    String strTrang_Thai = "01";
+                    vParam = new Vector();
+                    vParam.add(new Parameter(strTrang_Thai, true));
+                    vParam.add(new Parameter(lstDSNHang.get(0).getId(),
+                                             true));
+                    vParam.add(new Parameter(lstDSNHang.get(0).getMa_nh(),
+                                             true));
+                    lstTKNHang =
+                            (ArrayList<TKNHKBacVO>)tknhkbDAO.getTK_NH_KB(strWhereclause,
+                                                                         vParam);
+                }
+            }
+            Type lstDSKBHuyenType =
+                new TypeToken<ArrayList<DMKBacVO>>() {
+            }.getType();
+            gson = new GsonBuilder().
+                    //.registerTypeAdapter(Vector.class, new JsonVectorAdapter())
+                    setVersion(1.1).create();
+            strJson = gson.toJson(lstDSKBHuyen, lstDSKBHuyenType);
+            jsonObj.addProperty("lstDMKBHuyen", strJson);
+
+            Type lstDSNHangType =
+                new TypeToken<ArrayList<DMNHangVO>>() {
+            }.getType();
+            gson = new GsonBuilder().
+                    //.registerTypeAdapter(Vector.class, new JsonVectorAdapter())
+                    setVersion(1.1).create();
+            strJson = gson.toJson(lstDSNHang, lstDSNHangType);
+            jsonObj.addProperty("lstDSNHang", strJson);
+
+            Type lstTKNHangType =
+                new TypeToken<ArrayList<TKNHKBacVO>>() {
+            }.getType();
+            gson = new GsonBuilder().
+                    //.registerTypeAdapter(Vector.class, new JsonVectorAdapter())
+                    setVersion(1.1).create();
+            strJson = gson.toJson(lstTKNHang, lstTKNHangType);
+            jsonObj.addProperty("lstTKNHang", strJson);
+
+
+            JsonArray jsonArr = new JsonArray();
+            JsonElement jsonEle = jsonObj.get("lstDMKBHuyen");
+            jsonArr.add(jsonEle);
+            jsonEle = jsonObj.get("lstDSNHang");
+            jsonArr.add(jsonEle);
+            jsonEle = jsonObj.get("lstTKNHang");
+            jsonArr.add(jsonEle);
+            response.setContentType(AppConstants.CONTENT_TYPE_JSON);
+            PrintWriter out = response.getWriter();
+            out.println(jsonArr.getAsJsonArray().toString());
+            out.flush();
+            out.close();
+        }
+    } else if (strFind_KB_Huyen != null &&
+               strFind_KB_Huyen.equalsIgnoreCase("Find_NH")) {
+        String pMa_Kb_huyen = request.getParameter("nhkb_huyen");
+        strWhereclause = " and b.ma=? and a.trang_thai = '01'";
+        vParam = new Vector();
+        vParam.add(new Parameter(pMa_Kb_huyen, true));
+        lstDSNHang =
+                (ArrayList<DMNHangVO>)dmnhDAO.getListNHSaoKeTK(strWhereclause,
+                                                        vParam);
+        if (lstDSNHang.size() > 0) {
+            strWhereclause =
+                    " and a.trang_thai=? and a.kb_id=? and b.ma_nh=?";
+            String strTrang_Thai = "01";
+            vParam = new Vector();
+            vParam.add(new Parameter(strTrang_Thai, true));
+            vParam.add(new Parameter(lstDSNHang.get(0).getId(), true));
+            vParam.add(new Parameter(lstDSNHang.get(0).getMa_nh(),
+                                     true));
+            lstTKNHang =
+                    (ArrayList<TKNHKBacVO>)tknhkbDAO.getTK_NH_KB(strWhereclause,
+                                                                 vParam);
+        }
+
+
+        Type lstDSNHangType = new TypeToken<ArrayList<DMNHangVO>>() {
+        }.getType();
+        Type lstTKNHangType = new TypeToken<ArrayList<TKNHKBacVO>>() {
+        }.getType();
+        gson = new GsonBuilder().
+                //.registerTypeAdapter(Vector.class, new JsonVectorAdapter())
+                setVersion(1.1).create();
+        strJson = gson.toJson(lstDSNHang, lstDSNHangType);
+        jsonObj.addProperty("lstDSNHang", strJson);
+        strJson = gson.toJson(lstTKNHang, lstTKNHangType);
+        jsonObj.addProperty("lstTKNHang", strJson);
+
+        JsonArray jsonArr = new JsonArray();
+        JsonElement jsonEle = jsonObj.get("lstDSNHang");
+        jsonArr.add(jsonEle);
+        jsonEle = jsonObj.get("lstTKNHang");
+        jsonArr.add(jsonEle);
+
+        response.setContentType(AppConstants.CONTENT_TYPE_JSON);
+        PrintWriter out = response.getWriter();
+        out.println(jsonArr.getAsJsonArray().toString());
+        out.flush();
+        out.close();
+    } else if (strFind_KB_Huyen != null &&
+               strFind_KB_Huyen.equalsIgnoreCase("Find_TK")) {
+        String pMa_nh = request.getParameter("manh");
+        String pMa_kb = request.getParameter("makb");
+        strWhereclause =
+                " and a.trang_thai=? and c.ma=? and b.ma_nh=?";
+        String strTrang_Thai = "01";
+
+        vParam = new Vector();
+        vParam.add(new Parameter(strTrang_Thai, true));
+        vParam.add(new Parameter(pMa_kb, true));
+        vParam.add(new Parameter(pMa_nh, true));
+        lstTKNHang =
+                (ArrayList<TKNHKBacVO>)tknhkbDAO.getTK_NH_KB(strWhereclause,
+                                                             vParam);
+
+        Type lstTKNHangType = new TypeToken<ArrayList<TKNHKBacVO>>() {
+        }.getType();
+        gson = new GsonBuilder().
+                //.registerTypeAdapter(Vector.class, new JsonVectorAdapter())
+                setVersion(1.1).create();
+        strJson = gson.toJson(lstTKNHang, lstTKNHangType);
+        jsonObj.addProperty("lstTKNHang", strJson);
+
+        JsonArray jsonArr = new JsonArray();
+        JsonElement jsonEle = jsonObj.get("lstTKNHang");
+        jsonArr.add(jsonEle);
+        response.setContentType(AppConstants.CONTENT_TYPE_JSON);
+        PrintWriter out = response.getWriter();
+        out.println(jsonArr.getAsJsonArray().toString());
+        out.flush();
+        out.close();
+    } else {
+        // Truong hop bat dau khi vao form
+        String strMa_kb =
+            (String)session.getAttribute(AppConstants.APP_KB_CODE_SESSION);
+        if (strMa_kb.equals(MAKBNN) ||strMa_kb.equals(MATTTT)) {    
+            // hien thi tat ca kho bac tinh
+            strWhereclause = " a.cap=? or a.ma=? or a.ma=?";             
+            vParam = new Vector();
+            vParam.add(new Parameter(CAP_TINH, true));
+            vParam.add(new Parameter(MASGD, true));
+            vParam.add(new Parameter(MATTTT, true));
+            lstDSKBTinh =
+                    (ArrayList<DMKBacVO>)kbDAO.getDMKBList(strWhereclause,
+                                                           vParam);
+            vParam = new Vector();
+            lstDSKBHuyen = new ArrayList<DMKBacVO>();
+            if (nhkb_tinh != null) {
+                strWhereclause = "a.ma_cha=? or ma=? ";
+                vParam = new Vector();
+                vParam.add(new Parameter(nhkb_tinh, true));
+                vParam.add(new Parameter(nhkb_tinh, true));
+                lstDSKBHuyen =
+                        (ArrayList<DMKBacVO>)kbDAO.getDMKBList(strWhereclause,
+                                                               vParam);
+            } else {
+                strWhereclause = " AND a.ma=? ";
+                vParam.add(new Parameter(MASGD, true));
+                kbVO = kbDAO.getDMKB(strWhereclause, vParam);
+                lstDSKBHuyen.add(kbVO);
+            }
+            // hien thi ngan hang cua sgd
+            strWhereclause = " and b.ma=? and a.trang_thai = '01'";
+            vParam = new Vector();
+            if (nhkb_huyen != null) {
+                vParam.add(new Parameter(nhkb_huyen, true));
+            } else {
+                vParam.add(new Parameter(kbVO.getMa(), true));
+            }
+            lstDSNHang =
+                    (ArrayList<DMNHangVO>)dmnhDAO.getListNHSaoKeTK(strWhereclause,
+                                                            vParam);
+            if (lstDSNHang.size() > 0) {
+                // hien thi so tai khoan
+                strWhereclause =
+                        " and a.trang_thai=? and a.kb_id=? and b.ma_nh=?";
+                String strTrang_Thai = "01";
+                vParam = new Vector();
+                vParam.add(new Parameter(strTrang_Thai, true));
+                vParam.add(new Parameter(lstDSNHang.get(0).getId(),
+                                         true));
+                vParam.add(new Parameter(lstDSNHang.get(0).getMa_nh(),
+                                         true));
+                lstTKNHang =
+                        (ArrayList<TKNHKBacVO>)tknhkbDAO.getTK_NH_KB(strWhereclause,
+                                                                     vParam);
+            }
+        } else {
+            // Xac dinh kho bac dang nhap la tinh hay huyen
+            strWhereclause = " AND a.ma=?";
+            vParam = new Vector();
+            vParam.add(new Parameter(strMa_kb, true));
+            kbVO = kbDAO.getDMKB(strWhereclause, vParam);
+            if (kbVO.getCap().equals(CAP_TINH)) {
+                lstDSKBTinh = new ArrayList<DMKBacVO>();
+                lstDSKBTinh.add(kbVO);
+            }
+            // Neu la kho bac cap huyen thi set mac dinh cap huyen la kho bac so tai dong thoi xac dinh kho bac ma kho bac huyen truc thuoc
+            else {
+                lstDSKBHuyen = new ArrayList<DMKBacVO>();
+                lstDSKBHuyen.add(kbVO);
+                DMKBacVO kbTinhVO = new DMKBacVO();
+                if(strMa_kb.equals(MASGD)){
+                strWhereclause = " AND a.ma = ? ";
+                vParam = new Vector();
+                vParam.add(new Parameter(kbVO.getMa(), true));
+               
+                }else{
+                  strWhereclause = " AND a.ma = ? and a.cap=?";
+                  vParam = new Vector();
+                  vParam.add(new Parameter(kbVO.getMa_cha(), true));
+                  vParam.add(new Parameter(CAP_TINH, true));
+                }
+                kbTinhVO = kbDAO.getDMKB(strWhereclause, vParam);
+                
+                lstDSKBTinh = new ArrayList<DMKBacVO>();
+                lstDSKBTinh.add(kbTinhVO);
+
+                // hien thi ngan hang cua sgd
+                strWhereclause = " and b.ma=? and a.trang_thai = '01'";
+                vParam = new Vector();
+                vParam.add(new Parameter(kbVO.getMa(), true));                
+                lstDSNHang =
+                        (ArrayList<DMNHangVO>)dmnhDAO.getListNHSaoKeTK(strWhereclause,
+                                                                vParam);               
+                // hien thi so tai khoan
+                strWhereclause =
+                        " and a.trang_thai=? and a.kb_id=? and b.ma_nh=?";
+                String strTrang_Thai = "01";
+                vParam = new Vector();
+                vParam.add(new Parameter(strTrang_Thai, true));
+                vParam.add(new Parameter(lstDSNHang.get(0).getId(),
+                                         true));
+                vParam.add(new Parameter(lstDSNHang.get(0).getMa_nh(),
+                                         true));
+                lstTKNHang =
+                        (ArrayList<TKNHKBacVO>)tknhkbDAO.getTK_NH_KB(strWhereclause,
+                                                                     vParam);
+            }
+        }
+        request.setAttribute("lstDSKBTinh", lstDSKBTinh);
+        request.setAttribute("lstDSKBHuyen", lstDSKBHuyen);
+        request.setAttribute("lstDSNHang", lstDSNHang);
+        request.setAttribute("lstTKNHang", lstTKNHang);
+    }
+      
+  }
 }

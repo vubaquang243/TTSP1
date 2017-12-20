@@ -16,6 +16,9 @@
 <script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/jquery-ui-1.8.11.custom.min.js"
         type = "text/javascript" > 
 </script>
+<script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/utils.js"
+        type = "text/javascript" > 
+</script>
 <%@ page import="com.seatech.framework.common.jsp.PagingBean"%>
 <%@ page import="com.seatech.framework.AppConstants"%>
 <script type="text/javascript">
@@ -63,6 +66,25 @@
           }
       }
   }
+
+  
+  function changeValue(txt_id, allowNegativeNumber) {  
+      var value = jQuery("#"+txt_id +"").val().replace(/\s/g,"");
+      var loai_tien = jQuery("#loai_tien").val();
+      
+      if(allowNegativeNumber == undefined){
+        allowNegativeNumber = false;
+      }
+        
+        if(loai_tien == "VND"){
+          jQuery("#"+txt_id +"").val(CurrencyFormatted2(value, 'VND', allowNegativeNumber));
+        }else{
+          jQuery("#"+txt_id +"").val(CurrencyFormatted2(value, 'USD', allowNegativeNumber));
+        }
+
+  }
+
+  
 </script>
 <div class="app_error">
   <html:errors/>
@@ -140,9 +162,10 @@
                 <html:text property="so_du" styleId="so_du" size="20%"
                            maxlength="200"
                            onfocus="this.style.backgroundColor='#ffffb5'"
-                           onkeypress="return numberBlockKey(event)"
-                           onkeyup="checkKey123('so_du')"
-                           styleClass="promptText"></html:text>
+                           onblur="if (this.value !='') {changeValue('so_du', true);};textlostfocus(this); this.style.backgroundColor='#ffffff';" 
+                          onkeypress="return numbersonly2(event,false) "
+                           styleClass="promptText"
+                           style="text-align:right"></html:text>
               </td>
              
              
@@ -170,9 +193,10 @@
                 <html:text property="so_du_cot" styleId="so_du_cot" size="20%"
                            maxlength="200"
                            onfocus="this.style.backgroundColor='#ffffb5'"
-                           onkeypress="return numberBlockKey(event)"
-                           onkeyup="checkKey123('so_du_cot')"
-                           styleClass="promptText"></html:text>
+                           onblur="this.style.backgroundColor='#ffffff';textlostfocus(this);if (this.value !='') {changeValue('so_du_cot');}"
+                           onkeypress="return numbersonly2(event,true) "
+                           styleClass="promptText"
+                           style="text-align:right"></html:text>
               </td>
               
             </tr>
@@ -200,7 +224,8 @@
               <td align="right">Loại tiền</td>
               <td >
                 <html:select styleClass="selectBox" property="loai_tien"
-                             styleId="loai_tien" style="width:85%;height:20px">
+                             styleId="loai_tien" style="width:125px;height:20px"
+                             onchange="changeValue('so_du_cot');changeValue('so_du');">
                   <html:option value="VND">VND</html:option>
                   <html:optionsCollection value="ma" label="ma"
                                           name="lstLoaiTien"/>
@@ -363,7 +388,7 @@
                          
                         <logic:notEqual property="loai_tien" name="items"
                                         value="VND">
-                          <fmt:setLocale value="en_US"/>
+                          <fmt:setLocale value="vi_VI"/>
                           <fmt:formatNumber type="currency" currencySymbol="">
                             <bean:write name="items" property="so_du"/>
                           </fmt:formatNumber>

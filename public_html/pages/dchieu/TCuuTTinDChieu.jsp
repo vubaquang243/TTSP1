@@ -191,7 +191,7 @@
                                 onkeydown="if(event.keyCode==13) event.keyCode=9;">  
                       <html:option value="">Tất cả</html:option>
                       <html:option value="1">Đối chiếu đơn vị</html:option>
-                      <html:option value="3">Đối chiếu toàn quốc</html:option>
+                      <html:option value="2">Đối chiếu toàn quốc</html:option>
                   </html:select>
                 </td>
               
@@ -339,14 +339,14 @@
                 <!-- HungBM - Tra lai collumn ngay thuc hien doi chieu - BEGIN -->
                 <th class="promptText" bgcolor="#f0f0f0" width="10%">
                   <div align="center">
-                    Ngày thực hiện
+                    Trạng thái tài khoản
                   </div>
                 </th>
                 <!-- HungBM - Tra lai collumn ngay thuc hien doi chieu - END -->
                 <th class="promptText" bgcolor="#f0f0f0" width="10%">
                   <div align="center">
                     <!-- <fmt:message key="doi_chieu.page.label.tracuu.ngaythien"/> -->
-                    Trạng Thái TK
+                    Trạng Thái BK
                   </div>
                 </th>
                 <th class="promptText" bgcolor="#f0f0f0" width="15%">
@@ -380,7 +380,7 @@
               <logic:present name="colTHBKDC" >          
                 <logic:iterate id="items" name="colTHBKDC" indexId="stt">
                 <tr class='<%=stt % 2 == 0 ? "trDanhSachChan" : "trDanhSachLe"%>'>
-                  <td align="center"> 
+                                   <td align="center"> 
                     <%=stt+1+rowBegin%>
                   </td>
                   <td>
@@ -433,9 +433,12 @@
                   <td align="center">
                     <bean:write name="items" property="ngay_dc"/>
                   </td>
+                  <!-- HungBM - Tra lai collumn ngay thuc hien doi chieu - BEGIN --> 
                   <td align="center">
-                    <!-- <bean:write name="items" property="ngay_thien_dc"/> -->
-                    
+                   <bean:write name="items" property="ngay_thien_dc"/>
+                  </td>
+                  <!-- HungBM - Tra lai collumn ngay thuc hien doi chieu - END --> 
+                  <td align="center">
                     <logic:equal value="01" property="trang_thai_tk" name="items">
                         Hoạt Động
                       </logic:equal>
@@ -525,13 +528,13 @@
                    <logic:equal value="1" property="loai_dc" name="items">
                     <logic:notEqual value="" property="kq_id" name="items">
                       <logic:notEqual value="00" property="tthai_dxn_thop" name="items">
-                        <a href="<html:rewrite page="/ViewTTinDChieuAction.do"/>?bkq_id=<bean:write name="items" property="kq_id"/>&receive_bank=<bean:write name="items" property="receive_bank"/>&send_bank=<bean:write name="items" property="send_bank"/>&ngay_dc=<bean:write name="items" property="ngay_dc"/>&ma_nt=<bean:write name="items" property="ma_nt"/>&type=kq<%=tcuu%>&loai_tien=<bean:write name="items" property="loai_tien"/>">view</a> 
+                        <a target="_blank" href="<html:rewrite page="/ViewTTinDChieuAction.do"/>?bkq_id=<bean:write name="items" property="kq_id"/>&receive_bank=<bean:write name="items" property="receive_bank"/>&send_bank=<bean:write name="items" property="send_bank"/>&ngay_dc=<bean:write name="items" property="ngay_dc"/>&ma_nt=<bean:write name="items" property="ma_nt"/>&type=kq<%=tcuu%>&loai_tien=<bean:write name="items" property="loai_tien"/>">view</a> 
                       </logic:notEqual>
                     </logic:notEqual>
                    </logic:equal>
                    <logic:equal value="3" property="loai_dc" name="items">
                      <logic:notEqual value="" property="bk_id" name="items">
-                      <a href="<html:rewrite page="/ViewTTinDChieu3Action.do"/>?id=<bean:write name="items" property="bk_id"/>&loai_dc=3&receive_bank=<bean:write name="items" property="receive_bank"/><%=tcuu%>&loai_tien=<bean:write name="items" property="loai_tien"/>">view</a> 
+                      <a target="_blank" href="<html:rewrite page="/ViewTTinDChieu3Action.do"/>?id=<bean:write name="items" property="bk_id"/>&loai_dc=3&receive_bank=<bean:write name="items" property="receive_bank"/><%=tcuu%>&loai_tien=<bean:write name="items" property="loai_tien"/>">view</a> 
                      </logic:notEqual>
                    </logic:equal>
                   </td>
@@ -539,7 +542,7 @@
                    <logic:equal value="1" property="loai_dc" name="items">
                     <logic:notEqual value="" property="bk_id" name="items">
                       <logic:notEqual value="" property="kq_id" name="items">
-                        <a href="<html:rewrite page="/ViewTTinDChieuAction.do"/>?bk_id=<bean:write name="items" property="bk_id"/>&bkq_id=<bean:write name="items" property="kq_id"/>&trang_thai_kq=<bean:write name="items" property="trang_thai_kq"/>&receive_bank=<bean:write name="items" property="receive_bank"/>&ma_nt=<bean:write name="items" property="ma_nt"/>&type=bk<%=tcuu%>&loai_tien=<bean:write name="items" property="loai_tien"/>">view</a> 
+                        <a target="_blank" href="<html:rewrite page="/ViewTTinDChieuAction.do"/>?bk_id=<bean:write name="items" property="bk_id"/>&bkq_id=<bean:write name="items" property="kq_id"/>&trang_thai_kq=<bean:write name="items" property="trang_thai_kq"/>&receive_bank=<bean:write name="items" property="receive_bank"/>&ma_nt=<bean:write name="items" property="ma_nt"/>&type=bk<%=tcuu%>&loai_tien=<bean:write name="items" property="loai_tien"/>">view</a> 
                       </logic:notEqual>
                     </logic:notEqual>
                    </logic:equal>
@@ -552,16 +555,17 @@
                       Thủ Công
                     </logic:equal>
                     <logic:equal  value = "" property="tt_dc_tu_dong" name="items">
-                      
+
                     </logic:equal>
                   </td>
+
                 </tr>
                 </logic:iterate>
                 </logic:present>
               </logic:notEmpty>
               <logic:empty name="colTHBKDC">
                 <tr>
-                <td colspan="13">
+                <td colspan="14">
                   <font color="red"><fmt:message key="doi_chieu.page.label.tracuu.empty"/></font>
                 </td>
                 </tr>
@@ -603,30 +607,23 @@
 
   function check(type) {  
      if (type == 'find') {
-//        var kbtinh = jQuery('#nhkb_tinh option:selected').val();
-//        if (kbtinh =="" || kbtinh == null){
-//          alert('Chọn kho bạc tỉnh cần tra cứu.');
-//          return;
-//        }
-
-//        var kbhuyen = jQuery('#nhkb_huyen option:selected').val();
-//        if (kbhuyen =="" || kbhuyen == null){
-//          alert('Chọn kho bạc huyện cần tra cứu.');
-//          return;
-//        }
         var inKB = jQuery('#nhkb_huyen option:selected').index();        
         var temp = document.getElementById("trang_thai_tk");
         var trang_thai_tk = temp.options[temp.selectedIndex].value;
         var inNH = jQuery('#ngan_hang option:selected').index() ;
         var inxtthai = jQuery('#tthai_dxn_thop option:selected').index();
         var lan_dc = jQuery('#lan_dc option:selected').val();
-        f.action = 'FindTTinDChieuAction.do?inKB='+inKB+"&inNH="+inNH+"&lan_dc="+lan_dc+"&inxtthai="+inxtthai+"&trang_thai_tk="+trang_thai_tk;
         
+        if(check_tuNgay_denNgay('tu_ngay','den_ngay') ){
+          f.action = 'FindTTinDChieuAction.do?inKB='+inKB+"&inNH="+inNH+"&lan_dc="+lan_dc+"&inxtthai="+inxtthai+"&trang_thai_tk="+trang_thai_tk;
+          f.submit();
+        }
       }
      if (type == 'close') {
-        f.action = 'mainAction.do';          
+        f.action = 'mainAction.do';  
+        f.submit();
       } 
-       f.submit();
+       
     }
     function nhkb_huyenval() {
       var nhkb_huyen;
@@ -679,7 +676,7 @@
             
             // .each loops through the array
             jQuery.each(dataArr, function(i){
-            jQuery('#tthai_dxn_thop').append(jQuery("<option></option>").attr("value",dataArr[i]['value']).text(dataArr[i]['text']));
+            jQuery('#tthai_dxn_thop').append(jQuery("<option><\/option>").attr("value",dataArr[i]['value']).text(dataArr[i]['text']));
             });    
         }else if(lan_dc=='2'||lan_dc=='3'){
             var dataArr = [{'value':'00','text':'TTSP: Chưa đối chiếu'},
@@ -694,7 +691,7 @@
             
             // .each loops through the array
             jQuery.each(dataArr, function(i){
-            jQuery('#tthai_dxn_thop').append(jQuery("<option></option>").attr("value",dataArr[i]['value']).text(dataArr[i]['text']));
+            jQuery('#tthai_dxn_thop').append(jQuery("<option><\/option>").attr("value",dataArr[i]['value']).text(dataArr[i]['text']));
             });
    }
       jQuery('#tthai_dxn_thop option:eq('+inxtthai+')').attr('selected', true);
@@ -822,15 +819,7 @@ function arrowUpDownTCuuDC(e) {
         case arrow.enter:
             goPage();
             break;
-//        case arrow.esc:
-////            var idTRSelected = jQuery("tr[class='ui-row-ltr ui-state-highlight']").attr('id');
-////            jQuery('#' + idTRSelected).click();
-////            rowSelectedFocusDC(jQuery("tr[class='ui-row-ltr ui-state-highlight']").attr('id'));
-//            break;
     }
 
 }
-  
-  
-
 </script>

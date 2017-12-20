@@ -5,6 +5,7 @@ import com.seatech.framework.AppConstants;
 import com.seatech.framework.common.jsp.PagingBean;
 import com.seatech.framework.datamanager.Parameter;
 import com.seatech.framework.strustx.AppAction;
+import com.seatech.framework.utils.StringUtil;
 import com.seatech.ttsp.dmtiente.DMTienTeDAO;
 import com.seatech.ttsp.dmtiente.DMTienTeVO;
 import com.seatech.ttsp.sodu.SoDuDAO;
@@ -23,7 +24,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-
+/**
+*@modify: taidd
+*@modify-date: 25/10/2017
+*@see: bo sung va tra cuu theo loai tai khoan(loai_tk)
+*@find: 20171025
+*/
 
 public class SoDuAction extends AppAction {
     public static final int STATUS_UNSUCCESS = 1;
@@ -54,6 +60,7 @@ public class SoDuAction extends AppAction {
                 f.setSo_du(null);
                 f.setSo_du_cot(null);
                 f.setLoai_tien(null);
+				        //20171025
                 f.setLoai_tk(null);
             }
 
@@ -67,9 +74,18 @@ public class SoDuAction extends AppAction {
             String strLoai_tien = f.getLoai_tien();
             String strPageNumber = f.getPageNumber();
             String strId = f.getId();
+			
+			
+			//20171025
             String strLoai_TK = f.getLoai_tk();
             //Build menh de where
-
+            if(strSo_du != null){
+                strSo_du = StringUtil.formatMoneyVNDToDouble(strSo_du);
+            }
+            if(strSo_du_cot != null){
+                strSo_du_cot = StringUtil.formatMoneyVNDToDouble(strSo_du_cot);
+            }
+            
             if (!"".equals(strMa_kb) && strMa_kb != null) {
                 strWhere += " and ma_kb like '%" + strMa_kb + "%'";
             }
@@ -101,7 +117,7 @@ public class SoDuAction extends AppAction {
                 strWhere += " and id =?";
                 vParam.add(new Parameter(strId, true));
             }
-            
+           //20171025 
           if (!"".equals(strLoai_TK) && strLoai_TK != null && !"00".equals(strLoai_TK)) {
               strWhere += " and loai_tk =?";
               vParam.add(new Parameter(strLoai_TK, true));
@@ -162,7 +178,8 @@ public class SoDuAction extends AppAction {
             f.setLoai_tien(null);
             f.setSo_du(null);
             f.setSo_du_cot(null);
-            f.setLoai_tk(null); // Them 1310
+			//20171025
+            f.setLoai_tk(null); 
 
             SoDuDAO dao = new SoDuDAO(conn);
             String strWhere = "";
@@ -221,19 +238,34 @@ public class SoDuAction extends AppAction {
 
                 return mapping.findForward("success");
             }
-
-
+			
+			//20171129 : tdd dinh dang lai so tien theo mau moi
+            String strSo_du = StringUtil.formatMoneyVNDToDouble(f.getSo_du());
+            String strSo_du_cot = StringUtil.formatMoneyVNDToDouble(f.getSo_du_cot());
+            String strLoai_tien = f.getLoai_tien();
+            if (!"".equals(strLoai_tien) && strLoai_tien != null) {
+              if(strLoai_tien.equals("VND")){
+                strSo_du = strSo_du.replace(".", "");
+                strSo_du_cot = strSo_du_cot.replace(".", "");
+              }else{
+                strSo_du = strSo_du.replace(",", "");
+                strSo_du_cot = strSo_du_cot.replace(",", "");
+              }
+            }
+            
             //****
             SoDuVO vo = new SoDuVO();
 
             vo.setMa_kb(f.getMa_kb());
             vo.setMa_nh(f.getMa_nh());
             vo.setNgay_gd(f.getNgay_gd());
-            vo.setSo_du(f.getSo_du());
+            vo.setSo_du(strSo_du);
             vo.setInsert_date(f.getInsert_date());
-            vo.setSo_du_cot(f.getSo_du_cot());
-            vo.setLoai_tien(f.getLoai_tien());
-            vo.setLoai_tk(f.getLoai_tk()); // Them 1310
+			
+			//20171025
+            vo.setSo_du_cot(strSo_du_cot);
+            vo.setLoai_tien(strLoai_tien);
+            vo.setLoai_tk(f.getLoai_tk()); 
 
             //Insert data
             long sd = dao.insert(vo);
@@ -269,17 +301,31 @@ public class SoDuAction extends AppAction {
             SoDuForm f = (SoDuForm)form;
             SoDuDAO dao = new SoDuDAO(conn);
             f.setAction_status(null);
-
+            //20171129 : tdd dinh dang lai so tien theo mau moi
+            String strSo_du = StringUtil.formatMoneyVNDToDouble(f.getSo_du());
+            String strSo_du_cot = StringUtil.formatMoneyVNDToDouble(f.getSo_du_cot());
+            String strLoai_tien = f.getLoai_tien();
+            if (!"".equals(strLoai_tien) && strLoai_tien != null) {
+              if(strLoai_tien.equals("VND")){
+                strSo_du = strSo_du.replace(".", "");
+                strSo_du_cot = strSo_du_cot.replace(".", "");
+              }else{
+                strSo_du = strSo_du.replace(",", "");
+                strSo_du_cot = strSo_du_cot.replace(",", "");
+              }
+            }
 
             SoDuVO vo = new SoDuVO();
             vo.setId((f.getId()));
             vo.setMa_kb(f.getMa_kb());
             vo.setMa_nh(f.getMa_nh());
-            vo.setSo_du(f.getSo_du());
-            vo.setSo_du_cot(f.getSo_du_cot());
+            vo.setSo_du(strSo_du);
+            vo.setSo_du_cot(strSo_du_cot);
             vo.setInsert_date(f.getInsert_date());
-            vo.setLoai_tien(f.getLoai_tien());
+            vo.setLoai_tien(strLoai_tien);
             vo.setNgay_gd(f.getNgay_gd());
+			
+			//20171025
             vo.setLoai_tk(f.getLoai_tk());
             System.out.println(f.getLoai_tk());
           System.out.println(f.getMa_kb());    
@@ -309,13 +355,29 @@ public class SoDuAction extends AppAction {
             conn = getConnection(request);
             SoDuForm f = (SoDuForm)form;
             SoDuDAO dao = new SoDuDAO(conn);
+           
+		   //20171025 
+            String strSo_du = f.getSo_du();
+            String strSo_du_cot = f.getSo_du_cot();
+            String strLoai_tien = f.getLoai_tien();
+            if (!"".equals(strLoai_tien) && strLoai_tien != null) {
+              if(strLoai_tien.equals("VND")){
+                strSo_du = strSo_du.replace(".", "");
+                strSo_du_cot = strSo_du_cot.replace(".", "");
+              }else{
+                strSo_du = strSo_du.replace(",", "");
+                strSo_du_cot = strSo_du_cot.replace(",", "");
+              }
+            }
+            
+            
             SoDuVO vo = new SoDuVO();
             vo.setId(f.getId());
             vo.setMa_kb(f.getMa_kb());
             vo.setMa_nh(f.getMa_nh());
-            vo.setLoai_tien(f.getLoai_tien());
-            vo.setSo_du(f.getSo_du());
-            vo.setSo_du_cot(f.getSo_du_cot());
+            vo.setLoai_tien(strLoai_tien);
+            vo.setSo_du(strSo_du);
+            vo.setSo_du_cot(strSo_du_cot);
             vo.setInsert_date(f.getInsert_date());
             vo.setNgay_gd(f.getNgay_gd());
 

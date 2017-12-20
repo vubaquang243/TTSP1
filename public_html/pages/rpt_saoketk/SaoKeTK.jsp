@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html; charset=UTF-8"%>
 
 
@@ -22,25 +21,47 @@
 <script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/sketk.js"
         type="text/javascript">        
 </script>
-<%
+<script type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/lov.js"></script>
+<% 
   String nhkb_tinh = request.getAttribute("nhkb_tinh")!=null?request.getAttribute("nhkb_tinh").toString():"";
   String nhkb_huyen = request.getAttribute("nhkb_huyen")!=null?request.getAttribute("nhkb_huyen").toString():"";
   String ma_nh = request.getAttribute("ma_nh")!=null?request.getAttribute("ma_nh").toString():"";
   String so_tk = request.getAttribute("so_tk")!=null?request.getAttribute("so_tk").toString():"";
   String tu_ngay = request.getAttribute("tu_ngay")!=null?request.getAttribute("tu_ngay").toString():"";
 //  String den_ngay = request.getAttribute("tu_ngay")!=null?request.getAttribute("den_ngay").toString():"";
+  String ttChotSo = request.getAttribute("tt_chot_so") == null ? "" : request.getAttribute("tt_chot_so").toString();
+  String alert = request.getAttribute("alert") == null ? "" : request.getAttribute("alert").toString();
+%>
+<%
+  String kb_huyen = request.getAttribute("kb_huyen")==null?"":request.getAttribute("kb_huyen").toString();
 %>
 <script type="text/javascript">
     jQuery.noConflict();
     jQuery(document).ready(function () {
+      jQuery("#dialog-form-lov-dm").dialog({
+        autoOpen: false,resizable : false,
+        maxHeight: "700px",
+        width: "550px",
+        modal: true
+      });
+              
       var frmSKTK = jQuery("#frmSKTK");
       frmSKTK.target='';
       jQuery("#nhkb_tinh").focus();
+      var ttChotSo = '<%=ttChotSo%>';
+      //jQuery('#btn_Chot_so').attr("disabled",true);
       var tu_ngay = '<%=tu_ngay%>';
+      jQuery('#nhkb_tinh option[value="0003"]').attr("selected",true);
       var nhkb_tinh = '<%=nhkb_tinh%>';
       var nhkb_huyen = '<%=nhkb_huyen%>';
       var ma_nh = '<%=ma_nh%>';
       var so_tk = '<%=so_tk%>';
+      if(ttChotSo == '01' || ttChotSo == ""){
+        jQuery('#btn_Chot_so').attr("disabled",true);
+      }else{
+        jQuery('#btn_Chot_so').attr("disabled",false);
+      }
+     
       if(so_tk!=''){
         jQuery("#sotk").val(so_tk);
       }
@@ -51,13 +72,16 @@
         jQuery("#nhkb_huyen").val(nhkb_huyen);
       }
       if(nhkb_tinh!=''){
-        jQuery("#nhkb_tinh").val(nhkb_tinh);
+      //20171213 QuangVB load lai DM tinh
+        jQuery('#nhkb_tinh option[value="'+nhkb_tinh+'"]').attr("selected",true);
       }
       if(tu_ngay!=''){
         jQuery("#tu_ngay").val('<%=tu_ngay%>');
       }
 
-      
+      //getKBHuyen();
+      //getNganHang();
+      getSoTK();
        try{
           jQuery('#manh').keyup(function () {
             var matches = /[^0-9]/g;
@@ -78,8 +102,15 @@
         }catch(e){
          // e.print();
         }
+        
+        jQuery('#btn_Chot_so').click(function(){
+          var alert = '<%=alert%>';
+          if(alert == "success"){
+            alert("Chốt sổ thành công");
+          }
+          //jQuery('#btn_Chot_so').attr("disabled",true);
+        });
         //dialog confirm message	
-
         jQuery("#btn_Exit").click(function () {
           document.forms[0].target = '';
           document.forms[0].action = 'thoatView.do';
@@ -99,15 +130,24 @@
         document.forms[0].action = url;
         document.forms[0].submit();
     }
+    function getLoaiTien(){
+      var index = jQuery('#sotk option:selected').index();
+      jQuery('#loai_tien').attr('selectedIndex',index);
+      var a = document.getElementsByName('cate_money')[index].value;
+      jQuery('#loai_tien').val(a);
+    }
+    
     function getSoTK(){   
 //      jQuery("#sotk option").remove();
         document.forms[0].target = '';
         var manh =jQuery("#manh").val();        
         var makb = jQuery("#nhkb_huyen").val();
         jQuery("#sotk").find('option').remove().end();      
+        jQuery("#loai_tien").val("");
+        jQuery('td#loai_tien_td').find('input').remove().end();
 
         if(manh==null || manh=='' || manh=='undefined'){
-          alert('Khong tim duoc ma Ngan Hang!');
+          //alert('Khong tim duoc ma Ngan Hang!');
           return;
         }
         if(makb==null || makb=='' || makb=='undefined'){
@@ -128,10 +168,16 @@
                       else {                      
                           var lstTKNHang = new Object();                           
                           lstTKNHang = JSON.parse(data[0]);                          
-                          var lstTKNHangSize = lstTKNHang.size();                          
+                          var lstTKNHangSize = lstTKNHang.size();   
+                          var loai_tk = '';
                           if(lstTKNHangSize>0){
                             for(var i=0;i<lstTKNHangSize;i++){
-                              jQuery('#sotk').append('<option value="' + lstTKNHang[i].so_tk + '" > '+ lstTKNHang[i].so_tk + '<\/option>');
+                              if(lstTKNHang[i].loai_tk == '01') loai_tk = 'TG';
+                              if(lstTKNHang[i].loai_tk == '02') loai_tk = 'TT';
+                              if(lstTKNHang[i].loai_tk == '03') loai_tk = 'CT';
+                              jQuery('#sotk').append('<option value="' + lstTKNHang[i].so_tk + '" >( '+ loai_tk +' - '+lstTKNHang[i].ma_nt+' ) - '+ lstTKNHang[i].so_tk +'<\/option>');
+                              jQuery('td#loai_tien_td').append('<input type="hidden" name="cate_money" value="'+lstTKNHang[i].ma_nt+'" />');
+                              getLoaiTien();
                             }
                           }
                       }
@@ -155,12 +201,14 @@
         jQuery("#sotk option:eq(0)").remove();
       }
         var nhkb_huyen=jQuery("#nhkb_huyen").val();
-        if(nhkb_huyen==null || nhkb_huyen=='' || nhkb_huyen=='undefined'){
+        var a = jQuery('#nhkb_huyen option:selected').text();
+        alert(a);
+        if(nhkb_huyen==null || nhkb_huyen=="" || nhkb_huyen=='undefined'){
           return;
         }
         jQuery.ajax( {
           type : "POST", url : "skeTKAction.do", data :  {
-              action:"Find_NH",nhkb_huyen:nhkb_huyen, "nd" : Math.random() * 100000
+              action:"Find_NH","nhkb_huyen":nhkb_huyen, "nd" : Math.random() * 100000
           },
           success : function (data, textstatus) {
               if (textstatus != null && textstatus == 'success') {
@@ -174,6 +222,7 @@
                           lstDSNHang = JSON.parse(data[0]);
                           var lstDSNHangSize = lstDSNHang.size();
                           if(lstDSNHangSize>0){
+                            jQuery('#manh option').remove();
                             for(var i=0;i<lstDSNHangSize;i++){
                               jQuery('#manh').append('<option value="' + lstDSNHang[i].ma_nh + '" >' + lstDSNHang[i].ten + '<\/option>');
                             }
@@ -226,16 +275,17 @@
                         document.forms[0].submit();
                     }
                     else {
+                     
                         var lstDMKBHuyen = new Object(); 
                         lstDMKBHuyen = JSON.parse(data[0]);
                         var lstDSNHang = new Object(); 
                         lstDSNHang = JSON.parse(data[1]);
                         var lstTKNHang= new Object(); 
                         lstTKNHang = JSON.parse(data[2]);
-                        
                         var lstDMKBHuyenSize = lstDMKBHuyen.size();
                         
                         if(lstDMKBHuyenSize>0){
+                          jQuery("#nhkb_huyen").append('<option value="" >--- Chọn kho bạc huyện ---<\/option>'); // 20171218 taidd them gia tri mac dinh cho kho bac huyen
                           for(var i=0;i<lstDMKBHuyenSize;i++){
                             jQuery('#nhkb_huyen').append('<option value="' + lstDMKBHuyen[i].ma + '" >' + lstDMKBHuyen[i].ten + '<\/option>');
                           }
@@ -302,21 +352,112 @@
         f.submit();
     }
     function chotSoSaoKe(){        
-        document.forms[0].target = '';
-        if(jQuery("#manh").val()==null || ''==jQuery("#manh").val() || jQuery("#manh").val()=='null'){
-          alert(GetUnicode('Kh&#244;ng th&#7875; t&#236;m ki&#7871;m v&#236; kh&#244;ng c&#243; m&#227; ng&#226;n h&#224;ng')); 
-          return;
-        }else if(jQuery("#sotk").val()==null || ''==jQuery("#sotk").val() || jQuery("#sotk").val()=='null'){
-          alert(GetUnicode('Kh&#244;ng th&#7875; t&#236;m ki&#7871;m v&#236; kh&#244;ng c&#243; s&#7889; t&#224;i kho&#7843;n')); 
-          return;
-        }
+        if(confirm('Sổ chi tiết ngân hàng gửi đã chính xác chưa?')){
+          document.forms[0].target = '';
+          if(jQuery("#manh").val()==null || ''==jQuery("#manh").val() || jQuery("#manh").val()=='null'){
+            alert(GetUnicode('Kh&#244;ng th&#7875; t&#236;m ki&#7871;m v&#236; kh&#244;ng c&#243; m&#227; ng&#226;n h&#224;ng')); 
+            return;
+          }else if(jQuery("#sotk").val()==null || ''==jQuery("#sotk").val() || jQuery("#sotk").val()=='null'){
+            alert(GetUnicode('Kh&#244;ng th&#7875; t&#236;m ki&#7871;m v&#236; kh&#244;ng c&#243; s&#7889; t&#224;i kho&#7843;n')); 
+            return;
+          } 
         var url = "skeTKUpdateAction.do";
         document.forms[0].action = url;
         document.forms[0].submit();
+        }else return false;
     }
     
+    dialog_message.dialog( {
+          autoOpen : false, modal : true, buttons :  {
+              Ok : function () {
+                  jQuery(this).dialog("close");
+                  var fieldForcus = fieldNameForcus.val();
+                  if (fieldForcus != null && fieldForcus != '') {
+                      jQuery("#" + fieldForcus).focus();
+                  }
+
+              }
+          }
+      });
+      function callLov(){      
+      jQuery("#loai_lov").val("DMKBTCUU");
+      jQuery("#ma_field_id_lov").val("ma_nhkb_nhan");
+      jQuery("#ten_field_id_lov").val("ten_nhkb_nhan");
+      jQuery("#id_field_id_lov").val("id_nhkb_huyen");
+      jQuery("#ma_cha_field_id_lov").val("id_nhkb_tinh");
+      jQuery("#dialog-form-lov-dm").dialog( "open" );      
+    }
+    function getTenKhoBacLTT(ma,ma_cha) { 
+
+      document.getElementById('nhkb_huyen').options.length = 1;// clear du lieu option cu
+       var ma_tinh;
+        ma_tinh=document.forms[0].nhkb_tinh.value;
+//       alert(ma_tinh);
+//       alert('ma='+ma+'ma_cha='+ma_cha);
+            if (ma==null || ''==ma){       
+                  if(ma_cha!=null&&''!=ma_cha){               
+                        ma_tinh=ma_cha;
+                        jQuery('#nhkb_tinh').val(ma_cha);
+                  }else if (ma_cha==null||''==ma_cha){
+                    ma_tinh=document.forms[0].nhkb_tinh.value;
+                  }
+              }else if (ma!=null && ''!=ma){
+                  if(ma_cha!=null&&''!=ma_cha){                
+                    ma_tinh=ma_cha;
+                    jQuery('#nhkb_tinh').val(ma_cha);
+                  }else if (ma_cha==null||''==ma_cha){
+                    ma_tinh=document.forms[0].nhkb_tinh.value;
+                  }
+              }
+    var back_huyen = jQuery('#huyen_back').val();
+    var kb_huyen="<%=kb_huyen%>";      
+     if (ma_tinh !=null && ""!=ma_tinh){
+      jQuery.ajax( {
+          type : "POST", url : "getDMucKBTCuuLTT.do", data :  {
+              "ma_tinh" : ma_tinh
+          },
+          success : function (data, textstatus) {
+              if (textstatus != null && textstatus == 'success') {
+                  if (data != null) {
+                      jQuery.each(data, function (i, objectDM) {
+                      // truong hop 1 - luc load khong co thang nao                  
+                      document.getElementById('nhkb_huyen').options.add(new Option(objectDM.kb_huyen, objectDM.ma));
+                      });
+                         if(document.getElementById('nhkb_huyen').options.length==2){ // select dong thu 2 neu select box co 2 value voi user cap tinh
+                              jQuery("#nhkb_huyen option:eq(1)").attr('selected', true);
+                         }
+                        else if(kb_huyen=='0'||kb_huyen==null||''==kb_huyen){
+                            if(back_huyen!=null&& ''!=back_huyen){
+                              jQuery('#nhkb_huyen').val(back_huyen);
+                            }else if(back_huyen==null|| ''==back_huyen){
+                              jQuery('#nhkb_huyen option:eq(0)').attr('selected', true);
+                            }
+                        }
+                        else if(kb_huyen!='0'){
+                        jQuery('#nhkb_huyen option:eq('+kb_huyen+')').attr('selected', true);
+                        }
+                      }
+                  }
+
+                if (ma!=null && ''!=ma){                          
+                  jQuery('#nhkb_huyen').val(ma);
+               }
+          },
+          error : function (textstatus) {
+              alert(textstatus);
+          }
+      });
+      }
+      getSoTK();
+      getNganHang();
+      getKBHuyen(); // 20171218 taidd them ham get kbhuyen.
+  }
 </script>
 <fmt:setBundle basename="com.seatech.ttsp.resource.SaoKeTKResource"/>
+<div id="dialog-form-lov-dm" title="Tra c&#7913;u danh m&#7909;c Kho b&#7841;c">
+  <p class="validateTips"></p>
+  <%@include file="/pages/lov/lovDMKBTCUULTT.jsp" %>
+</div>
 <html:form styleId="frmSKTK" action="/skeTKAction.do">
     <table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
         <tbody>
@@ -376,6 +517,17 @@
                       %>
           </html:select>
         </td>
+        <td rowspan="3" width="10%" align="center">
+        <!--20171130 thuongDT them moi cho phep cai bo cuc KTNN duoc xem DMKB-->
+        <%
+          if(session.getAttribute(AppConstants.APP_KB_CODE_SESSION).toString().equals("0001") || session.getAttribute(AppConstants.APP_KB_CODE_SESSION).toString().equals("0002")){
+        %>
+        <button type="button" style="width:100%" onclick="callLov();" class="ButtonCommon" accesskey="t" >
+                  <span class="sortKey">D</span>anh m&#7909;c KB
+          </button>
+          <%}%>
+        </td>
+        
         <td width="15%" align="right" bordercolor="#e1e1e1">
           <fmt:message key="SaoKe.page.label.kbhuyen"/>&nbsp;
         </td>
@@ -424,7 +576,7 @@
           </label>
         </td>
          <td width="30%">
-          <html:select tabindex="101" styleClass="selectBox" property="sotk" styleId="sotk" style="width:90%" onkeydown="if(event.keyCode==13) event.keyCode=9;" onchange="loadAccountDetailAJAX()" >
+          <html:select tabindex="101" styleClass="selectBox" property="sotk" styleId="sotk" style="width:90%" onkeydown="if(event.keyCode==13) event.keyCode=9;" onchange="getLoaiTien();" onblur="getLoaiTien();" >
               <%if(request.getAttribute("lstTKNHang")!=null){ %>
                 <html:optionsCollection  name="lstTKNHang" value="so_tk" label="comboBoxPresentTK"/>
               <%}else{ %>
@@ -458,22 +610,9 @@
           </script>
         </td>
         <td align="right" width="10%">
-          Loại tiền
+        <html:hidden property="loai_tien" styleId="loai_tien" ></html:hidden>
         </td>
-         <td width="30%">
-            <html:select property="loai_tien" styleId="loai_tien" onkeydown="if(event.keyCode==13) event.keyCode=9;">
-              <%
-                        if(request.getAttribute("lstTKNHang")!=null){
-                      %>
-                      <html:optionsCollection  name="lstTKNHang" value="ma_nt" label="ma_nt"/>
-                      <%
-                      }else{
-                      %>
-                      <html:option value=""><fmt:message key="SaoKe.page.label.tracuu.loaitien"/></html:option>
-                      <%
-                      }
-                      %>
-            </html:select>
+         <td width="30%" id="loai_tien_td">
          </td>
       </tr>
     </tbody>
@@ -505,6 +644,12 @@
             <fmt:message key="SaoKe.page.button.exit"/>
           </button>
         </span>
+        <!--20171020 QuangVB them moi chot so begin-->
+        <%
+          String loai_nhom = session.getAttribute(AppConstants.APP_ROLE_LIST_SESSION) == null ? "" : session.getAttribute(AppConstants.APP_ROLE_LIST_SESSION).toString();
+          if(!session.getAttribute(AppConstants.APP_KB_CODE_SESSION).toString().equals("0001")){
+            if(loai_nhom.contains(AppConstants.NSD_KTT) || loai_nhom.contains(AppConstants.NSD_CB_TTTT)){
+        %>
         <span id="chot_so">
           <button  id="btn_Chot_so" 
                     tabindex="111"
@@ -513,9 +658,13 @@
            Chốt sổ
           </button>
         </span>
+        <%}
+          }%>
+            <!--20171020 QuangVB them moi chot so end-->
       </td>
     </tr>
   </table>
+  <html:hidden property="id" styleId="id" />
   <table style="BORDER-COLLAPSE: collapse" border="1" cellspacing="0"
            bordercolor="#999999" width="100%">
     <thead class="TR_Selected">
@@ -605,7 +754,7 @@
                 <fmt:setLocale value="vi_VI"/>
                 </logic:equal>
                 <logic:notEqual value="VND" name="items" property="loai_tien">
-                  <fmt:setLocale value="en_US"/>
+                  <fmt:setLocale value="vi_VI"/>
                 </logic:notEqual>
                 <!---->
               
@@ -823,6 +972,8 @@
             </logic:iterate>
             <tr>
               <td colspan="8">
+              Tình trạng chốt sổ :<font color="Red"> <% if(ttChotSo.equals("01")){ %>Đã chốt sổ<%}%> 
+              <% if(!ttChotSo.equals("01")){ %>Chưa chốt sổ<%}%></font>
                 <div style="float:right;padding-right:40">
                   <%= com.seatech.framework.common.jsp.JspUtil.pagingHTML(pagingBean, "#0000ff")%>
                 </div>

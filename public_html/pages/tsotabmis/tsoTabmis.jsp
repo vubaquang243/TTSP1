@@ -30,6 +30,7 @@
 
 <%
   String kb_huyen = request.getAttribute("kb_huyen")==null?"":request.getAttribute("kb_huyen").toString();
+  String kb_tinh = request.getAttribute("kb_tinh")==null?"":request.getAttribute("kb_tinh").toString();
   String ma_dv = request.getAttribute("ma_dv")==null?"":request.getAttribute("ma_dv").toString();
   String strTinh = request.getAttribute("dftinh")==null?"":request.getAttribute("dftinh").toString();
   String tcuu = request.getAttribute("tcuu")==null?"":request.getAttribute("tcuu").toString();
@@ -54,8 +55,9 @@
 //     var cur_page="<%=cur_page%>";
 //     var total_page = Math.ceil(parseInt(tong_row)/15);
 //     alert(total_page);
-       
-      getTenKhoBacDC('','');
+       var kb_tinh= '<%=kb_tinh%>';
+      var kb_huyen= '<%=kb_huyen%>';
+      getTenKhoBacDC(kb_huyen,kb_tinh);      
 //      jQuery('#tong_row').val(toFormatNumber(tong_row,0,'.'));
 //      jQuery('#currentPage').val(cur_page);
 //      jQuery('#total_page').val(total_page);
@@ -169,7 +171,7 @@
                   <button type="button" onclick="check('find');" class="ButtonCommon" accesskey="t" >
                           <span class="sortKey">T</span>&igrave;m kiếm
                   </button>  &nbsp;&nbsp;
-                  <button type="button" onclick="check('update');" class="ButtonCommon" accesskey="t" >
+                  <button type="button" onclick="setChecked();" class="ButtonCommon" accesskey="t" id="btnUpdate" >
                           <span class="sortKey">S</span>&#7917;a
                   </button>
 
@@ -296,7 +298,7 @@
                 </th>
                 <th class="promptText" bgcolor="#f0f0f0" width="2%">
                   <div align="center">
-                      <input type="checkbox" name="chklistAll" value="" id="chklistAll"/>
+                      <input type="checkbox" name="chklistAll" value="" id="chklistAll" />
                   </div>
                 </th>
               <tbody id="colCheckList" class="navigateable focused" cellspacing="0" style="width:100%" cellpadding="1" bordercolor="#e1e1e1">
@@ -349,7 +351,7 @@
                 </logic:iterate>
                 </logic:present>
                 <tr>
-                  <td colspan="8">                 
+                  <td colspan="11">                 
                     <%= com.seatech.framework.common.jsp.JspUtil.pagingHTML(pagingBean,"#0000ff") %>
                   </td>
                </tr>
@@ -475,13 +477,13 @@ function goPage(page) {
                       jQuery.each(data, function (i, objectDM) {
                       // truong hop 1 - luc load khong co thang nao                  
                       document.getElementById('nhkb_huyen').options.add(new Option(objectDM.kb_huyen, objectDM.id));
-                      });
+                      });                      
                       if(document.getElementById('nhkb_huyen').options.length==2){ // select dong thu 2 neu select box co 2 value voi user cap tinh
-                              jQuery("#nhkb_huyen option:eq(1)").attr('selected', true);
+                             jQuery("#nhkb_huyen option:eq(1)").attr('selected', true);
                          }
-                        else if(kb_huyen!='0'){
+                      else if(kb_huyen!='0'){                     
                         jQuery('#nhkb_huyen option:eq('+kb_huyen+')').attr('selected', true);
-                        }
+                      }
                   }
               }
                 if (id!=null && ''!=id){
@@ -527,5 +529,13 @@ function arrowUpDownTCuuDC(e) {
     }
 
 }
-
+  
+  function setChecked(){
+    var checkbox_checked = jQuery('input[type="checkbox"]:checked');
+    if(checkbox_checked.length > 0){
+      check('update');
+    }else{
+      alert("Bạn phải tích chọn một bản ghi để sửa");
+    }
+  }
 </script>

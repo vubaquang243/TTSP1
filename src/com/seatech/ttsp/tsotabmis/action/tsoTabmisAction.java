@@ -65,7 +65,8 @@ public class tsoTabmisAction extends AppAction {
             DChieu1VO dcVO = new DChieu1VO();
             
             String kb_code = session.getAttribute(AppConstants.APP_KB_CODE_SESSION).toString();
-            
+            //20171027 thuongdt bo sung kb huyen            
+            String kb_huyen = frm.getNhkb_huyen(); // 15-11-2017 : tdd s?a l?y kb_huyen t? request.param thành t? form.
             int phantrang = (20);
             String page = "";
             page = frm.getPageNumber();
@@ -92,21 +93,21 @@ public class tsoTabmisAction extends AppAction {
             //20170216 --------------------END----------------------------
             ten_ts = (List)tsDAO.getTenTSo(null);
             PagingBean pagingBean = new PagingBean();
-            if(isTokenValid(request)){
+            //if(isTokenValid(request)){
                 String whereForResult = getConditionForResult(frm);
                 lstTSKB = tsDAO.getLstTSoKB_ptrang(whereForResult, null, currentPage, numberRowOnPage, totalCount);
                 pagingBean.setNumberOfRow(totalCount[0].intValue());
                 resetToken(request);
                 saveToken(request);
-            }else{
-                saveToken(request);
-            }
-            String inKB = request.getParameter("inKB");
-            
+            //}else{
+            //    saveToken(request);
+            //}
+           
+            // 15-11-2017 : tdd s?a b? biên inKB và setAtribute c?a request v?i name : kb_huyen là kb_huyen.
             request.setAttribute("dmuckb_tinh", dmuckb_cha);
             request.setAttribute("dmucNH", dmucNH);
             request.setAttribute("lstTSKB", lstTSKB);
-            request.setAttribute("kb_huyen", inKB);
+            request.setAttribute("kb_huyen", kb_huyen);          
             request.setAttribute("ten_ts",ten_ts);
 
             pagingBean.setCurrentPage(currentPage);
@@ -332,6 +333,10 @@ public class tsoTabmisAction extends AppAction {
                tshtVO.setTen_ts(ten_ts);
                tshtDAO.insert(tshtVO);
                
+
+
+               request.setAttribute("kb_huyen", nhkb_huyen);
+               request.setAttribute("nhkb_tinh", nhkb_tinh);
                conn.commit();
            }
            resetToken(request);
@@ -400,6 +405,11 @@ public class tsoTabmisAction extends AppAction {
                   
                   tshtDAO.insert(tshtVO);
               }
+            //20171027 thuongdt bo sung kb huyen            
+            String nhkb_huyen = f.getNhkb_huyen();
+            String nhkb_tinh = f.getNhkb_tinh();
+            request.setAttribute("kb_huyen",nhkb_huyen);
+            request.setAttribute("kb_tinh",nhkb_tinh);
               if(flag) conn.commit();
               else throw new Exception("C\u00F3 l\u1ED7i trong l\u00FAc s\u1EEDa");
           }

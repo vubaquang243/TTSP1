@@ -5,6 +5,7 @@ import com.seatech.framework.exception.TTSPException;
 import com.seatech.framework.strustx.AppAction;
 import com.seatech.framework.utils.StringUtil;
 import com.seatech.framework.utils.TTSPUtils;
+import com.seatech.ttsp.dchieu.DChieu1DAO;
 import com.seatech.ttsp.dchieungoaite.DChieuNgoaiTeDAO;
 import com.seatech.ttsp.dchieu.DNQTVO;
 import com.seatech.ttsp.dchieu.DuyetKQDCVO;
@@ -53,8 +54,11 @@ public class DuyetXNDCTHopNgoaiTeAction extends AppAction {
             Collection colTTSP = new ArrayList();
             Collection colPHT = new ArrayList();
             Collection colTHDC = new ArrayList();
+            //20171009 thuongdt bo sung tra cuu qt thu ngay nghi
+            Collection colPHT_T7 = new ArrayList();
             Collection colGDTCong = new ArrayList();
             DChieuNgoaiTeDAO dao = new DChieuNgoaiTeDAO(conn);
+            DChieu1DAO dao1 = new DChieu1DAO(conn);
             ThamSoKBVO kbVO = new ThamSoKBVO();
             ThamSoKBDAO kbDAO = new ThamSoKBDAO(conn);
             String chkdate = StringUtil.DateToString(new Date(), "dd/MM/yyyy");
@@ -171,6 +175,15 @@ public class DuyetXNDCTHopNgoaiTeAction extends AppAction {
             colTTSP = dao.getTTSP_PHT(strTTSP, null);
             colPHT = dao.getTTSP_PHT(strPHT, null);
             colTHDC = dao.getXNTHData(strTTSP, null);
+            
+            
+            String strWhere = 
+              " AND a.ma_kb= '" + kb_chuyen + "' and a.ma_nh='" +
+              receive_bank + "' and to_char(a.ngay_gd,'DD/MM/RRRR')='" +
+              ngay_dc + "' AND a.loai_tien = '"+loai_tien+"' ";
+             String strLaiCThu = dao1.getLaiChuyenThu(strWhere);
+            //20171009 thuongdt bo sung them tim kiem du lieu ngay nghi
+            colPHT_T7 = dao.getPHT_PS_T7( receive_bank, kb_chuyen, ngay_dc);
 
             GDichTCongVO gdTCongVO = new GDichTCongVO();
             XNKQDCDataVO xNKQDCDataVO = null;
@@ -244,6 +257,10 @@ public class DuyetXNDCTHopNgoaiTeAction extends AppAction {
             request.setAttribute("colPHT", colPHT);
             request.setAttribute("colGDTCong", colGDTCong);
           
+            //20171009 thuongdt bo sung tra cuu qt thu ngay nghi
+            request.setAttribute("colPHT_T7", colPHT_T7);
+            request.setAttribute("loai_gd", loai_gd);
+            request.setAttribute("laicthu", strLaiCThu);
 
             saveToken(request);
         } catch (Exception e) {

@@ -459,11 +459,23 @@
                     <fmt:message key="doi_chieu.page.lable.tthai"/>
                   </div>
                 </th>
+                <!--20171117 thuongdt bo sung chi tiet chenh lech begin-->
+                <th class="promptText" bgcolor="#f0f0f0">
+                  <div align="center">          
+                    Lý do chênh lệch 
+                  </div>
+                </th>
+                <th class="promptText" bgcolor="#f0f0f0">
+                  <div align="center">          
+                   Chi tiết chênh lệch 
+                  </div>
+                </th>
+                <!--20171117 thuongdt bo sung chi tiet chenh lech end-->
               </tr>
               
            <logic:notEmpty name="colKQDCCT">
            <tr>
-              <td colspan="9"><b>L&#7879;nh thanh to&#225;n &#273;i</b></td>
+              <td colspan="11"><b>L&#7879;nh thanh to&#225;n &#273;i</b></td>
           </tr>
           <logic:iterate id="items" name="colKQDCCT" indexId="stt">
           <logic:equal name="items" property="di_den" value="DI" > <!-- lenh thanh toan di -->
@@ -505,15 +517,23 @@
                         <fmt:message key="doi_chieu.page.lable.tthai.1"/>
                     </logic:equal>
                 </td>
+                <!--20171117 thuongdt bo sung chi tiet chenh lech begin-->
+                <td  align="left">                 
+                  <bean:write name="items" property="ldo_clech"/>                  
+                </td>
+                <td  align="left">
+                  <bean:write name="items" property="ctiet_clech"/>
+                </td>
+                <!--20171117 thuongdt bo sung chi tiet chenh lech end-->
               </tr> 
              </logic:equal>
              </logic:equal>
              </logic:iterate>
-             <tr><td colspan="9">&nbsp;</td></tr>
+             <tr><td colspan="11">&nbsp;</td></tr>
              </logic:notEmpty>             
              <logic:notEmpty name="colKQDCCT">
              <tr> 
-              <td colspan="9"><b>L&#7879;nh thanh to&#225;n &#273;&#7871;n</b></td>
+              <td colspan="11"><b>L&#7879;nh thanh to&#225;n &#273;&#7871;n</b></td>
               </tr>
               <logic:iterate id="items" name="colKQDCCT" indexId="stt">
               <logic:equal name="items" property="di_den" value="DEN" > <!-- lenh thanh toan -->
@@ -553,12 +573,20 @@
                     <logic:equal value="1" property="trang_thai" name="items">
                         <fmt:message key="doi_chieu.page.lable.tthai.1"/>
                     </logic:equal>
+                  </td> 
+                  <!--20171117 thuongdt bo sung chi tiet chenh lech begin-->
+                  <td  align="left">                 
+                    <bean:write name="items" property="ldo_clech"/>                  
                   </td>
+                  <td  align="left">
+                    <bean:write name="items" property="ctiet_clech"/>
+                  </td>
+                  <!--20171117 thuongdt bo sung chi tiet chenh lech end-->
                 </tr>  
             </logic:equal>
             </logic:equal>
           </logic:iterate>
-          <tr><td colspan="9">&nbsp;</td></tr>
+          <tr><td colspan="11">&nbsp;</td></tr>
           </logic:notEmpty>
           
          </table>              
@@ -615,11 +643,23 @@
                       <fmt:message key="doi_chieu.page.lable.tthai"/>
                     </div>
                   </th>
+                  <!--20171117 thuongdt bo sung chi tiet chenh lech begin-->
+                  <th class="promptText" bgcolor="#f0f0f0">
+                    <div align="center">          
+                      Lý do chênh lệch
+                    </div>
+                  </th>
+                  <th class="promptText" bgcolor="#f0f0f0">
+                    <div align="center">          
+                      Chi tiết chênh lệch 
+                    </div>
+                  </th>
+                  <!--20171117 thuongdt bo sung chi tiet chenh lech end-->
                 </tr>
                
           <logic:notEmpty name="colKQDCCT">
            <tr>
-              <td colspan="9"><b>&#272;i&#7879;n tra so&#225;t &#273;i</b></td>
+              <td colspan="11"><b>&#272;i&#7879;n tra so&#225;t &#273;i</b></td>
               </tr>
             <logic:iterate id="items" name="colKQDCCT" indexId="stt">
             <logic:equal name="items" property="di_den" value="DI" > 
@@ -658,17 +698,26 @@
                         <fmt:message key="doi_chieu.page.lable.tthai.1"/>
                     </logic:equal>
                   </td>
+                  
+                  <!--20171117 thuongdt bo sung chi tiet chenh lech begin-->
+                  <td  align="left">                 
+                    <bean:write name="items" property="ldo_clech"/>                  
+                  </td>
+                  <td  align="left">
+                    <bean:write name="items" property="ctiet_clech"/>
+                  </td>
+                  <!--20171117 thuongdt bo sung chi tiet chenh lech end-->
                 </tr>  
                 </logic:equal>
         </logic:equal>
         </logic:iterate>
-        <tr><td colspan="9">&nbsp;</td></tr>
+        <tr><td colspan="11">&nbsp;</td></tr>
         </logic:notEmpty>
             
              
           <logic:notEmpty name="colKQDCCT">
           <tr> 
-              <td colspan="9"><b>&#272;i&#7879;n tra so&#225;t &#273;&#7871;n</b></td>
+              <td colspan="11"><b>&#272;i&#7879;n tra so&#225;t &#273;&#7871;n</b></td>
               </tr>
             <logic:iterate id="items" name="colKQDCCT" indexId="stt">
             <logic:equal name="items" property="di_den" value="DEN" > 
@@ -707,11 +756,19 @@
                         <fmt:message key="doi_chieu.page.lable.tthai.1"/>
                     </logic:equal>
                   </td>
+                  <!--20171117 thuongdt bo sung chi tiet chenh lech begin-->
+                  <td  align="left">                 
+                    <bean:write name="items" property="ldo_clech"/>                  
+                  </td>
+                  <td  align="left">
+                    <bean:write name="items" property="ctiet_clech"/>
+                  </td>
+                  <!--20171117 thuongdt bo sung chi tiet chenh lech end-->
                 </tr> 
                 </logic:equal>
         </logic:equal>
         </logic:iterate>
-        <tr><td colspan="9">&nbsp;</td></tr>
+        <tr><td colspan="11">&nbsp;</td></tr>
         </logic:notEmpty>
         
         </table>
@@ -758,7 +815,8 @@ function check(type,ma_nt) {
     var tcuu="<%=tcuu%>";
     if (type == 'close') {
        if(tcuu!=null && ""!=tcuu){
-          f.action = 'FindTTinDChieuAction.do'+tcuu;           
+          //f.action = 'FindTTinDChieuAction.do'+tcuu;           
+          window.close();
        }else if (tcuu==null || ""==tcuu){
           f.action = 'TCuuTTinDChieuAction.do';
        } 

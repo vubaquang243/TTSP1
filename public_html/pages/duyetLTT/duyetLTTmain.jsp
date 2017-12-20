@@ -288,7 +288,7 @@
                            </fmt:formatNumber>
                       </logic:equal>  
                       <logic:notEqual value="177" name="duyetLTTForm" property="nt_id">
-                           <fmt:setLocale value="en_US"/>
+                           <fmt:setLocale value="vi_VI"/>
                            <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
                            <bean:write name="items" property="tong_tien"/>
                            </fmt:formatNumber>
@@ -469,6 +469,15 @@ function fmt_money(obj){
     	try {
             var cert = jQuery("#eSign")[0];
             cert.InitCert(); 
+            
+           // 20171120 thuongdt bo sung canh bao han su dung CTS
+             var strdomain = '<%=strdomain%>';
+            var struser_name = '<%=struser_name%>';
+            var strcheckcts = '<%=strcheckcts%>';           
+            if(!checkCTSdate(cert,strdomain+'/'+struser_name,strcheckcts)){
+             return false;
+            }
+            
             var serial = cert.Serial;
             jQuery("#certserial").val(serial);
               jQuery('input[name=selector]:checked').each(function(i){

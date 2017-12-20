@@ -76,7 +76,7 @@ public class LTTVO {
     private String ma_kb_huyen;
     private String ma_nh;
     private Long tong_mon;
-    private Long tong_tien;
+    private BigDecimal tong_tien;
     private String error_code;
     private String error_desc;
     private String ly_do_htoan;
@@ -616,14 +616,6 @@ public class LTTVO {
         return tong_mon;
     }
 
-    public void setTong_tien(Long tong_tien) {
-        this.tong_tien = tong_tien;
-    }
-
-    public Long getTong_tien() {
-        return tong_tien;
-    }
-
     public void setError_code(String error_code) {
         this.error_code = error_code;
     }
@@ -725,5 +717,13 @@ public class LTTVO {
 
     public String getVay_tra_no_nn() {
         return vay_tra_no_nn;
+    }
+
+    public void setTong_tien(BigDecimal tong_tien) {
+        this.tong_tien = tong_tien;
+    }
+
+    public BigDecimal getTong_tien() {
+        return tong_tien;
     }
 }

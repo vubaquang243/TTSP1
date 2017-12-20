@@ -34,7 +34,8 @@ public class SKeTKDAO extends AppDAO {
         SKeTKVO reval = null;
         StringBuffer strSQL = new StringBuffer();
         try {
-            strSQL.append("SELECT a.nguoi_tao, a.nguoi_ks, a.send_bank, a.send_bank_name, a.receive_bank, ");
+		   //20171030 QuangVB bo sung them tt_chot_so
+            strSQL.append("SELECT a.nguoi_tao, a.nguoi_ks, a.send_bank, a.send_bank_name, a.receive_bank, a.tt_chot_so, ");
             strSQL.append("a.receive_bank_name, a.mt_type, a.stt_mt, a.send_date, ");
             strSQL.append("a.receive_date, a.loai_ctu, a.ky_hieu_mat, a.so_tham_chieu_gd, ");
             strSQL.append("a.so_tk, a.seq_number, a.so_tien_du_dau, a.tinh_chat_du_dau, ");
@@ -138,12 +139,19 @@ public class SKeTKDAO extends AppDAO {
       return reval;
   }
   
-  public int updateTT_Chot_So(String sqlWhere, Vector params) throws Exception{
+  /**
+  *@create: QuangVB
+  *@create-date: 30/10/2017
+  *@see: bo sung them ham updateTT_Chot_So cho phep nsd chot so sao ke khi da nhan sao ke khop dung
+  *@param: sqlWhere dieu kien where tra cuu, strNSD ma nsd thuc hien chot so, params parammetor cho dieu kien where
+  */
+  
+  public int updateTT_Chot_So(String sqlWhere, String strNSD,Vector params) throws Exception{
       try{
-        String sqlQuery = "UPDATE sp_saoke_tk SET tt_chot_so = '01' WHERE 1=1 " +
-            "AND id IN (select max(a.id) from sp_saoke_tk a where 1=1 ";
-        sqlQuery += sqlWhere + ")";
-          return executeStatement(sqlQuery, params, conn) > 0 ? 1 : 0;
+        String sqlQuery = "UPDATE sp_saoke_tk SET tt_chot_so = '01', ngay_chot_so=SYSDATE, nguoi_chot_so='"+ strNSD +"' WHERE 1=1 ";
+        sqlQuery += sqlWhere;
+          
+          return  executeStatement(sqlQuery, params, conn);
       }catch(Exception e){
           throw e;
       }

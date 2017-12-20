@@ -71,6 +71,7 @@
   
   //************************************ LOAD PAGE **********************************
   jQuery(document).ready(function () {
+      
     var strRowSelected="<%=strRowSelected%>";
 //    var strUpdate_Status ="<%=strUpdate_Status%>";
 //    var strUpdate_IDBK = "<%=strUpdate_IDBK%>";
@@ -96,9 +97,10 @@
           "Có" : function () {    
               // thuc hien update trang thai
               if(viewAcc!=null && '' != viewAcc){
-                var tcuu="<%=tcuu%>";
+                var tcuu= getUrl();
                  if(tcuu!=null && ""!=tcuu){
-                    document.forms[0].action = "ViewTCuuBKeQToan.do"+ tcuu;
+                    //document.forms[0].action = "ViewTCuuBKeQToan.do?"+ tcuu;
+                    window.close();
                 }else if (tcuu==null || ""==tcuu){
                     document.forms[0].action = "TCuuBKeQToanList.do";
                 }
@@ -172,17 +174,51 @@
       var f = document.forms[0];
       document.forms[0].target='';
       if('<%=strViewBK%>'!="" && '<%=strViewBK%>'=='ViewBK'){
-        f.action = "QuyetToanToanQuoc.do";        
-        f.submit();
+       f.action = "QuyetToanToanQuoc.do";        
+       f.submit();
       }else{
         jQuery("#dialog-confirm").html('<fmt:message key="XLy.BKe.QToan.page.message.confirm.thoat"/>');
         jQuery("#dialog-confirm").dialog("open");
       }
   });
   });
+  
+  function getUrl(){
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+          sURLVariables = sPageURL.split('&'),
+          sParameterName,
+          i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+          sParameterName = sURLVariables[i].split('=');
+
+          if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+          }
+        }
+      };
+  
+    var ma_thanh_toan_vien = getUrlParameter("ma_thanh_toan_vien");
+    var ngan_hang = getUrlParameter("ngan_hang");
+    var trang_thai = getUrlParameter("trang_thai");
+    var tu_ngay = getUrlParameter("tu_ngay");
+    var den_ngay = getUrlParameter("den_ngay");
+    var so_bke = getUrlParameter("so_bke1");
+    var ngay_bang_ke = getUrlParameter("ngay_bang_ke");
+    var loai_quyet_toan = getUrlParameter("loai_quyet_toan");
+    var currentPage = getUrlParameter("currentPage");
+    var tcuu = "&ma_thanh_toan_vien="+ma_thanh_toan_vien+"&ngan_hang="+ngan_hang+"" +
+    "&trang_thai="+trang_thai+"&tu_ngay="+tu_ngay+"&den_ngay="+den_ngay+"&so_bke1="+so_bke+
+    "&ngay_bke="+ngay_bang_ke+"&loai_quyet_toan="+loai_quyet_toan+"&currentPage="+currentPage;
+    if(so_bke == "")
+      return tcuu;
+    else
+      return "&so_bke="+ so_bke + tcuu;
+  }
+  
   function viewLQT(id,type){ 
   var tcuu="<%=tcuu%>";
-  document.forms[0].target = '';
   document.forms[0].action="XuLyLenhQuyetToan.do?id="+id+"&typeView="+type+"&rowSelected="+'<%=request.getAttribute("rowSelected")%>';
 
   document.forms[0].submit();
@@ -205,7 +241,16 @@
     function ky(){
     	try {
             var cert = jQuery("#eSign")[0];
-            cert.InitCert();                   
+            cert.InitCert();  
+            
+            // 20171120 thuongdt bo sung canh bao han su dung CTS
+             var strdomain = '<%=strdomain%>';
+            var struser_name = '<%=struser_name%>';
+            var strcheckcts = '<%=strcheckcts%>';           
+            if(!checkCTSdate(cert,strdomain+'/'+struser_name,strcheckcts)){
+             return false;
+            }
+            
             var serial = cert.Serial;
             jQuery("#certSerial").val(serial);
             
@@ -728,7 +773,7 @@
                                                             </fmt:formatNumber>
                                                           </logic:equal>
                                                           <logic:notEqual value="VND" property="tcg_loai_tien" name="BKE_QuyetToanForm">
-                                                            <fmt:setLocale value="en_US"/>
+                                                            <fmt:setLocale value="vi_VI"/>
                                                             <bean:write name="items"  property="so_tien" format="#,##0.00"/>
                                                           </logic:notEqual>
                                                         </td>

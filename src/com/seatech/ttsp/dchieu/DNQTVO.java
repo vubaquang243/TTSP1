@@ -36,7 +36,8 @@ public class DNQTVO {
   private Long so_du_cot;
   private String loai_tien;
   private String ma_nt;//ma ngoai te
-  
+  //20171117 thuongdt bo sung them ngay bu chi
+  private String ngay_bu_chi;
 
     public void setNguoi_tao(String nguoi_tao) {
         this.nguoi_tao = nguoi_tao;
@@ -316,5 +317,13 @@ public class DNQTVO {
 
     public String getMa_nt() {
         return ma_nt;
+    }
+
+    public void setNgay_bu_chi(String ngay_bu_chi) {
+        this.ngay_bu_chi = ngay_bu_chi;
+    }
+
+    public String getNgay_bu_chi() {
+        return ngay_bu_chi;
     }
 }

@@ -497,6 +497,7 @@ public class LTTDiAction extends AppAction {
         String strUserID = "";
         String strUserType = "";
         String whereClause = "";
+		// 20171010 thuongdt bo sung Parameter tra cuu theo so tien
         String strAction = request.getParameter("action") != null ? request.getParameter("action") :"";      
         String strnhkbchuyennhan = request.getParameter("nhkbchuyennhan") != null ? request.getParameter("nhkbchuyennhan") :"";
         String strsotien = request.getParameter("sotien") != null ? request.getParameter("sotien") :"";
@@ -701,7 +702,7 @@ public class LTTDiAction extends AppAction {
                             " (d.rv_domain = '" + AppConstants.MA_THAM_CHIEU_TRANG_THAI_LTT +
                             "') ";
                 }
-                
+                // 20171010 thuongdt bo sung tra cuu theo so tien begin
                 if ("FIND_SoYCTT".equalsIgnoreCase(strAction)){
                     if(!"".equals(strnhkbchuyennhan))
                       whereClause += " and b.MA_NH like '__"+strnhkbchuyennhan.substring(2,5)+"%'";
@@ -720,7 +721,7 @@ public class LTTDiAction extends AppAction {
               if ("CHANGE_NT".equalsIgnoreCase(strAction)){
                 whereClause += " and t.nt_id  = '"+strnt_id_find+"'";
               }
-                
+                 // 20171010 thuongdt bo sung tra cuu theo so tien end 
                 
                 //                reVal = lTTDAO.getLTTDiList(" t.ngay_nhan > SYSDATE-30 and ("+whereClause+")", params);
                 reVal = lTTDAO.getLTTDiList(whereClause, params);
@@ -737,7 +738,7 @@ public class LTTDiAction extends AppAction {
                 request.setAttribute(AppKeys.LTT_LIST_REQUEST_KEY, reVal);
                 
             }
-            
+              // 20171010 thuongdt bo sung tra cuu theo so tien begin
             if ("REFRESH".equalsIgnoreCase(strAction)) {
               //lTTMaster(conn, request, session, "", "");
               reValTemp =
@@ -796,7 +797,7 @@ public class LTTDiAction extends AppAction {
                   out.println(strJson.toString());
                   out.flush();
                   out.close();
-                          
+                 // 20171010 thuongdt bo sung tra cuu theo so tien end           
                 
                           
               }

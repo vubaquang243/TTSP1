@@ -208,6 +208,9 @@
                       id="row_qt_<bean:write name="index"/>"
                       onclick=" disBt_onclick();rowSelectedFocusXNDC('row_qt_<bean:write name="index"/>');                               
                                fillDataXNDC('XNDCTHop1Action.do','<bean:write name="UDlist" property="ngay_dc"/>','<bean:write name="UDlist" property="receive_bank"/>','<bean:write name="UDlist" property="ttsp_id"/>','<bean:write name="UDlist" property="pht_id"/>','row_qt_<bean:write name="index"/>','<bean:write name="UDlist" property="tthai_dxn_thop"/>');">
+                       <!-- 20171121 thuongdt bo sung them ten ngan hang -->
+                       <input type="hidden" id="npten" value="<bean:write name="UDlist" property="ten"/>"/>
+                        
                    <td align="center">
                     <bean:write name="UDlist" property="ngay_dc"/>                    
                    </td>
@@ -262,7 +265,8 @@
        </td>
        <td  width="58%">
         <fieldset>
-            <legend><font color="Blue">T&#7893;ng h&#7907;p k&#7871;t qu&#7843; &#273;&#7889;i chi&#7871;u</font></legend>
+           <!-- 20171121 thuongdt bo sung them ten ngan hang -->
+            <legend><font color="Blue">T&#7893;ng h&#7907;p k&#7871;t qu&#7843; &#273;&#7889;i chi&#7871;u: </font>  <span id ="tennh" name = "tennh" style="color:red;"> </span> </legend>
             <div style="height:370px;">
               <table width="100%" cellspacing="0" cellpadding="2"
                  bordercolor="#e1e1e1" border="1" align="center"
@@ -933,9 +937,16 @@
       <tr > 
       <td align="right" colspan="5">
           <%if(chkdate==null || "".equals(chkdate)){%>
+          <!--20171117 thuongdt bo button lap moi theo yeu cau nang cap 2017 begin -->
+          
+          <!--
          <button type="button"  accesskey="l" id="bt_update" onclick="update_TCong('TAM')">
             <span class="sortKey">L</span>ập mới
           </button>
+          -->
+          
+           <!--20171117 thuongdt bo button lap moi theo yeu cau nang cap 2017 end -->
+           
           <html:hidden property="cho_phep_sua" styleId="cho_phep_sua" />
           <html:hidden property="cho_phep_qtoan_tam" value="" styleId="cho_phep_qtoan_tam" />
           <html:hidden property="cho_phep_nhap_tcong" value="" styleId="cho_phep_nhap_tcong" />
@@ -1047,6 +1058,19 @@
                             <logic:equal value="02" property="loai_qtoan" name="items">
                                Lập mới
                             </logic:equal>
+                             <logic:equal value="04" property="loai_qtoan" name="items">
+                               Bù số chi
+                            </logic:equal>
+                             <logic:equal value="05" property="loai_qtoan" name="items">
+                               Thấu chi
+                            </logic:equal>
+                             <logic:equal value="06" property="loai_qtoan" name="items">
+                               Thu ngày lỗi
+                            </logic:equal>
+                             <logic:equal value="07" property="loai_qtoan" name="items">
+                               Loại khác
+                            </logic:equal>
+                            <input type="hidden" name="loai_qtoan" id="loai_qtoan_<bean:write name="stt"/>" value="<bean:write name="items" property="loai_qtoan"/>"/>
                           </td>
                             <td align="left" title="<bean:write name="items" property="ndung_qtoan"/>">
                               <div style="text-overflow:ellipsis;width:175px;white-space:nowrap;  overflow:hidden; font-size:12px">
@@ -1169,6 +1193,21 @@ function checkKey(txt_id){
         }else return false;
 }
 
+//20171121 thuongdt bo sung them lay thong tin ten ngan hang
+getNganHangTen();
+function getNganHangTen (){   
+    var strRowSelected = "<%=strRowSelected%>";
+    var stt= strRowSelected.substr(7,5);
+    var sttNext=parseInt(stt);    
+    var vtannh = document.getElementsByName('npten')[sttNext];
+    if(vtannh != null){
+    document.getElementsByName('tennh')[0].innerHTML = vtannh.value; 
+    }
+}
+
+
+
+
   disBt();
   function disBt(){
     var strRowSelected="<%=strRowSelected%>";
@@ -1269,37 +1308,64 @@ function sumSelected(){
         var valChi = [];
         var tong_thu=0;
         var tong_chi=0;
+        var thu = 0;
+        var chi = 0;
         var size="<%=size%>";
         if(''!=size && size !=null&&'0'!=size && size >0){
             for (i=0;i<size;i++){
-            var trang_thai=jQuery('#trang_thai_'+i).val();
+            var trang_thai=jQuery('#trang_thai_'+i).val();  
                 if(trang_thai=='03' || '03'==trang_thai){
                   valThu[i] = 0;
-                  var thu= valThu[i].toString();
+                   thu= valThu[i].toString();
                   valChi[i] = 0;
                   var chi= valChi[i].toString();
+                 
                 }else{
-                  valThu[i] = jQuery('#qtoan_thu_'+i).val();
-                  var thu= valThu[i].toString();
-                  valChi[i] = jQuery('#qtoan_chi_'+i).val();
-                  var chi= valChi[i].toString();
+                  var vloai_qtoan = jQuery('#loai_qtoan_'+i).val();
+                  //20171115 thuongdt bo sung kiem tra neu loai qtoan:  bu chi ngay loi thì ko tinh so quyet toan
+                  
+                  if(vloai_qtoan !='04' ){
+                      valThu[i] = jQuery('#qtoan_thu_'+i).val();
+                       thu= valThu[i].toString();
+                      valChi[i] = jQuery('#qtoan_chi_'+i).val();
+                       chi= valChi[i].toString();  
+                  }
                 }
-              
+
                tong_thu=tong_thu+parseInt(thu);
                tong_chi=tong_chi+parseInt(chi);
                
             }
           if(jQuery('#trang_thai_0').val()=='03'||'03'==jQuery('#trang_thai_0').val()){
             document.getElementById("bt").disabled=false
-          }        
-        txt_thu_tcong = parseInt(jQuery('#qtoan_thu').val()) - tong_thu;
-        txt_chi_tcong = parseInt(jQuery('#qtoan_chi').val()) - tong_chi;
+          } 
+         if(jQuery('#qtoan_thu').val() =='' && jQuery('#qtoan_chi').val() =='') { 
+           txt_thu_tcong = 0;
+           txt_chi_tcong = 0;
+         }else{    
+          txt_thu_tcong = parseInt(jQuery('#qtoan_thu').val()) - tong_thu;
+          txt_chi_tcong = parseInt(jQuery('#qtoan_chi').val()) - tong_chi;
+         }
  //       alert('thuongdt test:'+jQuery('#qtoan_chi').val()+' ; '+tong_chi)
         
-//        alert(tong_thu+'--'+tong_chi)
-//        alert('thuongdt test:'+txt_thu_tcong+'--'+txt_chi_tcong)
-        jQuery('#txt_thu_tcong').val(toFormatNumber(txt_thu_tcong,0,'.'));
-        jQuery('#txt_chi_tcong').val(toFormatNumber(txt_chi_tcong,0,'.'));
+    //    alert(tong_thu+'--'+tong_chi)
+ //       alert('thuongdt test:'+txt_thu_tcong+'--'+txt_chi_tcong)
+        var vthu_tcong_format = '';
+        var vchi_tcong_format = '';
+        if(txt_thu_tcong<0){
+         // vthu_tcong_format = (''+txt_thu_tcong).substring(0,1)+toFormatNumber((''+txt_thu_tcong).substring(1),0,'.');
+         vthu_tcong_format = '0';
+        }else{
+        vthu_tcong_format = toFormatNumber(txt_thu_tcong,0,'.');
+        }
+      if(txt_chi_tcong<0){
+          vchi_tcong_format = '0';
+        }else{
+        vchi_tcong_format = toFormatNumber(txt_chi_tcong,0,'.')
+        }
+
+        jQuery('#txt_thu_tcong').val(vthu_tcong_format);
+        jQuery('#txt_chi_tcong').val(vchi_tcong_format);
         jQuery('#qtoan_thu').val(txt_thu_tcong);
         jQuery('#qtoan_chi').val(txt_chi_tcong);
 //        alert(jQuery('#qtoan_thu').val()+'----'+jQuery('#qtoan_chi').val());
@@ -1469,6 +1535,7 @@ function fncUpdateTCong(){
 //    e.parseNumber({ format: "#,##0", locale: "us" });
 //    e.formatNumber({ format: "#,##0", locale: "us" });
 //}
+
 //20170926 bo sung them ham disible tat ca cac button
 function disBt_onclick(){
   try
@@ -1492,6 +1559,7 @@ function disBt_onclick(){
     }
     return true;
 }
+
 </script>
 
 `

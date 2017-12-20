@@ -70,7 +70,7 @@
            bordercolor="#999999" width="100%">
    
       <tr>
-       <td width="55%" align="center" colspan="4" >
+       <td width="45%" align="center" colspan="4" >
              <div>
               Th&#244;ng tin NH &nbsp;         
                <html:select property="nhkb_nhan" styleId="abc" onchange="change()"
@@ -96,7 +96,7 @@
                  </tr>
                  <logic:empty name="colList">
                   <tr>
-                    <td colspan="5">
+                    <td colspan="6">
                       <font color="Red">Kh&#244;ng c&#243; b&#7843;ng k&#234; &#273;&#7889;i chi&#7871;u</font>
                     </td>
                   </tr>
@@ -158,64 +158,71 @@
            </div>
         </fieldset>
        </td>
-       <td width="45%">
+       <td width="55%">
         <fieldset>
         <legend><font color="Blue">T&#7893;ng h&#7907;p b&#7843;ng k&#234;</font></legend>
         
-         <div style="height:185px;">
-          <table width="100%" cellspacing="2" cellpadding="2"
-                 bordercolor="#e1e1e1" border="1" align="center"
-                 style="BORDER-COLLAPSE: collapse">
-              <logic:empty name="colTHBK">
-                <td colspan="4">
-                  <font color="red">Thông tin tổng hợp bảng kê</font>     
+           <div> 
+              <table width="97%" cellspacing="0" border="1" bordercolor="#999999" style="BORDER-COLLAPSE: collapse" >
+                <tr style="height : 30px">
+                  <th width="22%">Số dư tài khoản đầu ngày</th>
+                  <th width="22%">Tổng quyết toán chi toàn quốc</th>
+                  <th width="22%">Tổng quyết toán thu toàn quốc</th>
+                  <th width="22%">Số dư cuối ngày</th>
+                  <th width="12%">Loại tiền</th>
+                </tr>
+                <logic:empty name="colTHBK">
+                  <tr>
+                    <td colspan="5">
+                      <font color="Red">Không có thông tin bảng kê</font>
+                    </td>
+                  </tr>
+                </logic:empty>
+               <logic:notEmpty name="colTHBK">
+                  <logic:iterate id="UDlist" name="colTHBK" indexId="index">
+                  <tbody>
+                  <tr>
+                  
+               <td align="right">               
+                     <fmt:setLocale value="vi_VI"/>
+                      <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
+                        <bean:write name="UDlist" property="sodu_daungay"/>
+                      </fmt:formatNumber>
                 </td>
-              </logic:empty>
-             <logic:notEmpty name="colTHBK">
-             <logic:iterate id="UDlist" name="colTHBK" indexId="index">
-             <tr>
-               <td width="70%">Số dư tài khoản đầu ngày</td>
-               <td align="right">
-               <fmt:setLocale value="us_US"/>
-                  <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
-               <bean:write name="UDlist" property="sodu_daungay"/>
-                </fmt:formatNumber>
-               <html:hidden property="kq_id" name="UDlist"/>
-               <html:hidden property="bk_id" name="UDlist"/>
-               <html:hidden property="send_bank" name="UDlist"/>
-               </td>
-             </tr>
-             <tr>
-               <td>Tổng quyết toán chi toàn quốc</td>
-               <td align="right">
-               <fmt:setLocale value="us_US"/>
-                  <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
-                <bean:write name="UDlist" property="tong_chi" />
-                </fmt:formatNumber>
+                <td align="right">
+                   <fmt:setLocale value="vi_VI"/>
+                    <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
+                    <bean:write name="UDlist" property="tong_chi" />
+                    </fmt:formatNumber>
                 </td>
-             </tr>
-             <tr>
-               <td>Tổng quyết toán thu toàn quốc</td>
-               <td align="right">    
-               <fmt:setLocale value="us_US"/>
+                <td align="right">    
+                   <fmt:setLocale value="vi_VI"/>
                   <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
-              <bean:write name="UDlist" property="tong_thu" />
-              </fmt:formatNumber>
-              </td>
-             </tr>
-             <tr>
-               <td><fmt:message key="doi_chieu.page.lagle.sdutkcuoingay"/></td>
-               <td align="right" >             
-               <fmt:setLocale value="us_US"/>
-                  <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
-               <bean:write name="UDlist" property="so_du_cuoi_ngay"/>
-               </fmt:formatNumber>
-               </td>
-             </tr>
-                </logic:iterate>
-             </logic:notEmpty>
-         </table>
-         </div>
+                    <bean:write name="UDlist" property="tong_thu" />
+                  </fmt:formatNumber>
+                </td>
+                <td align="right" >             
+                   <fmt:setLocale value="vi_VI"/>
+                    <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
+                   <bean:write name="UDlist" property="so_du_cuoi_ngay"/>
+                   </fmt:formatNumber>
+                </td>
+                <td align="center"><bean:write name="UDlist" property="loai_tien"/></td>
+                </tr>
+                </tbody>
+                <input type="hidden" name="kq_id_name" value="<bean:write name="UDlist" property="kq_id"/>" >
+                  </logic:iterate>
+                  </logic:notEmpty>
+                
+                
+              </table>
+          </div>
+          <div style="height:200px;" class="ui-jqgrid-bdiv ui-widget-content">
+            <table width="99%" cellspacing="0" cellpadding="1"
+                     bordercolor="#e1e1e1" border="1" align="center"
+                     style="BORDER-COLLAPSE: collapse" id="thong_tin_bang_ke">
+            </table>
+          </div>
         </fieldset>
        
        </td>
@@ -271,25 +278,25 @@
                     <td align="center">
                       <bean:write name="items" property="ma_kb"/>
                     </td>
-                    <td align="center">
+                    <td align="left">
                       <bean:write name="items" property="ten_kb"/>
                     </td>
                      <td align="center">
                       <bean:write name="items" property="ngay_ct"/>
                     </td>
-                    <td align="center">
+                    <td align="right">
                     <fmt:setLocale value="us_US"/>
                   <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
                       <bean:write name="items" property="so_tien"/>
                     </fmt:formatNumber>
                     </td>
-                   
-                    <td align="center">
+                   <!--20171124 thuongdt sua SGD KBNN sang Cục KT - KBNN -->
+                    <td align="left">
                       <logic:equal value="00" property="trang_thai" name="items">
-                        SGD KBNN thiếu  – Hội sở chính NH thừa
+                        Cục KT - KBNN thiếu  – Hội sở chính NH thừa
                       </logic:equal>
                       <logic:equal value="01" property="trang_thai" name="items">
-                         SGD KBNN  thừa – Hội sở chính NH thiếu 
+                         Cục KT - KBNN thừa – Hội sở chính NH thiếu 
                       </logic:equal>
                     </td>
                   </tr>
@@ -343,25 +350,25 @@
                     <td align="center">
                       <bean:write name="items" property="ma_kb"/>
                     </td>
-                    <td align="center">
+                    <td align="left">
                       <bean:write name="items" property="ten_kb"/>
                     </td>
                      <td align="center">
                       <bean:write name="items" property="ngay_ct"/>
                     </td>
-                    <td align="center">
+                    <td align="right">
                     <fmt:setLocale value="us_US"/>
                   <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
                       <bean:write name="items" property="so_tien"/>
                     </fmt:formatNumber>
                     </td>
-                   
-                    <td align="center">
+                   <!--20171124 thuongdt sua SGD KBNN sang Cục KT - KBNN -->
+                    <td align="left">
                       <logic:equal value="00" property="trang_thai" name="items">
-                        SGD KBNN thiếu  – Hội sở chính NH thừa
+                        Cục KT - KBNN thiếu  – Hội sở chính NH thừa
                       </logic:equal>
                       <logic:equal value="01" property="trang_thai" name="items">
-                         SGD KBNN  thừa – Hội sở chính NH thiếu 
+                        Cục KT - KBNN thừa – Hội sở chính NH thiếu 
                       </logic:equal>
                     </td>
                     
@@ -386,7 +393,7 @@
         </td>
       </tr>
 </table>
-    
+    <html:hidden property="kq_id" id = "kq_id" value=""/>
   </html:form>
 </div>
 <%@ include file="/includes/ttsp_bottom.inc"%>
@@ -414,6 +421,8 @@
   function check(type) {  
   var f = document.forms[0];
     if (type == 'create') {
+    
+      document.getElementsByName("kq_id")[0].value = document.getElementsByName("kq_id_name")[0].value;                   
       f.action = 'DuyetXNDChieu3NgoaiTeAction.do';
     }
       if (type == 'print') {
@@ -444,7 +453,16 @@
   function ky(){
     	try {
             var cert = jQuery("#eSign")[0];
-            cert.InitCert();                   
+            cert.InitCert();    
+            
+           // 20171120 thuongdt bo sung canh bao han su dung CTS
+             var strdomain = '<%=strdomain%>';
+            var struser_name = '<%=struser_name%>';
+            var strcheckcts = '<%=strcheckcts%>';           
+            if(!checkCTSdate(cert,strdomain+'/'+struser_name,strcheckcts)){
+             return false;
+            }
+            
             var serial = cert.Serial;
             jQuery("#certserial").val(serial);            
             var noi_dung_ky = jQuery("#noi_dung_ky").val();      

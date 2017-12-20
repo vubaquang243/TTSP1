@@ -225,6 +225,17 @@ function defaultRowSelectedQT() {
         fillDataQuyetToan(input_default.val(), row_default);
         rowSelectedFocusQT(row_default);
     }
+     var nhap_thu_cong = jQuery('tr#row_qt_0').find('#nhap_thu_cong').val();
+     var trang_thai = jQuery('tr#row_qt_0').find('input#trang_thai').val();
+      if(nhap_thu_cong == "Y" && trang_thai == "02"){
+        jQuery('#btnUpdate').show();
+        jQuery('#btnUpdate').click(function(){
+          document.forms[0].action = "updateLenhQuyetToan.do";
+          document.forms[0].submit();
+        });
+      }else{
+        jQuery('#btnUpdate').hide();
+      }
 }
 
 function classRowHighLight(tr_id) {

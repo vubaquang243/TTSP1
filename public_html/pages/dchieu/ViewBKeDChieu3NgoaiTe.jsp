@@ -149,7 +149,7 @@
              <tr>
                <td width="70%"><fmt:message key="doi_chieu.page.lagle.sdutkdaungay"/></td>
                <td align="right">
-               <fmt:setLocale value="us_US"/>
+               <fmt:setLocale value="vi_VI"/>
                   <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
                <bean:write name="UDlist" property="sodu_daungay"/>
                 </fmt:formatNumber>
@@ -160,7 +160,7 @@
              <tr>
                <td><fmt:message key="doi_chieu.page.lagle.tongchitrongngay"/></td>
                <td align="right">
-               <fmt:setLocale value="us_US"/>
+               <fmt:setLocale value="vi_VI"/>
                   <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
                 <bean:write name="UDlist" property="tong_chi"/>
                 </fmt:formatNumber>
@@ -169,7 +169,7 @@
              <tr>
                <td><fmt:message key="doi_chieu.page.lagle.tongthutrongngay"/></td>
                <td align="right"> 
-               <fmt:setLocale value="us_US"/>
+               <fmt:setLocale value="vi_VI"/>
                   <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
               <bean:write name="UDlist" property="tong_thu"/>
               </fmt:formatNumber>
@@ -178,7 +178,7 @@
              <tr>
                <td><fmt:message key="doi_chieu.page.lagle.sdutkcuoingay"/></td>
                <td align="right" > 
-               <fmt:setLocale value="us_US"/>
+               <fmt:setLocale value="vi_VI"/>
                   <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
                <bean:write name="UDlist" property="so_du_cuoi_ngay"/>
                </fmt:formatNumber>
@@ -265,18 +265,18 @@
                       <bean:write name="items" property="loai_tien"/>
                     </td>
                     <td align="center">
-                    <fmt:setLocale value="us_US"/>
+                    <fmt:setLocale value="vi_VI"/>
                   <fmt:formatNumber maxFractionDigits="5"  type="currency"  currencySymbol="">
                       <bean:write name="items" property="so_tien"/>
                   </fmt:formatNumber>
                     </td>
-                   
+                    <!--20171124 thuongdt sua SGD KBNN sang Cục KT - KBNN -->
                     <td align="center">
                       <logic:equal value="00" property="trang_thai" name="items">
-                        SGD KBNN thiếu  – Hội sở chính NH thừa
+                        Cục KT - KBNN thiếu  – Hội sở chính NH thừa
                       </logic:equal>
                       <logic:equal value="01" property="trang_thai" name="items">
-                         SGD KBNN  thừa – Hội sở chính NH thiếu 
+                        Cục KT - KBNN thừa – Hội sở chính NH thiếu 
                       </logic:equal>
                     </td>
                   </tr>
@@ -337,18 +337,18 @@
                       <bean:write name="items" property="ngay_ct"/>
                     </td>
                     <td align="center">
-                    <fmt:setLocale value="us_US"/>
+                    <fmt:setLocale value="vi_VI"/>
                   <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
                       <bean:write name="items" property="so_tien"/>
                     </fmt:formatNumber>
                     </td>
-                   
+                    <!--20171124 thuongdt sua SGD KBNN sang Cục KT - KBNN -->
                     <td align="center">
                       <logic:equal value="00" property="trang_thai" name="items">
-                        SGD KBNN thiếu  – Hội sở chính NH thừa
+                        Cục KT - KBNN thiếu  – Hội sở chính NH thừa
                       </logic:equal>
                       <logic:equal value="01" property="trang_thai" name="items">
-                         SGD KBNN  thừa – Hội sở chính NH thiếu 
+                         Cục KT - KBNN thừa – Hội sở chính NH thiếu 
                       </logic:equal>
                     </td>
                     

@@ -1,15 +1,21 @@
 package com.seatech.ttsp.tknhkb;
 
 import com.seatech.framework.datamanager.EncodeUtil;
-
+/**
+ * @modify: thuongdt
+ * @modify-date: 30/10/2017
+ * @see: chuyen han han_muc_no,han_muc_co tu long sang float de thiet lap duoc so du le
+ * @find: 20171030
+ * */
 public class TKNHKBacVO {
     private Long id;
     private Long kb_id;
     private String so_tk;
     private Long nh_id;
     private String trang_thai;
-    private Long han_muc_no;
-    private Long han_muc_co;
+  //20171030
+    private String han_muc_no;
+    private String han_muc_co;
     private String hieu_luc_tungay;
     private String hieu_luc_den_ngay;
     private String ma_nh;
@@ -65,22 +71,6 @@ public class TKNHKBacVO {
 
     public String getTrang_thai() {
         return trang_thai;
-    }
-
-    public void setHan_muc_no(Long han_muc_no) {
-        this.han_muc_no = han_muc_no;
-    }
-
-    public Long getHan_muc_no() {
-        return han_muc_no;
-    }
-
-    public void setHan_muc_co(Long han_muc_co) {
-        this.han_muc_co = han_muc_co;
-    }
-
-    public Long getHan_muc_co() {
-        return han_muc_co;
     }
 
     public void setHieu_luc_tungay(String hieu_luc_tungay) {
@@ -201,5 +191,32 @@ public class TKNHKBacVO {
         if(loai_tk.equals("02")) typeAccount = "TT";
         if(loai_tk.equals("03")) typeAccount = "CT";
         return "( "+typeAccount+" - "+this.ma_nt +" ) - " + this.so_tk;
+    }
+
+  
+
+    public void setComboBoxPresentTK(String comboBoxPresentTK) {
+        this.comboBoxPresentTK = comboBoxPresentTK;
+    }
+
+    public String getComboBoxPresentTK1() {
+        return comboBoxPresentTK;
+    }
+
+
+    public void setHan_muc_no(String han_muc_no) {
+        this.han_muc_no = han_muc_no;
+    }
+
+    public String getHan_muc_no() {
+        return han_muc_no;
+    }
+
+    public void setHan_muc_co(String han_muc_co) {
+        this.han_muc_co = han_muc_co;
+    }
+
+    public String getHan_muc_co() {
+        return han_muc_co;
     }
 }

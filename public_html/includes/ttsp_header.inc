@@ -28,6 +28,8 @@
     <script type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/calendar/calendar-vi.js"></script>
     <SCRIPT type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/stm31.htm"></SCRIPT>
     <SCRIPT type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/tcs.htm"></SCRIPT>
+    <!-- 20171120 thuongdt bo sung file script dung chung -->
+    <SCRIPT type="text/javascript" src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/utils.js"></SCRIPT>
 </HEAD>
 <BODY>
 
@@ -36,10 +38,13 @@
     response.sendRedirect(request.getContextPath()+"/loginAction.do");
   }
   String tin_tuc = request.getAttribute("tin_tuc")==null?"":request.getAttribute("tin_tuc").toString();
+  String strdomain = request.getSession().getAttribute(AppConstants.APP_DOMAIN_SESSION)==null?"":request.getSession().getAttribute(AppConstants.APP_DOMAIN_SESSION).toString();
+  String struser_name = request.getSession().getAttribute(AppConstants.APP_USER_CODE_SESSION)==null?"":request.getSession().getAttribute(AppConstants.APP_USER_CODE_SESSION).toString();
+  String strcheckcts = request.getSession().getAttribute("checkcts")==null?"":request.getSession().getAttribute("checkcts").toString(); 
 %>
 
 <SCRIPT type="text/javascript">
-  var strChkKy="N";
+  var strChkKy="Y";
   function reLog()
 	{
     

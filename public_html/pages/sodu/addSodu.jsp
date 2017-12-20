@@ -32,9 +32,22 @@
       jQuery("#TCuuDMuc").submit();
   } 
 
-   
-  });
   
+  function changeValue(txt_id, allowNegativeNumber) {  
+      var value = jQuery("#"+txt_id +"").val().replace(/\s/g,"");
+      var loai_tien = jQuery("#loai_tien").val();
+      
+      if(allowNegativeNumber == undefined){
+        allowNegativeNumber = false;
+      }
+        
+        if(loai_tien == "VND"){
+          jQuery("#"+txt_id +"").val(CurrencyFormatted2(value, 'VND', allowNegativeNumber));
+        }else{
+          jQuery("#"+txt_id +"").val(CurrencyFormatted2(value, 'USD', allowNegativeNumber));
+        }
+
+  }
   function check(type) {
       var f = document.forms[0];
 
@@ -107,9 +120,10 @@
                            maxlength="200" 
                            styleId="so_du"
                            onfocus="this.style.backgroundColor='#ffffb5'"
-                           onkeypress="return numberBlockKey(event)"
-                           onkeyup="checkKey123('so_du')"
-                           styleClass="promptText"/>
+                           onblur="if (this.value !='') {changeValue('so_du',true);};textlostfocus(this); this.style.backgroundColor='#ffffff';" 
+                          onkeypress="return numbersonly2(event,false) "
+                           styleClass="promptText"
+                           style="text-align:right"/>
             <font color="Red">(*)</font>
             </td>
             </tr>
@@ -141,9 +155,10 @@
                            maxlength="200" 
                            styleId="so_du_cot"
                            onfocus="this.style.backgroundColor='#ffffb5'"
-                           onkeypress="return numberBlockKey(event)"
-                           onkeyup="checkKey123('so_du_cot')"                           
-                           styleClass="promptText"/>
+                           onblur="this.style.backgroundColor='#ffffff';textlostfocus(this);if (this.value !='') {changeValue('so_du_cot');}"
+                           onkeypress="return numbersonly2(event,true) "                         
+                           styleClass="promptText"
+                           style="text-align:right"/>
             </td>
         </tr>
         <tr>
@@ -152,7 +167,8 @@
               </td>
               <td >
                     <html:select styleClass="selectBox" property="loai_tien"
-                                           styleId="loai_tien" style="width:125px;height:20px">
+                                           styleId="loai_tien" style="width:125px;height:20px"
+                                           onchange="changeValue('so_du_cot');changeValue('so_du',true);">
                         <html:option value="VND">VND</html:option>
                         <html:optionsCollection value="ma" label="ma" name="lstLoaiTien"/>
                     </html:select><font color="Red">(*)</font>
@@ -186,7 +202,7 @@
           </td>
           <td align="left">
               <html:hidden property="id" 
-                           style="width:90%" 
+                           style="width:125px" 
                            maxlength="8"
                            styleId="id"
                            onkeypress="return numberBlockKey(event)"
@@ -198,7 +214,7 @@
             </td>
             <td align="left">
               <html:hidden property="insert_date"
-                           style="width:90%"
+                           style="width:125px"
                            maxlength="200" 
                            styleId="insert_date"
                            onfocus="this.style.backgroundColor='#ffffb5'"
@@ -346,17 +362,5 @@
         }
     }
   }
-  
-   function changeValue(value) {
-      if (isNaN(value))
-          value = 0;
-      jQuery("#so_du_cot").val(value);
-      jQuery("#so_du_cot").val(CurrencyFormatted(value, 'VND'));
-  }
-  function changeValue1(value) {
-      if (isNaN(value))
-          value = 0;
-      jQuery("#so_du").val(value);
-      jQuery("#so_du").val(CurrencyFormatted(value, 'VND'));
-  }
+
 </script>

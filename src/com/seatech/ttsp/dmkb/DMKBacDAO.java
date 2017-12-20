@@ -117,6 +117,34 @@ public class DMKBacDAO extends AppDAO {
         return reval;
     }
 
+  public Collection getDMNHKBList1(String whereClause,
+                                  Vector params) throws Exception {
+
+      Collection reval = null;
+      try {
+
+          StringBuffer strSQL = new StringBuffer();
+
+          strSQL.append("SELECT distinct a.ma, a.ten, a.tinhtrang, a.id, a.ma_cha, a.id_cha, a.loai, ");
+          strSQL.append("a.ma_t, a.ma_h, a.cap ");
+          strSQL.append("FROM sp_dm_htkb a left join sp_dm_manh_shkb b on a.ma=b.shkb ");
+          if (whereClause != null && !STRING_EMPTY.equals(whereClause)) {
+              strSQL.append(" WHERE " + whereClause);
+          }
+          strSQL.append(" order by  a.ten");
+          reval =
+                  executeSelectStatement(strSQL.toString(), params, CLASS_NAME_VO,
+                                         this.conn);
+      } catch (Exception ex) {
+          DAOException daoEx =
+              new DAOException(CLASS_NAME_DAO + ".getDMKBList(): " +
+                               ex.getMessage(), ex);
+          //            daoEx.printStackTrace();
+          throw daoEx;
+      }
+      return reval;
+  }
+
     public Collection getDMKBListWithPading(String whereClause, Vector params,
                                             Integer page, Integer rowPerPage,
                                             Integer[] totalCount) throws Exception {

@@ -72,7 +72,7 @@ public class QuanLyNSDAction extends AppAction {
         Long lnsd_id = null;
         //        String strwhere_nhom = null;
         String strNhom_id = null;
-
+        
         try {
 
             conn = getConnection(request);
@@ -102,7 +102,7 @@ public class QuanLyNSDAction extends AppAction {
             String strmaNsd = f.getMa_nsd();
             String strmaKB = f.getMa_kb();
             String strtrangThai = f.getTrang_thai();
-
+            
 
             // khai bao bien phan trang.
             String page = f.getPageNumber();
@@ -132,12 +132,6 @@ public class QuanLyNSDAction extends AppAction {
                             "%') ";
                 }
 
-                if (strten != null && !strten.equals("")) {
-                    strWhere +=
-                            " and lower(a.ten_nsd) like lower('%" + strten +
-                            "%') ";
-                }
-
                 if (strmaKB != null && !strmaKB.equals("")) {
                     strWhere += " and b.ma =" + strmaKB;
                 }
@@ -158,11 +152,12 @@ public class QuanLyNSDAction extends AppAction {
                             " and lower(a.ma_nsd) like lower('%" + strmaNsd +
                             "%') ";
                 }
-                if (lkb_id != null && !lkb_id.equals("")) {
+                if (kb_code != null && !kb_code.equals("")) {
                     strWhere +=
-                            " and (b.id =" + lkb_id + " or  b.id_cha =" + lkb_id +
+                            " and (b.ma =" + kb_code + " or  b.ma_cha =" + kb_code +
                             ")";
                 }
+				//20171023 taidd bo sung code dap ung tra cuu theo phan quyen nsd begin
                 if (strtrangThai != null && !strtrangThai.equals("")) {
                     strWhere +=
                             " and lower(a.trang_thai) like lower('%" + strtrangThai +
@@ -171,6 +166,30 @@ public class QuanLyNSDAction extends AppAction {
                 if (strmaKB != null && !strmaKB.equals("")) {
                     strWhere += " and b.ma =" + strmaKB;
                 }
+            }else{
+              if (strten != null && !strten.equals("")) {
+                  strWhere +=
+                          " and lower(a.ten_nsd) like lower('%" + strten +
+                          "%') ";
+              }
+              if (strmaNsd != null && !strmaNsd.equals("")) {
+                  strWhere +=
+                          " and lower(a.ma_nsd) like lower('%" + strmaNsd +
+                          "%') ";
+              }
+              if (kb_code != null && !kb_code.equals("")) {
+                  strWhere +=
+                          " and b.ma =" + kb_code + " ";
+			  //20171023 taidd bo sung code dap ung tra cuu theo phan quyen nsd end
+              }
+              if (strtrangThai != null && !strtrangThai.equals("")) {
+                  strWhere +=
+                          " and lower(a.trang_thai) like lower('%" + strtrangThai +
+                          "%') ";
+              }
+              if (strmaKB != null && !strmaKB.equals("")) {
+                  strWhere += " and b.ma =" + strmaKB;
+              }
             }
 
 
@@ -567,7 +586,7 @@ public class QuanLyNSDAction extends AppAction {
                         str1 = new StringBuffer();
                         str1.append("'KTT','GD','TTV'");
                     }
-                    str3 = " and id not in (481, 482) ";
+                    str3 = " and a.id in (345, 346,347, 2000)";
 
                 }
             }
@@ -681,7 +700,7 @@ public class QuanLyNSDAction extends AppAction {
                 if (temp[i].toString().equalsIgnoreCase("QTHT-DV")) {
 
                     DMKBacDAO kb_dao = new DMKBacDAO(conn);
-                    String str_kb = " a.ma_cha = " + strkb_id;
+                    String str_kb = " ( a.ma_cha = " + strkb_id + " or a.ma =" + strkb_id + " ) ";
                     str_kb += " and a.id = ?";
                     prama_kb = new Vector();
                     Collection co_kb = null;
@@ -1189,6 +1208,8 @@ public class QuanLyNSDAction extends AppAction {
             conn = getConnection(request);
             quyen =
                     (session.getAttribute(AppConstants.APP_ROLE_LIST_SESSION).toString());
+            Long nUserID =
+              new Long(session.getAttribute(AppConstants.APP_USER_ID_SESSION).toString());
             String[] temp = quyen.split("\\|");
             QuanLyNSDForm f = (QuanLyNSDForm)form;
             //            String id_kb = request.getParameter("id_kb");
@@ -1295,9 +1316,9 @@ public class QuanLyNSDAction extends AppAction {
                     temp[i].toString().equalsIgnoreCase("CBPT-TTTT")) {
 
                     if (!"".equals(strNhom_nsd)) {
-                        strNhom_nsd += " and a.loai_nhom in ('GD','KTT')";
+                        strNhom_nsd += " and a.loai_nhom in ()";
                     } else {
-                        strNhom_nsd += " a.loai_nhom in ('GD','KTT')";
+                        strNhom_nsd += " a.loai_nhom in ()";
                     }
                     coll_nhom_nsd =
                             dao_nhom_nsd.getNhomNSDList(strNhom_nsd, param_nhom_nsd);
@@ -1333,6 +1354,7 @@ public class QuanLyNSDAction extends AppAction {
 
             //
             if (null != use_vo || null != nhom_vo) {
+            
                 return mapping.findForward(SUCCESS);
             } else {
                 f.setMa_kb(null);
@@ -1725,11 +1747,11 @@ public class QuanLyNSDAction extends AppAction {
                 vParam.add(new Parameter(f.getId(), true));
                 vo = dao.getUser(strWhere, vParam);
                 if (vo.getTgian_truycap() == null) {
-                    if (vo == null) {
+                if (vo == null) {
                         request.setAttribute("status",
                                              "quanlynsd.listnsd.warning.manv.daxoa");
                         request.setAttribute("nsdID", nsdID);
-                    } else {
+                } else {
                         NhomNSDDAO nsddao = new NhomNSDDAO(conn);
                         Collection coll =
                             nsddao.getNhomNSDListByUserID(new Long(f.getId()));

@@ -310,13 +310,12 @@ public class TrienKhaiAction extends AppAction {
                 TKNHKBacVO vo = null;
                 if ("check".equals(strType)) {
                     String strWhere =
-                        " AND b.ma_nh = ? AND c.ma = ? AND a.ma_nt = ? AND a.trang_thai = ? AND a.loai_tk = ? AND a.loai_gd = ?"; //chinh s?a ng�y 12/3 th�m t�i kho?n
+                        " AND b.ma_nh = ? AND c.ma = ? AND a.ma_nt = ? AND a.trang_thai = ? AND a.loai_gd = ?"; //chinh s?a ng�y 12/3 th�m t�i kho?n
                     Vector vParam = new Vector();
                     vParam.add(new Parameter(tkForm.getMa(), true));
                     vParam.add(new Parameter(tkForm.getShkb(), true));
                     vParam.add(new Parameter(tkForm.getLoai_tien_kt().toUpperCase(), true));
                     vParam.add(new Parameter("01", true));
-                    vParam.add(new Parameter(tkForm.getLoai_tk(),true)); //chinh sua ng�y 12/3 th�m t�i khoan
                     vParam.add(new Parameter(tkForm.getLoai_gd(),true)); //chinh sua ng�y 14/3 th�m loai gd
                     
                     Collection coll = dao.getTK_NH_KB(strWhere, vParam);
@@ -341,9 +340,10 @@ public class TrienKhaiAction extends AppAction {
                     } else {
                         tkForm.setMa_cn_nh(tkForm.getMa());
                         tkForm.setLoai_tien(tkForm.getLoai_tien_kt());
-                        tkForm.setSo_tk("");
-                        tkForm.setHan_muc_co(0L);
-                        tkForm.setHan_muc_no(0L);
+                        tkForm.setSo_tk("");                        
+                        //20171030 thuongdt chuyen type =>> ngoai te co so le
+                        tkForm.setHan_muc_co("0");
+                        tkForm.setHan_muc_no("0");
                         tkForm.setType_srv("INSERT");
                     }
                 } else if ("save".equals(strType)) {
@@ -485,19 +485,20 @@ public class TrienKhaiAction extends AppAction {
                         }
                         if (rownum > 0) {
                             strSQL =
-                                    "update sp_so_du set so_du =?, so_du_cot = ? where ma_kb = ? and ma_nh = ? and loai_tien =? and ngay_gd = TO_DATE(?,'dd/mm/yyyy')";
+                                    "update sp_so_du set so_du =?, so_du_cot = ?, loai_tk = ? where ma_kb = ? and ma_nh = ? and loai_tien =? and ngay_gd = TO_DATE(?,'dd/mm/yyyy')";
                             pstt = conn.prepareStatement(strSQL);
                             pstt.setBigDecimal(1, tkForm.getSo_du());
                             pstt.setBigDecimal(2, tkForm.getSo_du());
-                            pstt.setString(3, tkForm.getMa_nh());
-                            pstt.setString(4, tkForm.getMa_cn_nh());
-                            pstt.setString(5, tkForm.getLoai_tien());
-                            pstt.setString(6, tkForm.getNgay_du_cuoi());
+                            pstt.setString(3, tkForm.getLoai_tk());
+                            pstt.setString(4, tkForm.getMa_nh());
+                            pstt.setString(5, tkForm.getMa_cn_nh());
+                            pstt.setString(6, tkForm.getLoai_tien());
+                            pstt.setString(7, tkForm.getNgay_du_cuoi());
                         } else {
 
                             strSQL =
-                                    "insert into sp_so_du(id, ma_kb, ma_nh, ngay_gd, so_du, insert_date, so_du_cot, loai_tien)" +
-                                    " values(sp_so_du_seq.nextval,?,?,TO_DATE(?,'dd/mm/yyyy'),?,SYSDATE,?,?)";
+                                    "insert into sp_so_du(id, ma_kb, ma_nh, ngay_gd, so_du, insert_date, so_du_cot, loai_tien, loai_tk)" +
+                                    " values(sp_so_du_seq.nextval,?,?,TO_DATE(?,'dd/mm/yyyy'),?,SYSDATE,?,?,?)";
                             pstt = conn.prepareStatement(strSQL);
                             pstt.setString(1, tkForm.getMa_nh());
                             pstt.setString(2, tkForm.getMa_cn_nh());
@@ -505,6 +506,7 @@ public class TrienKhaiAction extends AppAction {
                             pstt.setBigDecimal(4, tkForm.getSo_du());
                             pstt.setBigDecimal(5, tkForm.getSo_du());
                             pstt.setString(6, tkForm.getLoai_tien());
+                            pstt.setString(7, tkForm.getLoai_tk());
                         }
 
                         pstt.executeUpdate();

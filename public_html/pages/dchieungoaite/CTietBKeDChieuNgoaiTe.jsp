@@ -37,7 +37,7 @@
   <html:errors/>
 </div>
 <div class="box_common_conten">
-  <fmt:setLocale value="en_US"/>
+  <fmt:setLocale value="vi_VI"/>
   
   <html:form action="DChieuNgoaiTeAction.do" method="post" >
    <table border="0" cellspacing="0" cellpadding="0" width="100%"
@@ -60,7 +60,7 @@
        <td>
         <fieldset>
         <legend><font color="Blue">T&#7893;ng h&#7907;p b&#7843;ng k&#234;</font></legend>
-         <div style="height:100px;">  
+         <div >  
           <table width="80%" cellspacing="0" cellpadding="1"
                  bordercolor="#e1e1e1" border="1" align="center"
                  style="BORDER-COLLAPSE: collapse">

@@ -15,6 +15,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 
+import java.sql.SQLException;
 import java.sql.Types;
 
 import java.util.ArrayList;
@@ -76,6 +77,8 @@ public class DChieu1DAO extends AppDAO {
         "com.seatech.ttsp.dchieu.XNKQDCDataVO";
     private String strValueObjectDNQTVO = "com.seatech.ttsp.dchieu.DNQTVO"; 
   private String strGDTCongVO = "com.seatech.ttsp.dchieu.GDichTCongVO";
+  //20171122 thuongdt bo sung them moi chuc nang tra cuu
+  private String THopQTThuChiVO = "com.seatech.ttsp.dchieu.THopQTThuChiVO";
     Connection conn = null;
 
     public DChieu1DAO(Connection conn) {
@@ -380,14 +383,14 @@ public class DChieu1DAO extends AppDAO {
                  "    CASE WHEN a.ngay_ts <> b.ngay_ts then 'NGAY_TS; ' ELSE '' END ||" + 
                  "    CASE WHEN a.loai_tien <> b.loai_tien then 'LOAI_TIEN; ' ELSE '' END " + 
                  "    as ly_do," +
-                 "    CASE WHEN a.f32as3 <> b.f32as3 then a.f32as3||','|| b.f32as3||'; ' ELSE '' END ||" + 
-                 "    CASE WHEN a.send_bank <> b.send_bank then a.send_bank||','|| b.send_bank||'; ' ELSE '' END ||" + 
-                 "    CASE WHEN a.receive_bank <> b.receive_bank then a.receive_bank||','|| b.receive_bank||'; ' ELSE '' END ||" + 
-                 "    CASE WHEN a.ngay_ct <> b.ngay_ct then a.ngay_ct||','|| b.ngay_ct||'; ' ELSE '' END ||" + 
-                 "    CASE WHEN a.f20 <> b.f20 then a.f20||','|| b.f20||'; ' ELSE '' END ||" + 
-                 "    CASE WHEN a.send_date <> b.send_date then a.send_date||','|| b.send_date||'; ' ELSE '' END ||" + 
-                 "    CASE WHEN a.ngay_ts <> b.ngay_ts then a.ngay_ts||','|| b.ngay_ts||'; ' ELSE '' END ||" + 
-                 "    CASE WHEN a.loai_tien <> b.loai_tien then a.loai_tien||','|| b.loai_tien||'; ' ELSE '' END     as ctiet_ly_do "+
+                 "    CASE WHEN a.f32as3 <> b.f32as3 then decode(a.TRANG_THAI,1,'KB:','NH:') ||a.f32as3||','|| decode(b.TRANG_THAI,1,'KB:','NH:') ||b.f32as3||'; ' ELSE '' END ||" + 
+                 "    CASE WHEN a.send_bank <> b.send_bank then decode(a.TRANG_THAI,1,'KB:','NH:') ||a.send_bank||','|| decode(b.TRANG_THAI,1,'KB:','NH:') ||b.send_bank||'; ' ELSE '' END ||" + 
+                 "    CASE WHEN a.receive_bank <> b.receive_bank then decode(a.TRANG_THAI,1,'KB:','NH:') ||a.receive_bank||','|| decode(b.TRANG_THAI,1,'KB:','NH:') ||b.receive_bank||'; ' ELSE '' END ||" + 
+                 "    CASE WHEN a.ngay_ct <> b.ngay_ct then decode(a.TRANG_THAI,1,'KB:','NH:') ||a.ngay_ct||','|| decode(b.TRANG_THAI,1,'KB:','NH:') ||b.ngay_ct||'; ' ELSE '' END ||" + 
+                 "    CASE WHEN a.f20 <> b.f20 then decode(a.TRANG_THAI,1,'KB:','NH:')||a.f20||','|| decode(b.TRANG_THAI,1,'KB:','NH:')||b.f20||'; ' ELSE '' END ||" + 
+                 "    CASE WHEN a.send_date <> b.send_date then decode(a.TRANG_THAI,1,'KB:','NH:') ||a.send_date||','|| decode(b.TRANG_THAI,1,'KB:','NH:') ||b.send_date||'; ' ELSE '' END ||" + 
+                 "    CASE WHEN a.ngay_ts <> b.ngay_ts then decode(a.TRANG_THAI,1,'KB:','NH:') ||a.ngay_ts||','|| decode(b.TRANG_THAI,1,'KB:','NH:') ||b.ngay_ts||'; ' ELSE '' END ||" + 
+                 "    CASE WHEN a.loai_tien <> b.loai_tien then decode(a.TRANG_THAI,1,'KB:','NH:') ||a.loai_tien||','|| decode(b.TRANG_THAI,1,'KB:','NH:') ||b.loai_tien||'; ' ELSE '' END     as ctiet_ly_do "+
                  " FROM sp_065_dtl a" + 
                  " JOIN sp_065_dtl b using(mt_id) WHERE a.bkq_id = b.bkq_id AND a.trang_thai = '0' AND b.trang_thai = '1' AND a.bkq_id = '"+strbke_id+"') "+
           
@@ -561,9 +564,9 @@ public class DChieu1DAO extends AppDAO {
         try {
 
             String strSQL = "";
-
+       //20171121 thuongdt bo sung them ten ngan hang: b.ten
             strSQL +=
-                    "SELECT distinct	a.id, a.bk_id, TO_CHAR (b.ngay, 'DD/MM/YYYY') ngay_dc," +
+                    "SELECT distinct	a.id, a.bk_id,b.ten, TO_CHAR (b.ngay, 'DD/MM/YYYY') ngay_dc," +
                     "			TO_CHAR (a.ngay_thuc_hien_dc, 'DD/MM/YYYY') ngay_thuc_hien_dc," +
                     "			a.ket_qua, a.lan_dc, a.send_bank, a.trang_thai, a.tthai_dxn_thop," +
                     "			b.ma_nh receive_bank, a.ket_qua_dxn_thop, a.tthai_ttin," +
@@ -889,6 +892,26 @@ public class DChieu1DAO extends AppDAO {
         return reval;
     }
     
+    public String getLaiChuyenThu(String strWhere) throws DatabaseConnectionFailureException,
+                                                          SelectStatementException,
+                                                          SQLException {
+        String strReturn = "0";
+        String strSQL = "SELECT	  a.ma_kb, a.ma_nh, a.ngay_gd,sum(nvl(a.so_thu,0)) lai_chuyen_thu " + 
+       " FROM	sp_gd_thu_cong a "  + 
+        "  WHERE a.NSD_ID is null  "+strWhere+"  group by a.ma_kb, a.ma_nh, a.ngay_gd";
+       ResultSet rs = executeSelectStatement(strSQL, null, conn);
+       if(rs.next()){
+          strReturn = rs.getString("lai_chuyen_thu");
+        }
+        return strReturn;        
+    }
+    
+   /**
+  * @create: thuongdt
+  * @Date: 09/10/2017
+  * @see: them moi getXNTHData_PS_T7 ham phuc vu tr cuu bang ke PHT ngay nghi
+  * @param: strbke_id ma bang ke,ma_nh ma ngan hang, ma_KB ma kho bac, ngay_ps ngay phat sinh
+  * */   
   public Collection getXNTHData_PS_T7(String strbke_id,
                                 Vector vParam,String ma_nh,String ma_KB,String ngay_ps) throws Exception {
 
@@ -949,6 +972,7 @@ public class DChieu1DAO extends AppDAO {
 //                  " vietnamesenumbertowords.CONVERT (SUM (NVL (a.so_thu, 0))) so_thu_chu," + 
 //                  " vietnamesenumbertowords.CONVERT (SUM (NVL (a.so_chi, 0))) so_chi_chu" + 
 //                  "  FROM	sp_gd_thu_cong a WHERE 1=1 " +strWhere + " group by a.ma_kb, a.ma_nh, a.ngay_gd";
+  
        //20171009 thuongdt sua sql bo sung tra cuu so lai chuyen thu
 //       strSQL +="select  a.ma_kb, a.ma_nh, a.ngay_gd,  so_thu, so_chi, so_thu_chu, so_chi_chu,nvl(b.lai_chuyen_thu,0)lai_chuyen_thu,b.lai_chuyen_thu_chu   from ( " + 
 //       " SELECT	 a.ma_kb, a.ma_nh, a.ngay_gd,  sum(nvl(a.so_thu,0)) so_thu, sum(nvl(a.so_chi,0)) so_chi, " + 
@@ -2088,6 +2112,9 @@ public class DChieu1DAO extends AppDAO {
 //              " WHERE    a.id = b.bk_id(+)" +
 //              "     AND a.ngay_dc(+) = c.ngay " +
 //              "     AND a.send_bank(+) = c.ma_nh AND a.receive_bank(+) = c.ma_kb  and c.ma='0002' " +//20170927 tai khoan chuyen sang cuc kt toan
+ 
+       // turning code lap doi chieu cham
+ 
         String strSQL =
             "SELECT DISTINCT a.id bk_id, b.id kq_id, substr(a.lan_dc,1,1) pham_vi_doi_chieu, a.lan_dc, a.SEND_BANK ma_nh," + 
             " a.send_bank," + 
@@ -2350,7 +2377,7 @@ public class DChieu1DAO extends AppDAO {
             String strSQL = "";
 
             strSQL +=
-                    " SELECT   DISTINCT a.ma, a.ten, a.id_cha, c.ten kb_tinh" + " FROM   sp_dm_htkb a, sp_tknh_kb b, sp_dm_htkb c" +
+                    " SELECT   DISTINCT a.id_cha, c.ten kb_tinh" + " FROM   sp_dm_htkb a, sp_tknh_kb b, sp_dm_htkb c" +
                     "	WHERE   1 = 1 AND a.id = b.kb_id AND a.id_cha = c.id ";
             strSQL += strWhere + " order by ltrim(REPLACE(c.ten,'KBNN',''))";
 
@@ -2390,6 +2417,10 @@ public class DChieu1DAO extends AppDAO {
       }
       return reval;
   }
+  
+  /*
+  20171009 thuongdt bo sung ham lay danh muc KB tinh bo sung them SGD v� cuc KTNN
+  */
   public Collection getDMucKB_Tinh2(String strWhere,
                                   Vector vParam) throws Exception {
 
@@ -2689,7 +2720,7 @@ public class DChieu1DAO extends AppDAO {
 
 
 
-
+// 20171117 thuongdt bo sung NGAY_BU_CHI theo yeu cau bo sung
     public Collection getLst066(String strWhere,
                                 Vector vParam, Integer page, Integer count,
                                 Integer[] totalCount) throws Exception {
@@ -2697,9 +2728,9 @@ public class DChieu1DAO extends AppDAO {
         try {
             String strSQL =
                 "SELECT	a.id,a.loai_tien, a.nhkb_chuyen, a.nhkb_nhan, a.nguoi_tao, a.ngay_tao," + 
-                " a.nguoi_ks, a.ngay_ks, to_char(a.ngay_qtoan,'DD/MM/YYYY') ngay_qtoan, a.loai_qtoan, a.qtoan_thu," + 
-                " a.qtoan_chi, a.ndung_qtoan, a.kq_dc_ttsp, a.kq_dc_pht, a.chu_ky," + 
-                " a.msg_id, a.trang_thai,a.trang_thai_qtoan, decode(a.ERROR_CODE,null,null,a.ERROR_CODE || ' - ' || a.error_desc) mo_ta " + 
+                " a.nguoi_ks, a.ngay_ks, to_char(a.ngay_qtoan,'DD/MM/YYYY') ngay_qtoan, a.loai_qtoan,  trunc(a.qtoan_thu,2) qtoan_thu," + 
+                "  trunc(a.qtoan_chi,2) qtoan_chi, a.ndung_qtoan, a.kq_dc_ttsp, a.kq_dc_pht, a.chu_ky," + 
+                " a.msg_id, a.trang_thai,a.trang_thai_qtoan, decode(a.ERROR_CODE,null,null,a.ERROR_CODE || ' - ' || a.error_desc) mo_ta, to_char(a.NGAY_BU_CHI,'DD/MM/YYYY') NGAY_BU_CHI " + 
                 " FROM	sp_066 a, sp_dm_manh_shkb c, sp_dm_htkb d" + 
                 " WHERE  c.shkb = d.ma AND a.nhkb_chuyen = c.ma_nh " +
                 strWhere + " order by to_char(a.ngay_qtoan,'YYYYMMDD') desc, nhkb_chuyen";
@@ -2898,6 +2929,80 @@ public class DChieu1DAO extends AppDAO {
       return bCheck066;
       
     }   
+//20171201 thuongdt them moi ham getDSachTHopThuChi phuc vu bao cao tra cuu thu chi toan quoc
+  public Collection getDSachTHopThuChi(String strWhere,
+                              Vector vParam,String loai_tien, Integer page,
+                                           Integer count,
+                                           Integer[] totalCount) throws Exception {
+      Collection reval = null;
+    String str065 = "sp_065_ngoai_te";
+      if("VND".equals(loai_tien) || "VNĐ".equals(loai_tien)  )
+       str065 = "sp_065";
+      try {
+          String strSQL =
+              " select to_char(a.NGAY_DC,'dd/MM/YYYY')NGAY_DC,e.TEN ten_kb,d.TEN ten_nh,a.LOAI_TIEN,a.TIEN_CHI_DTU_KBNN + a.TIEN_CHI_TCONG_KBNN  tong_ps_chi,a.TIEN_THU_DTU_KBNN + a.TIEN_THU_TCONG_KBNN + nvl(b.TONG_PS_PHT,0) tong_ps_thu " + 
+              " from "+str065+" a,"+str065+" b, SP_DM_NGAN_HANG d," + 
+              " SP_DM_HTKB e, SP_DM_MANH_SHKB f" + 
+              " where a.PHT_ID=b.ID(+)" + 
+              " and a.RECEIVE_BANK = d.MA_NH" + 
+              " and e.MA = f.SHKB" + 
+              " and f.MA_NH = a.SEND_BANK" + 
+             // " and a.APP_TYPE = 'TTSP' and b.APP_TYPE = 'PHT' " + 
+              " and a.APP_TYPE = 'TTSP'"+
+              " and a.id in(  SELECT   MAX (id)   FROM   "+str065+" a " + 
+                " WHERE   a.ket_qua = '0' " + strWhere+" GROUP BY   a.app_type," + 
+                " a.send_bank,a.receive_bank,a.ngay_dc)"+              
+              " order by a.NGAY_DC ";
+        reval= executeSelectWithPaging(conn, strSQL.toString(), vParam,
+                                       THopQTThuChiVO, page, count,
+                                       totalCount);
+      } catch (Exception ex) {
+          DAOException daoEx =
+              new DAOException(THopQTThuChiVO + ".getDSachTHopThuChi(): " +
+                               ex.getMessage(), ex);
+  //            daoEx.printStackTrace();
+          throw daoEx;
+      }
+      return reval;
+  }
+  //20171201 thuongdt them moi ham getTHopThuChi lay tong ket qua tra cuu tu ham getDSachTHopThuChi phuc vu bao cao tra cuu thu chi toan quoc
+  public THopQTThuChiVO getTHopThuChi(String strWhere,
+                              Vector vParam,String loai_tien) throws Exception {
+      THopQTThuChiVO reval = new THopQTThuChiVO();
+    String str065 = "sp_065_ngoai_te";
+      if("VND".equals(loai_tien) || "VNĐ".equals(loai_tien)  )
+       str065 = "sp_065";
+      try {
+//          String strSQL =
+//              " select sum(a.TIEN_CHI_DTU_KBNN + a.TIEN_CHI_TCONG_KBNN)  tong_ps_chi,sum(a.TIEN_THU_DTU_KBNN + a.TIEN_THU_TCONG_KBNN + nvl(b.TONG_PS_PHT,0)) tong_ps_thu" + 
+//              " from "+str065+" a,"+str065+" b" + 
+//              " where a.PHT_ID=b.ID(+)" +               
+//              " and a.APP_TYPE = 'TTSP'" + 
+//              " and a.KET_QUA = '0' " +
+//              strWhere;
+          
+          String strSQL ="SELECT   SUM (b.tien_chi_dtu_kbnn) tong_ps_chi, " + 
+          "         SUM (b.tien_thu_dtu_kbnn) tong_ps_thu " + 
+          "  FROM   "+str065+" b " + 
+          " where  b.id IN " + 
+          "                 (  SELECT   MAX (a.id)" + 
+          "                      FROM   "+str065+" a , SP_DM_HTKB e, SP_DM_MANH_SHKB f" + 
+          "                     WHERE  e.MA = f.SHKB and f.MA_NH = a.SEND_BANK and a.ket_qua = '0' " + strWhere+
+          "                  GROUP BY   a.app_type," + 
+          "                             a.send_bank," + 
+          "                             a.receive_bank," + 
+          "                             a.ngay_dc)";
+             
+        reval= (THopQTThuChiVO)findByPK(strSQL, vParam, THopQTThuChiVO, conn);
+      } catch (Exception ex) {
+          DAOException daoEx =
+              new DAOException(THopQTThuChiVO + ".getDSachTHopThuChi(): " +
+                               ex.getMessage(), ex);
+  //            daoEx.printStackTrace();
+          throw daoEx;
+      }
+      return reval;
+  }
     
 }
 

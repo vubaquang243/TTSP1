@@ -118,7 +118,7 @@ public class QuanLyDKyCTSAction extends AppAction {
                     }
                 }
             }
-
+         //20171012 QuangVB bo sung tra cuu theo don vi
             String id_kb =
                 session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
             DMKBacDAO dmkbDAO = new DMKBacDAO(conn);

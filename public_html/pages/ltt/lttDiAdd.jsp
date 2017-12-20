@@ -5,8 +5,8 @@
 <%@ taglib uri="/WEB-INF/tlds/struts-bean.tld" prefix="bean"%>
 <%@ page import="com.seatech.framework.AppKeys" %>
 <%@ page import="com.seatech.framework.AppConstants" %>
-<%@ page import="java.util.Collection" %>
-<%@ page import="com.seatech.ttsp.ltt.LTTVO"%>
+<%@ page import="java.util.Collection" %> 
+<%@ page import="com.seatech.ttsp.ltt.LTTVO"%> 
 <%@ page import="com.seatech.framework.utils.StringUtil"%>
 <fmt:setBundle basename="com.seatech.ttsp.resource.LTTDiResource" />
 <%@ include file="/includes/ttsp_header.inc"%>
@@ -243,10 +243,10 @@
                                               <input  id="rowSelected" type="hidden" 
                                                 value="<bean:write name="list_ltt" property="id"/>" />
                                                 <input  name="tongsotien" type="hidden" 
-                                                value="<bean:write name="list_ltt" property="tong_sotien"/>" />
+                                                value="<bean:write name="list_ltt" property="tong_sotien"/>" /> 
                                                 <input  name="ntid" type="hidden" 
                                                 value="<bean:write name="list_ltt" property="nt_id"/>" />
-                                            </td>
+                                            </td> 
                                             <td width="30%;" align="center">
                                               <logic:equal value="01" name="list_ltt" property="trang_thai">
                                                 <img src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/images/return.jpeg" border="0" title="KTT đẩy lại"/>
@@ -337,12 +337,24 @@
                                           <logic:present name="listDMTienTe">
                                             <logic:iterate id="objNT" name="listDMTienTe" type="com.seatech.ttsp.dmtiente.DMTienTeVO" indexId="index">                                              
                                               <logic:notEqual value="2" name="objNT" property="id" >
-                                                <html:option value="<%=objNT.getId().toString()%>"><bean:write name="objNT" property="ma"/></html:option>                                    
-                                              </logic:notEqual>
+                                                <html:option value="<%=objNT.getId().toString()%>"><bean:write name="objNT" property="ma"/></html:option> 
+                                               </logic:notEqual>
                                             </logic:iterate>  
                                           </logic:present>
                                         </logic:notEmpty>
                                       </html:select>
+                                      
+                                       <!--thuongdt-20171031 phuc vu tra cuu nhanh begin-->
+                                     <logic:notEmpty name="listDMTienTe">
+                                          <logic:present name="listDMTienTe">
+                                            <logic:iterate id="objNT" name="listDMTienTe" type="com.seatech.ttsp.dmtiente.DMTienTeVO" indexId="index">                                              
+                                              <logic:notEqual value="2" name="objNT" property="id" >                                               
+                                                <input  name="tempmant" type="hidden"  value="<bean:write name="objNT" property="ma"/>" />
+                                              </logic:notEqual>
+                                            </logic:iterate>  
+                                          </logic:present>
+                                        </logic:notEmpty>
+                                         <!--thuongdt-20171031 phuc vu tra cuu nhanh end-->
                                         </td>
                                       </tr>                                      
                                       <tr>
@@ -504,7 +516,7 @@
                                     </td>
                                     <td align="right">Ngày GĐ duyệt</td>
                                     <td colspan="3" align="left">
-                                      <html:text property="ngay_gd_duyet" styleId="ngay_gd_duyet" styleClass="fieldTextCode" onmouseout="UnTip()" onmouseover="Tip(this.value)"  style="WIDTH: 90px;"/>
+                                      <html:text property="ngay_gd_duyet" styleId="ngay_gd_duyet" styleClass="fieldTextCode" onmouseout="UnTip()" onmouseover="Tip(this.value)"  style="WIDTH: 110px;"/>
                                     </td>
                                   </tr>
                                   <tr>
@@ -1137,10 +1149,10 @@
 
 <script type="text/javascript" charset="utf-8">
   jQuery.noConflict(); 	
-  jQuery(document).ready(function(){     
+  jQuery(document).ready(function(){ 
     //Global variable TKTN dac biet, an ninh
     arrSpecialTKTN = new Array(<%=strSpecialTKTN%>);
-    arrDVQHNSAnNinh = new Array(<%=strDVQHNSAnNinh%>);    
+    arrDVQHNSAnNinh = new Array(<%=strDVQHNSAnNinh%>);  
     // set limit char for 2 field 
     jQuery("#ttin_kh_nhan").keyup(function () {
         limitChars(jQuery("#ttin_kh_nhan").attr('id'), 146);
@@ -1183,14 +1195,15 @@
     input_default = jQuery('#rowSelected');   
     // Dieu khien an hien cac nut ban dau vao
     var quyenLttDi = "<%=strQuyenLttDi%>"!=null?"<%=strQuyenLttDi%>":"";
-
+    
     //end
-    //An field ma_ttv cho viec tim kiem neu la ttv, hien thi lydo_day_lai        
+    //An field ma_ttv cho viec tim kiem neu la ttv, hien thi lydo_day_lai  
     if(strLoaiUser != null){
       if(strLoaiUser.indexOf("<%=AppConstants.NSD_TTV%>") != -1){
         jQuery("#ma_ttv").hide();
 //        loadDetailLTTJson('loadLTTDiJsonAction.do', input_default.val(),row_default, '<%=AppConstants.NSD_TTV%>',quyenLttDi);
-      }else if(strLoaiUser.indexOf("<%=AppConstants.NSD_GD%>") != -1){
+      //20171118 thuongdt cho phep qthttw, can bo TTTT duoc xem thong tin giam doc duyet LTT      
+      }else if(strLoaiUser.indexOf("<%=AppConstants.NSD_GD%>") != -1 || strLoaiUser.indexOf("<%=AppConstants.NSD_QTHT_TW%>") != -1 || strLoaiUser.indexOf("<%=AppConstants.NSD_CB_TTTT%>") != -1){
         jQuery("#trGDDuyet").removeAttr("style");
 //        loadDetailLTTJson('loadLTTDiJsonAction.do', input_default.val(),row_default, '<%=AppConstants.NSD_GD%>',quyenLttDi);
       }else if(strLoaiUser.indexOf("<%=AppConstants.NSD_KTT%>") != -1){
@@ -2969,7 +2982,16 @@
     	try {
             var cert = jQuery("#eSign")[0];
             //alert(cert);
-            cert.InitCert();                   
+            cert.InitCert();     
+            
+            // 20171120 thuongdt bo sung canh bao han su dung CTS
+             var strdomain = '<%=strdomain%>';
+            var struser_name = '<%=struser_name%>';
+            var strcheckcts = '<%=strcheckcts%>';           
+            if(!checkCTSdate(cert,strdomain+'/'+struser_name,strcheckcts)){
+             return false;
+            }
+            
             var serial = cert.Serial;
             jQuery("#certserial").val(serial);
             var nd = jQuery("#noi_dung_ky").val();

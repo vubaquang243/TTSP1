@@ -5,6 +5,11 @@
 <%@ taglib uri="/WEB-INF/tlds/struts-logic.tld" prefix="logic"%>
 <fmt:setBundle basename="com.seatech.ttsp.resource.QuanLyNSDResource"/>
 <%@ include file="/includes/ttsp_header.inc"%>
+
+<!--20171124 thuongdt them id kb cua sesion user -->
+<%   String id_kb = session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
+ %>
+ 
 <script type="text/javascript">
   jQuery.noConflict();
   jQuery(document).ready(function () {
@@ -69,6 +74,7 @@
   }
 
   function sbbut(type) {
+     var kb_id = '<%=id_kb%>';
       var f = document.forms[0];
       if (type == 'find') {
       
@@ -109,7 +115,12 @@
         }else if(f.id_nhom.value == null || f.id_nhom.value == ''){
           alert('Phải chọn nhóm NSD.');
           return;
-        }else { 
+        }else if(kb_id == '1' && f.ma_kb.value != '0001' && f.ma_kb.value != '0002' && f.ma_kb.value != '0003' && f.id_nhom.value != 341){
+          alert('Không được phép cập nhật');
+          return;
+        }
+        
+        else { 
               if(++counter==1){
                 f.bfind.disable = true;
                 f.action = 'QuanLyNSDAddExcAction.do' ;

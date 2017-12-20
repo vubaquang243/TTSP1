@@ -635,5 +635,10 @@ public class StringUtil {
 
           return result;
       }
+    
+    //20171128
+    public static String formatMoneyVNDToDouble(String money){
+      return money.replace(".", "").replace(",", ".");
+    }
 
 }

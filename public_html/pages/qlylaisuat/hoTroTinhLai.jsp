@@ -345,7 +345,7 @@
                               </fmt:formatNumber>
                             </c:when>
                             <c:otherwise>
-                              <fmt:setLocale value="en_US"/>
+                              <fmt:setLocale value="vi_VI"/>
                               <fmt:formatNumber type="currency"  currencySymbol="">
                                 <bean:write name="item" property="so_du_cuoi" />
                               </fmt:formatNumber>

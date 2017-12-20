@@ -38,6 +38,7 @@ public class TheoDoiQT066Action extends AppAction {
             HttpSession session = request.getSession();
             DChieu1DAO dao = new DChieu1DAO(conn);
             DChieu1VO vo = new DChieu1VO();
+			//doi ham lay lay danh muc hoc bac loai truong hop lap dv KB nhieu lan
             TraCuuKhoBacDAO traCuuDAO = new TraCuuKhoBacDAO(conn);
             //    int phantrang = (AppConstants.APP_NUMBER_ROW_ON_PAGE);
             String strDC3 = "";
@@ -178,14 +179,19 @@ public class TheoDoiQT066Action extends AppAction {
           String so_dnqt =
               frm.getId() == null ? "" : frm.getId();
             String loai_tien = frm.getLoai_tien() == null ? "" : frm.getLoai_tien();
-            String so_tien = frm.getSo_tien() == null ? "" : frm.getSo_tien();
+            //20171020 QuangVB bo sung tra cuu theo so tien begin
+			String so_tien = frm.getSo_tien() == null ? "" : frm.getSo_tien();
             String soTien = "";
             if(!so_tien.equals(""))
             if(loai_tien.equals("VND")){
                 soTien = so_tien.replace(".", "");
             }else{
-              soTien = so_tien.replace(",", "");
+              soTien = so_tien.replace(".", "").replace(",", ".");
             }
+            
+        //20171130
+            so_tien = StringUtil.formatMoneyVNDToDouble(so_tien);
+			 //20171020 QuangVB bo sung tra cuu theo so tien end
             String strNgayQT = "";
             String strLst066 = "";
             String char_dngay = "";
@@ -203,8 +209,9 @@ public class TheoDoiQT066Action extends AppAction {
             if (loai_tien != null && !"".equals(loai_tien)) {
                 strLst066 += " AND a.loai_tien='" + loai_tien+"'";
             }
-            if(soTien != null && !soTien.equals("")){
-                strLst066 += " AND (a.qtoan_chi="+ soTien +" OR a.qtoan_thu="+soTien+")";
+			//20171020 QuangVB bo sung tra cuu theo so tien begin
+            if(so_tien != null && !so_tien.equals("")){
+                strLst066 += " AND (trunc(a.qtoan_chi,2) = '"+ so_tien +"' OR trunc(a.qtoan_thu,2) ='"+so_tien+"')";
             }
           if (ma_dv != null && !"".equals(ma_dv)) {
               strLst066 += " and substr(a.nhkb_nhan,3,3) = '" + ma_dv + "'";

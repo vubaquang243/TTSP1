@@ -31,6 +31,12 @@ public class TCuuBKeQToanForm extends ActionForm {
     private String lydo_daylai;
     private String msg_id;
     private String tcg_loai_tien;
+    //20171206 TaiDD them moi theo yeu cau ngoai hop dong 2017
+    private String ma_thanh_toan_vien;
+    private String loai_quyet_toan;
+    //20171207 quang vu : them moi ngay bang ke
+    private String ngay_bke;
+    private String ngan_hang;
 
 
     public void setTu_ngay(String tu_ngay) {
@@ -237,5 +243,37 @@ public class TCuuBKeQToanForm extends ActionForm {
     }
     public String getTcg_loai_tien() {
         return tcg_loai_tien;
+    }
+
+    public void setMa_thanh_toan_vien(String ma_thanh_toan_vien) {
+        this.ma_thanh_toan_vien = ma_thanh_toan_vien;
+    }
+
+    public String getMa_thanh_toan_vien() {
+        return ma_thanh_toan_vien;
+    }
+
+    public void setLoai_quyet_toan(String loai_quyet_toan) {
+        this.loai_quyet_toan = loai_quyet_toan;
+    }
+
+    public String getLoai_quyet_toan() {
+        return loai_quyet_toan;
+    }
+
+    public void setNgay_bke(String ngay_bke) {
+        this.ngay_bke = ngay_bke;
+    }
+
+    public String getNgay_bke() {
+        return ngay_bke;
+    }
+
+    public void setNgan_hang(String ngan_hang) {
+        this.ngan_hang = ngan_hang;
+    }
+
+    public String getNgan_hang() {
+        return ngan_hang;
     }
 }

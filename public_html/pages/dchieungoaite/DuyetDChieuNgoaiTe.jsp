@@ -54,7 +54,16 @@
   function ky(){
     	try {
             var cert = jQuery("#eSign")[0];
-            cert.InitCert();                   
+            cert.InitCert(); 
+            
+            // 20171120 thuongdt bo sung canh bao han su dung CTS
+             var strdomain = '<%=strdomain%>';
+            var struser_name = '<%=struser_name%>';
+            var strcheckcts = '<%=strcheckcts%>';           
+            if(!checkCTSdate(cert,strdomain+'/'+struser_name,strcheckcts)){
+             return false;
+            }
+            
             var serial = cert.Serial;
             jQuery("#certserial").val(serial);
             
@@ -83,7 +92,7 @@
   <html:hidden property="certserial" styleId="certserial" />
   <html:hidden property="noi_dung_ky" styleId="noi_dung_ky" />
   <!--manhnv-24/06/2013-->
-  <fmt:setLocale value="en_US"/>
+  <fmt:setLocale value="vi_VI"/>
    <table border="0" cellspacing="0" cellpadding="0" width="100%"
            align="center">
       <tbody>

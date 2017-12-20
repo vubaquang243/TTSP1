@@ -48,11 +48,23 @@
     alert(GetUnicode('Duy&#7879;t x&#225;c nh&#7853;n s&#7889; li&#7879;u thanh to&#225;n th&#224;nh c&#244;ng'));
     }
   });
+  
+  
+  
   //manhnv-24/06/2013
   function ky(){
     	try {
             var cert = jQuery("#eSign")[0];
-            cert.InitCert();                   
+            cert.InitCert();   
+            
+           // 20171120 thuongdt bo sung canh bao han su dung CTS
+             var strdomain = '<%=strdomain%>';
+            var struser_name = '<%=struser_name%>';
+            var strcheckcts = '<%=strcheckcts%>';           
+            if(!checkCTSdate(cert,strdomain+'/'+struser_name,strcheckcts)){
+             return false;
+            }
+            
             var serial = cert.Serial;
             jQuery("#certserial").val(serial);
             
@@ -908,5 +920,5 @@
     document.getElementById("bt").disabled=true;
   }
   }
-  
+
 </script>

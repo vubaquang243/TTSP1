@@ -62,7 +62,7 @@ public class OnlineTTinTToanDAO extends AppDAO {
       try {
 
           String strSQL = "";
-
+       //20171021 thuongdt sua cau querry dong bo voi querry tra cuu tranh chenh lech tong tien voi chi tiet
           strSQL +=
                   " SELECT   SUM (c.han_muc_no/"+dv_tien+") AS han_muc_no, SUM (a.du_dau_ngay/"+dv_tien+") AS du_dau_ngay," + 
                   " SUM (a.ps_thu/"+dv_tien+") AS ps_thu, SUM (a.ps_chi/"+dv_tien+") AS ps_chi," + 

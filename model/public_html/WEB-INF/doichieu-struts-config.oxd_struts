@@ -190,14 +190,6 @@
             class="j:l:String"/>
       </shape>
       <shape
-         name="/TaoXacNhanDCNTAction">
-         <elemRef
-            name=""
-            value="/TaoXacNhanDCNTAction"
-            type="StrutsAction"
-            class="j:l:String"/>
-      </shape>
-      <shape
          name="/ThuChiTCongNgoaiTeAction">
          <elemRef
             name=""
@@ -222,14 +214,6 @@
             class="j:l:String"/>
       </shape>
       <shape
-         name="/loadChiTietBangKe">
-         <elemRef
-            name=""
-            value="/loadChiTietBangKe"
-            type="StrutsAction"
-            class="j:l:String"/>
-      </shape>
-      <shape
          name="/pages/dchieu/DoiChieu2.jsp">
          <elemRef
             name=""
@@ -246,14 +230,6 @@
             class="j:l:String"/>
       </shape>
       <shape
-         name="/pages/dchieu/DoiChieu4.jsp">
-         <elemRef
-            name=""
-            value="/pages/dchieu/DoiChieu4.jsp"
-            type="Page"
-            class="j:l:String"/>
-      </shape>
-      <shape
          name="/pages/dchieu/DuyetXNDChieu3.jsp">
          <elemRef
             name=""
@@ -262,26 +238,10 @@
             class="j:l:String"/>
       </shape>
       <shape
-         name="/pages/dchieu/DuyetXNDChieu4.jsp">
-         <elemRef
-            name=""
-            value="/pages/dchieu/DuyetXNDChieu4.jsp"
-            type="Page"
-            class="j:l:String"/>
-      </shape>
-      <shape
          name="/pages/dchieungoaite/CTietBKeDChieu1.jsp">
          <elemRef
             name=""
             value="/pages/dchieungoaite/CTietBKeDChieu1.jsp"
-            type="Page"
-            class="j:l:String"/>
-      </shape>
-      <shape
-         name="/pages/dchieungoaite/CTietBKeDChieuNgoaiTe.jsp">
-         <elemRef
-            name=""
-            value="/pages/dchieungoaite/CTietBKeDChieuNgoaiTe.jsp"
             type="Page"
             class="j:l:String"/>
       </shape>
@@ -354,14 +314,6 @@
          <elemRef
             name=""
             value="/DChieu2Detail_errorQuyen"
-            type="StrutsForward"
-            class="j:l:String"/>
-      </shape>
-      <shape
-         name="errorQuyen">
-         <elemRef
-            name=""
-            value="/TaoXacNhanDCNTAction_errorQuyen"
             type="StrutsForward"
             class="j:l:String"/>
       </shape>
@@ -462,14 +414,6 @@
             class="j:l:String"/>
       </shape>
       <shape
-         name="errorQuyen">
-         <elemRef
-            name=""
-            value="/loadChiTietBangKe_errorQuyen"
-            type="StrutsForward"
-            class="j:l:String"/>
-      </shape>
-      <shape
          name="failure">
          <elemRef
             name=""
@@ -490,6 +434,14 @@
          <elemRef
             name=""
             value="/PrintXNDCTHopNgoaiTeAction_failure"
+            type="StrutsForward"
+            class="j:l:String"/>
+      </shape>
+      <shape
+         name="failure">
+         <elemRef
+            name=""
+            value="/CTietBKeDChieuNgoaiTe_failure"
             type="StrutsForward"
             class="j:l:String"/>
       </shape>
@@ -545,14 +497,6 @@
          name="failure">
          <elemRef
             name=""
-            value="/loadChiTietBangKe_failure"
-            type="StrutsForward"
-            class="j:l:String"/>
-      </shape>
-      <shape
-         name="failure">
-         <elemRef
-            name=""
             value="/PrintDChieu3Action_failure"
             type="StrutsForward"
             class="j:l:String"/>
@@ -594,14 +538,6 @@
          <elemRef
             name=""
             value="/DChieu2Detail_failure"
-            type="StrutsForward"
-            class="j:l:String"/>
-      </shape>
-      <shape
-         name="failure">
-         <elemRef
-            name=""
-            value="/TaoXacNhanDCNTAction_failure"
             type="StrutsForward"
             class="j:l:String"/>
       </shape>
@@ -674,14 +610,6 @@
          <elemRef
             name=""
             value="/SearchDC3Action_failure"
-            type="StrutsForward"
-            class="j:l:String"/>
-      </shape>
-      <shape
-         name="failure">
-         <elemRef
-            name=""
-            value="/CTietBKeDChieuNgoaiTe_failure"
             type="StrutsForward"
             class="j:l:String"/>
       </shape>
@@ -881,14 +809,6 @@
          name="success">
          <elemRef
             name=""
-            value="/CTietBKeDChieuNgoaiTe_success"
-            type="StrutsForward"
-            class="j:l:String"/>
-      </shape>
-      <shape
-         name="success">
-         <elemRef
-            name=""
             value="/DChieuNgoaiTeAction_success"
             type="StrutsForward"
             class="j:l:String"/>
@@ -914,14 +834,6 @@
          <elemRef
             name=""
             value="/DCNoiBoUpdateAction_success"
-            type="StrutsForward"
-            class="j:l:String"/>
-      </shape>
-      <shape
-         name="success">
-         <elemRef
-            name=""
-            value="/loadChiTietBangKe_success"
             type="StrutsForward"
             class="j:l:String"/>
       </shape>
@@ -994,6 +906,14 @@
          <elemRef
             name=""
             value="/TaoXacNhanDCAction_success"
+            type="StrutsForward"
+            class="j:l:String"/>
+      </shape>
+      <shape
+         name="success">
+         <elemRef
+            name=""
+            value="/CTietBKeDChieuNgoaiTe_success"
             type="StrutsForward"
             class="j:l:String"/>
       </shape>
@@ -1091,8 +1011,8 @@
          y="-374.5"/>
       <dimension
          name="pageXY"
-         width="12.0"
-         height="7.0"/>
+         width="9.0"
+         height="5.0"/>
       <insets
          name="paperMargins"
          top="50.0"
@@ -2038,7 +1958,7 @@
                   <point
                      name=""
                      x="385.83328"
-                     y="495.85345"/>
+                     y="495.8535"/>
                </array>
                <point
                   name="elementPosition"
@@ -5091,7 +5011,7 @@
                      y="597.25476"/>
                   <point
                      name=""
-                     x="787.4805"
+                     x="787.4807"
                      y="544.3802"/>
                </array>
                <point
@@ -5417,7 +5337,7 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="1021.4138"
+                     x="1021.414"
                      y="634.38025"/>
                   <point
                      name=""
@@ -5585,7 +5505,7 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="1021.4138"
+                     x="1021.414"
                      y="634.38025"/>
                   <point
                      name=""
@@ -8267,11 +8187,11 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="1783.1666"
+                     x="1783.1667"
                      y="1044.0747"/>
                   <point
                      name=""
-                     x="760.64417"
+                     x="760.64404"
                      y="544.3802"/>
                </array>
                <point
@@ -8601,7 +8521,7 @@
                      y="1406.0789"/>
                   <point
                      name=""
-                     x="440.19672"
+                     x="440.19666"
                      y="544.3802"/>
                </array>
                <point
@@ -9099,7 +9019,7 @@
                      y="1406.0789"/>
                   <point
                      name=""
-                     x="440.19672"
+                     x="440.19666"
                      y="544.3802"/>
                </array>
                <point
@@ -9753,7 +9673,7 @@
                      y="1585.9825"/>
                   <point
                      name=""
-                     x="439.3391"
+                     x="439.33902"
                      y="544.3802"/>
                </array>
                <point
@@ -9921,7 +9841,7 @@
                      y="1585.9825"/>
                   <point
                      name=""
-                     x="439.3391"
+                     x="439.33902"
                      y="544.3802"/>
                </array>
                <point
@@ -10086,10 +10006,10 @@
                   <point
                      name=""
                      x="3048.1667"
-                     y="1584.7793"/>
+                     y="1584.779"/>
                   <point
                      name=""
-                     x="765.07086"
+                     x="765.07074"
                      y="544.3802"/>
                </array>
                <point
@@ -10421,7 +10341,7 @@
                <string
                   name="nameOfElement">/pages/dchieu/DuyetXNDChieu3.jsp</string>
                <string
-                  name="readyState">true</string>
+                  name="readyState">false</string>
             </infoMap>
             <infoMap
                name="displayPreference"/>
@@ -10919,12 +10839,12 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="3529.1797"
+                     x="3529.1802"
                      y="1804.3801"/>
                   <point
                      name=""
                      x="3668.1667"
-                     y="1856.4999"/>
+                     y="1856.4998"/>
                </array>
                <point
                   name="elementPosition"
@@ -11255,12 +11175,12 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="3529.1797"
+                     x="3529.1802"
                      y="1804.3801"/>
                   <point
                      name=""
                      x="3668.1667"
-                     y="1856.4999"/>
+                     y="1856.4998"/>
                </array>
                <point
                   name="elementPosition"
@@ -11577,7 +11497,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.786377"/>
+                        y="42.7865"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -11591,7 +11511,7 @@
                <string
                   name="nameOfElement">/TaoDXNDCTHopNgoaiTeAction</string>
                <string
-                  name="readyState">true</string>
+                  name="readyState">false</string>
             </infoMap>
             <infoMap
                name="displayPreference"/>
@@ -11739,7 +11659,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.786377"/>
+                        y="42.7865"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -11753,7 +11673,7 @@
                <string
                   name="nameOfElement">/exDuyetXNDCTHopNgoaiTeAction</string>
                <string
-                  name="readyState">true</string>
+                  name="readyState">false</string>
             </infoMap>
             <infoMap
                name="displayPreference"/>
@@ -11901,7 +11821,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.786377"/>
+                        y="42.7865"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -11915,7 +11835,7 @@
                <string
                   name="nameOfElement">/updateTCongNgoaiTeAction</string>
                <string
-                  name="readyState">true</string>
+                  name="readyState">false</string>
             </infoMap>
             <infoMap
                name="displayPreference"/>
@@ -12063,7 +11983,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.786377"/>
+                        y="42.7865"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -12225,7 +12145,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.786377"/>
+                        y="42.7865"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -12387,7 +12307,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.786377"/>
+                        y="42.7865"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -12549,7 +12469,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.78662"/>
+                        y="42.786377"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -12711,7 +12631,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.78662"/>
+                        y="42.786377"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -12873,7 +12793,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.78662"/>
+                        y="42.786377"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -13035,7 +12955,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.78662"/>
+                        y="42.786377"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -13197,7 +13117,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.78662"/>
+                        y="42.786377"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -13359,7 +13279,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.78662"/>
+                        y="42.786377"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -13521,7 +13441,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.78662"/>
+                        y="42.786377"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -13697,8 +13617,8 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="3938.1667"
-                     y="1945.7726"/>
+                     x="3938.167"
+                     y="1945.7728"/>
                   <point
                      name=""
                      x="2932.5403"
@@ -13851,7 +13771,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.78662"/>
+                        y="42.786377"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -14027,12 +13947,12 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="4037.7751"
-                     y="1984.3801"/>
+                     x="4037.776"
+                     y="1984.3802"/>
                   <point
                      name=""
                      x="7003.1665"
-                     y="3116.3564"/>
+                     y="3116.3567"/>
                </array>
                <point
                   name="elementPosition"
@@ -14195,12 +14115,12 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="4041.3945"
-                     y="1984.38"/>
+                     x="4041.394"
+                     y="1984.3802"/>
                   <point
                      name=""
                      x="4678.1665"
-                     y="2216.7168"/>
+                     y="2216.7163"/>
                </array>
                <point
                   name="elementPosition"
@@ -14364,10 +14284,10 @@
                   <point
                      name=""
                      x="4198.1665"
-                     y="2036.0295"/>
+                     y="2036.0294"/>
                   <point
                      name=""
-                     x="2934.7534"
+                     x="2934.7537"
                      y="1534.3801"/>
                </array>
                <point
@@ -14517,7 +14437,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.78662"/>
+                        y="42.786377"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -14693,12 +14613,12 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="4300.7124"
-                     y="2074.3801"/>
+                     x="4300.713"
+                     y="2074.3804"/>
                   <point
                      name=""
                      x="7378.1665"
-                     y="3206.6514"/>
+                     y="3206.6511"/>
                </array>
                <point
                   name="elementPosition"
@@ -14861,8 +14781,8 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="4295.491"
-                     y="2074.3801"/>
+                     x="4295.4917"
+                     y="2074.3804"/>
                   <point
                      name=""
                      x="6258.1665"
@@ -15029,12 +14949,12 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="4551.4624"
-                     y="2164.3801"/>
+                     x="4551.4644"
+                     y="2164.3804"/>
                   <point
                      name=""
                      x="7003.1665"
-                     y="3116.2175"/>
+                     y="3116.2178"/>
                </array>
                <point
                   name="elementPosition"
@@ -15198,7 +15118,7 @@
                   <point
                      name=""
                      x="4453.1665"
-                     y="2126.1782"/>
+                     y="2126.178"/>
                   <point
                      name=""
                      x="2936.0974"
@@ -15365,12 +15285,12 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="4551.4624"
-                     y="2164.3801"/>
+                     x="4551.4644"
+                     y="2164.3804"/>
                   <point
                      name=""
                      x="7003.1665"
-                     y="3116.2175"/>
+                     y="3116.2178"/>
                </array>
                <point
                   name="elementPosition"
@@ -15705,8 +15625,8 @@
                      y="2254.3804"/>
                   <point
                      name=""
-                     x="7003.167"
-                     y="3116.2417"/>
+                     x="7003.1665"
+                     y="3116.242"/>
                </array>
                <point
                   name="elementPosition"
@@ -15873,8 +15793,8 @@
                      y="2254.3804"/>
                   <point
                      name=""
-                     x="7003.167"
-                     y="3116.2417"/>
+                     x="7003.1665"
+                     y="3116.242"/>
                </array>
                <point
                   name="elementPosition"
@@ -16023,7 +15943,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.78662"/>
+                        y="42.786377"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -16204,7 +16124,7 @@
                   <point
                      name=""
                      x="7743.1665"
-                     y="3297.1287"/>
+                     y="3297.1282"/>
                </array>
                <point
                   name="elementPosition"
@@ -16372,7 +16292,7 @@
                   <point
                      name=""
                      x="7743.1665"
-                     y="3297.1287"/>
+                     y="3297.1282"/>
                </array>
                <point
                   name="elementPosition"
@@ -16536,10 +16456,10 @@
                   <point
                      name=""
                      x="4878.1665"
-                     y="2306.0298"/>
+                     y="2306.0295"/>
                   <point
                      name=""
-                     x="2934.754"
+                     x="2934.7537"
                      y="1534.3801"/>
                </array>
                <point
@@ -16689,7 +16609,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.78662"/>
+                        y="42.786377"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -16865,12 +16785,12 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="5200.3477"
-                     y="2434.3801"/>
+                     x="5200.348"
+                     y="2434.3804"/>
                   <point
                      name=""
                      x="8098.1665"
-                     y="3387.4824"/>
+                     y="3387.4834"/>
                </array>
                <point
                   name="elementPosition"
@@ -17037,7 +16957,7 @@
                      y="2395.9668"/>
                   <point
                      name=""
-                     x="2934.2002"
+                     x="2934.2004"
                      y="1534.3801"/>
                </array>
                <point
@@ -17201,12 +17121,12 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="5200.3477"
-                     y="2434.3801"/>
+                     x="5200.348"
+                     y="2434.3804"/>
                   <point
                      name=""
                      x="8098.1665"
-                     y="3387.4824"/>
+                     y="3387.4834"/>
                </array>
                <point
                   name="elementPosition"
@@ -17370,10 +17290,10 @@
                   <point
                      name=""
                      x="5318.1665"
-                     y="2485.7725"/>
+                     y="2485.7727"/>
                   <point
                      name=""
-                     x="4972.5405"
+                     x="4972.541"
                      y="2344.3804"/>
                </array>
                <point
@@ -17537,8 +17457,8 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="5428.9565"
-                     y="2524.3804"/>
+                     x="5428.9556"
+                     y="2524.3801"/>
                   <point
                      name=""
                      x="7743.1665"
@@ -17874,11 +17794,11 @@
                   <point
                      name=""
                      x="5659.457"
-                     y="2614.3804"/>
+                     y="2614.3801"/>
                   <point
                      name=""
                      x="7003.1665"
-                     y="3116.527"/>
+                     y="3116.5276"/>
                </array>
                <point
                   name="elementPosition"
@@ -18041,8 +17961,8 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="5558.1665"
-                     y="2576.0295"/>
+                     x="5558.166"
+                     y="2576.0293"/>
                   <point
                      name=""
                      x="2934.7537"
@@ -18210,11 +18130,11 @@
                   <point
                      name=""
                      x="5659.457"
-                     y="2614.3804"/>
+                     y="2614.3801"/>
                   <point
                      name=""
                      x="7003.1665"
-                     y="3116.527"/>
+                     y="3116.5276"/>
                </array>
                <point
                   name="elementPosition"
@@ -18378,10 +18298,10 @@
                   <point
                      name=""
                      x="5788.1665"
-                     y="2666.0393"/>
+                     y="2666.039"/>
                   <point
                      name=""
-                     x="2934.8394"
+                     x="2934.8389"
                      y="1534.3801"/>
                </array>
                <point
@@ -18531,7 +18451,7 @@
                      <point
                         name="elementPosition"
                         x="0.0"
-                        y="42.78662"/>
+                        y="42.786377"/>
                      <string
                         name="shapeState">symbolic</string>
                      <boolean
@@ -18624,6 +18544,342 @@
          <shapeMap>
             <long
                name="DrUID"
+               value="-6346222613102757385"/>
+            <infoMap
+               name="containedShapes">
+               <infoMap
+                  name="srcWithershins">
+                  <long
+                     name="DrUID"
+                     value="-828954098701688948"/>
+                  <infoMap
+                     name="containedShapes"/>
+                  <infoMap
+                     name="displayPreference"/>
+                  <elemRef
+                     name="elementReference"
+                     value="TextShape"
+                     type="TEXT"
+                     class="j:l:String"/>
+                  <infoMap
+                     name="graphicalData">
+                     <infoMap
+                        name="diagramStateProperties">
+                        <infoMap
+                           name="symbolic">
+                           <dimension
+                              name="elementSize"
+                              width="47.0"
+                              height="20.835938"/>
+                        </infoMap>
+                     </infoMap>
+                     <point
+                        name="elementPosition"
+                        x="0.0"
+                        y="-20.835938"/>
+                     <string
+                        name="shapeState">symbolic</string>
+                     <boolean
+                        name="visibility"
+                        value="true"/>
+                  </infoMap>
+               </infoMap>
+            </infoMap>
+            <long
+               name="destinationShapeDrUID"
+               value="-6119050682086766500"/>
+            <elemRef
+               name="destinationShapeRef"
+               value="/pages/dchieungoaite/CTietBKeDChieu1.jsp"
+               type="Page"
+               class="j:l:String"/>
+            <infoMap
+               name="displayData">
+               <string
+                  name="nameOfElement">failure</string>
+            </infoMap>
+            <infoMap
+               name="displayPreference">
+               <integer
+                  name="edgeType"
+                  value="0"/>
+            </infoMap>
+            <elemRef
+               name="elementReference"
+               value="/CTietBKeDChieuNgoaiTe_failure"
+               type="StrutsForward"
+               class="j:l:String"/>
+            <infoMap
+               name="graphicalData">
+               <infoMap
+                  name="diagramStateProperties">
+                  <infoMap
+                     name="symbolic">
+                     <dimension
+                        name="elementSize"
+                        width="0.0"
+                        height="0.0"/>
+                     <infoMap
+                        name="layoutConstraints"/>
+                  </infoMap>
+               </infoMap>
+               <array
+                  name="elementPoints">
+                  <point
+                     name=""
+                     x="5899.5005"
+                     y="2701.8035"/>
+                  <point
+                     name=""
+                     x="8458.167"
+                     y="3478.028"/>
+               </array>
+               <point
+                  name="elementPosition"
+                  x="-0.5"
+                  y="374.5"/>
+               <graphicalProperties
+                  name="graphicalProperties">
+                  <color
+                     name="lineColor"
+                     rgb="0x0"
+                     alpha="0xff"/>
+                  <float
+                     name="lineWidth"
+                     value="1.0"/>
+                  <integer
+                     name="lineStyle"
+                     value="0"/>
+                  <font
+                     name="fontType"
+                     fontFamily="SansSerif"
+                     fontSize="11.0"
+                     fontWeight="normal"
+                     fontStyle="normal"/>
+                  <color
+                     name="fontColor"
+                     rgb="0x0"
+                     alpha="0xff"/>
+               </graphicalProperties>
+               <array
+                  name="lastGlyph">
+                  <integer
+                     name=""
+                     value="2"
+                     scalar="true"/>
+                  <integer
+                     name=""
+                     value="805306369"
+                     scalar="true"/>
+                  <integer
+                     name=""
+                     value="1092616192"
+                     scalar="true"/>
+                  <integer
+                     name=""
+                     value="1090519040"
+                     scalar="true"/>
+                  <integer
+                     name=""
+                     value="1120403456"
+                     scalar="true"/>
+               </array>
+               <string
+                  name="shapeState">symbolic</string>
+               <elemRef
+                  name="surrogateOriginalDstRef"
+                  value="/pages/dchieungoaite/CTietBKeDChieu1.jsp"
+                  type="Page"
+                  class="j:l:String"/>
+               <elemRef
+                  name="surrogateOriginalSrcRef"
+                  value="/CTietBKeDChieuNgoaiTe"
+                  type="StrutsAction"
+                  class="j:l:String"/>
+               <boolean
+                  name="visibility"
+                  value="true"/>
+            </infoMap>
+            <long
+               name="sourceShapeDrUID"
+               value="5234336181414434044"/>
+            <elemRef
+               name="sourceShapeRef"
+               value="/CTietBKeDChieuNgoaiTe"
+               type="StrutsAction"
+               class="j:l:String"/>
+         </shapeMap>
+         <shapeMap>
+            <long
+               name="DrUID"
+               value="5186696481691320859"/>
+            <infoMap
+               name="containedShapes">
+               <infoMap
+                  name="srcWithershins">
+                  <long
+                     name="DrUID"
+                     value="-4763283223305261226"/>
+                  <infoMap
+                     name="containedShapes"/>
+                  <infoMap
+                     name="displayPreference"/>
+                  <elemRef
+                     name="elementReference"
+                     value="TextShape"
+                     type="TEXT"
+                     class="j:l:String"/>
+                  <infoMap
+                     name="graphicalData">
+                     <infoMap
+                        name="diagramStateProperties">
+                        <infoMap
+                           name="symbolic">
+                           <dimension
+                              name="elementSize"
+                              width="59.0"
+                              height="20.835938"/>
+                        </infoMap>
+                     </infoMap>
+                     <point
+                        name="elementPosition"
+                        x="0.0"
+                        y="-20.835938"/>
+                     <string
+                        name="shapeState">symbolic</string>
+                     <boolean
+                        name="visibility"
+                        value="true"/>
+                  </infoMap>
+               </infoMap>
+            </infoMap>
+            <long
+               name="destinationShapeDrUID"
+               value="-6119050682086766500"/>
+            <elemRef
+               name="destinationShapeRef"
+               value="/pages/dchieungoaite/CTietBKeDChieu1.jsp"
+               type="Page"
+               class="j:l:String"/>
+            <infoMap
+               name="displayData">
+               <string
+                  name="nameOfElement">success</string>
+            </infoMap>
+            <infoMap
+               name="displayPreference">
+               <integer
+                  name="edgeType"
+                  value="0"/>
+            </infoMap>
+            <elemRef
+               name="elementReference"
+               value="/CTietBKeDChieuNgoaiTe_success"
+               type="StrutsForward"
+               class="j:l:String"/>
+            <infoMap
+               name="graphicalData">
+               <infoMap
+                  name="diagramStateProperties">
+                  <infoMap
+                     name="symbolic">
+                     <dimension
+                        name="elementSize"
+                        width="0.0"
+                        height="0.0"/>
+                     <infoMap
+                        name="layoutConstraints"/>
+                  </infoMap>
+               </infoMap>
+               <array
+                  name="elementPoints">
+                  <point
+                     name=""
+                     x="5899.5005"
+                     y="2701.8035"/>
+                  <point
+                     name=""
+                     x="8458.167"
+                     y="3478.028"/>
+               </array>
+               <point
+                  name="elementPosition"
+                  x="-0.5"
+                  y="374.5"/>
+               <graphicalProperties
+                  name="graphicalProperties">
+                  <color
+                     name="lineColor"
+                     rgb="0x0"
+                     alpha="0xff"/>
+                  <float
+                     name="lineWidth"
+                     value="1.0"/>
+                  <integer
+                     name="lineStyle"
+                     value="0"/>
+                  <font
+                     name="fontType"
+                     fontFamily="SansSerif"
+                     fontSize="11.0"
+                     fontWeight="normal"
+                     fontStyle="normal"/>
+                  <color
+                     name="fontColor"
+                     rgb="0x0"
+                     alpha="0xff"/>
+               </graphicalProperties>
+               <array
+                  name="lastGlyph">
+                  <integer
+                     name=""
+                     value="2"
+                     scalar="true"/>
+                  <integer
+                     name=""
+                     value="805306369"
+                     scalar="true"/>
+                  <integer
+                     name=""
+                     value="1092616192"
+                     scalar="true"/>
+                  <integer
+                     name=""
+                     value="1090519040"
+                     scalar="true"/>
+                  <integer
+                     name=""
+                     value="1120403456"
+                     scalar="true"/>
+               </array>
+               <string
+                  name="shapeState">symbolic</string>
+               <elemRef
+                  name="surrogateOriginalDstRef"
+                  value="/pages/dchieungoaite/CTietBKeDChieu1.jsp"
+                  type="Page"
+                  class="j:l:String"/>
+               <elemRef
+                  name="surrogateOriginalSrcRef"
+                  value="/CTietBKeDChieuNgoaiTe"
+                  type="StrutsAction"
+                  class="j:l:String"/>
+               <boolean
+                  name="visibility"
+                  value="true"/>
+            </infoMap>
+            <long
+               name="sourceShapeDrUID"
+               value="5234336181414434044"/>
+            <elemRef
+               name="sourceShapeRef"
+               value="/CTietBKeDChieuNgoaiTe"
+               type="StrutsAction"
+               class="j:l:String"/>
+         </shapeMap>
+         <shapeMap>
+            <long
+               name="DrUID"
                value="1456108981602429148"/>
             <infoMap
                name="containedShapes">
@@ -18707,11 +18963,11 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="6116.67"
-                     y="2794.3804"/>
+                     x="6116.6704"
+                     y="2794.3801"/>
                   <point
                      name=""
-                     x="7003.1665"
+                     x="7003.166"
                      y="3116.7422"/>
                </array>
                <point
@@ -18876,11 +19132,11 @@
                   <point
                      name=""
                      x="6013.1665"
-                     y="2755.8708"/>
+                     y="2755.8706"/>
                   <point
                      name=""
-                     x="4773.37"
-                     y="2254.38"/>
+                     x="4773.3706"
+                     y="2254.3804"/>
                </array>
                <point
                   name="elementPosition"
@@ -19044,7 +19300,7 @@
                   <point
                      name=""
                      x="6013.1665"
-                     y="2756.0342"/>
+                     y="2756.034"/>
                   <point
                      name=""
                      x="2934.793"
@@ -19211,8 +19467,8 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="6372.462"
-                     y="2884.3804"/>
+                     x="6372.4604"
+                     y="2884.3801"/>
                   <point
                      name=""
                      x="7378.1665"
@@ -19383,7 +19639,7 @@
                      y="2846.079"/>
                   <point
                      name=""
-                     x="2935.1958"
+                     x="2935.1963"
                      y="1534.3801"/>
                </array>
                <point
@@ -19547,8 +19803,8 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="6372.462"
-                     y="2884.3804"/>
+                     x="6372.4604"
+                     y="2884.3801"/>
                   <point
                      name=""
                      x="7378.1665"
@@ -19715,12 +19971,12 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="6621.334"
-                     y="2974.3804"/>
+                     x="6621.3335"
+                     y="2974.3801"/>
                   <point
                      name=""
                      x="7378.1665"
-                     y="3207.9177"/>
+                     y="3207.917"/>
                </array>
                <point
                   name="elementPosition"
@@ -19887,7 +20143,7 @@
                      y="2936.1182"/>
                   <point
                      name=""
-                     x="2935.5493"
+                     x="2935.549"
                      y="1534.3801"/>
                </array>
                <point
@@ -20051,12 +20307,12 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="6503.1665"
-                     y="2936.663"/>
+                     x="6503.167"
+                     y="2936.6633"/>
                   <point
                      name=""
-                     x="6360.841"
-                     y="2884.3804"/>
+                     x="6360.8403"
+                     y="2884.3801"/>
                </array>
                <point
                   name="elementPosition"
@@ -20220,11 +20476,11 @@
                   <point
                      name=""
                      x="6723.1665"
-                     y="3026.1743"/>
+                     y="3026.1748"/>
                   <point
                      name=""
-                     x="4976.0664"
-                     y="2344.3801"/>
+                     x="4976.068"
+                     y="2344.3804"/>
                </array>
                <point
                   name="elementPosition"
@@ -20388,11 +20644,11 @@
                   <point
                      name=""
                      x="6723.1665"
-                     y="3026.1743"/>
+                     y="3026.1748"/>
                   <point
                      name=""
-                     x="4976.0664"
-                     y="2344.3801"/>
+                     x="4976.068"
+                     y="2344.3804"/>
                </array>
                <point
                   name="elementPosition"
@@ -20555,11 +20811,11 @@
                   name="elementPoints">
                   <point
                      name=""
-                     x="6723.1665"
+                     x="6723.167"
                      y="3026.0984"/>
                   <point
                      name=""
-                     x="2935.372"
+                     x="2935.3723"
                      y="1534.3801"/>
                </array>
                <point
@@ -20636,1992 +20892,6 @@
                value="/TaoDTSNgoaiTeAction"
                type="StrutsAction"
                class="j:l:String"/>
-         </shapeMap>
-         <shapeMap>
-            <long
-               name="DrUID"
-               value="2347732930383460564"/>
-            <infoMap
-               name="containedShapes">
-               <infoMap
-                  name="MyImage">
-                  <long
-                     name="DrUID"
-                     value="2522019565875871479"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="ImageShape"
-                     type="IMAGE"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="42.666668"
-                              height="42.666668"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="53.666992"
-                        y="0.11987305"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-               <infoMap
-                  name="nameOfShape">
-                  <long
-                     name="DrUID"
-                     value="-3802059533390450334"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="TextShape"
-                     type="TEXT"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="150.0"
-                              height="17.09375"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="0.0"
-                        y="42.78662"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-            </infoMap>
-            <infoMap
-               name="displayData">
-               <string
-                  name="nameOfElement">/loadChiTietBangKe</string>
-               <string
-                  name="readyState">false</string>
-            </infoMap>
-            <infoMap
-               name="displayPreference"/>
-            <elemRef
-               name="elementReference"
-               value="/loadChiTietBangKe"
-               type="StrutsAction"
-               class="j:l:String"/>
-            <infoMap
-               name="graphicalData">
-               <infoMap
-                  name="diagramStateProperties">
-                  <infoMap
-                     name="symbolic">
-                     <insets
-                        name="containerInsets"
-                        top="0.0"
-                        left="0.0"
-                        bottom="0.0"
-                        right="0.0"/>
-                     <dimension
-                        name="elementSize"
-                        width="150.0"
-                        height="60.0"/>
-                     <infoMap
-                        name="layoutConstraints">
-                        <float
-                           name="MyImage"
-                           value="-2.0"/>
-                        <float
-                           name="nameOfShape"
-                           value="-2.0"/>
-                     </infoMap>
-                     <infoList
-                        name="shapesUsed"/>
-                  </infoMap>
-               </infoMap>
-               <point
-                  name="elementPosition"
-                  x="8669.5"
-                  y="3544.5"/>
-               <graphicalProperties
-                  name="graphicalProperties">
-                  <color
-                     name="lineColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-                  <float
-                     name="lineWidth"
-                     value="1.0"/>
-                  <integer
-                     name="lineStyle"
-                     value="0"/>
-                  <color
-                     name="fillColor"
-                     rgb="0xcccccc"
-                     alpha="0xff"/>
-                  <font
-                     name="fontType"
-                     fontFamily="SansSerif"
-                     fontSize="12.0"
-                     fontWeight="bold"
-                     fontStyle="normal"/>
-                  <color
-                     name="fontColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-               </graphicalProperties>
-               <string
-                  name="shapeState">symbolic</string>
-               <boolean
-                  name="visibility"
-                  value="true"/>
-            </infoMap>
-         </shapeMap>
-         <shapeMap>
-            <long
-               name="DrUID"
-               value="-5082819978524756111"/>
-            <infoMap
-               name="containedShapes">
-               <infoMap
-                  name="MyImage">
-                  <long
-                     name="DrUID"
-                     value="-2008365539828314592"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="ImageShape"
-                     type="IMAGE"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="42.666668"
-                              height="42.666668"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="68.66699"
-                        y="0.11987305"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-               <infoMap
-                  name="nameOfShape">
-                  <long
-                     name="DrUID"
-                     value="-160735823249098234"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="TextShape"
-                     type="TEXT"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="180.0"
-                              height="17.09375"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="0.0"
-                        y="42.78662"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-            </infoMap>
-            <infoMap
-               name="displayData">
-               <string
-                  name="nameOfElement">/TaoXacNhanDCNTAction</string>
-               <string
-                  name="readyState">false</string>
-            </infoMap>
-            <infoMap
-               name="displayPreference"/>
-            <elemRef
-               name="elementReference"
-               value="/TaoXacNhanDCNTAction"
-               type="StrutsAction"
-               class="j:l:String"/>
-            <infoMap
-               name="graphicalData">
-               <infoMap
-                  name="diagramStateProperties">
-                  <infoMap
-                     name="symbolic">
-                     <insets
-                        name="containerInsets"
-                        top="0.0"
-                        left="0.0"
-                        bottom="0.0"
-                        right="0.0"/>
-                     <dimension
-                        name="elementSize"
-                        width="180.0"
-                        height="60.0"/>
-                     <infoMap
-                        name="layoutConstraints">
-                        <float
-                           name="MyImage"
-                           value="-2.0"/>
-                        <float
-                           name="nameOfShape"
-                           value="-2.0"/>
-                     </infoMap>
-                     <infoList
-                        name="shapesUsed"/>
-                  </infoMap>
-               </infoMap>
-               <point
-                  name="elementPosition"
-                  x="9179.5"
-                  y="3814.5"/>
-               <graphicalProperties
-                  name="graphicalProperties">
-                  <color
-                     name="lineColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-                  <float
-                     name="lineWidth"
-                     value="1.0"/>
-                  <integer
-                     name="lineStyle"
-                     value="0"/>
-                  <color
-                     name="fillColor"
-                     rgb="0xcccccc"
-                     alpha="0xff"/>
-                  <font
-                     name="fontType"
-                     fontFamily="SansSerif"
-                     fontSize="12.0"
-                     fontWeight="bold"
-                     fontStyle="normal"/>
-                  <color
-                     name="fontColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-               </graphicalProperties>
-               <string
-                  name="shapeState">symbolic</string>
-               <boolean
-                  name="visibility"
-                  value="true"/>
-            </infoMap>
-         </shapeMap>
-         <shapeMap>
-            <long
-               name="DrUID"
-               value="-8270642038795719389"/>
-            <infoMap
-               name="containedShapes">
-               <infoMap
-                  name="MyImage">
-                  <long
-                     name="DrUID"
-                     value="5624622730771247694"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="ImageShape"
-                     type="IMAGE"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="42.666668"
-                              height="42.666668"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="93.66699"
-                        y="0.11987305"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-               <infoMap
-                  name="nameOfShape">
-                  <long
-                     name="DrUID"
-                     value="-4351783833288032590"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="TextShape"
-                     type="TEXT"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="230.0"
-                              height="17.09375"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="0.0"
-                        y="42.78662"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-            </infoMap>
-            <infoMap
-               name="displayData">
-               <string
-                  name="nameOfElement">/pages/dchieu/DoiChieu4.jsp</string>
-               <string
-                  name="readyState">false</string>
-            </infoMap>
-            <infoMap
-               name="displayPreference"/>
-            <elemRef
-               name="elementReference"
-               value="/pages/dchieu/DoiChieu4.jsp"
-               type="Page"
-               class="j:l:String"/>
-            <infoMap
-               name="graphicalData">
-               <infoMap
-                  name="diagramStateProperties">
-                  <infoMap
-                     name="symbolic">
-                     <insets
-                        name="containerInsets"
-                        top="0.0"
-                        left="0.0"
-                        bottom="0.0"
-                        right="0.0"/>
-                     <dimension
-                        name="elementSize"
-                        width="230.0"
-                        height="60.0"/>
-                     <infoMap
-                        name="layoutConstraints">
-                        <float
-                           name="MyImage"
-                           value="-2.0"/>
-                        <float
-                           name="nameOfShape"
-                           value="-2.0"/>
-                     </infoMap>
-                     <infoList
-                        name="shapesUsed"/>
-                  </infoMap>
-               </infoMap>
-               <point
-                  name="elementPosition"
-                  x="10279.5"
-                  y="4354.5"/>
-               <graphicalProperties
-                  name="graphicalProperties">
-                  <color
-                     name="lineColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-                  <float
-                     name="lineWidth"
-                     value="1.0"/>
-                  <integer
-                     name="lineStyle"
-                     value="0"/>
-                  <color
-                     name="fillColor"
-                     rgb="0xcccccc"
-                     alpha="0xff"/>
-                  <font
-                     name="fontType"
-                     fontFamily="SansSerif"
-                     fontSize="12.0"
-                     fontWeight="bold"
-                     fontStyle="normal"/>
-                  <color
-                     name="fontColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-               </graphicalProperties>
-               <string
-                  name="shapeState">symbolic</string>
-               <boolean
-                  name="visibility"
-                  value="true"/>
-            </infoMap>
-         </shapeMap>
-         <shapeMap>
-            <long
-               name="DrUID"
-               value="-2153332882696435251"/>
-            <infoMap
-               name="containedShapes">
-               <infoMap
-                  name="srcWithershins">
-                  <long
-                     name="DrUID"
-                     value="4744943284154973558"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="TextShape"
-                     type="TEXT"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="47.0"
-                              height="20.835938"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="-47.0"
-                        y="0.0"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-            </infoMap>
-            <long
-               name="destinationShapeDrUID"
-               value="-8270642038795719389"/>
-            <elemRef
-               name="destinationShapeRef"
-               value="/pages/dchieu/DoiChieu4.jsp"
-               type="Page"
-               class="j:l:String"/>
-            <infoMap
-               name="displayData">
-               <string
-                  name="nameOfElement">failure</string>
-            </infoMap>
-            <infoMap
-               name="displayPreference">
-               <integer
-                  name="edgeType"
-                  value="0"/>
-            </infoMap>
-            <elemRef
-               name="elementReference"
-               value="/loadChiTietBangKe_failure"
-               type="StrutsForward"
-               class="j:l:String"/>
-            <infoMap
-               name="graphicalData">
-               <infoMap
-                  name="diagramStateProperties">
-                  <infoMap
-                     name="symbolic">
-                     <dimension
-                        name="elementSize"
-                        width="0.0"
-                        height="0.0"/>
-                     <infoMap
-                        name="layoutConstraints"/>
-                  </infoMap>
-               </infoMap>
-               <array
-                  name="elementPoints">
-                  <point
-                     name=""
-                     x="8805.366"
-                     y="3604.3801"/>
-                  <point
-                     name=""
-                     x="10373.167"
-                     y="4374.0273"/>
-               </array>
-               <point
-                  name="elementPosition"
-                  x="-0.5"
-                  y="374.5"/>
-               <graphicalProperties
-                  name="graphicalProperties">
-                  <color
-                     name="lineColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-                  <float
-                     name="lineWidth"
-                     value="1.0"/>
-                  <integer
-                     name="lineStyle"
-                     value="0"/>
-                  <font
-                     name="fontType"
-                     fontFamily="SansSerif"
-                     fontSize="11.0"
-                     fontWeight="normal"
-                     fontStyle="normal"/>
-                  <color
-                     name="fontColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-               </graphicalProperties>
-               <array
-                  name="lastGlyph">
-                  <integer
-                     name=""
-                     value="2"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="805306369"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1092616192"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1090519040"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1120403456"
-                     scalar="true"/>
-               </array>
-               <string
-                  name="shapeState">symbolic</string>
-               <elemRef
-                  name="surrogateOriginalDstRef"
-                  value="/pages/dchieu/DoiChieu4.jsp"
-                  type="Page"
-                  class="j:l:String"/>
-               <elemRef
-                  name="surrogateOriginalSrcRef"
-                  value="/loadChiTietBangKe"
-                  type="StrutsAction"
-                  class="j:l:String"/>
-               <boolean
-                  name="visibility"
-                  value="true"/>
-            </infoMap>
-            <long
-               name="sourceShapeDrUID"
-               value="2347732930383460564"/>
-            <elemRef
-               name="sourceShapeRef"
-               value="/loadChiTietBangKe"
-               type="StrutsAction"
-               class="j:l:String"/>
-         </shapeMap>
-         <shapeMap>
-            <long
-               name="DrUID"
-               value="-2342601278962508035"/>
-            <infoMap
-               name="containedShapes">
-               <infoMap
-                  name="srcWithershins">
-                  <long
-                     name="DrUID"
-                     value="-4711666692546358134"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="TextShape"
-                     type="TEXT"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="59.0"
-                              height="20.835938"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="-59.0"
-                        y="0.0"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-            </infoMap>
-            <long
-               name="destinationShapeDrUID"
-               value="-8270642038795719389"/>
-            <elemRef
-               name="destinationShapeRef"
-               value="/pages/dchieu/DoiChieu4.jsp"
-               type="Page"
-               class="j:l:String"/>
-            <infoMap
-               name="displayData">
-               <string
-                  name="nameOfElement">success</string>
-            </infoMap>
-            <infoMap
-               name="displayPreference">
-               <integer
-                  name="edgeType"
-                  value="0"/>
-            </infoMap>
-            <elemRef
-               name="elementReference"
-               value="/loadChiTietBangKe_success"
-               type="StrutsForward"
-               class="j:l:String"/>
-            <infoMap
-               name="graphicalData">
-               <infoMap
-                  name="diagramStateProperties">
-                  <infoMap
-                     name="symbolic">
-                     <dimension
-                        name="elementSize"
-                        width="0.0"
-                        height="0.0"/>
-                     <infoMap
-                        name="layoutConstraints"/>
-                  </infoMap>
-               </infoMap>
-               <array
-                  name="elementPoints">
-                  <point
-                     name=""
-                     x="8805.366"
-                     y="3604.3801"/>
-                  <point
-                     name=""
-                     x="10373.167"
-                     y="4374.0273"/>
-               </array>
-               <point
-                  name="elementPosition"
-                  x="-0.5"
-                  y="374.5"/>
-               <graphicalProperties
-                  name="graphicalProperties">
-                  <color
-                     name="lineColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-                  <float
-                     name="lineWidth"
-                     value="1.0"/>
-                  <integer
-                     name="lineStyle"
-                     value="0"/>
-                  <font
-                     name="fontType"
-                     fontFamily="SansSerif"
-                     fontSize="11.0"
-                     fontWeight="normal"
-                     fontStyle="normal"/>
-                  <color
-                     name="fontColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-               </graphicalProperties>
-               <array
-                  name="lastGlyph">
-                  <integer
-                     name=""
-                     value="2"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="805306369"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1092616192"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1090519040"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1120403456"
-                     scalar="true"/>
-               </array>
-               <string
-                  name="shapeState">symbolic</string>
-               <elemRef
-                  name="surrogateOriginalDstRef"
-                  value="/pages/dchieu/DoiChieu4.jsp"
-                  type="Page"
-                  class="j:l:String"/>
-               <elemRef
-                  name="surrogateOriginalSrcRef"
-                  value="/loadChiTietBangKe"
-                  type="StrutsAction"
-                  class="j:l:String"/>
-               <boolean
-                  name="visibility"
-                  value="true"/>
-            </infoMap>
-            <long
-               name="sourceShapeDrUID"
-               value="2347732930383460564"/>
-            <elemRef
-               name="sourceShapeRef"
-               value="/loadChiTietBangKe"
-               type="StrutsAction"
-               class="j:l:String"/>
-         </shapeMap>
-         <shapeMap>
-            <long
-               name="DrUID"
-               value="8718585379221511806"/>
-            <infoMap
-               name="containedShapes">
-               <infoMap
-                  name="srcWithershins">
-                  <long
-                     name="DrUID"
-                     value="-7901315133671896933"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="TextShape"
-                     type="TEXT"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="73.0"
-                              height="20.835938"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="-73.0"
-                        y="0.0"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-            </infoMap>
-            <long
-               name="destinationShapeDrUID"
-               value="6231972086872876332"/>
-            <elemRef
-               name="destinationShapeRef"
-               value="/pages/user/phanquyen/PhanQuyen.jsp"
-               type="Page"
-               class="j:l:String"/>
-            <infoMap
-               name="displayData">
-               <string
-                  name="nameOfElement">errorQuyen</string>
-            </infoMap>
-            <infoMap
-               name="displayPreference">
-               <integer
-                  name="edgeType"
-                  value="0"/>
-            </infoMap>
-            <elemRef
-               name="elementReference"
-               value="/loadChiTietBangKe_errorQuyen"
-               type="StrutsForward"
-               class="j:l:String"/>
-            <infoMap
-               name="graphicalData">
-               <infoMap
-                  name="diagramStateProperties">
-                  <infoMap
-                     name="symbolic">
-                     <dimension
-                        name="elementSize"
-                        width="0.0"
-                        height="0.0"/>
-                     <infoMap
-                        name="layoutConstraints"/>
-                  </infoMap>
-               </infoMap>
-               <array
-                  name="elementPoints">
-                  <point
-                     name=""
-                     x="8723.167"
-                     y="3566.3857"/>
-                  <point
-                     name=""
-                     x="778.0576"
-                     y="544.3802"/>
-               </array>
-               <point
-                  name="elementPosition"
-                  x="-0.5"
-                  y="374.5"/>
-               <graphicalProperties
-                  name="graphicalProperties">
-                  <color
-                     name="lineColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-                  <float
-                     name="lineWidth"
-                     value="1.0"/>
-                  <integer
-                     name="lineStyle"
-                     value="0"/>
-                  <font
-                     name="fontType"
-                     fontFamily="SansSerif"
-                     fontSize="11.0"
-                     fontWeight="normal"
-                     fontStyle="normal"/>
-                  <color
-                     name="fontColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-               </graphicalProperties>
-               <array
-                  name="lastGlyph">
-                  <integer
-                     name=""
-                     value="2"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="805306369"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1092616192"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1090519040"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1120403456"
-                     scalar="true"/>
-               </array>
-               <string
-                  name="shapeState">symbolic</string>
-               <elemRef
-                  name="surrogateOriginalDstRef"
-                  value="/pages/user/phanquyen/PhanQuyen.jsp"
-                  type="Page"
-                  class="j:l:String"/>
-               <elemRef
-                  name="surrogateOriginalSrcRef"
-                  value="/loadChiTietBangKe"
-                  type="StrutsAction"
-                  class="j:l:String"/>
-               <boolean
-                  name="visibility"
-                  value="true"/>
-            </infoMap>
-            <long
-               name="sourceShapeDrUID"
-               value="2347732930383460564"/>
-            <elemRef
-               name="sourceShapeRef"
-               value="/loadChiTietBangKe"
-               type="StrutsAction"
-               class="j:l:String"/>
-         </shapeMap>
-         <shapeMap>
-            <long
-               name="DrUID"
-               value="2417527265023334969"/>
-            <infoMap
-               name="containedShapes">
-               <infoMap
-                  name="srcWithershins">
-                  <long
-                     name="DrUID"
-                     value="8956311077531829787"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="TextShape"
-                     type="TEXT"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="47.0"
-                              height="20.835938"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="-47.0"
-                        y="0.0"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-            </infoMap>
-            <long
-               name="destinationShapeDrUID"
-               value="-8270642038795719389"/>
-            <elemRef
-               name="destinationShapeRef"
-               value="/pages/dchieu/DoiChieu4.jsp"
-               type="Page"
-               class="j:l:String"/>
-            <infoMap
-               name="displayData">
-               <string
-                  name="nameOfElement">failure</string>
-            </infoMap>
-            <infoMap
-               name="displayPreference">
-               <integer
-                  name="edgeType"
-                  value="0"/>
-            </infoMap>
-            <elemRef
-               name="elementReference"
-               value="/TaoXacNhanDCNTAction_failure"
-               type="StrutsForward"
-               class="j:l:String"/>
-            <infoMap
-               name="graphicalData">
-               <infoMap
-                  name="diagramStateProperties">
-                  <infoMap
-                     name="symbolic">
-                     <dimension
-                        name="elementSize"
-                        width="0.0"
-                        height="0.0"/>
-                     <infoMap
-                        name="layoutConstraints"/>
-                  </infoMap>
-               </infoMap>
-               <array
-                  name="elementPoints">
-                  <point
-                     name=""
-                     x="9331.749"
-                     y="3874.3804"/>
-                  <point
-                     name=""
-                     x="10373.167"
-                     y="4374.26"/>
-               </array>
-               <point
-                  name="elementPosition"
-                  x="-0.5"
-                  y="374.5"/>
-               <graphicalProperties
-                  name="graphicalProperties">
-                  <color
-                     name="lineColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-                  <float
-                     name="lineWidth"
-                     value="1.0"/>
-                  <integer
-                     name="lineStyle"
-                     value="0"/>
-                  <font
-                     name="fontType"
-                     fontFamily="SansSerif"
-                     fontSize="11.0"
-                     fontWeight="normal"
-                     fontStyle="normal"/>
-                  <color
-                     name="fontColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-               </graphicalProperties>
-               <array
-                  name="lastGlyph">
-                  <integer
-                     name=""
-                     value="2"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="805306369"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1092616192"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1090519040"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1120403456"
-                     scalar="true"/>
-               </array>
-               <string
-                  name="shapeState">symbolic</string>
-               <elemRef
-                  name="surrogateOriginalDstRef"
-                  value="/pages/dchieu/DoiChieu4.jsp"
-                  type="Page"
-                  class="j:l:String"/>
-               <elemRef
-                  name="surrogateOriginalSrcRef"
-                  value="/TaoXacNhanDCNTAction"
-                  type="StrutsAction"
-                  class="j:l:String"/>
-               <boolean
-                  name="visibility"
-                  value="true"/>
-            </infoMap>
-            <long
-               name="sourceShapeDrUID"
-               value="-5082819978524756111"/>
-            <elemRef
-               name="sourceShapeRef"
-               value="/TaoXacNhanDCNTAction"
-               type="StrutsAction"
-               class="j:l:String"/>
-         </shapeMap>
-         <shapeMap>
-            <long
-               name="DrUID"
-               value="-4904108985817691943"/>
-            <infoMap
-               name="containedShapes">
-               <infoMap
-                  name="srcWithershins">
-                  <long
-                     name="DrUID"
-                     value="2995866058658742955"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="TextShape"
-                     type="TEXT"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="73.0"
-                              height="20.835938"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="0.0"
-                        y="-20.835938"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-            </infoMap>
-            <long
-               name="destinationShapeDrUID"
-               value="6231972086872876332"/>
-            <elemRef
-               name="destinationShapeRef"
-               value="/pages/user/phanquyen/PhanQuyen.jsp"
-               type="Page"
-               class="j:l:String"/>
-            <infoMap
-               name="displayData">
-               <string
-                  name="nameOfElement">errorQuyen</string>
-            </infoMap>
-            <infoMap
-               name="displayPreference">
-               <integer
-                  name="edgeType"
-                  value="0"/>
-            </infoMap>
-            <elemRef
-               name="elementReference"
-               value="/TaoXacNhanDCNTAction_errorQuyen"
-               type="StrutsForward"
-               class="j:l:String"/>
-            <infoMap
-               name="graphicalData">
-               <infoMap
-                  name="diagramStateProperties">
-                  <infoMap
-                     name="symbolic">
-                     <dimension
-                        name="elementSize"
-                        width="0.0"
-                        height="0.0"/>
-                     <infoMap
-                        name="layoutConstraints"/>
-                  </infoMap>
-               </infoMap>
-               <array
-                  name="elementPoints">
-                  <point
-                     name=""
-                     x="9248.167"
-                     y="3836.2102"/>
-                  <point
-                     name=""
-                     x="776.3989"
-                     y="544.3802"/>
-               </array>
-               <point
-                  name="elementPosition"
-                  x="-0.5"
-                  y="374.5"/>
-               <graphicalProperties
-                  name="graphicalProperties">
-                  <color
-                     name="lineColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-                  <float
-                     name="lineWidth"
-                     value="1.0"/>
-                  <integer
-                     name="lineStyle"
-                     value="0"/>
-                  <font
-                     name="fontType"
-                     fontFamily="SansSerif"
-                     fontSize="11.0"
-                     fontWeight="normal"
-                     fontStyle="normal"/>
-                  <color
-                     name="fontColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-               </graphicalProperties>
-               <array
-                  name="lastGlyph">
-                  <integer
-                     name=""
-                     value="2"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="805306369"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1092616192"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1090519040"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1120403456"
-                     scalar="true"/>
-               </array>
-               <string
-                  name="shapeState">symbolic</string>
-               <elemRef
-                  name="surrogateOriginalDstRef"
-                  value="/pages/user/phanquyen/PhanQuyen.jsp"
-                  type="Page"
-                  class="j:l:String"/>
-               <elemRef
-                  name="surrogateOriginalSrcRef"
-                  value="/TaoXacNhanDCNTAction"
-                  type="StrutsAction"
-                  class="j:l:String"/>
-               <boolean
-                  name="visibility"
-                  value="true"/>
-            </infoMap>
-            <long
-               name="sourceShapeDrUID"
-               value="-5082819978524756111"/>
-            <elemRef
-               name="sourceShapeRef"
-               value="/TaoXacNhanDCNTAction"
-               type="StrutsAction"
-               class="j:l:String"/>
-         </shapeMap>
-         <shapeMap>
-            <long
-               name="DrUID"
-               value="5546615344560328253"/>
-            <infoMap
-               name="containedShapes">
-               <infoMap
-                  name="MyImage">
-                  <long
-                     name="DrUID"
-                     value="-4401051225787623181"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="ImageShape"
-                     type="IMAGE"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="42.666668"
-                              height="42.666668"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="158.66699"
-                        y="0.11987305"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-               <infoMap
-                  name="nameOfShape">
-                  <long
-                     name="DrUID"
-                     value="8432211688294215821"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="TextShape"
-                     type="TEXT"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="360.0"
-                              height="17.09375"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="0.0"
-                        y="42.78662"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-            </infoMap>
-            <infoMap
-               name="displayData">
-               <string
-                  name="nameOfElement">/pages/dchieungoaite/CTietBKeDChieuNgoaiTe.jsp</string>
-               <string
-                  name="readyState">false</string>
-            </infoMap>
-            <infoMap
-               name="displayPreference"/>
-            <elemRef
-               name="elementReference"
-               value="/pages/dchieungoaite/CTietBKeDChieuNgoaiTe.jsp"
-               type="Page"
-               class="j:l:String"/>
-            <infoMap
-               name="graphicalData">
-               <infoMap
-                  name="diagramStateProperties">
-                  <infoMap
-                     name="symbolic">
-                     <insets
-                        name="containerInsets"
-                        top="0.0"
-                        left="0.0"
-                        bottom="0.0"
-                        right="0.0"/>
-                     <dimension
-                        name="elementSize"
-                        width="360.0"
-                        height="60.0"/>
-                     <infoMap
-                        name="layoutConstraints">
-                        <float
-                           name="MyImage"
-                           value="-2.0"/>
-                        <float
-                           name="nameOfShape"
-                           value="-2.0"/>
-                     </infoMap>
-                     <infoList
-                        name="shapesUsed"/>
-                  </infoMap>
-               </infoMap>
-               <point
-                  name="elementPosition"
-                  x="10539.5"
-                  y="4444.5"/>
-               <graphicalProperties
-                  name="graphicalProperties">
-                  <color
-                     name="lineColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-                  <float
-                     name="lineWidth"
-                     value="1.0"/>
-                  <integer
-                     name="lineStyle"
-                     value="0"/>
-                  <color
-                     name="fillColor"
-                     rgb="0xcccccc"
-                     alpha="0xff"/>
-                  <font
-                     name="fontType"
-                     fontFamily="SansSerif"
-                     fontSize="12.0"
-                     fontWeight="bold"
-                     fontStyle="normal"/>
-                  <color
-                     name="fontColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-               </graphicalProperties>
-               <string
-                  name="shapeState">symbolic</string>
-               <boolean
-                  name="visibility"
-                  value="true"/>
-            </infoMap>
-         </shapeMap>
-         <shapeMap>
-            <long
-               name="DrUID"
-               value="7392475132033760925"/>
-            <infoMap
-               name="containedShapes">
-               <infoMap
-                  name="srcWithershins">
-                  <long
-                     name="DrUID"
-                     value="922916835927717104"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="TextShape"
-                     type="TEXT"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="47.0"
-                              height="20.835938"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="-47.0"
-                        y="0.0"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-            </infoMap>
-            <long
-               name="destinationShapeDrUID"
-               value="5546615344560328253"/>
-            <elemRef
-               name="destinationShapeRef"
-               value="/pages/dchieungoaite/CTietBKeDChieuNgoaiTe.jsp"
-               type="Page"
-               class="j:l:String"/>
-            <infoMap
-               name="displayData">
-               <string
-                  name="nameOfElement">failure</string>
-            </infoMap>
-            <infoMap
-               name="displayPreference">
-               <integer
-                  name="edgeType"
-                  value="0"/>
-            </infoMap>
-            <elemRef
-               name="elementReference"
-               value="/CTietBKeDChieuNgoaiTe_failure"
-               type="StrutsForward"
-               class="j:l:String"/>
-            <infoMap
-               name="graphicalData">
-               <infoMap
-                  name="diagramStateProperties">
-                  <infoMap
-                     name="symbolic">
-                     <dimension
-                        name="elementSize"
-                        width="0.0"
-                        height="0.0"/>
-                     <infoMap
-                        name="layoutConstraints"/>
-                  </infoMap>
-               </infoMap>
-               <array
-                  name="elementPoints">
-                  <point
-                     name=""
-                     x="5891.0063"
-                     y="2704.3804"/>
-                  <point
-                     name=""
-                     x="10698.167"
-                     y="4466.6787"/>
-               </array>
-               <point
-                  name="elementPosition"
-                  x="-0.5"
-                  y="374.5"/>
-               <graphicalProperties
-                  name="graphicalProperties">
-                  <color
-                     name="lineColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-                  <float
-                     name="lineWidth"
-                     value="1.0"/>
-                  <integer
-                     name="lineStyle"
-                     value="0"/>
-                  <font
-                     name="fontType"
-                     fontFamily="SansSerif"
-                     fontSize="11.0"
-                     fontWeight="normal"
-                     fontStyle="normal"/>
-                  <color
-                     name="fontColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-               </graphicalProperties>
-               <array
-                  name="lastGlyph">
-                  <integer
-                     name=""
-                     value="2"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="805306369"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1092616192"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1090519040"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1120403456"
-                     scalar="true"/>
-               </array>
-               <string
-                  name="shapeState">symbolic</string>
-               <elemRef
-                  name="surrogateOriginalDstRef"
-                  value="/pages/dchieungoaite/CTietBKeDChieuNgoaiTe.jsp"
-                  type="Page"
-                  class="j:l:String"/>
-               <elemRef
-                  name="surrogateOriginalSrcRef"
-                  value="/CTietBKeDChieuNgoaiTe"
-                  type="StrutsAction"
-                  class="j:l:String"/>
-               <boolean
-                  name="visibility"
-                  value="true"/>
-            </infoMap>
-            <long
-               name="sourceShapeDrUID"
-               value="5234336181414434044"/>
-            <elemRef
-               name="sourceShapeRef"
-               value="/CTietBKeDChieuNgoaiTe"
-               type="StrutsAction"
-               class="j:l:String"/>
-         </shapeMap>
-         <shapeMap>
-            <long
-               name="DrUID"
-               value="-5108239331264419183"/>
-            <infoMap
-               name="containedShapes">
-               <infoMap
-                  name="srcWithershins">
-                  <long
-                     name="DrUID"
-                     value="-820417733353421369"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="TextShape"
-                     type="TEXT"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="59.0"
-                              height="20.835938"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="-59.0"
-                        y="0.0"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-            </infoMap>
-            <long
-               name="destinationShapeDrUID"
-               value="5546615344560328253"/>
-            <elemRef
-               name="destinationShapeRef"
-               value="/pages/dchieungoaite/CTietBKeDChieuNgoaiTe.jsp"
-               type="Page"
-               class="j:l:String"/>
-            <infoMap
-               name="displayData">
-               <string
-                  name="nameOfElement">success</string>
-            </infoMap>
-            <infoMap
-               name="displayPreference">
-               <integer
-                  name="edgeType"
-                  value="0"/>
-            </infoMap>
-            <elemRef
-               name="elementReference"
-               value="/CTietBKeDChieuNgoaiTe_success"
-               type="StrutsForward"
-               class="j:l:String"/>
-            <infoMap
-               name="graphicalData">
-               <infoMap
-                  name="diagramStateProperties">
-                  <infoMap
-                     name="symbolic">
-                     <dimension
-                        name="elementSize"
-                        width="0.0"
-                        height="0.0"/>
-                     <infoMap
-                        name="layoutConstraints"/>
-                  </infoMap>
-               </infoMap>
-               <array
-                  name="elementPoints">
-                  <point
-                     name=""
-                     x="5891.0063"
-                     y="2704.3804"/>
-                  <point
-                     name=""
-                     x="10698.167"
-                     y="4466.6787"/>
-               </array>
-               <point
-                  name="elementPosition"
-                  x="-0.5"
-                  y="374.5"/>
-               <graphicalProperties
-                  name="graphicalProperties">
-                  <color
-                     name="lineColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-                  <float
-                     name="lineWidth"
-                     value="1.0"/>
-                  <integer
-                     name="lineStyle"
-                     value="0"/>
-                  <font
-                     name="fontType"
-                     fontFamily="SansSerif"
-                     fontSize="11.0"
-                     fontWeight="normal"
-                     fontStyle="normal"/>
-                  <color
-                     name="fontColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-               </graphicalProperties>
-               <array
-                  name="lastGlyph">
-                  <integer
-                     name=""
-                     value="2"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="805306369"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1092616192"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1090519040"
-                     scalar="true"/>
-                  <integer
-                     name=""
-                     value="1120403456"
-                     scalar="true"/>
-               </array>
-               <string
-                  name="shapeState">symbolic</string>
-               <elemRef
-                  name="surrogateOriginalDstRef"
-                  value="/pages/dchieungoaite/CTietBKeDChieuNgoaiTe.jsp"
-                  type="Page"
-                  class="j:l:String"/>
-               <elemRef
-                  name="surrogateOriginalSrcRef"
-                  value="/CTietBKeDChieuNgoaiTe"
-                  type="StrutsAction"
-                  class="j:l:String"/>
-               <boolean
-                  name="visibility"
-                  value="true"/>
-            </infoMap>
-            <long
-               name="sourceShapeDrUID"
-               value="5234336181414434044"/>
-            <elemRef
-               name="sourceShapeRef"
-               value="/CTietBKeDChieuNgoaiTe"
-               type="StrutsAction"
-               class="j:l:String"/>
-         </shapeMap>
-         <shapeMap>
-            <long
-               name="DrUID"
-               value="-623416075680430295"/>
-            <infoMap
-               name="containedShapes">
-               <infoMap
-                  name="MyImage">
-                  <long
-                     name="DrUID"
-                     value="1640144989012090913"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="ImageShape"
-                     type="IMAGE"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="42.666668"
-                              height="42.666668"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="108.66699"
-                        y="0.119628906"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-               <infoMap
-                  name="nameOfShape">
-                  <long
-                     name="DrUID"
-                     value="8165225003736715000"/>
-                  <infoMap
-                     name="containedShapes"/>
-                  <infoMap
-                     name="displayPreference"/>
-                  <elemRef
-                     name="elementReference"
-                     value="TextShape"
-                     type="TEXT"
-                     class="j:l:String"/>
-                  <infoMap
-                     name="graphicalData">
-                     <infoMap
-                        name="diagramStateProperties">
-                        <infoMap
-                           name="symbolic">
-                           <dimension
-                              name="elementSize"
-                              width="260.0"
-                              height="17.09375"/>
-                        </infoMap>
-                     </infoMap>
-                     <point
-                        name="elementPosition"
-                        x="0.0"
-                        y="42.786133"/>
-                     <string
-                        name="shapeState">symbolic</string>
-                     <boolean
-                        name="visibility"
-                        value="true"/>
-                  </infoMap>
-               </infoMap>
-            </infoMap>
-            <infoMap
-               name="displayData">
-               <string
-                  name="nameOfElement">/pages/dchieu/DuyetXNDChieu4.jsp</string>
-               <string
-                  name="readyState">false</string>
-            </infoMap>
-            <infoMap
-               name="displayPreference"/>
-            <elemRef
-               name="elementReference"
-               value="/pages/dchieu/DuyetXNDChieu4.jsp"
-               type="Page"
-               class="j:l:String"/>
-            <infoMap
-               name="graphicalData">
-               <infoMap
-                  name="diagramStateProperties">
-                  <infoMap
-                     name="symbolic">
-                     <insets
-                        name="containerInsets"
-                        top="0.0"
-                        left="0.0"
-                        bottom="0.0"
-                        right="0.0"/>
-                     <dimension
-                        name="elementSize"
-                        width="260.0"
-                        height="60.0"/>
-                     <infoMap
-                        name="layoutConstraints">
-                        <float
-                           name="MyImage"
-                           value="-2.0"/>
-                        <float
-                           name="nameOfShape"
-                           value="-2.0"/>
-                     </infoMap>
-                     <infoList
-                        name="shapesUsed"/>
-                  </infoMap>
-               </infoMap>
-               <point
-                  name="elementPosition"
-                  x="10929.5"
-                  y="4534.5"/>
-               <graphicalProperties
-                  name="graphicalProperties">
-                  <color
-                     name="lineColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-                  <float
-                     name="lineWidth"
-                     value="1.0"/>
-                  <integer
-                     name="lineStyle"
-                     value="0"/>
-                  <color
-                     name="fillColor"
-                     rgb="0xcccccc"
-                     alpha="0xff"/>
-                  <font
-                     name="fontType"
-                     fontFamily="SansSerif"
-                     fontSize="12.0"
-                     fontWeight="bold"
-                     fontStyle="normal"/>
-                  <color
-                     name="fontColor"
-                     rgb="0x0"
-                     alpha="0xff"/>
-               </graphicalProperties>
-               <string
-                  name="shapeState">symbolic</string>
-               <boolean
-                  name="visibility"
-                  value="true"/>
-            </infoMap>
          </shapeMap>
       </infoList>
    </layer>

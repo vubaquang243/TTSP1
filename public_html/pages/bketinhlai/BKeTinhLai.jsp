@@ -390,12 +390,13 @@ function callLov(){
     }
 
  function getTenKhoBacDC(id,id_cha) { 
+
     var qthttw="<%=qthttw%>";
       document.getElementById('nhkb_huyen').options.length = 1;// clear du lieu option cu
       document.getElementById('so_tk').options.length = 1;
        var kb_id;
        if(qthttw!=null && ''!=qthttw){
-            if (id==null || ''==id){       
+            if (id==null || ''==id){ 
                   if(id_cha!=null&&''!=id_cha){               
                         kb_id=id_cha;
                         jQuery('#nhkb_tinh').val(id_cha);
@@ -405,6 +406,9 @@ function callLov(){
               }else if (id!=null && ''!=id){
                   if(id_cha!=null&&''!=id_cha){                
                     kb_id=id_cha;
+                    if(id == '2' || id == '3')                    
+                    jQuery('#nhkb_tinh').val(id);
+                    else
                     jQuery('#nhkb_tinh').val(id_cha);
                   }else if (id_cha==null||''==id_cha){
                     kb_id=document.forms[0].nhkb_tinh.value;
@@ -415,7 +419,6 @@ function callLov(){
          }
       var kb_huyen="<%=idxKB%>";   
       var strTinh="<%=qthttw%>";
-
      if (kb_id !=null && ""!=kb_id){
       jQuery.ajax( {
           type : "POST", url : "getDMucKBTHop.do", data :  {

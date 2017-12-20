@@ -291,25 +291,25 @@
                     <td align="center">
                       <bean:write name="items" property="ma_kb"/>
                     </td>
-                    <td align="center">
+                    <td align="left">
                       <bean:write name="items" property="ten_kb"/>
                     </td>
                      <td align="center">
                       <bean:write name="items" property="ngay_ct"/>
                     </td>
-                    <td align="center">
+                    <td align="right">
                     <fmt:setLocale value="vi_VI"/>
                   <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
                       <bean:write name="items" property="so_tien"/>
                     </fmt:formatNumber>
                     </td>
-                   
-                    <td align="center">
+                   <!--20171124 thuongdt sua SGD KBNN sang Cục KT - KBNN -->
+                    <td align="left">
                       <logic:equal value="00" property="trang_thai" name="items">
-                        SGD KBNN thiếu  – Hội sở chính NH thừa
+                        Cục KT - KBNN thiếu  – Hội sở chính NH thừa
                       </logic:equal>
                       <logic:equal value="01" property="trang_thai" name="items">
-                         SGD KBNN  thừa – Hội sở chính NH thiếu 
+                         Cục KT - KBNN thừa – Hội sở chính NH thiếu 
                       </logic:equal>
                     </td>
                   </tr>
@@ -379,25 +379,25 @@
                     <td align="center">
                       <bean:write name="items" property="ma_kb"/>
                     </td>
-                    <td align="center">
+                    <td align="left">
                       <bean:write name="items" property="ten_kb"/>
                     </td>
                      <td align="center">
                       <bean:write name="items" property="ngay_ct"/>
                     </td>
-                    <td align="center">
+                    <td align="right">
                     <fmt:setLocale value="vi_VI"/>
                   <fmt:formatNumber maxFractionDigits="0"  type="currency"  currencySymbol="">
                       <bean:write name="items" property="so_tien"/>
                     </fmt:formatNumber>
                     </td>
-                   
-                    <td align="center">
+                    <!--20171124 thuongdt sua SGD KBNN sang Cục KT - KBNN -->
+                    <td align="left">
                       <logic:equal value="00" property="trang_thai" name="items">
-                        SGD KBNN thiếu  – Hội sở chính NH thừa
+                        Cục KT - KBNN thiếu  – Hội sở chính NH thừa
                       </logic:equal>
                       <logic:equal value="01" property="trang_thai" name="items">
-                         SGD KBNN  thừa – Hội sở chính NH thiếu 
+                         Cục KT - KBNN thừa – Hội sở chính NH thiếu 
                       </logic:equal>
                     </td>
                     
@@ -480,7 +480,16 @@
   function ky(){
     	try {
             var cert = jQuery("#eSign")[0];
-            cert.InitCert();                   
+            cert.InitCert();  
+            
+           // 20171120 thuongdt bo sung canh bao han su dung CTS
+             var strdomain = '<%=strdomain%>';
+            var struser_name = '<%=struser_name%>';
+            var strcheckcts = '<%=strcheckcts%>';           
+            if(!checkCTSdate(cert,strdomain+'/'+struser_name,strcheckcts)){
+             return false;
+            }
+            
             var serial = cert.Serial;
             jQuery("#certserial").val(serial);            
             var noi_dung_ky = jQuery("#noi_dung_ky").val();      

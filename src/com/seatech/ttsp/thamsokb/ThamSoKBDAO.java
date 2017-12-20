@@ -221,7 +221,7 @@ public class ThamSoKBDAO extends AppDAO {
   public int update(String setValue, String whereValue) throws Exception {
       Vector v_param = new Vector();
       StringBuffer strSQL = new StringBuffer();
-      strSQL.append("update sp_thamso_ht set "+setValue +" where 1=1 "+whereValue);
+      strSQL.append("update sp_thamso_kb set "+setValue +" where 1=1 "+whereValue);
       return executeStatement(strSQL.toString(), v_param, conn);
   }
 

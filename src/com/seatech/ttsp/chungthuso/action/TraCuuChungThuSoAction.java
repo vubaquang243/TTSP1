@@ -26,6 +26,8 @@ import java.lang.reflect.Type;
 
 import java.sql.Connection;
 
+import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -65,6 +67,13 @@ public class TraCuuChungThuSoAction extends AppAction {
      * @return
      * @throws Exception
      */
+    
+    /**
+    * @modify: thuongdt
+    * @modify-date: 20171117
+   * @see: sua dap ung quan ly CTS cho QTHT don vi
+  * @find: 20171117
+     * **/
     public ActionForward executeAction(ActionMapping mapping, ActionForm form,
                                        HttpServletRequest request,
                                        HttpServletResponse response) throws Exception {
@@ -72,9 +81,13 @@ public class TraCuuChungThuSoAction extends AppAction {
         Collection colUserName = null;
         Connection conn = null;
         Collection temColCTS = null;
+        Collection temColCTStemp = null;
         Collection colMaKhoBac = null;
         String strAppID = AppConstants.APP_ID;
         String strWSDL;
+        String kb_code = "";
+         String id_kb = "";
+        String kb_id  = "";
         try {            
             conn = getConnection();
             if (!checkPermissionOnFunction(request,
@@ -88,20 +101,32 @@ public class TraCuuChungThuSoAction extends AppAction {
             }
             Integer currentPage = new Integer(page);
             Integer numberRowOnPage = new Integer(15);
-            HttpSession session = request.getSession();           
-            
+            HttpSession session = request.getSession(); 
+            //20171117
+             kb_code =
+            session.getAttribute(AppConstants.APP_KB_CODE_SESSION).toString();
+            id_kb =
+            session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
             if (session != null) {
                 strWSDL = getThamSoHThong("WSDL_PKI", session);
                 strAppID = getThamSoHThong("APP_ID", session);
                 PKIService pkiService = new PKIService(strWSDL);
-//                if (frmCTS.getSearch_cts() != null && frmCTS.getSearch_cts()) {
-                    temColCTS = (Collection)pkiService.getCerts(true, strAppID);
-                    //loc dk tra cuu
-                    String kb_id = frmCTS.getKb_id();
+                if (frmCTS.getSearch_cts() != null && frmCTS.getSearch_cts()) {              
+                    System.out.println("TraCuuChungThuSoAction b1: "+ new Timestamp(System.currentTimeMillis()));
+                    temColCTS = (Collection)pkiService.getCerts(true, strAppID); 
+                    System.out.println("TraCuuChungThuSoAction b2: "+ new Timestamp(System.currentTimeMillis()));
+                    //loc dk tra cuu   
+                  //20171117
+                    kb_id = frmCTS.getKb_id();
+                     if ((kb_id == null || kb_id.equalsIgnoreCase("")) && !kb_code.equals("0001")) 
+                       kb_id = id_kb;                    
+                    
                     if (kb_id != null && !kb_id.equalsIgnoreCase("")) {
                         UserDAO userDao = new UserDAO(conn);
-                        String whereClause = " a.kb_id=?";
+                        //String whereClause = " a.kb_id=? ";
+                        String whereClause = " a.kb_id in (SELECT id FROM SP_DM_HTKB WHERE ID = ? or ID_CHA = ? ) ";
                         Vector params = new Vector();
+                        params.add(new Parameter(kb_id, true));
                         params.add(new Parameter(kb_id, true));
                         colUserName = userDao.getUserList(whereClause, params);
                         request.setAttribute("kbId", kb_id);
@@ -114,7 +139,13 @@ public class TraCuuChungThuSoAction extends AppAction {
                                          colUserName);
                     if (temColCTS != null && temColCTS.size() > 0) {
                         CollectionUtils colUtils = new CollectionUtils();
-                        temColCTS = colUtils.select(temColCTS, pkiPredicate);
+                        
+                      System.out.println("TraCuuChungThuSoAction b3: "+ new Timestamp(System.currentTimeMillis()));
+                        //thuc hien loc theo don vi 
+                      temColCTS = colUtils.select(temColCTS, pkiPredicate);
+                        
+                      System.out.println("TraCuuChungThuSoAction b4: "+ new Timestamp(System.currentTimeMillis()));
+              
                         if (temColCTS != null && temColCTS.size() > 0) {
                             PagingBean pagingBean = new PagingBean();
                             pagingBean.setCurrentPage(currentPage);
@@ -135,7 +166,7 @@ public class TraCuuChungThuSoAction extends AppAction {
                         }
 
                     }
-
+                      System.out.println("TraCuuChungThuSoAction b5: "+ new Timestamp(System.currentTimeMillis()));
 //                }
                 if (temColCTS != null && temColCTS.size() > 0) {
                     colCTS = new ArrayList();
@@ -146,10 +177,12 @@ public class TraCuuChungThuSoAction extends AppAction {
                     }
                 }
             }
-          String id_kb =
-            session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
+            }
+			//20171012 QuangVB bo sung tra cuu theo don vi
+           //id_kb = session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
             DMKBacDAO dmkbDAO = new DMKBacDAO(conn);
-            String strWhere = " a.id_cha = '" + id_kb + "'";
+           // 20171117
+            String strWhere = " a.id_cha = '" + id_kb + "' or a.id = '" + id_kb + "' ";
             colMaKhoBac = dmkbDAO.getDMKBList(strWhere, null);
             request.setAttribute("listKhoBac", colMaKhoBac);
             request.setAttribute("listCTSChuaDuyet", colCTS);
@@ -170,15 +203,15 @@ public class TraCuuChungThuSoAction extends AppAction {
         String strJson = null;
         String strAppID = AppConstants.APP_ID;
         String strWSDL;
+        String checkcts = "";
         try {
             HttpSession session = request.getSession();
             strAppID = getThamSoHThong("APP_ID", session);
-            strWSDL = getThamSoHThong("WSDL_PKI", session);
-              
-            ChungThuSoForm formCTS = (ChungThuSoForm)form;            
-            
+            strWSDL = getThamSoHThong("WSDL_PKI", session);              
+            ChungThuSoForm formCTS = (ChungThuSoForm)form;     
+            //20171208 thuongdt set session kiem tra cts (canh bao 1 lan)
+            session.setAttribute("checkcts", "checked");
             PKIService pkiService = new PKIService(strWSDL);
-            
             certInfoBean =
                     pkiService.getCertInfo(formCTS.getUser_name().replace('/',
                                                                           '\\'),

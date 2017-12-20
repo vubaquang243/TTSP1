@@ -27,6 +27,36 @@
               jQuery('#ma_kb').focus();
           }
       }
+      
+      
+      <%
+         if(session.getAttribute(AppConstants.APP_KB_CODE_SESSION).toString().equals("0001")){       
+      %>
+      // TaiDD : Ẩn img sửa và xóa với user đăng nhập QTHT-TW và các user NSD của kho bạc đơn vị.
+        // Display theo trDanhSachChan và trDanhSachLe
+     jQuery(".trDanhSachChan, .trDanhSachLe").each(function(){
+      var nhom = jQuery(this).find("td:eq(4)").text().trim(); // 4 : nhóm quyền NSD
+       var maKb = jQuery(this).find("td:eq(5)").text().trim(); // 5 : cột mã kho bạc
+       if(maKb !== "0001" && maKb !== "0002" && maKb !== "0003" 
+            && nhom.search("QTHT-DV") < 0){
+         jQuery(this).find("td:eq(8) img").attr("style","display:none"); // 8 : cột sửa.
+         jQuery(this).find("td:eq(9) img").attr("style","display:none"); // 9 : cột xóa.
+       }
+     });
+     
+      <%}else if(session.getAttribute(AppConstants.APP_ROLE_LIST_SESSION).toString().contains("QTHT-DV")){%> 
+     // TaiDD : Ẩn img sửa và xóa với user đăng nhập QTHT-DV và các user NSD QTHT-DV của kho bạc đơn vị.
+      
+     jQuery(".trDanhSachChan, .trDanhSachLe").each(function(){
+       var nhom = jQuery(this).find("td:eq(4)").text().trim(); // 4 : nhóm quyền NSD
+       if(nhom.search("QTHT-DV") >= 0){
+         jQuery(this).find("td:eq(8) img").attr("style","display:none"); // 8 : cột sửa.
+         jQuery(this).find("td:eq(9) img").attr("style","display:none"); // 9 : cột xóa.
+       }
+     });
+      <%}%>
+    
+     
     });
     function goPage(page) {
           var f = document.forms[0];
@@ -102,6 +132,8 @@
             return true;
         }
     }
+    
+    
 </script>
 <div class="app_error">
   <html:errors/>
@@ -277,6 +309,7 @@
     <%}%>
     <%-- ************************************--%>
     <%-- Hiển thị list KTV--%>
+    <div class="scroll_box">
     <table style="BORDER-COLLAPSE: collapse" border="1" cellspacing="0"
            bordercolor="#999999" width="100%">
       <tbody>
@@ -312,19 +345,19 @@
                     <fmt:message key="quanlynsd.listnsd.lable.list.chucdanh"/>
                   </div>
                 </th>
+                <th sclass="promptText" bgcolor="#f0f0f0">
+                  <div align="center">
+                    Nhóm quyền NSD
+                  </div>
+                </th>
                 <th class="promptText" bgcolor="#f0f0f0">
                   <div align="center">
-                    <fmt:message key="quanlynsd.listnsd.lable.list.makb"/>
+                   Mã kb
                   </div>
                 </th>
                 <th class="promptText" bgcolor="#f0f0f0">
                   <div align="center">
                     <fmt:message key="quanlynsd.listnsd.lable.list.matabmis"/>
-                  </div>
-                </th>
-                <th class="promptText" bgcolor="#f0f0f0">
-                  <div align="center">
-                    <fmt:message key="quanlynsd.listnsd.lable.list.trangthai.Mac"/>
                   </div>
                 </th>
                 <th class="promptText" bgcolor="#f0f0f0">
@@ -363,17 +396,18 @@
                       <td align="left" width="15%">
                         <bean:write name="NSDlist" property="ten_nsd"/>
                       </td>
-                      <td dalign="left" width="22%">
+                      <td dalign="left" width="15%">
                         <bean:write name="NSDlist" property="chuc_danh"/>
                       </td>
-                      <td align="left" width="8%">
+                      <td dalign="left" width="10%">
+                        <bean:write name="NSDlist" property="nhom"/>
+                      </td>
+                      
+                      <td align="left" width="5%">
                         <bean:write name="NSDlist" property="ma"/>
                       </td>
                       <td align="left" width="6%">
                         <bean:write name="NSDlist" property="ma_tabmis"/>
-                      </td>
-                      <td align="left" width="10%">
-                        <bean:write name="NSDlist" property="mac_address"/>
                       </td>
                       <td align="left" width="8%">
                         <logic:equal value="01" name="NSDlist"
@@ -463,6 +497,7 @@
                
               <html:hidden property="pageNumber" value="1"/>
             </table>
+            </div>
           </td>
         </tr>
       </tbody>

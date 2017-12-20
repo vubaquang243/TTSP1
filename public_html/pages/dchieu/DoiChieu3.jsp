@@ -405,13 +405,13 @@
                     <bean:write name="items" property="so_tien"/>
                     </fmt:formatNumber>
                   </td>
-                 
+                 <!--20171124 thuongdt sua SGD KBNN sang Cục KT - KBNN -->
                   <td align="center">
                     <logic:equal value="00" property="trang_thai" name="items">
-                      SGD KBNN thiếu  – Hội sở chính NH thừa
+                      Cục KT - KBNN thiếu  – Hội sở chính NH thừa
                     </logic:equal>
                     <logic:equal value="01" property="trang_thai" name="items">
-                       SGD KBNN  thừa – Hội sở chính NH thiếu 
+                      Cục KT - KBNN thừa – Hội sở chính NH thiếu 
                     </logic:equal>
                   </td>
                 </tr>
@@ -497,13 +497,13 @@
                     <bean:write name="items" property="so_tien"/>
                   </fmt:formatNumber>
                   </td>
-                 
+                 <!--20171124 thuongdt sua SGD KBNN sang Cục KT - KBNN -->
                   <td align="center">
                     <logic:equal value="00" property="trang_thai" name="items">
-                      SGD KBNN thiếu  – Hội sở chính NH thừa
+                      Cục KT - KBNN thiếu  – Hội sở chính NH thừa
                     </logic:equal>
                     <logic:equal value="01" property="trang_thai" name="items">
-                       SGD KBNN  thừa – Hội sở chính NH thiếu 
+                      Cục KT - KBNN thừa – Hội sở chính NH thiếu 
                     </logic:equal>
                   </td>                  
                 </tr>  

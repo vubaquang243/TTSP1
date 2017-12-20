@@ -16,7 +16,7 @@ public class LTTToanQuoc extends ActionForm {
     private String den_ngay;
     private String tu_ngay_nhan;
     private String den_ngay_nhan;
-    private Long so_tien;
+    private String so_tien;
     private String loai_lenh;
     private String pageNumber;
     private String ma_dv;
@@ -88,11 +88,11 @@ public class LTTToanQuoc extends ActionForm {
         return den_ngay;
     }
 
-    public void setSo_tien(Long so_tien) {
+    public void setSo_tien(String so_tien) {
         this.so_tien = so_tien;
     }
 
-    public Long getSo_tien() {
+    public String getSo_tien() {
         return so_tien;
     }
 

@@ -103,7 +103,15 @@ function fillLovDMKBTCUULTT() {
                 if (data != null) {
                     jQuery.each(data, function (i, objectDM) {
                     
-                      strTrTag = strTrTag + "<tr class='ui-widget-content jqgrow ui-row-ltr' id='row_lov_"+i+"' ondblclick=\"setIntoFieldLOVTCUULTT('"+objectDM.id+"','"+objectDM.ma_nh+"','"+objectDM.ten+"','"+objectDM.ma_cha+"'); rowSelectedFocusLOV('row_lov_"+i+"');\" onclick=\"rowSelectedFocusLOV('row_lov_"+i+"');\"><td width='20%' onkeydown=\"arrowUpDownLOV(event);\" id='"+i+"'>"+objectDM.ma_nh+"</td><td onkeydown=\"arrowUpDownLOV(event);\" id='"+i+"'>"+objectDM.ten+"</td></tr>";                      
+                      strTrTag = strTrTag + "<tr class='ui-widget-content jqgrow ui-row-ltr' id='row_lov_"+i
+                      +"' ondblclick=\"setIntoFieldLOVTCUULTT('"+objectDM.id+"','"+objectDM.ma_nh+"','"+objectDM.ten
+                      +"','"+objectDM.ma_cha+"'); rowSelectedFocusLOV('row_lov_"+i+"');\" onclick=\"rowSelectedFocusLOV('row_lov_"+i+"');\"><td width='20%' onkeydown=\"arrowUpDownLOV(event);\" id='"+i
+                      +"'>"+objectDM.ma_nh+"</td><td onkeydown=\"arrowUpDownLOV(event);\" id='"+i+"'>"+objectDM.ten+"</td>" 
+                      +"<td><input type='hidden' id='id_field' value='"+objectDM.id+"'></td>"
+                      +"<td><input type='hidden' id='ma_field' value='"+objectDM.ma_nh+"'></td>"
+                      +"<td><input type='hidden' id='ten_field' value='"+objectDM.ten+"'></td>"
+                      +"<td><input type='hidden' id='ma_cha_field' value='"+objectDM.ma_cha+"'></td>"
+                      +"</tr>";                      
                       
                     });
                     strTrTag = strTrTag + "";  
@@ -112,6 +120,7 @@ function fillLovDMKBTCUULTT() {
                     jQuery("#row_lov_0").addClass('ui-state-highlight');
                     jQuery("#0").addClass('ui-state-highlight');
                     jQuery("#0").focus();
+                    jQuery("#ten_lov").focus();
                 }                
             }
         },
@@ -120,7 +129,9 @@ function fillLovDMKBTCUULTT() {
         }
     });
 }
-
+/*
+*20171027 Quangvb bo sung ham lov tra cu so du
+*/
 function fillLovDMKBTCUUSODU() {
 
     var ma = jQuery('#ma_lov').val();   
@@ -181,23 +192,30 @@ function setIntoFieldLOV(id, ma, ten){
   jQuery("#"+ma_field_id).focus()
 }
 
+// ham set cac truong tra cuu.
 function setIntoFieldLOVTCUU(id, ma, ten,id_cha){
   var ma_field_id = jQuery("#ma_field_id_lov").val();
   var ten_field_id = jQuery("#ten_field_id_lov").val();
   var id_field_id = jQuery("#id_field_id_lov").val();
   var id_cha_field_id = jQuery("#id_cha_field_id_lov").val();
-  
+ 
   if(id_cha==1||id_cha=='1'){
   jQuery("#"+id_field_id).val("");  
     jQuery("#"+ma_field_id).val(ma);
     jQuery("#"+ten_field_id).val(ten);
     jQuery("#"+id_cha_field_id).val(id);
+    if(ma=='0003' || ma=='0002'){
+      getTenKhoBacDC(id,'1');
+    }else{
+      getTenKhoBacDC('',id);
+    }
     
   }else if(id_cha!=1&&id_cha!='1'){
     jQuery("#"+id_field_id).val(id);  
     jQuery("#"+ma_field_id).val(ma);
     jQuery("#"+ten_field_id).val(ten);
     jQuery("#"+id_cha_field_id).val(id_cha);
+    getTenKhoBacDC(id,id_cha);
   }
   
   
@@ -209,6 +227,7 @@ function setIntoFieldLOVTCUU(id, ma, ten,id_cha){
   
 }
 
+// ham set cac truong tra cuu.
 function setIntoFieldLOVTCUULTT(id, ma, ten,ma_cha){
   var ma_field_id = jQuery("#ma_field_id_lov").val();
   var ten_field_id = jQuery("#ten_field_id_lov").val();
@@ -221,13 +240,14 @@ function setIntoFieldLOVTCUULTT(id, ma, ten,ma_cha){
     jQuery("#"+ma_field_id).val(ma);
     jQuery("#"+ten_field_id).val(ten);
     jQuery("#"+ma_cha_field_id).val(ma);
-    
-    if(ma=='0003'){
-      getTenKhoBacLTT('0003','0003');
-    }
-    if(ma!='0003'){
+    // taidd them truong hop tra cuu kho bac voi
+    if(ma=='0003' || ma=='0002'){
+      getTenKhoBacLTT(ma,ma);
+    }else{
       getTenKhoBacLTT('',ma);
     }
+    
+    
     
   }else if(ma_cha!='0001'){
   
@@ -237,7 +257,7 @@ function setIntoFieldLOVTCUULTT(id, ma, ten,ma_cha){
     jQuery("#"+ma_cha_field_id).val(ma_cha);
     getTenKhoBacLTT(ma,ma_cha);
   }
-  
+  //20171027  QuangVB bo sung them code tu close lov khi onlick ket qua tra cuu
   jQuery("#ma_kb").val(ma);  
   jQuery("#tblLovDM").html("");  
   jQuery("#ma_lov").val("");
@@ -245,8 +265,27 @@ function setIntoFieldLOVTCUULTT(id, ma, ten,ma_cha){
   jQuery("#dialog-form-lov-dm").dialog( "close" );  
   jQuery("#"+ma_field_id).focus()
   
+  
 }
 
+// taidd tao moi 2017/11/29 : ham set cac truong tra cuu.
+function setIntoFieldLOVTCUULTT2(){
+  var row0 = jQuery("#row_lov_0");
+  var row1 = jQuery("#row_lov_1");
+  
+  if(row1.length>0){
+    return;
+  }
+  var id = jQuery(row0).find("#id_field").val().trim();
+  var ma = jQuery(row0).find("#ma_field").val().trim();
+  var ten = jQuery(row0).find("#ten_field").val().trim();
+  var ma_cha = jQuery(row0).find("#ma_cha_field").val().trim();
+  setIntoFieldLOVTCUULTT(id, ma, ten,ma_cha);
+  
+
+  
+}
+//20171027  QuangVB set ham lov tra cuu so du
 function setIntoFieldLOVTCUUSODU(id, ma, ten,ma_cha){
   var ma_field_id = jQuery("#ma_field_id_lov").val();
   var ten_field_id = jQuery("#ten_field_id_lov").val();
@@ -254,19 +293,22 @@ function setIntoFieldLOVTCUUSODU(id, ma, ten,ma_cha){
   var ma_cha_field_id = jQuery("#ma_cha_field_id_lov").val();
 //  alert(ma+'----'+ma_cha);
   
-  if(ma_cha=='0001'){    
-    jQuery("#id_kho_bac_tinh option[value='"+ ma +"']").attr("selected",true);
-    
-  }else if(ma_cha!='0001'){
+  if(ma =='0002' || ma=='0003'){    
     jQuery("#id_kho_bac_tinh option[value='"+ ma_cha +"']").attr("selected",true);
     getThongTinKB(ma);
-    //jQuery("#id_kho_bac_huyen option[value='"+ ma +"']").attr("selected",true);
+  }else if(ma_cha == '0001'){
+    jQuery("#id_kho_bac_tinh option[value='"+ ma +"']").attr("selected",true);
+    getThongTinKB(ma);
+  }else{
+    jQuery("#id_kho_bac_tinh option[value='"+ ma_cha +"']").attr("selected",true);
+    getThongTinKB(ma);
   }
   
   jQuery("#tblLovDM").html("");  
   jQuery("#ma_lov").val("");
   jQuery("#ten_lov").val("");
   jQuery("#dialog-form-lov-dm").dialog( "close" );  
+  jQuery("#id_kho_bac_huyen").focus();
   jQuery("#"+ma_field_id).focus()
   
 }
@@ -339,4 +381,3 @@ function arrowUpDownLOV(e){
       default:        
     }
    }
-   

@@ -7,6 +7,7 @@ import com.seatech.framework.strustx.AppAction;
 import com.seatech.ttsp.dmkb.DMKBacDAO;
 import com.seatech.ttsp.dmkb.DMKBacVO;
 import com.seatech.ttsp.nhomnsd.NhomNSDDAO;
+import com.seatech.ttsp.nhomnsd.NhomNSDVO;
 import com.seatech.ttsp.nhomnsd.PhanNhomDAO;
 import com.seatech.ttsp.nhomnsd.PhanNhomVO;
 import com.seatech.ttsp.nhomnsd.form.PhanNhomForm;
@@ -14,9 +15,12 @@ import com.seatech.ttsp.user.UserDAO;
 import com.seatech.ttsp.user.UserHistoryDAO;
 import com.seatech.ttsp.user.UserHistoryVO;
 
+import com.seatech.ttsp.user.UserVO;
+
 import java.sql.Connection;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,10 +62,12 @@ public class PhanNhomAction extends AppAction {
             String[] temp = quyen.split("\\|");
             StringBuffer str1 = null;
             StringBuffer str2 = null;
+            String str3 = "";
             for (int i = 0; i < temp.length; i++) {
                 if (temp[i].toString().equalsIgnoreCase("QTHT-TW")) {
                     // THI CAU LENH
                     str1 = new StringBuffer();
+                    str3 = " and a.id not in (347) ";
                     str1.append("'QTHT-DV','CB-TTTT','CBPT-TTTT','TTV','KTT','GD'");
                 }
                 if (temp[i].toString().equalsIgnoreCase("CB-TTTT") ||
@@ -81,30 +87,36 @@ public class PhanNhomAction extends AppAction {
                             null ? "" :
                             session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString().trim();
                     if (f.getKb_id() != null) {
+					//   08/11/2017 taidd x�a code lay danh muc KB theo cap user begin
                         if (!f.getKb_id().equals(strKBId)) {
-                            DMKBacDAO dmkbDAO = new DMKBacDAO(conn);
-                            Vector params = new Vector();
-                            params.add(new Parameter(f.getKb_id(), true));
-                            DMKBacVO dmkbVO =
-                                dmkbDAO.getDMKB(" AND  a.id = ?", params);
-                            if (!strKBId.equals(dmkbVO.getId_cha().trim())) {
-                              iCheck = 1;
-                            }
-                        }
+                              DMKBacDAO dmkbDAO = new DMKBacDAO(conn);
+                              Vector params = new Vector();
+                              params.add(new Parameter(f.getKb_id(), true));
+                              DMKBacVO dmkbVO =
+                                  dmkbDAO.getDMKB(" AND  a.id = ?", params);
+          // 15/11/2017 tdd th�thay ??i iCheck = 0001 khi ma_kb = 0001 => kh�ng select nsd                 
+                              if( f.getMa_kb().equals("0001")){
+                                iCheck = 1;
+                              }else  if (!strKBId.equals(dmkbVO.getId_cha().trim())) {
+                                iCheck = 1;
+                              }
+                          }
+                        
                     }
                     
                     if (null != str1) {
                         str2 = new StringBuffer();
-                        str2.append(",'TTV'");
+                        str2.append(",'TTV','GD','KTT'");
                         str1.append(str2);
                     } else {
                         str1 = new StringBuffer();
-                        str1.append("'TTV'");
+                        str1.append("'TTV','GD','KTT'");
                     }
+                  str3 = " and a.id in (345, 346,347, 2000)";
 
                 }
             }
-            strWhere = "loai_nhom in (" + str1 + ")";
+            strWhere = "loai_nhom in (" + str1 + ")" + str3;
             Collection colNhomNSD = nhomDAO.getNhomNSDList(strWhere, vParam);
 
             UserDAO uDAO = new UserDAO(conn);
@@ -157,7 +169,10 @@ public class PhanNhomAction extends AppAction {
         Connection conn = null;
         String strNhanVienID = null;
         String strCurrentUserID = null;
-
+        String whereClause = "";
+        Collection cllNSD = null;
+        String strnhomnv = "";
+        boolean checkUser = false;
         try {
             if (!isTokenValid(request))
                 return executeAction(mapping, form, request, response);
@@ -174,6 +189,8 @@ public class PhanNhomAction extends AppAction {
             PhanNhomForm f = (PhanNhomForm)form;
             conn = getConnection(request);
             PhanNhomDAO phannhomDAO = new PhanNhomDAO(conn);
+            NhomNSDDAO nhomDAO = new NhomNSDDAO(conn);
+            UserDAO UsDAO = new UserDAO(conn);
             //Them NSD vao nhom
             PhanNhomVO phanNhomVO = null;
             UserHistoryVO userHisVO = null;
@@ -189,16 +206,47 @@ public class PhanNhomAction extends AppAction {
                 phanNhomVO.setNsd_id(new Long(strNhanVienID));
                 phanNhomVO.setNhom_id(new Long(f.getNhom_id()));
                 phanNhomVO.setCreated_by(new Long(strCurrentUserID));
-
-                phannhomDAO.insertNsd_nhom(phanNhomVO);
-                // Luu lich su thay doi
-                String strNoiDung = "Them NSD vao nhom id = " + f.getNhom_id();
-                userHisVO = new UserHistoryVO();
-                userHisVO.setNguoi_tdoi(new Long(session.getAttribute(AppConstants.APP_USER_ID_SESSION).toString()));
-                userHisVO.setNoi_dung_thaydoi(strNoiDung);
-                userHisVO.setNsd_id(new Long(strNhanVienID));
-                userHisDAO.insert(userHisVO);
-
+                
+               //20171206 thuongdt kiem tra khong cho phep 1 user chi 1 quyen chuc nang, tru ttv va ktt begin                
+                whereClause = " and a.LOAI_NHOM not in ('"+AppConstants.NSD_TTV+"','"+AppConstants.NSD_KTT+"') and b.nsd_id = '"+strNhanVienID+"' ";
+                 cllNSD = nhomDAO.getNhomNSDListByUser(whereClause, null) ;
+                
+                if(cllNSD == null  || cllNSD.isEmpty()){
+                 whereClause = " and a.LOAI_NHOM in ('"+AppConstants.NSD_TTV+"','"+AppConstants.NSD_KTT+"') and b.nsd_id = '"+strNhanVienID+"' ";
+                 cllNSD = nhomDAO.getNhomNSDListByUser(whereClause, null) ;
+                 
+                 NhomNSDVO nhVO = nhomDAO.getNhomNSD(" id = '"+f.getNhom_id()+"' ",null);
+                 if(cllNSD != null  && !cllNSD.isEmpty() ){
+                 if(nhVO != null &&(nhVO.getLoai_nhom().equals(AppConstants.NSD_TTV) || nhVO.getLoai_nhom().equals(AppConstants.NSD_KTT))){
+                    phannhomDAO.insertNsd_nhom(phanNhomVO);
+                    // Luu lich su thay doi
+                    String strNoiDung = "Them NSD vao nhom id = " + f.getNhom_id();
+                    userHisVO = new UserHistoryVO();
+                    userHisVO.setNguoi_tdoi(new Long(session.getAttribute(AppConstants.APP_USER_ID_SESSION).toString()));
+                    userHisVO.setNoi_dung_thaydoi(strNoiDung);
+                    userHisVO.setNsd_id(new Long(strNhanVienID));
+                    userHisDAO.insert(userHisVO);                     
+                 }else{
+                    UserVO uVO = UsDAO.getUser("id = '"+strNhanVienID+"'", null);
+                       if(uVO != null && uVO.getMa_nsd() != null)
+                           strnhomnv = strnhomnv+uVO.getMa_nsd()+",";
+                  }                 
+                 }else{
+                   phannhomDAO.insertNsd_nhom(phanNhomVO);
+                  // Luu lich su thay doi
+                  String strNoiDung = "Them NSD vao nhom id = " + f.getNhom_id();
+                  userHisVO = new UserHistoryVO();
+                  userHisVO.setNguoi_tdoi(new Long(session.getAttribute(AppConstants.APP_USER_ID_SESSION).toString()));
+                  userHisVO.setNoi_dung_thaydoi(strNoiDung);
+                  userHisVO.setNsd_id(new Long(strNhanVienID));
+                  userHisDAO.insert(userHisVO);
+                 }
+              }else{
+               UserVO uVO = UsDAO.getUser("id = '"+strNhanVienID+"'", null);
+                  if(uVO != null && uVO.getMa_nsd() != null)
+                      strnhomnv = strnhomnv+uVO.getMa_nsd()+",";
+              }
+              //20171206 thuongdt kiem tra khong cho phep 1 user chi 1 quyen chuc nang, tru ttv va ktt end
             }
             //Xoa NSD khoi nhom
             for (int i = 0; i < arrRemoveNSD.length; i++) {
@@ -218,6 +266,8 @@ public class PhanNhomAction extends AppAction {
                 userHisVO.setNsd_id(new Long(strNhanVienID));
                 userHisDAO.insert(userHisVO);
             }
+           //20171206 thuongdt tra thong bao user khong duoc phan quyen  
+            request.setAttribute("nhomnv", strnhomnv);
             saveVisitLog(conn, session, "QLY_NSD.QLY_NHOM.PHAN_NHOM",
                          "Phan nhom cho NSD");
 

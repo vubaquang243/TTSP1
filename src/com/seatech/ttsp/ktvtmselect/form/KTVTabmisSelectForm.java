@@ -16,6 +16,10 @@ public class KTVTabmisSelectForm extends ActionForm{
   private String trang_thai_chon;
   private String trangthai;
   private boolean isCheckSort;
+  
+  // taidd 22-11-2017
+  private String ma_ttv;
+  private String ma_ktv_tabmis;
       
 
     public void setNsd_id(String nsd_id) {
@@ -112,5 +116,22 @@ public class KTVTabmisSelectForm extends ActionForm{
 
     public boolean isIsCheckSort() {
         return isCheckSort;
+    }
+
+
+    public void setMa_ttv(String ma_ttv) {
+        this.ma_ttv = ma_ttv;
+    }
+
+    public String getMa_ttv() {
+        return ma_ttv;
+    }
+
+    public void setMa_ktv_tabmis(String ma_ktv_tabmis) {
+        this.ma_ktv_tabmis = ma_ktv_tabmis;
+    }
+
+    public String getMa_ktv_tabmis() {
+        return ma_ktv_tabmis;
     }
 }

@@ -34,7 +34,7 @@
   jQuery.noConflict();
   jQuery(document).ready(function () {
       if (jQuery("#tong_so_tien").val() != null && '' != jQuery("#tong_so_tien").val())
-          jQuery("#so_tien").val(CurrencyFormatted(jQuery("#tong_so_tien").val(), 'VND'));
+          jQuery("#so_tien").val(CurrencyFormatted2(jQuery("#tong_so_tien").val(), jQuery("#ma_nt").val()));
 
       var tu_ngay_field = jQuery("#tu_ngay"), 
       den_ngay_field = jQuery("#den_ngay"),
@@ -144,11 +144,19 @@
       });
 
   });
-  function changeValue(value) {
-      if(isNaN(value))
-          value = 0;
-      jQuery("#tong_so_tien").val(value);
-      jQuery("#so_tien").val(CurrencyFormatted(value, 'VND'));
+  function changeValue(txt_id, allowNegativeNumber) {
+      var value = jQuery("#"+txt_id).val().replace(/\s/g,"");
+      var loai_tien = jQuery("#ma_nt").val();
+      
+      if(allowNegativeNumber == undefined){
+        allowNegativeNumber = false;
+      }
+        
+        if(loai_tien == "VND"){
+          jQuery("#"+txt_id +"").val(CurrencyFormatted2(value, 'VND', allowNegativeNumber));
+        }else{
+          jQuery("#"+txt_id +"").val(CurrencyFormatted2(value, 'USD', allowNegativeNumber));
+        }
 
   }
   function makeGetRequestView(id, type) {
@@ -320,7 +328,7 @@
     <fmt:setLocale value="vi_VI"/>
   </c:if>
   <c:if test="${lTTForm.ma_nt != 'VND'}">
-    <fmt:setLocale value="en_US"/>
+    <fmt:setLocale value="vi_VI"/>
   </c:if>
   
   <table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
@@ -399,9 +407,9 @@
           </label>
         </td>
         <td class="promptText" align="right" width="100">
-            <input type="text" tabindex="104" onkeypress="return numbersonly(this,event,true)"
-                   class="fieldTextRight" onkeydown="if(event.keyCode==13) event.keyCode=9;"
-                   onblur="if (this.value !='') {changeValue(this.value);}" id="so_tien" maxlength="20"  style="WIDTH: 150px;"/>
+            <html:text property="so_tien" tabindex="104" onkeypress="return numbersonly2(event,true)"
+                   styleClass="fieldTextRight" onkeydown="if(event.keyCode==13) event.keyCode=9;"
+                   onblur="if (this.value !='') {changeValue('so_tien');}" styleId="so_tien" maxlength="20"  style="WIDTH: 150px;"/>
           <html:hidden property="tong_sotien" styleId="tong_so_tien"/>
         </td>
       </tr>
@@ -628,7 +636,8 @@
         <td>
           <html:select styleClass="selectBox" property="ma_nt"
                          styleId="ma_nt" style="width:100%;height:20px" 
-                         onkeydown="if(event.keyCode==13) event.keyCode=9;" >
+                         onkeydown="if(event.keyCode==13) event.keyCode=9;" 
+                         onchange="changeValue('so_tien');">
               <html:option value="VND">VND</html:option>
               <html:optionsCollection label="ma" value="ma" name="dmTienTe"/>
           </html:select>

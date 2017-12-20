@@ -321,7 +321,8 @@ public Collection getTCuuDChieuSoChiTiet_ptrang(String whereForResult,
     public List getListExistSaoKe(Vector vParam) {
         List result = new ArrayList();
         try{
-            String query = "select distinct(b.SHKB),b.TEN ten_kb,(select '\u0110\u00E3 nh\u1EADn' from dual) TRANG_THAI " + 
+            //20171130 thuongdt them TT_CHOT_SO vao cao querry
+            String query = "select distinct(b.SHKB),b.TEN ten_kb,(select '\u0110\u00E3 nh\u1EADn' from dual) TRANG_THAI,TT_CHOT_SO " + 
                           "from sp_saoke_tk a " + 
                           "JOIN sp_dm_manh_shkb b " + 
                           "on a.RECEIVE_BANK = b.MA_NH " + 
@@ -340,11 +341,11 @@ public Collection getTCuuDChieuSoChiTiet_ptrang(String whereForResult,
         List result = new ArrayList();
         try{
             String query = " select distinct(b.SHKB) ,b.ten ten_kb,(select 'Ch\u01B0a nh\u1EADn' from dual) TRANG_THAI " + 
-            "from SP_TSO_CUTOFTIME a " + 
+            " from SP_TSO_CUTOFTIME a " + 
             "  JOIN sp_dm_manh_shkb b ON a.ma_nh_kb = b.ma_nh " + 
             "  JOIN sp_dm_htkb c ON b.shkb = c.ma " + 
-            "  JOIN sp_tknh_kb d ON d.kb_id = c.id " + 
-            "where d.trang_thai = '01' " + 
+            "  JOIN sp_tknh_kb d ON d.kb_id = c.id " +
+            " where d.trang_thai = '01' " + 
             "  AND a.ma_nh LIKE ? " + 
             "  AND a.ngay_gd = to_date(?,'dd/mm/yyyy') " + 
             "  and not EXISTS " + 

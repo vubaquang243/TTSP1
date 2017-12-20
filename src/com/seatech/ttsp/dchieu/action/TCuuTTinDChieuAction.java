@@ -152,7 +152,8 @@ public class TCuuTTinDChieuAction extends AppAction {
             } else if ("0003".equals(kb_code)) {
                 conditionKBCha = " AND a.ma='0003' ";
                 conditionDChieu = " and c.id_kb_huyen= " + kb_id + " and (a.trang_thai NOT IN ('01', '02') OR a.trang_thai IS NULL)";
-            }else if ("0002".equals(kb_code)) {
+            //20170920 thuongdt bo sung tra cuu danh muc theo cuc KTNN
+			}else if ("0002".equals(kb_code)) {
                 conditionKBCha = " AND a.ma='0002' ";
                 conditionDChieu = " and c.id_kb_huyen= " + kb_id + " and (a.trang_thai NOT IN ('01', '02') OR a.trang_thai IS NULL)";
             } else if ("5".equals(cap)) {
@@ -165,7 +166,10 @@ public class TCuuTTinDChieuAction extends AppAction {
             List dmucTienTe = tienTeDAO.simpleMaNgoaiTe(" AND a.MA_NT <> 'VND' ",null);
 			//Lay danh muc tinh
             Collection dmuckb_cha = dao.getDMucKB_Tinh(conditionKBCha, null);
-            Collection colTHBKDC = dao.getTCuuDChieu_ptrang(conditionDChieu, strDC3, null, currentPage, numberRowOnPage, totalCount);
+            
+            //20171204 thuongdt khong cho phep tu dong load thong tin tra cuu, yeu cau phai submit tra cuu
+            //Collection colTHBKDC = dao.getTCuuDChieu_ptrang(conditionDChieu, strDC3, null, currentPage, numberRowOnPage, totalCount);
+            Collection colTHBKDC = null;
             request.setAttribute("colTHBKDC", colTHBKDC);
             
             request.setAttribute("dmuckb_tinh", dmuckb_cha);
@@ -216,15 +220,13 @@ public class TCuuTTinDChieuAction extends AppAction {
             String strCap = " and ma=" + kb_code;
             vo = ttdao.getCap(strCap, null);
             String cap = vo.getCap();
-            if ("0001".equals(kb_code) || "0002".equals(kb_code) ||
-                "0003".equals(kb_code)) { // SGD TTTT
-                if ("3".equals(strMaKB) || "1".equals(strMaKB)) {
-                    strWhereClause += " and a.ma='0003'";
-                } else  if ("2".equals(strMaKB) ) {
-                      strWhereClause += " and a.ma='0002'";
+            if ("0001".equals(kb_code) || "0002".equals(kb_code)) { // SGD TTTT
+                if ("1".equals(strMaKB)) {
+                    strWhereClause += " and (a.ma='0003' or a.ma='0002') ";
+			   //20170920 thuongdt bo sung tra cuu danh muc theo cuc KTNN
                 } else {
                     strWhereClause +=
-                            " and a.id_cha = " + strMaKB + " and a.ma<>'0003'";
+                            " and (a.id_cha ='" + strMaKB + "' or a.id ='" + strMaKB + "') ";
                 }
                 col = ttdao.getDMucKB_huyen(strWhereClause, null);
             } else {
@@ -598,7 +600,8 @@ public class TCuuTTinDChieuAction extends AppAction {
         if (formTraCuu.getNhkb_huyen() != null && !"".equals(formTraCuu.getNhkb_huyen())) {
             conditionDC.append(" and c.id_kb_huyen = " + formTraCuu.getNhkb_huyen());
         }
-        if (formTraCuu.getMa_dv() != null && !"".equals(formTraCuu.getMa_dv())) {
+        //20171129 thuongdt bo sung kiem tra ma_dv khi gia tri la null
+        if (formTraCuu.getMa_dv() != null && !"".equals(formTraCuu.getMa_dv()) && !"null".equals(formTraCuu.getMa_dv())) {
             conditionDC.append(" and substr(c.ma_nh,3,3) = '" + formTraCuu.getMa_dv() + "'");
         }
         if (tthai != null && !"".equals(tthai)) {

@@ -2,56 +2,63 @@ package com.seatech.ttsp.lenhqtthucong.form;
 
 import com.seatech.framework.strustx.AppForm;
 /* Khai bao params */
-public class LenhQTTCForm extends AppForm{
+public class LenhQTTCForm extends AppForm {
     private String maNHKBChuyen;
-    
+
     private String maNHKBNhan;
-    
+
     private String ngayHachToan;
-    
+
     private String ngayQuyetToan;
-    
+
     private String loaiQuyetToan;
-    
+
     private String soThamChieuLienQuan;
-    
+
     private String soLenhQuyetToan;
-    
+
     private String soThamChieuGiaoDich;
-    
+
     private String soTien;
-    
+
     private String loaiTien;
-    
+
     private String noiDungThanhToan;
-    
+
     private String nguoiNhap;
-    
+
     private String ngayNhap;
-    
+
     private String nguoiKiemSoat;
-    
+
     private String ngayKiemSoat;
-    
+
     private String tenTaiKhoanPhatLenh;
-    
+
     private String tenTaiKhoanNhanLenh;
-    
+
     private String taiKhoanPhatLenh;
-    
+
     private String taiKhoanNhanLenh;
-    
+
     private String maNHPhatLenh;
-    
+
     private String maNHNhanLenh;
-    
+
     private String phuongAnHachToan;
-    
+
     private String tenNHPhatLenh;
-    
+
     private String tenNHNhanLenh;
-    
+
     private String ma_nh;
+
+    private String ly_do_hach_toan;
+    
+    private String loaiTaiKhoan;
+    
+    private String id_ref;
+
     public void setMaNHKBChuyen(String maNHKBChuyen) {
         this.maNHKBChuyen = maNHKBChuyen;
     }
@@ -250,5 +257,29 @@ public class LenhQTTCForm extends AppForm{
 
     public String getMa_nh() {
         return ma_nh;
+    }
+
+    public void setLy_do_hach_toan(String ly_do_hach_toan) {
+        this.ly_do_hach_toan = ly_do_hach_toan;
+    }
+
+    public String getLy_do_hach_toan() {
+        return ly_do_hach_toan;
+    }
+
+    public void setLoaiTaiKhoan(String loaiTaiKhoan) {
+        this.loaiTaiKhoan = loaiTaiKhoan;
+    }
+
+    public String getLoaiTaiKhoan() {
+        return loaiTaiKhoan;
+    }
+
+    public void setId_ref(String id_ref) {
+        this.id_ref = id_ref;
+    }
+
+    public String getId_ref() {
+        return id_ref;
     }
 }

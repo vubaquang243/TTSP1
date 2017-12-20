@@ -21,6 +21,8 @@
 
 <%
   String kb_huyen = request.getAttribute("kb_huyen")==null?"":request.getAttribute("kb_huyen").toString();
+  String kb_id = session.getAttribute(AppConstants.APP_KB_CODE_SESSION) == null ? "" : session.getAttribute(AppConstants.APP_KB_CODE_SESSION).toString();
+  String id_kb = session.getAttribute(AppConstants.APP_KB_ID_SESSION) == null ? "" : session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
 %>
 <script type="text/javascript">
   jQuery.noConflict();
@@ -41,7 +43,11 @@
             jQuery("#kb_huyen").val("0003");
           }catch(ex){}
       }
-      
+      var kb_id = '<%=kb_id%>';
+      if(kb_id == "0001"){
+      jQuery('#kb_tinh').append('<option value="" selected>Chọn kho bạc tỉnh<\/option>');
+      jQuery('#kb_huyen').append('<option value="" selected>Chọn kho bạc huyện<\/option>');
+      }
   // end
     jQuery("#btn_Thoat").click(function () {          
           document.forms[0].action = "thoatView.do";
@@ -67,6 +73,28 @@
           }
       });
   });
+  
+  //20171129 taidd sua format loai tien
+  function changeValue(txt_id, allowNegativeNumber) {  
+      var value = jQuery("#"+txt_id +"").val().replace(/\s/g,"");
+      var loai_tien = jQuery("#tcg_loai_tien").val();
+      
+      if(allowNegativeNumber == undefined){
+        allowNegativeNumber = false;
+      }
+      
+      if(value==""){
+        return;
+      }
+        
+        if(loai_tien == "VND"){
+          jQuery("#"+txt_id +"").val(CurrencyFormatted2(value, 'VND', allowNegativeNumber));
+        }else{
+          jQuery("#"+txt_id +"").val(CurrencyFormatted2(value, 'USD', allowNegativeNumber));
+        }
+
+  }
+  
   function goPage(page) {
       jQuery("#frmQTTQ").attr( {
           action : 'TraCuuQToanList.do'
@@ -244,12 +272,13 @@
   //XU ly tien te
   function changeForeignCurrency(nStr){
         nStr += '';
+        nStr = nStr.replace(/\,/g,"");
         x = nStr.split('.');
         x1 = x[0];
         x2 = x.length > 1 ? '.' + x[1] : '';
        var rgx = /(\d+)(\d{3})/;
        while (rgx.test(x1)) {
-          x1 = x1.replace(rgx, '$1' + ',' + '$2');
+          x1 = x1.replace(rgx, '$1' + '.' + '$2');
         }
         return x1 + x2;
       }
@@ -257,6 +286,8 @@
   //xu ly dinh dang tien te viet nam
   function changeVNDCurrency(nStr){
     nStr += '';
+    nStr = nStr.replace(/\./g,"");
+    nStr = nStr.replace(/\,/g,"");
     x1 = nStr;
       x1 = x1.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
     return x1;
@@ -334,7 +365,7 @@
                           <td width="20%">
                             <logic:present name="MAT4">
                               <html:select styleClass="selectBox" property="kb_tinh"
-                                           onchange="getTenKhoBacLTT('','')"
+                                           onchange="getTenKhoBacLTT('','');"
                                            styleId="kb_tinh" style="width:100%;height:20px" 
                                            onkeydown="if(event.keyCode==13) event.keyCode=9;" >
                                 <html:option value="">
@@ -344,15 +375,18 @@
                               </html:select>
                             </logic:present>
                             <logic:notPresent name="MAT4">
-                              <html:select styleClass="selectBox" property="kb_tinh" styleId="kb_tinh" style="width:100%;height:20px;" onkeydown="if(event.keyCode==13) event.keyCode=9;" >
+                              <html:select styleClass="selectBox" property="kb_tinh" styleId="kb_tinh" style="width:100%;height:20px;" onkeydown="if(event.keyCode==13) event.keyCode=9;"
+                              onchange="getTenKhoBacLTT('',''); getKBHuyen(this);" >
                               <html:optionsCollection label="ten" value="ma" name="lstKBTinh"/>
                             </html:select>
                             </logic:notPresent>
                           </td>
                           <td rowspan="3" width="9">
-                              <button type="button" style="width:100%" onclick="callLov();" class="ButtonCommon" accesskey="t" >
+                          <% if("1".equals(id_kb) || "2".equals(id_kb)){%>
+                            <button type="button" style="width:100%" onclick="callLov();" class="ButtonCommon" accesskey="t" >
                               <span class="sortKey">D</span>anh m&#7909;c KB
                             </button>
+                            <%}%>
                           </td>
                           <td width="10%" style="text-align:right;padding-right:5px">
                             <label for="HSC">
@@ -406,7 +440,7 @@
                                          Báo nợ thu phí POS 
                                      </html:option>  
                                      <html:option value="07">
-                                         Quyết toán bù số chi ngày lỗi
+                                         Quyết toán bù số chi
                                      </html:option> 
                                      <html:option value="08">
                                          Quyết toán thấu chi
@@ -425,10 +459,7 @@
                           </td>
                           <td width="20%">
                             <logic:present name="MAT4">
-                              <html:select styleClass="selectBox" property="kb_huyen" styleId="kb_huyen" style="width:100%;height:20px" onkeydown="if(event.keyCode==13) event.keyCode=9;" >
-                                <html:option value="">
-                                <fmt:message key="QTToanQuoc.page.kbHuyen.default"/>
-                                </html:option>
+                              <html:select styleClass="selectBox" property="kb_huyen" styleId="kb_huyen" style="width:100%;height:20px" onkeydown="if(event.keyCode==13) event.keyCode=9;" >                              
                                 <html:options collection="lstKBHuyen" property="ma" labelProperty="ten"/>
                               </html:select>
                             </logic:present>
@@ -451,7 +482,8 @@
                           <td width="20%">
                               <html:select styleClass="selectBox" property="tcg_loai_tien"
                                            styleId="tcg_loai_tien" style="width:50%;height:20px" 
-                                           onkeydown="if(event.keyCode==13) event.keyCode=9;" onblur="resetInput();" >
+                                           onkeydown="if(event.keyCode==13) event.keyCode=9;" onblur="resetInput();"
+                                           onchange="changeValue('soTien');">
                                 <html:option value="VND">VND</html:option>
                                 <html:optionsCollection value="ma" label="ma" name="tienTe"/>
                               </html:select>
@@ -510,7 +542,7 @@
                           </td>
                           <td width="20%">
                               <html:text property="soTien" styleId="soTien" onkeydown="if(event.keyCode==13) event.keyCode=9;"
-                               onkeypress="return numberBlockKey1();" onblur="changeCurrency(this);" style="text-align : right;" maxlength="20" />
+                               onkeypress="return numberBlockKey1();" onblur="changeValue('soTien');" style="text-align : right;" maxlength="20" />
                           </td>
                           <td>
                           </td>
@@ -718,7 +750,7 @@
                             </fmt:formatNumber>
                           </logic:equal>
                           <logic:notEqual property="ma_nt" name="items" value="VND">
-                            <fmt:setLocale value="en_US"/>
+                            <fmt:setLocale value="vi_VI"/>
                             <fmt:formatNumber type="currency" currencySymbol="">
                               <bean:write  name="items" property="so_tien"/>
                             </fmt:formatNumber>

@@ -9,6 +9,11 @@ import com.google.gson.JsonObject;
 import com.seatech.framework.AppConstants;
 import com.seatech.framework.common.jsp.PagingBean;
 import com.seatech.framework.strustx.AppAction;
+import com.seatech.framework.utils.TTSPLoadDMuc;
+import com.seatech.ttsp.dmnh.DMNHangDAO;
+import com.seatech.ttsp.dmnh.DMNHangHOVO;
+import com.seatech.ttsp.dmtiente.DMTienTeDAO;
+import com.seatech.ttsp.dmtiente.DMTienTeVO;
 import com.seatech.ttsp.tracuusodu.TraCuuSoDuDAO;
 import com.seatech.ttsp.tracuusodu.form.TraCuuSoDuForm;
 
@@ -16,7 +21,9 @@ import java.io.PrintWriter;
 
 import java.sql.Connection;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +44,7 @@ public class TraCuuSoDuAction extends AppAction {
                                        HttpServletRequest request,
                                        HttpServletResponse response) throws Exception {
         if (!checkPermissionOnFunction(request, "SYS.TK.TCSD")) {
-           return mapping.findForward("errorQuyen");
+            return mapping.findForward("errorQuyen");
         }
         Connection conn = null;
         Collection lstTimKiem = null;
@@ -52,6 +59,7 @@ public class TraCuuSoDuAction extends AppAction {
             String strWhere = "";
             int phantrang = (AppConstants.APP_NUMBER_ROW_ON_PAGE);
             lstNHKBTinh = dao.getNHKBTinh("", null);
+
             String page = traCuuForm.getPageNumber();
             if (page == null || page.equals(""))
                 page = "1";
@@ -66,27 +74,42 @@ public class TraCuuSoDuAction extends AppAction {
                             "' or c.ma_cha = '" +
                             traCuuForm.getId_kho_bac_tinh() + "') ";
                 }
-                if (!traCuuForm.getId_kho_bac_huyen().equals("") && (!traCuuForm.getId_kho_bac_huyen().equals("0000"))
-                && (!traCuuForm.getId_kho_bac_huyen().equals("selected"))) {
+                if (!traCuuForm.getId_kho_bac_huyen().equals("") &&
+                    (!traCuuForm.getId_kho_bac_huyen().equals("0000")) &&
+                    (!traCuuForm.getId_kho_bac_huyen().equals("selected"))) {
                     strWhere +=
                             "AND c.ma = '" + traCuuForm.getId_kho_bac_huyen() +
                             "' ";
                 }
                 if (!traCuuForm.getId_ngan_hang().equals("")) {
                     strWhere +=
-                            "AND b.ma_nh = '" + traCuuForm.getId_ngan_hang() +
+                            "AND b.ma_nh like '__" + traCuuForm.getId_ngan_hang() +
+                            "%' ";
+                }
+                if (!traCuuForm.getLoai_tien().equals("")) {
+                    strWhere +=
+                            "AND d.loai_tien = '" + traCuuForm.getLoai_tien() +
                             "' ";
                 }
-                if(!traCuuForm.getHan_muc().equals("")){
-                    if(traCuuForm.getTinh_trang_so_du().equals("01")){
-                        strWhere += "AND a.han_muc_no > " + traCuuForm.getHan_muc() + " ";
+                if (!traCuuForm.getHan_muc().equals("")) {
+                    strWhere +=
+                            "AND a.han_muc_no = '" + traCuuForm.getHan_muc() +
+                            "' ";
+                }
+                if (!traCuuForm.getTinh_trang_so_du().equals("")) {
+                    if (traCuuForm.getTinh_trang_so_du().equals("01")) {
+                        strWhere += "AND a.han_muc_no < d.so_du ";
                     }
-                  if(traCuuForm.getTinh_trang_so_du().equals("02")){
-                      strWhere += "AND a.han_muc_no = " + traCuuForm.getHan_muc() + " ";
-                  }
-                  if(traCuuForm.getTinh_trang_so_du().equals("03")){
-                      strWhere += "AND a.han_muc_no < " + traCuuForm.getHan_muc() + " ";
-                  }
+                    if (traCuuForm.getTinh_trang_so_du().equals("02")) {
+                        strWhere += "AND a.han_muc_no = d.so_du ";
+                    }
+                    if (traCuuForm.getTinh_trang_so_du().equals("03")) {
+                        strWhere += "AND a.han_muc_no > d.so_du ";
+                    }
+                    //20171130 thuongdt bo sung them ham muc du nho hon 0
+                    if (traCuuForm.getTinh_trang_so_du().equals("00")) {
+                        strWhere += "AND d.so_du < 0 ";
+                    }
                 }
                 if (!traCuuForm.getLoai_tai_khoan().equals("")) {
                     strWhere +=
@@ -109,8 +132,10 @@ public class TraCuuSoDuAction extends AppAction {
             }
             request.setAttribute("lstTimKiem", lstTimKiem);
             request.setAttribute("lstNHKBTinh", lstNHKBTinh);
+            //20171204 thuongdt load dm ngan hang, tien te
+            loadDMuc(request, conn);
         } catch (Exception e) {
-            //throw e;
+            throw new Exception(e.getMessage());
         } finally {
             close(conn);
         }
@@ -137,6 +162,8 @@ public class TraCuuSoDuAction extends AppAction {
             TraCuuSoDuDAO dao = new TraCuuSoDuDAO(conn);
             String kb_id = request.getParameter("kb_id");
             String strWhere = " AND ma_cha = '" + kb_id + "' ";
+            if (kb_id.equals("0001"))
+                strWhere += " AND (ma = '0002' OR ma='0003') ";
             Collection lstNHKBHuyen = dao.getNHKBHuyen(strWhere, null);
             gson = new GsonBuilder().setVersion(1.0).create();
             strJson = gson.toJson(lstNHKBHuyen);
@@ -241,7 +268,7 @@ public class TraCuuSoDuAction extends AppAction {
                                 HttpServletRequest request,
                                 HttpServletResponse response) throws Exception {
         if (!checkPermissionOnFunction(request, "SYS.TK.TCSD")) {
-           return mapping.findForward("errorQuyen");
+            return mapping.findForward("errorQuyen");
         }
         Connection conn = null;
         Vector vParams = null;
@@ -285,5 +312,20 @@ public class TraCuuSoDuAction extends AppAction {
             close(conn);
         }
         return mapping.findForward("success");
+    }
+
+    private void loadDMuc(HttpServletRequest request,
+                          Connection conn) throws Exception {
+        Collection dmNH = null;
+        List dmTienTe = null;
+        DMTienTeDAO tienTeDAO = new DMTienTeDAO(conn);
+        DMNHangDAO NHDAO = new DMNHangDAO(conn);
+        dmTienTe = tienTeDAO.simpleMaNgoaiTe(" ", null);
+        dmNH = NHDAO.getclDMNHangHO(" and a.ma_dv <> '701' ", null);
+        if(dmNH == null) dmNH = new ArrayList<DMNHangHOVO>();
+        if(dmTienTe == null) dmTienTe = new ArrayList<DMTienTeVO>();
+        request.setAttribute("dmNH", dmNH);
+        request.setAttribute("dmTienTe", dmTienTe);
+
     }
 }

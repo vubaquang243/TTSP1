@@ -155,6 +155,7 @@ public class BKeTinhLaiAction extends AppAction {
                 strBke += " AND a.so_tk='" + so_tk + "'";
             }
             if (nhkb_huyen != null && !"".equals(nhkb_huyen)) {
+			//20170926 thuongdt bo sung tra cuu SGD va cuc KTNN
                 if(nhkb_huyen.equals("2") || nhkb_huyen.equals("3"))
                   strBke += " AND (c.id= '2' or c.id= '3')" ;
                 else
@@ -222,7 +223,7 @@ public class BKeTinhLaiAction extends AppAction {
         }
         return mapping.findForward("success");
     }
-
+     //20170926 thuongdt turning lai code cho gon ko phai sua nhieu cho
     public void loadDMTinh(String kb_code,String cap, Connection conn, HttpServletRequest request) throws Exception {
               DChieu1DAO dao = new DChieu1DAO(conn);
               List dmuckb_cha = null;  
@@ -321,6 +322,7 @@ public class BKeTinhLaiAction extends AppAction {
                 condition = " and c.ma_nh ='" + maNH + "' and a.so_tk= '"+soTk+"'";
             }else{//Nhieu thang 
                 String maKB = request.getParameter("nhkb_id");
+				//20170926 thuongdt bo sung tra cuu SGD va cuc KTNN
                 if("2".equals(maKB)||"3".equals(maKB))
                 condition = " and ( b.id='2' or  b.id='3')  and c.ma_nh ='" + maNH + "'";
                 else

@@ -196,6 +196,39 @@ function numbersonly(myfield, e, dec)
 	else
 	return false;
 }
+
+//20171102 - thuongdt bo sung cho phep nhap so am
+function numbersonly_soam(myfield, e, dec)
+{
+	var vmyfield = myfield.value;
+	var key;
+	var keychar;
+
+	if (window.event)
+	key = window.event.keyCode;
+	else if (e)
+		key = e.which;
+	else
+		return true;
+	keychar = String.fromCharCode(key);
+	// control keys
+	if ((key==null) || (key==0) || (key==8) ||
+	(key==9) || (key==13) || (key==27) || (key==45))
+	return true;
+	
+	// numbers
+	else if ((("0123456789").indexOf(keychar) > -1))
+	return true;
+	
+	// decimal point jump
+	else if (dec && (keychar == "."))
+	{
+	myfield.form.elements[dec].focus();
+	return false;
+	}
+	else
+	return false;
+}
 function numberBlockKey(){
 	if (event.keyCode < 48 || event.keyCode > 57 )
         event.returnValue = false;

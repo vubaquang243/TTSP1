@@ -261,16 +261,16 @@ public class DChieuNgoaiTeDAO extends AppDAO {
                   "    CASE WHEN a.ngay_ts <> b.ngay_ts then 'NGAY_TS; ' ELSE '' END ||" + 
                   "    CASE WHEN a.loai_tien <> b.loai_tien then 'LOAI_TIEN; ' ELSE '' END " + 
                   "    as ly_do," +
-                  "    CASE WHEN a.f32as3 <> b.f32as3 then a.f32as3||','|| b.f32as3||'; ' ELSE '' END ||" + 
-                  "    CASE WHEN a.send_bank <> b.send_bank then a.send_bank||','|| b.send_bank||'; ' ELSE '' END ||" + 
-                  "    CASE WHEN a.receive_bank <> b.receive_bank then a.receive_bank||','|| b.receive_bank||'; ' ELSE '' END ||" + 
-                  "    CASE WHEN a.ngay_ct <> b.ngay_ct then a.ngay_ct||','|| b.ngay_ct||'; ' ELSE '' END ||" + 
-                  "    CASE WHEN a.f20 <> b.f20 then a.f20||','|| b.f20||'; ' ELSE '' END ||" + 
-                  "    CASE WHEN a.send_date <> b.send_date then a.send_date||','|| b.send_date||'; ' ELSE '' END ||" + 
-                  "    CASE WHEN a.ngay_ts <> b.ngay_ts then a.ngay_ts||','|| b.ngay_ts||'; ' ELSE '' END ||" + 
-                  "    CASE WHEN a.loai_tien <> b.loai_tien then a.loai_tien||','|| b.loai_tien||'; ' ELSE '' END     as ctiet_ly_do "+
+                  "    CASE WHEN a.f32as3 <> b.f32as3 then decode(a.TRANG_THAI,1,'KB:','NH:') ||a.f32as3||','|| decode(b.TRANG_THAI,1,'KB:','NH:') ||b.f32as3||'; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.send_bank <> b.send_bank then decode(a.TRANG_THAI,1,'KB:','NH:') ||a.send_bank||','|| decode(b.TRANG_THAI,1,'KB:','NH:') ||b.send_bank||'; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.receive_bank <> b.receive_bank then decode(a.TRANG_THAI,1,'KB:','NH:') ||a.receive_bank||','|| decode(b.TRANG_THAI,1,'KB:','NH:') ||b.receive_bank||'; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.ngay_ct <> b.ngay_ct then decode(a.TRANG_THAI,1,'KB:','NH:') ||a.ngay_ct||','|| decode(b.TRANG_THAI,1,'KB:','NH:') ||b.ngay_ct||'; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.f20 <> b.f20 then decode(a.TRANG_THAI,1,'KB:','NH:') ||a.f20||','|| decode(b.TRANG_THAI,1,'KB:','NH:') ||b.f20||'; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.send_date <> b.send_date then decode(a.TRANG_THAI,1,'KB:','NH:') ||a.send_date||','|| decode(b.TRANG_THAI,1,'KB:','NH:') ||b.send_date||'; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.ngay_ts <> b.ngay_ts then decode(a.TRANG_THAI,1,'KB:','NH:') ||a.ngay_ts||','|| decode(b.TRANG_THAI,1,'KB:','NH:') ||b.ngay_ts||'; ' ELSE '' END ||" + 
+                  "    CASE WHEN a.loai_tien <> b.loai_tien then decode(a.TRANG_THAI,1,'KB:','NH:') ||a.loai_tien||','|| decode(b.TRANG_THAI,1,'KB:','NH:') ||b.loai_tien||'; ' ELSE '' END     as ctiet_ly_do "+
                   " FROM sp_065_dtl_ngoai_te a" + 
-                  " JOIN sp_065_dtl_ngoai_te b using(mt_id) WHERE a.bkq_id = b.bkq_id AND a.trang_thai = '0' AND b.trang_thai = '1' AND a.bkq_id = '"+strbke_id+"') "+
+                  " JOIN sp_065_dtl_ngoai_te b using(mt_id) WHERE a.bkq_id = b.bkq_id AND a.trang_thai = '0' AND b.trang_thai = '1' AND  '"+strbke_id+"' like a.bkq_id||'%' ) "+
                   //noi dung cau sql goc truc khi sua
                   " SELECT DISTINCT a.id, a.bkq_id, a.bk_id, a.mt_id,a.loai_tien, to_char(a.send_date,'DD/MM/YYYY HH24:mi:ss') send_date, a.f20, a.f21, a.tthai_duyet," +
                   " a.f32as3, to_char(a.ngay_ts,'DD/MM/YYYY') ngay_ts, a.ghi_chu, a.mt_type, a.app_type," +
@@ -283,7 +283,7 @@ public class DChieuNgoaiTeDAO extends AppDAO {
                   " where 1=1 and a.bkq_id= c.mt_id and c.receive_bank=b.ma_nh " +
                    //join bang tam
                   " and a.mt_id = dlt.mt_id(+) " +
-                  " and a.bkq_id in ('" + strbke_id + "')";
+                  " and  '" + strbke_id + "' like a.bkq_id||'%' ";
   
             reval = executeSelectStatement(strSQL.toString(), vParam, strValueObjectKQCTVO, conn);
         } catch (Exception ex) {
@@ -1112,8 +1112,9 @@ public class DChieuNgoaiTeDAO extends AppDAO {
         Collection reval = null;
         try {
             String strSQL = "";
+            //20171121 thuongdt bo sung them ten ngan hang: b.ten
             strSQL +=
-                    "SELECT distinct  a.id, a.bk_id, TO_CHAR (b.ngay, 'DD/MM/YYYY') ngay_dc," +
+                    "SELECT distinct  a.id, a.bk_id,b.ten, TO_CHAR (b.ngay, 'DD/MM/YYYY') ngay_dc," +
                     "     TO_CHAR (a.ngay_thuc_hien_dc, 'DD/MM/YYYY') ngay_thuc_hien_dc," +
                     "     a.ket_qua, a.lan_dc, a.send_bank, a.trang_thai, a.tthai_dxn_thop," +
                     "     b.ma_nh receive_bank, a.ket_qua_dxn_thop, a.tthai_ttin," +
@@ -1335,7 +1336,9 @@ public class DChieuNgoaiTeDAO extends AppDAO {
             "                    AND d4.id = d6.kb_id" +
             "                    AND d2.id = d6.nh_id" +
             "                    AND d1.ma_nh = d2.ma_nh" +
-            "                    AND TRUNC (d1.ngay_gd + 1) <= TRUNC (SYSDATE) AND d1.ngay_gd > sysdate -10" +
+            "                    AND TRUNC (d1.ngay_gd + 1) <= TRUNC (SYSDATE) " +
+            //20171204 thuongdt bo gioi han ngay gdich, kiem soat lai tu ngay den ngay phai co 
+            //"                     AND d1.ngay_gd > sysdate -10" +
             "                    AND TO_CHAR (ngay_gd + 1, 'YYYYMMDD') NOT IN" +
             "                          (SELECT   ngay FROM sp_ngay_nghi)) c" +
             "        WHERE     a.mt_id = b.bk_id(+)" +

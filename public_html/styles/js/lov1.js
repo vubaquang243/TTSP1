@@ -120,6 +120,50 @@ function fillLovDMKBTCUULTT() {
         }
     });
 }
+/*
+*20171027 Quangvb bo sung ham lov tra cu so du
+*/
+function fillLovDMKBTCUUSODU() {
+
+    var ma = jQuery('#ma_lov').val();   
+    var ten = jQuery("#ten_lov").val();
+    var loai = jQuery("#loai_lov").val();
+
+    if (loai == null || loai == '') {
+        loai = "DMKBSODU";
+    }
+    if (ma == null)
+        ma = "";
+    if (ten == null)
+        ten = "";
+    jQuery.ajax( {    
+        type : "POST", url : "lovAction.do", data :  {
+            "ma" : ma, "ten" : ten, "loai" : loai
+        },        
+        success : function (data, textstatus) {            
+            jQuery("#tblLovDM").html("");           
+            if (textstatus != null && textstatus == 'success') {
+                var strTrTag = "";
+                if (data != null) {
+                    jQuery.each(data, function (i, objectDM) {
+                    
+                      strTrTag = strTrTag + "<tr class='ui-widget-content jqgrow ui-row-ltr' id='row_lov_"+i+"' ondblclick=\"setIntoFieldLOVTCUUSODU('"+objectDM.id+"','"+objectDM.ma_nh+"','"+objectDM.ten+"','"+objectDM.ma_cha+"'); rowSelectedFocusLOV('row_lov_"+i+"');\" onclick=\"rowSelectedFocusLOV('row_lov_"+i+"');\"><td width='20%' onkeydown=\"arrowUpDownLOV(event);\" id='"+i+"'>"+objectDM.ma_nh+"</td><td onkeydown=\"arrowUpDownLOV(event);\" id='"+i+"'>"+objectDM.ten+"</td></tr>";                      
+                      
+                    });
+                    strTrTag = strTrTag + "";  
+                    jQuery('#tblLovDM').append(strTrTag);                
+                    
+                    jQuery("#row_lov_0").addClass('ui-state-highlight');
+                    jQuery("#0").addClass('ui-state-highlight');
+                    jQuery("#0").focus();
+                }                
+            }
+        },
+        error : function (textstatus) {
+            alert(textstatus);
+        }
+    });
+}
 
 
 
@@ -144,17 +188,17 @@ function setIntoFieldLOVTCUU(id, ma, ten,id_cha){
   var ten_field_id = jQuery("#ten_field_id_lov").val();
   var id_field_id = jQuery("#id_field_id_lov").val();
   var id_cha_field_id = jQuery("#id_cha_field_id_lov").val();
-  
+ 
   if(id_cha==1||id_cha=='1'){
   jQuery("#"+id_field_id).val("");  
     jQuery("#"+ma_field_id).val(ma);
     jQuery("#"+ten_field_id).val(ten);
     jQuery("#"+id_cha_field_id).val(id);
     if(ma=='0003'){
-//      getTenKhoBacDC(id,'1');
+      getTenKhoBacDC(id,'1');
     }
     if(ma!='0003'){
-//      getTenKhoBacDC('',id);
+      getTenKhoBacDC('',id);
     }
     
   }else if(id_cha!=1&&id_cha!='1'){
@@ -162,7 +206,7 @@ function setIntoFieldLOVTCUU(id, ma, ten,id_cha){
     jQuery("#"+ma_field_id).val(ma);
     jQuery("#"+ten_field_id).val(ten);
     jQuery("#"+id_cha_field_id).val(id_cha);
-//    getTenKhoBacDC(id,id_cha);
+    getTenKhoBacDC(id,id_cha);
   }
   
   
@@ -186,11 +230,12 @@ function setIntoFieldLOVTCUULTT(id, ma, ten,ma_cha){
     jQuery("#"+ma_field_id).val(ma);
     jQuery("#"+ten_field_id).val(ten);
     jQuery("#"+ma_cha_field_id).val(ma);
+    
     if(ma=='0003'){
-//      getTenKhoBacLTT('0003','0003');
+      getTenKhoBacLTT('0003','0003');
     }
     if(ma!='0003'){
-//      getTenKhoBacLTT('',ma);
+      getTenKhoBacLTT('',ma);
     }
     
   }else if(ma_cha!='0001'){
@@ -199,16 +244,40 @@ function setIntoFieldLOVTCUULTT(id, ma, ten,ma_cha){
     jQuery("#"+ma_field_id).val(ma);
     jQuery("#"+ten_field_id).val(ten);
     jQuery("#"+ma_cha_field_id).val(ma_cha);
-//    getTenKhoBacLTT(ma,ma_cha);
+    getTenKhoBacLTT(ma,ma_cha);
   }
-  
-  jQuery("#ma_kb").val(ma);  // xoa
+  //20171027  QuangVB bo sung them code tu close lov khi onlick ket qua tra cuu
+  jQuery("#ma_kb").val(ma);  
   jQuery("#tblLovDM").html("");  
   jQuery("#ma_lov").val("");
   jQuery("#ten_lov").val("");
   jQuery("#dialog-form-lov-dm").dialog( "close" );  
   jQuery("#"+ma_field_id).focus()
   
+}
+//20171027  QuangVB set ham lov tra cuu so du
+function setIntoFieldLOVTCUUSODU(id, ma, ten,ma_cha){
+  var ma_field_id = jQuery("#ma_field_id_lov").val();
+  var ten_field_id = jQuery("#ten_field_id_lov").val();
+  var id_field_id = jQuery("#id_field_id_lov").val();
+  var ma_cha_field_id = jQuery("#ma_cha_field_id_lov").val();
+//  alert(ma+'----'+ma_cha);
+  
+  if(ma =='0002' || ma=='0003'){    
+    jQuery("#kb_tinh option[value='"+ ma_cha +"']").attr("selected",true);
+  }else if(ma_cha == '0001'){
+    jQuery("#kb_tinh option[value='"+ ma +"']").attr("selected",true);
+  }else{
+    jQuery("#kb_tinh option[value='"+ ma_cha +"']").attr("selected",true);
+  }
+  getNHKBHuyen(ma);
+  jQuery('#ngan_hang option[value=""]').attr("selected",true);
+  jQuery("#tblLovDM").html("");  
+  jQuery("#ma_lov").val("");
+  jQuery("#ten_lov").val("");
+  jQuery("#dialog-form-lov-dm").dialog( "close" );  
+  jQuery("#kb_huyen").focus();
+  jQuery("#"+ma_field_id).focus()
 }
 
 function rowSelectedFocusLOV(rowId){
@@ -279,4 +348,3 @@ function arrowUpDownLOV(e){
       default:        
     }
    }
-   

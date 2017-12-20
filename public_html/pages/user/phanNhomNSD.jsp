@@ -4,7 +4,12 @@
 <%@ page import="com.seatech.framework.AppConstants"%>
 <%@ page import="com.seatech.ttsp.user.UserVO"%>
 <fmt:setBundle basename="com.seatech.ttsp.resource.PhanNhomNSDResource"/>
-
+<!--20171124 thuongdt them id kb cua sesion user -->
+<%   String id_kb = session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
+    //20171206 thuongdt them nhomnv
+    String nhomnv = request.getAttribute("nhomnv")==null?"":request.getAttribute("nhomnv").toString();
+    
+ %>
 <script type="text/javascript">
     var arrFunAllow = new Array();
     var arrFunDeny = new Array();       
@@ -71,7 +76,7 @@
                 <html:text property="ma_kb" styleId="ma_kb_id"
                            onfocus="this.style.backgroundColor='#ffffb5'"
                            size="4%"
-                           onblur="this.style.backgroundColor='#ffffff'; getTenKhoBac('ma_kb_id','ten_kb_id','kb_id_id','phanNhomLoadMaKBAction.do')"   
+                           onblur="this.style.backgroundColor='#ffffff'; getTenKhoBac('ma_kb_id','ten_kb_id','kb_id_id','phanNhomLoadMaKBAction.do');checkquyen();"   
                            styleclass="promptText"
                            onkeydown="if(event.keyCode==13) event.keyCode=9;"/>
                 <html:text property="ten_kb" readonly="true" styleId="ten_kb_id"
@@ -186,7 +191,7 @@
               <td style="text-align:center; width:20px"><input type="button" value=">>" id="btnThemCNGroup" onclick="addorRemove('tbdListAddFunAllow', 'tbdListAddFun','add')"/></input> </td>
             </tr>
             <tr>
-              <td style="text-align:center; width:20px"><input type="button" value="<<" onclick="addorRemove('tbdListAddFunAllow', 'tbdListAddFun', 'remove')"/></td>
+              <td style="text-align:center; width:20px"><input type="button" value="<<" id="btnChuyenCNGroup" onclick="addorRemove('tbdListAddFunAllow', 'tbdListAddFun', 'remove')"/></td>
             </tr>
           </table>
         </td>
@@ -560,6 +565,34 @@
         frm.action = "mainAction.do";
       }
       frm.submit();
+    }
+    
+    // 20171124 thuongdt kiem tra chi cho phep qthttw duoc phan quyen cho cac don vi: 0001, 0002, 0003
+    checkquyen();
+    function checkquyen(){
+      var kb_id = '<%=id_kb%>';
+     var vshkb = document.getElementById("ma_kb_id").value; 
+     var vnhom_id_id = document.getElementById("nhom_id_id").value; 
+     
+     if(kb_id == '1'){
+       if((vshkb == '0001' || vshkb == '0002' || vshkb == '0003') || vnhom_id_id == '341'){
+        document.getElementById("btnThemCNGroup").style.display = "block";
+        document.getElementById("btnChuyenCNGroup").style.display = "block";
+       }else{
+        document.getElementById("btnThemCNGroup").style.display = "none";
+        document.getElementById("btnChuyenCNGroup").style.display = "none";
+       }
+     }
+    }
+    
+    //20171206 thuongdt bo sung them kiem tra phan quyen nhom
+    checkNhom();
+    function checkNhom(){
+      var nhom = '<%=nhomnv%>';
+      if(nhom != ''){
+        alert('Đã tồn tại nhóm quyền chức năng user: '+nhom+' không thể phân nhóm tiếp.');
+      
+      }
     }
 </script>
     
