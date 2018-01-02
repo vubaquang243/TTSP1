@@ -1315,11 +1315,11 @@ public class QuanLyNSDAction extends AppAction {
                 if (temp[i].toString().equalsIgnoreCase("CB-TTTT") ||
                     temp[i].toString().equalsIgnoreCase("CBPT-TTTT")) {
 
-                    if (!"".equals(strNhom_nsd)) {
-                        strNhom_nsd += " and a.loai_nhom in ()";
-                    } else {
-                        strNhom_nsd += " a.loai_nhom in ()";
-                    }
+                      if (!"".equals(strNhom_nsd)) {
+                          strNhom_nsd += " and a.loai_nhom in ('GD','KTT')";
+                      } else {
+                          strNhom_nsd += " a.loai_nhom in ('GD','KTT')";
+                      }
                     coll_nhom_nsd =
                             dao_nhom_nsd.getNhomNSDList(strNhom_nsd, param_nhom_nsd);
                     Iterator iter = coll_nhom_nsd.iterator();

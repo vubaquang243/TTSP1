@@ -868,8 +868,8 @@ public class LTTDAO extends AppDAO {
             strSQL.append(" , t.gd_duyet, to_char(t.ngay_gd_duyet, 'DD/MM/YYYY') ngay_gd_duyet, t.lydo_gd_day_lai, t.so_ct_goc, t.ngay_ct, t.nt_id, t.so_yctt, t.ngay_tt, t.ndung_tt, t.tong_sotien, t.so_tk_chuyen, t.ten_tk_chuyen ");
             strSQL.append(" , t.ttin_kh_chuyen, t.id_nhkb_chuyen, t.ten_nhkb_chuyen, t.so_tk_nhan, t.ten_tk_nhan, t.ttin_kh_nhan, t.id_nhkb_nhan, t.ten_nhkb_nhan, t.loai_hach_toan ");
             strSQL.append(" , t.nguoi_nhap_nh, to_char(t.ngay_nhap_nh, 'DD/MM/YYYY') ngay_nhap_nh, t.nguoi_ks_nh, to_char(t.ngay_ks_nh, 'DD/MM/YYYY') ngay_ks_nh, c.rv_meaning trang_thai ");
-            strSQL.append(" FROM sp_ltt t, sp_dm_ma_thamchieu c ");
-            strSQL.append("where t.trang_thai = c.rv_low_value and c.rv_domain = '" +
+            strSQL.append(" FROM sp_ltt t, sp_dm_ma_thamchieu c, sp_dm_tiente d ");
+            strSQL.append(" where t.nt_id = d.id AND t.trang_thai = c.rv_low_value and c.rv_domain = '" + // taidd them dieu kien select theo loai tien
                           AppConstants.MA_THAM_CHIEU_TRANG_THAI_LTT + "'");
 
             if (whereClause != null && !STRING_EMPTY.equals(whereClause)) {
@@ -879,7 +879,7 @@ public class LTTDAO extends AppDAO {
             return executeSelectStatement(strSQL.toString(), params, conn);
         } catch (Exception ex) {
             DAOException daoEx =
-                new DAOException(CLASS_NAME_DAO + ".getLTTDiListWithPading(): " +
+                new DAOException(CLASS_NAME_DAO + ".getLTTDiListByPrint(): " +
                                  ex.getMessage(), ex);
 
             throw daoEx;

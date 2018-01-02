@@ -97,11 +97,7 @@ public class TCuuDChieuSoChiTietAction extends AppAction {
                     
                     whereTK = " AND c.id= '" + tCuuForm.getKb_huyen() + "' ";
                 }
-            }else if("0002".equals(kb_code)){
-              whereCondition = " AND a.ma='0002' ";
-              dmNganHang = (List)TTdao.getDMucNH(null, null);
               
-              whereTK = " AND c.ma= '0002' ";
             } else if ("0003".equals(kb_code)) {
                 whereCondition = " AND a.ma='0003' ";
                 dmNganHang = (List)TTdao.getDMucNH(null, null);

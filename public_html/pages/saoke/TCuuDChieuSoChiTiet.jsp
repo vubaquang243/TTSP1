@@ -374,8 +374,9 @@
           <td width="15%" align="right" bordercolor="#e1e1e1">Số TK</td>
           <td width="35%" bordercolor="#e1e1e1">
             <html:select property="so_tk" styleId="so_tk" style="width:100%" onkeydown="if(event.keyCode==13) event.keyCode=9;" onchange="">              
-              <html:option value="">-----Chọn số TK-----</html:option>              
-              <html:optionsCollection name="TKList" value="so_tk" label="comboBoxPresentTK"/>
+              <html:option value="">-----Chọn số TK-----</html:option>   
+              <!--thuongdt doi so_tk-->
+              <html:optionsCollection name="TKList" value="so_tk" label="so_tk"/>
             </html:select>
           </td>
       </tr>

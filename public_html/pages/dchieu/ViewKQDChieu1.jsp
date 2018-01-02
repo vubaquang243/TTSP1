@@ -879,9 +879,8 @@
       var tcuu="<%=tcuu%>";
       
       if(tcuu!=null && ""!=tcuu){
-
-
-        f.action = 'FindTTinDChieuAction.do'+tcuu;
+        //f.action = 'FindTTinDChieuAction.do'+tcuu;
+        window.close();
       }else if (tcuu==null || ""==tcuu){
         f.action = 'TCuuTTinDChieuAction.do';
       } 

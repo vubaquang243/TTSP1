@@ -937,16 +937,8 @@
       <tr > 
       <td align="right" colspan="5">
           <%if(chkdate==null || "".equals(chkdate)){%>
-          <!--20171117 thuongdt bo button lap moi theo yeu cau nang cap 2017 begin -->
-          
-          <!--
-         <button type="button"  accesskey="l" id="bt_update" onclick="update_TCong('TAM')">
-            <span class="sortKey">L</span>ập mới
-          </button>
-          -->
-          
-           <!--20171117 thuongdt bo button lap moi theo yeu cau nang cap 2017 end -->
-           
+          <!--20171117 thuongdt bo button lap moi theo yeu cau nang cap 2017 begin -->          
+        
           <html:hidden property="cho_phep_sua" styleId="cho_phep_sua" />
           <html:hidden property="cho_phep_qtoan_tam" value="" styleId="cho_phep_qtoan_tam" />
           <html:hidden property="cho_phep_nhap_tcong" value="" styleId="cho_phep_nhap_tcong" />
@@ -1058,6 +1050,7 @@
                             <logic:equal value="02" property="loai_qtoan" name="items">
                                Lập mới
                             </logic:equal>
+                            <!--20171115 thuongdt bo sung loai quyet toan moi: bu so chi, thau chi, thu ngay loi, loai khac begin-->
                              <logic:equal value="04" property="loai_qtoan" name="items">
                                Bù số chi
                             </logic:equal>
@@ -1069,8 +1062,9 @@
                             </logic:equal>
                              <logic:equal value="07" property="loai_qtoan" name="items">
                                Loại khác
-                            </logic:equal>
+                            </logic:equal>                            
                             <input type="hidden" name="loai_qtoan" id="loai_qtoan_<bean:write name="stt"/>" value="<bean:write name="items" property="loai_qtoan"/>"/>
+                              <!--20171115 thuongdt bo sung loai quyet toan moi: bu so chi, thau chi, thu ngay loi, loai khac begin-->
                           </td>
                             <td align="left" title="<bean:write name="items" property="ndung_qtoan"/>">
                               <div style="text-overflow:ellipsis;width:175px;white-space:nowrap;  overflow:hidden; font-size:12px">

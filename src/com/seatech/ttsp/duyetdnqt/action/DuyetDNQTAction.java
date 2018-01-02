@@ -36,16 +36,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 /**
- * QuangVB
- * Class dùng cho việc duyệt đè nghị quyết toán
- *
+ * @create: QuangVB
+ * @create-date: 09/2017
+ * @see: them moi Class dùng cho việc duyệt đè nghị quyết toán
  */
 public class DuyetDNQTAction extends AppAction {
-    /*
-     *
-     * Load các điều kiện, vào màn hình
-     *
-     * */
 
     public ActionForward executeAction(ActionMapping mapping, ActionForm form,
                                        HttpServletRequest request,

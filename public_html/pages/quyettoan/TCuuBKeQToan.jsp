@@ -132,6 +132,7 @@
                       });
                     </script>
                   </td>
+                  <!--20171128 QuangVB them dieu kien tra cuu begin-------------------------------------->
                   <td align="right" >Loại quyết toán</td>
                   <td>
                   <html:select property="loai_quyet_toan" styleId="loai_quyet_toan" 
@@ -171,6 +172,7 @@
                     <option value=""> Chọn ngân hàng </option>
                     <html:optionsCollection name="lstNganHang" value="ma_dv" label="ten_nh" />
                     </html:select> </td>
+              <!--20171128 QuangVB them dieu kien tra cuu end-------------------------------------->
               </tr>
            </table>
          </div>
@@ -193,6 +195,7 @@
               <table width="100%" cellspacing="0" cellpadding="2" class="navigateable focused"
                  bordercolor="#e1e1e1" border="1" align="center"
                  style="BORDER-COLLAPSE: collapse">
+                <!--20171128 QuangVB them ket qua tra cuu begin------>
                 <thead>
                 <th class="promptText" bgcolor="#f0f0f0" width="10%">
                   <div align="center" >
@@ -203,12 +206,12 @@
                   <div align="center">
                     <fmt:message key="QTToanQuoc.page.tcuu.ngayttoan"/>
                   </div>
-                </th>
+                </th>                
                 <th class="promptText" bgcolor="#f0f0f0" width="13%">
                   <div align="center">
                     Tên ngân hàng
                   </div>
-                </th>
+                </th>                
                 <th class="promptText" bgcolor="#f0f0f0" width="13%">
                   <div align="center">
                     <fmt:message key="QTToanQuoc.page.tcuu.sotien"/>
@@ -233,12 +236,12 @@
                   <div align="center">
                     <fmt:message key="QTToanQuoc.page.tcuu.ngayduyet"/>
                   </div>
-                </th>
+                </th>                
                 <th class="promptText" bgcolor="#f0f0f0" width="10%">
                   <div align="center" >
                     Loại quyết toán
                   </div>
-                </th>
+                </th>                
                 <th class="promptText" bgcolor="#f0f0f0" width="20%">
                   <div align="center" >
                     <fmt:message key="QTToanQuoc.page.tcuu.tthai"/>
@@ -335,6 +338,7 @@
                     <bean:write name="items" property="tcg_loai_tien"/>
                   </td>
                 </tr>
+                <!--20171128 QuangVB them ket qua tra cuu end----------------------->
                 </logic:iterate>
                 </logic:present>
                 <tr>

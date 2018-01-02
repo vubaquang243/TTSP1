@@ -412,7 +412,154 @@ public class QuyetToanDAO extends AppDAO {
      * @return: 1 = update thanh cong; -1 = update khong thanh cong
      * @see: Sua QuyetToan
      * */
-    public int update(QuyetToanVO vo) throws Exception {
+     public int update(QuyetToanVO vo) throws Exception {
+             Vector v_param = new Vector();
+             StringBuffer strSQL = new StringBuffer();
+             StringBuffer strSQL2 = null;
+             strSQL.append("update sp_quyet_toan set ");
+             try {
+                 if (vo.getTrang_thai() != null) {
+                     if (strSQL2 == null) {
+                         strSQL2 = new StringBuffer();
+                         strSQL2.append("trang_thai = ?");
+                     } else {
+                         strSQL2.append(", trang_thai = ?");
+                     }
+                     v_param.add(new Parameter(vo.getTrang_thai(), true));
+                 }
+                 if (vo.getLoai_hach_toan() != null) {
+                     if (strSQL2 == null) {
+                         strSQL2 = new StringBuffer();
+                         strSQL2.append("loai_hach_toan = ?");
+                     } else {
+                         strSQL2.append(", loai_hach_toan = ?");
+                     }
+                     v_param.add(new Parameter(vo.getLoai_hach_toan(), true));
+                 }
+                 if (vo.getTtv_chuyen_ks() != null && vo.getTtv_chuyen_ks() != 0) {
+                     if (strSQL2 == null) {
+                         strSQL2 = new StringBuffer();
+                         strSQL2.append("ttv_chuyen_ks = ?");
+                     } else {
+                         strSQL2.append(", ttv_chuyen_ks = ?");
+                     }
+                     v_param.add(new Parameter(vo.getTtv_chuyen_ks(), true));
+                 }
+                 if (vo.getMsg_id() != null) {
+                     if (strSQL2 == null) {
+                         strSQL2 = new StringBuffer();
+                         strSQL2.append("msg_id = ?");
+                     } else {
+                         strSQL2.append(", msg_id = ?");
+                     }
+                     v_param.add(new Parameter(vo.getMsg_id(), true));
+                 }
+                 if (vo.getNgay_chuyen_ks() != null) {
+                     if (strSQL2 == null) {
+                         strSQL2 = new StringBuffer();
+                         strSQL2.append("ngay_chuyen_ks = ?");
+                     } else {
+                         strSQL2.append(", ngay_chuyen_ks = ?");
+                     }
+                     v_param.add(new DateParameter(StringUtil.StringToDate(vo.getNgay_chuyen_ks(),
+                                                                           "dd/MM/yyyy"),
+                                                   true));
+                 }
+                 if (vo.getKtt_ks() != null && vo.getKtt_ks() != 0) {
+                     if (strSQL2 == null) {
+                         strSQL2 = new StringBuffer();
+                         strSQL2.append("ktt_ks = ?");
+                     } else {
+                         strSQL2.append(", ktt_ks = ?");
+                     }
+                     v_param.add(new Parameter(vo.getKtt_ks(), true));
+                 }
+                 if (vo.getNgay_ks() != null) {
+                     if (strSQL2 == null) {
+                         strSQL2 = new StringBuffer();
+                         strSQL2.append("ngay_ks = SYSDATE");
+                     } else {
+                         strSQL2.append(", ngay_ks = SYSDATE");
+                     }
+                 }
+                 //                v_param.add(new DateParameter(StringUtil.StringToDate(vo.getNgay_ks(),
+                 //                                                                      "dd/MM/yyyy"),
+                 //                                              true));
+                 if (vo.getLdo_hach_toan() != null) {
+                     if (strSQL2 == null) {
+                         strSQL2 = new StringBuffer();
+                         strSQL2.append("ldo_hach_toan = ?");
+                     } else {
+                         strSQL2.append(", ldo_hach_toan = ?");
+                     }
+                     v_param.add(new Parameter(vo.getLdo_hach_toan(), true));
+                 }
+                 if (vo.getLdo_day_lai() != null) {
+                     if (strSQL2 == null) {
+                         strSQL2 = new StringBuffer();
+                         strSQL2.append("ldo_day_lai = ?");
+                     } else {
+                         strSQL2.append(", ldo_day_lai = ?");
+                     }
+                     v_param.add(new Parameter(vo.getLdo_day_lai(), true));
+                 }
+                 if (vo.getSo_bk() != null) {
+                     if (strSQL2 == null) {
+                         strSQL2 = new StringBuffer();
+                         strSQL2.append("so_bk = ?");
+                     } else {
+                         strSQL2.append(", so_bk = ?");
+                     }
+                     v_param.add(new Parameter(vo.getSo_bk(), true));
+                 }
+                 if (vo.getTt_in() != null) {
+                     if (strSQL2 == null) {
+                         strSQL2 = new StringBuffer();
+                         strSQL2.append("tt_in = ?");
+                     } else {
+                         strSQL2.append(", tt_in = ?");
+                     }
+                     v_param.add(new Parameter(vo.getTt_in(), true));
+                 }
+                 if (vo.getChu_ky() != null) {
+                     if (strSQL2 == null) {
+                         strSQL2 = new StringBuffer();
+                         strSQL2.append("chu_ky = ?");
+                     } else {
+                         strSQL2.append(", chu_ky = ?");
+                     }
+                     v_param.add(new Parameter(vo.getChu_ky(), true));
+                 }
+                 if (vo.getId() != null) {
+                     if (strSQL2 == null) {
+                         strSQL2 = new StringBuffer();
+                         strSQL2.append("id=? WHERE id=?");
+                         v_param.add(new Parameter(vo.getId(), true));
+                     } else {
+                         strSQL2.append(" WHERE id=?");
+                     }
+                     v_param.add(new Parameter(vo.getId(), true));
+
+                 }
+                 strSQL.append(strSQL2.toString());
+                 return executeStatement(strSQL.toString(), v_param, conn);
+             } catch (Exception ex) {
+                 ex.printStackTrace();
+                 throw new DAOException(CLASS_NAME_DAO + ".update(): " +
+                                        ex.getMessage(), ex);
+             }
+         }
+    
+    
+    
+    /**
+     * @create: ThuongDT
+     * @create-date: 01/12/2017
+     * @param: QuyetToanVO
+     * @return: 1 = update thanh cong; -1 = update khong thanh cong
+     * @see: them moi ham duyet lenh quyet toan phuc vụ rieng cho lenh thu cong
+     * */
+    public int updateTCong(QuyetToanVO vo) throws Exception {
         Vector v_param = new Vector();
         StringBuffer strSQL = new StringBuffer();
         StringBuffer strSQL2 = null;
@@ -530,7 +677,7 @@ public class QuyetToanDAO extends AppDAO {
                 }
                 v_param.add(new Parameter(vo.getChu_ky(), true));
             }
-			//20171207 QuangVB them moi Nguoi_ks_nh vao cau tra cuu theo yeu cau nang cap ngoai hop dong 2017
+                        //20171207 QuangVB them moi Nguoi_ks_nh vao cau tra cuu theo yeu cau nang cap ngoai hop dong 2017
             if(vo.getNguoi_ks_nh() != null){
                 if(strSQL2 == null){
                   strSQL2 = new StringBuffer();
@@ -540,7 +687,7 @@ public class QuyetToanDAO extends AppDAO {
                 }
               v_param.add(new Parameter(vo.getNguoi_ks_nh(), true));
             }
-			//20171120 ThuongDT bo sung them ngay insert lay quyet toan trong ngay
+                        //20171120 ThuongDT bo sung them ngay insert lay quyet toan trong ngay
             strSQL2.append(", ngay_insert = sysdate");
             if (vo.getId() != null) {
                 if (strSQL2 == null) {

@@ -1,5 +1,9 @@
 package com.seatech.ttsp.lenhqtthucong;
-
+/**
+ * @create: QuangVB
+ * @create-date: 09/2017
+ * @see: them moi class cho chuc nang lenh quyet toan thu cong
+ * */
 public class LenhQTTCVO {
     
   private String maNHKBChuyen;

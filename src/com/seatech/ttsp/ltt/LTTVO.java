@@ -76,6 +76,8 @@ public class LTTVO {
     private String ma_kb_huyen;
     private String ma_nh;
     private Long tong_mon;
+    
+    //20171207 thuongdt sua tong_tien sang BigDecimal tra cuu khong bi mat so le thap phan
     private BigDecimal tong_tien;
     private String error_code;
     private String error_desc;

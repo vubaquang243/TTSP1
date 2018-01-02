@@ -312,15 +312,20 @@
                   getTenNHang();
                 }
               }else{               
-                if(document.getElementById('ma_kb').options.length==2){ // select dong thu 2 neu select box co 2 value voi user cap tinh
-                  jQuery("#ma_kb option:eq(1)").attr('selected', true);
-                  getTenNHang(); 
-                }else if(kb_huyen=='0'||kb_huyen==null||''==kb_huyen){
-                  jQuery('#sendBank option:eq(0)').attr('selected', true);
+               if(id != ''){
+                  jQuery('#ma_kb option[value="'+id+'"]').attr('selected', true);
                   getTenNHang();
-                }else if(kb_huyen!='0'){
-                  jQuery('#ma_kb option:eq('+kb_huyen+')').attr('selected', true);
-                  getTenNHang();
+                }else{
+                  if(document.getElementById('ma_kb').options.length==2){ // select dong thu 2 neu select box co 2 value voi user cap tinh
+                    jQuery("#ma_kb option:eq(1)").attr('selected', true);
+                    getTenNHang(); 
+                  }else if(kb_huyen=='0'||kb_huyen==null||''==kb_huyen){
+                    jQuery('#sendBank option:eq(0)').attr('selected', true);
+                    getTenNHang();
+                  }else if(kb_huyen!='0'){
+                    jQuery('#ma_kb option:eq('+kb_huyen+')').attr('selected', true);
+                    getTenNHang();
+                  }
                 }
               }
             }

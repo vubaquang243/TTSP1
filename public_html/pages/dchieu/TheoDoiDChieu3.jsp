@@ -36,7 +36,7 @@
  // String idxTK = request.getAttribute("idxTK")==null?"":request.getAttribute("idxTK").toString();
   //String sum_lai = request.getAttribute("sum_lai")==null?"":request.getAttribute("sum_lai").toString();
   //String sum_sdu = request.getAttribute("sum_sdu")==null?"":request.getAttribute("sum_sdu").toString();
-  
+  //20170713 thuongdt them ngaydc kiem tra neu da doi chieu thi them trang thai
   String ngaydc = request.getAttribute("ngaydc")==null?"":request.getAttribute("ngaydc").toString();
 %>
 
@@ -216,7 +216,7 @@
                     <th width="11%">
                       Tình trạng quyết toán
                     </th>
-                    
+                    <!--20170713-->
                     <%if(!ngaydc.equals("") ){%>
                         <th width="11%">
                           Trạng thái điện ĐNQT
@@ -251,6 +251,7 @@
                              <td align="center">
                               <bean:write name="items" property="tt_qtoan"/>
                             </td>
+                            <!--20170713-->
                              <%if(!ngaydc.equals("") ){%>
                               <td align="center">
                                 <bean:write name="items" property="tthai_dxn_thop"/>
@@ -259,6 +260,7 @@
                          </tr>
                         </logic:iterate>
                         <tr>
+                         <!--20170713-->
                          <%if(!ngaydc.equals("") ){%>
                             <td colspan="9" align="right"> 
                           <%}else{%> 

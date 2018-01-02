@@ -6,7 +6,17 @@ import java.sql.Connection;
 
 import java.util.Collection;
 import java.util.Vector;
-
+/**
+ * @create: QuangVB
+ * @create-date: 09/2017
+ * @see: them moi Class dùng cho việc duyệt đè nghị quyết toán
+ */
+/**
+ * @modify: QuangVB
+ * @modify-date: 01/12/2017
+ * @see: them nguoi tao khi tra cuu select dien 066
+ * @find: 20171201
+ * */
 public class DuyetDNQTDAO extends AppDAO {
     private String strValueObject = "com.seatech.ttsp.duyetdnqt.DuyetDNQTVO";
     private Connection conn;
@@ -18,6 +28,7 @@ public class DuyetDNQTDAO extends AppDAO {
     public Collection getData(String sqlWhere, Vector params, Integer page, Integer count,
                               Integer[] totalCount) throws Exception {
         try {
+            //20171201
             String strSQL ="select distinct a.id soLenh, b.ten tenNH, a.qtoan_thu quyetToanThu, " +
                 "a.qtoan_chi quyetToanChi, a.loai_tien loaiTien, a.loai_qtoan loaiQuyetToan, " +
                 "a.ndung_qtoan noiDung, to_char(ngay_tao,'dd/mm/yyyy') ngay_tao, a.trang_thai, " +

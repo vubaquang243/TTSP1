@@ -482,6 +482,7 @@
                                 </fmt:formatNumber>
                             </c:when>
                             <c:otherwise>
+                            <!--20171122 TaiDD sua format number theo VND-->
                                 <fmt:setLocale value="vi_VI"/>
                                 <fmt:formatNumber maxFractionDigits="2"  type="currency"  currencySymbol="">
                                     <bean:write name="items" property="so_tien"/>

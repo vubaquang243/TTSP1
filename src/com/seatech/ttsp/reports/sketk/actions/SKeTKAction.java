@@ -374,7 +374,10 @@ public class SKeTKAction extends AppAction {
                 parameterMap.put("REPORT_LOCALE",
                                  new java.util.Locale("en", "US"));
             }
-            reportName = "/BCSaoKETK";
+            //reportName = "/BCSaoKETK";
+          //20170930 thuongdt bo sung them bao cao cho rieng ma KB 01701035
+          reportName =strMANH_KBHuyen.equals("01701035")?"/BCSaoKETK_TK35":"/BCSaoKETK";
+
             reportStream =
                     getServlet().getServletConfig().getServletContext().getResourceAsStream(REPORT_DIRECTORY +
                                                                                             reportName +

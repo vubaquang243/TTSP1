@@ -1,5 +1,9 @@
 package com.seatech.ttsp.duyetdnqt;
-
+/**
+ * @create: QuangVB
+ * @create-date: 09/2017
+ * @see: them moi Class dùng cho việc duyệt đè nghị quyết toán
+ */
 public class DuyetDNQTVO {
   private String solenh;
   

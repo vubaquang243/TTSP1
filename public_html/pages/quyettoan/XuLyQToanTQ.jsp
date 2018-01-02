@@ -182,7 +182,7 @@
       }
   });
   });
-  
+  //20171207 QuangVB them moi ham getUrl phuc vu build url tra cuu
   function getUrl(){
     var getUrlParameter = function getUrlParameter(sParam) {
         var sPageURL = decodeURIComponent(window.location.search.substring(1)),

@@ -27,7 +27,12 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-
+/**
+ *@modify: QuangVB 
+ *@modify-date: 11/12/2017
+ *@see: them moi cac tieu chi tim kiem: ngan hang, ma nhan vien, loai quyet toan,...
+ *@find: 20171211
+ * */
 
 public class TCuuBKeQToanAction extends AppAction {
     public ActionForward list(ActionMapping mapping, ActionForm form,
@@ -94,6 +99,7 @@ public class TCuuBKeQToanAction extends AppAction {
 *@modify: QuangVB
 *@modify-date: 11/12/2017
 *@see: sua code ham view bo sung cac tieu chi tim kiem dao ung yeu cap nang cap ngoai hop dong 2017
+*@find:20171211
 */
     public ActionForward view(ActionMapping mapping, ActionForm form,
                               HttpServletRequest request,
@@ -130,6 +136,7 @@ public class TCuuBKeQToanAction extends AppAction {
                 frm.getTrang_thai() == null ? "" : frm.getTrang_thai();
             String ma_nt =
                 frm.getTcg_loai_tien() == null ? "" : frm.getTcg_loai_tien();
+            //20171211 start-------------------------------------------------------------
             String loai_quyet_toan =
                 frm.getLoai_quyet_toan() == null ? "" : frm.getLoai_quyet_toan();
             String ma_nhan_vien =
@@ -187,7 +194,9 @@ public class TCuuBKeQToanAction extends AppAction {
                 tu_ngay + "&den_ngay=" + den_ngay + "&so_bke1=" + so_bke +
                 "&ngay_bang_ke=" + ngay_bke +"&loai_quyet_toan="+loai_quyet_toan+ "&currentPage=" +
                 currentPage;
-
+            
+          //20171211 end-------------------------------------------------------------
+            
             PagingBean pagingBean = new PagingBean();
             pagingBean.setCurrentPage(currentPage);
             pagingBean.setNumberOfRow(totalCount[0].intValue());

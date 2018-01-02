@@ -2367,7 +2367,7 @@ public class DChieu1DAO extends AppDAO {
         }
         return reval;
     }
-
+//20171207 thuongdt bo bot thong tin chi tiet tranh khong DISTINCT van lap lai nhieu lan
     public Collection getDMucKB_cha(String strWhere,
                                     Vector vParam) throws Exception {
 

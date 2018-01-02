@@ -81,7 +81,17 @@ public class TraCuuLQTAction extends AppAction {
                 DMTienTeDAO tienTeDAO = new DMTienTeDAO(conn);
                 ArrayList<DMKBacVO> lstKBTinh = new ArrayList<DMKBacVO>();
                 ArrayList<DMKBacVO> lstKBHuyen = new ArrayList<DMKBacVO>();
-
+                //20171207 thuongdt bo maSGD =>> nhu don vi binh thuong khong xem duoc toan quoc
+                if (ma_kb_so_tai.equals(maT4)  ||
+                    ma_kb_so_tai.equals(maKBTW)) {
+                    request.setAttribute("MAT4", ma_kb_so_tai);
+                    vParamsKB = new Vector();
+                    strWhereClauseKB = "a.cap=?  or a.ma='" + maSGD + "' ";
+                    vParamsKB.add(new Parameter(strCapTinh, true));
+                    lstKBTinh =
+                            (ArrayList<DMKBacVO>)kbDAO.getDMNHKBList(strWhereClauseKB,
+                                                                     vParamsKB);
+                } else {
                 vParamsKB = new Vector();
                 strWhereClauseKB = " AND a.ma=? ";
                 vParamsKB.add(new Parameter(ma_kb_so_tai, true));
@@ -116,6 +126,7 @@ public class TraCuuLQTAction extends AppAction {
                         vParamsKB.add(new Parameter(dmkbVO.getMa_cha(), true));
                         lstKBTinh.add(kbDAO.getDMKB(strWhereClauseKB,
                                                     vParamsKB));
+                        }
                     }
                 }
                 // Lay ra danh sach dm ngan hang ho
@@ -215,7 +226,7 @@ public class TraCuuLQTAction extends AppAction {
                 //                    !ma_kb_so_tai.equals(maKBTW)) {
                 //                    //                    whereClause = " a.qtoan_dvi='Y'";
                 //                } else
-                if (ma_kb_so_tai.equals(maT4) || ma_kb_so_tai.equals(maSGD) ||
+                if (ma_kb_so_tai.equals(maT4) ||
                     ma_kb_so_tai.equals(maKBTW)) {
                     //                    whereClause = " a.qtoan_dvi='N'";
                     request.setAttribute("T4", maT4);
@@ -503,7 +514,8 @@ public class TraCuuLQTAction extends AppAction {
                 DMKBacDAO kbDAO = new DMKBacDAO(conn);
                 ArrayList<DMKBacVO> lstKBTinh = new ArrayList<DMKBacVO>();
                 ArrayList<DMKBacVO> lstKBHuyen = new ArrayList<DMKBacVO>();
-                if (ma_kb_so_tai.equals(maT4) || ma_kb_so_tai.equals(maSGD) ||
+              //20171207 thuongdt bo maSGD =>> nhu don vi binh thuong khong sem duoc toan quoc
+                if (ma_kb_so_tai.equals(maT4) ||
                     ma_kb_so_tai.equals(maKBTW)) {
                     request.setAttribute("MAT4", ma_kb_so_tai);
                     vParamsKB = new Vector();

@@ -191,7 +191,7 @@
                                 onkeydown="if(event.keyCode==13) event.keyCode=9;">  
                       <html:option value="">Tất cả</html:option>
                       <html:option value="1">Đối chiếu đơn vị</html:option>
-                      <html:option value="2">Đối chiếu toàn quốc</html:option>
+                      <html:option value="3">Đối chiếu toàn quốc</html:option>
                   </html:select>
                 </td>
               
@@ -614,6 +614,7 @@
         var inxtthai = jQuery('#tthai_dxn_thop option:selected').index();
         var lan_dc = jQuery('#lan_dc option:selected').val();
         
+        //20171205 thuongdt gioi han thoi gian tra cuu =>> giam khoi luong ban ghi tim kiem
         if(check_tuNgay_denNgay('tu_ngay','den_ngay') ){
           f.action = 'FindTTinDChieuAction.do?inKB='+inKB+"&inNH="+inNH+"&lan_dc="+lan_dc+"&inxtthai="+inxtthai+"&trang_thai_tk="+trang_thai_tk;
           f.submit();

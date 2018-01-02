@@ -117,7 +117,7 @@ public class SoDuAction extends AppAction {
                 strWhere += " and id =?";
                 vParam.add(new Parameter(strId, true));
             }
-           //20171025 
+           //20171025 taidd them dieu kien tra cuu voi loai tai khoan.
           if (!"".equals(strLoai_TK) && strLoai_TK != null && !"00".equals(strLoai_TK)) {
               strWhere += " and loai_tk =?";
               vParam.add(new Parameter(strLoai_TK, true));
@@ -178,7 +178,7 @@ public class SoDuAction extends AppAction {
             f.setLoai_tien(null);
             f.setSo_du(null);
             f.setSo_du_cot(null);
-			//20171025
+			//20171025 taidd them truong loai tai khoan trong phan them sodu.
             f.setLoai_tk(null); 
 
             SoDuDAO dao = new SoDuDAO(conn);
@@ -262,7 +262,7 @@ public class SoDuAction extends AppAction {
             vo.setSo_du(strSo_du);
             vo.setInsert_date(f.getInsert_date());
 			
-			//20171025
+			//20171025 taidd them truong so_du_cot, loai_tien, loai_tk.
             vo.setSo_du_cot(strSo_du_cot);
             vo.setLoai_tien(strLoai_tien);
             vo.setLoai_tk(f.getLoai_tk()); 
@@ -325,10 +325,8 @@ public class SoDuAction extends AppAction {
             vo.setLoai_tien(strLoai_tien);
             vo.setNgay_gd(f.getNgay_gd());
 			
-			//20171025
+			//20171025 taidd them truong loai_tk phuc vu sua loai_tk trong sua sodu.
             vo.setLoai_tk(f.getLoai_tk());
-            System.out.println(f.getLoai_tk());
-          System.out.println(f.getMa_kb());    
             //Update CSDL
             long sd = dao.update(vo);
             if (sd < 1) {
@@ -356,7 +354,7 @@ public class SoDuAction extends AppAction {
             SoDuForm f = (SoDuForm)form;
             SoDuDAO dao = new SoDuDAO(conn);
            
-		   //20171025 
+		   //20171025 taidd dinh dang lai so tien theo mau moi.
             String strSo_du = f.getSo_du();
             String strSo_du_cot = f.getSo_du_cot();
             String strLoai_tien = f.getLoai_tien();

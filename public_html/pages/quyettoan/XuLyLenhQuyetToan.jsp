@@ -5,6 +5,7 @@
 <%@ taglib uri="/WEB-INF/tlds/struts-logic.tld" prefix="logic"%>
 <%@ taglib uri="/WEB-INF/tlds/fmt.tld" prefix="fmt"%>
 <%@ page import="com.seatech.framework.AppConstants"%>
+<!--20171124 QuangVB them moi-->
 <%@ page import="com.seatech.ttsp.quyettoan.UpdateQuyetToanVO"%>
 <%@ include file="/includes/ttsp_header.inc"%>
 <link type="text/css" rel="stylesheet"
@@ -21,6 +22,7 @@
 <script src="<%=AppConstants.NNT_APP_CONTEXT_ROOT%>/styles/js/quyettoan.js"
         type="text/javascript">
 </script>
+<!--20171124 QuangVB them moi-->
 <% 
   String loai_nhom = session.getAttribute(AppConstants.APP_ROLE_LIST_SESSION) == null ? "" : session.getAttribute(AppConstants.APP_ROLE_LIST_SESSION).toString();
   String trang_thai_cho_duyet = request.getAttribute("trang_thai_cho_duyet") == null ? "" : request.getAttribute("trang_thai_cho_duyet").toString();
@@ -103,6 +105,8 @@
                                           <logic:present name="lstDanhSachQuyetToan">
                                             <div>
                                               <logic:notEmpty name="lstDanhSachQuyetToan">
+                                              
+                                              <!--20171124 QuangVB them moi the hidden begin------------------------------>
                                                 <logic:iterate id="items" name="lstDanhSachQuyetToan"
                                                                indexId="index">
                                                     <tr class="ui-widget-content jqgrow ui-row-ltr" 
@@ -189,6 +193,7 @@
                                                           </logic:equal>
                                                         </td>
                                                       </tr>
+                                                      <!--20171124 QuangVB them moi the hidden begin------------------------------>
                                                 </logic:iterate>
                                               </logic:notEmpty>
                                               <logic:empty name="lstDanhSachQuyetToan">
@@ -473,8 +478,9 @@
                                            <input type="text" class="fieldTextRightCode" tabindex="114" 
                                                   onkeydown="nextElementFocusQT(event);"
                                                   style="height:100%;"
-                                                  id="so_tien" value="<bean:write name="QuyetToanForm" property="so_tien" format="#,000"/>">
+                                                  id="so_tien" value="<bean:write name="QuyetToanForm" property="so_tien"/>" >
                                             </input>
+                                            
                                         </div>                                                                       
                                       </td>
                                       <td width="50%" valign="middle">
@@ -1070,7 +1076,7 @@
 //      f.target='_form';
 //      f.submit();
 //    } 
-    
+    //20171124 QuangVB them moi ham
     function selectRow(tr){
        var nhap_thu_cong = jQuery(tr).find('#nhap_thu_cong').val();
        var so_lenh = jQuery(tr).find('#col_qt').val();

@@ -71,7 +71,7 @@ public class SoDuDAO extends AppDAO {
           long sd = 0;
           String strSQL = "";
           try {
-		  //20171025
+		  //20171025 taidd them truong loai_tk trong phan them moi sodu.
               strSQL =
                       "insert into sp_so_du (ma_kb, ma_nh, ngay_gd, so_du, insert_date, so_du_cot, loai_tien, id, loai_tk) values (?,?, TO_DATE(?,'dd/mm/yy'), ?, SYSDATE, ?, ?, sp_so_du_seq.nextval,?)";
               PreparedStatement pstt = conn.prepareStatement(strSQL);
@@ -97,7 +97,7 @@ public class SoDuDAO extends AppDAO {
           long sd = 0;
           String strSQL = "";
           try {
-		   //20171025
+		   //20171025 taidd them truong loai_tk trong phan sua so du
               strSQL =
                       "update sp_so_du set so_du = ?, so_du_cot = ? , loai_tk = ? , insert_date = SYSDATE  where ma_kb =? and ma_nh = ? and ngay_gd = to_date(?,'dd/mm/yyyy') and loai_tien = ?";
               PreparedStatement pstt = conn.prepareStatement(strSQL);

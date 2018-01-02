@@ -153,7 +153,7 @@ public class TKNHKBacDAO extends AppDAO {
             if (vo.getSo_tk() != null) {
                 strSQL.append(", so_tk");
                 strSQL2.append(", ?");
-                v_param.add(new Parameter(vo.getSo_tk(), true));
+              v_param.add(new Parameter(vo.getSo_tk().trim(), true));
             }
             if (vo.getNh_id() != null) {
                 strSQL.append(", nh_id");
@@ -190,23 +190,20 @@ public class TKNHKBacDAO extends AppDAO {
             if (vo.getHieu_luc_tungay() != null) {
                 strSQL.append(", hieu_luc_tungay");
                 strSQL2.append(", ?");
-                v_param.add(new DateParameter(StringUtil.StringToDate(vo.getHieu_luc_tungay() +
-                                                                      " 00:00:00",
-                                                                      DD_MM_YYYY_HH_MI_SS),
-                                              true));
+            v_param.add(new DateParameter(StringUtil.StringToDate(vo.getHieu_luc_tungay()+ " 00:00:00", DD_MM_YYYY_HH_MI_SS) , true));
+        }else{
+          strSQL.append(", hieu_luc_tungay");
+          strSQL2.append(", SYSDATE");
             }
             if (vo.getHieu_luc_den_ngay() != null) {
                 strSQL.append(", hieu_luc_den_ngay");
                 strSQL2.append(", ?");
-                v_param.add(new DateParameter(StringUtil.StringToDate(vo.getHieu_luc_den_ngay() +
-                                                                      " 00:00:00",
-                                                                      DD_MM_YYYY_HH_MI_SS),
-                                              true));
+            v_param.add(new DateParameter(StringUtil.StringToDate(vo.getHieu_luc_den_ngay()+ " 00:00:00", DD_MM_YYYY_HH_MI_SS) , true));
             }
             if (vo.getMa_nt() != null) {
                 strSQL.append(", ma_nt");
                 strSQL2.append(", ?");
-                v_param.add(new Parameter(vo.getMa_nt(), true));
+            v_param.add(new Parameter(vo.getMa_nt().toUpperCase(), true));
             }
             if (vo.getQuyet_toan() != null) {
                 strSQL.append(", quyet_toan");
@@ -297,7 +294,7 @@ public class TKNHKBacDAO extends AppDAO {
                 } else {
                     strSQL2.append(", ma_nt = ?");
                 }
-                v_param.add(new Parameter(vo.getMa_nt(), true));
+            v_param.add(new Parameter(vo.getMa_nt().toUpperCase(), true));
             }
             if (vo.getQuyet_toan() != null) {
                 if (strSQL2 == null) {
@@ -315,10 +312,7 @@ public class TKNHKBacDAO extends AppDAO {
                 } else {
                     strSQL2.append(", hieu_luc_tungay = ?");
                 }
-                v_param.add(new DateParameter(StringUtil.StringToDate(vo.getHieu_luc_tungay() +
-                                                                      " 00:00:00",
-                                                                      DD_MM_YYYY_HH_MI_SS),
-                                              true));
+          v_param.add(new DateParameter(StringUtil.StringToDate(vo.getHieu_luc_tungay() +" 00:00:00", DD_MM_YYYY_HH_MI_SS) , true));
             }
             if (vo.getHieu_luc_den_ngay() != null) {
                 if (strSQL2 == null) {
@@ -327,11 +321,17 @@ public class TKNHKBacDAO extends AppDAO {
                 } else {
                     strSQL2.append(", hieu_luc_den_ngay = ?");
                 }
-                v_param.add(new DateParameter(StringUtil.StringToDate(vo.getHieu_luc_den_ngay() +
-                                                                      " 00:00:00",
-                                                                      DD_MM_YYYY_HH_MI_SS),
-                                              true));
+          v_param.add(new DateParameter(StringUtil.StringToDate(vo.getHieu_luc_den_ngay()+ " 00:00:00", DD_MM_YYYY_HH_MI_SS) , true));
+        }else{
+          if ("02".equals(vo.getTrang_thai())) {
+            if (strSQL2 == null) {
+                strSQL2 = new StringBuffer();
+                strSQL2.append("hieu_luc_den_ngay = SYSDATE");
+            } else {
+                strSQL2.append(", hieu_luc_den_ngay = SYSDATE");
+            }    
             }
+        }
             if (strSQL2.toString() != "") {
                 strSQL.append(strSQL2.toString());
                 strSQL.append(" where  id= ?");

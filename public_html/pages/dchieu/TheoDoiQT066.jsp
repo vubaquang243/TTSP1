@@ -50,6 +50,8 @@
     });    
   });
   
+  //20171130 taidd dinh dang lai tien  begin--------------------------------
+  
   //chuyen doi dinh dang ngoai te
   function changeForeignCurrency(nStr){
         nStr += '';
@@ -87,7 +89,7 @@
     }}
   }
   
-  // taidd dinh dang lai tien 20171130
+  
    function changeValue(txt_id, allowNegativeNumber) {  
       var value = jQuery("#"+txt_id +"").val().replace(/\s/g,"");
       var loai_tien = jQuery("#loai_tien").val();
@@ -106,6 +108,7 @@
         }
 
   }
+    //20171130 taidd dinh dang lai tien  end--------------------------------
 </script>
 
 <div class="app_error">
@@ -226,8 +229,8 @@
                       <html:option value="">---Ch&#7885;n lo&#7841;i &#273;&#7889;i chi&#7871;u---</html:option>
                       <html:option value="01">QT tự động</html:option>
                       <html:option value="02">QT lập mới</html:option>
+                      <!--20171030 QuangVB them moi loai quyet toan bu so chi, thau chi, loai khac-->
                       <html:option value="04">QT bù số chi</html:option>
-                     <!-- <html:option value="06">QT bù số thu ngày lỗi</html:option> -->
                       <html:option value="05">QT thấu chi</html:option>
                       <html:option value="07">QT loại khác</html:option>
                   </html:select>                 
@@ -285,6 +288,7 @@
                         <html:optionsCollection name="dmTienTe" value="ma" label="ma"/>
                     </html:select>
                   </td>
+                  <!--TaiDD them moi tra cuu theo so tien dap ung nang cap 2017-->
                   <td align="right">Số tiền</td>
                   <td><html:text property="so_tien" styleId="so_tien" onkeydown="if(event.keyCode==13) event.keyCode=9;"
                       onblur="changeValue('so_tien');" onkeypress="return numbersonly2(event,true);" maxlength="20" style="text-align : right;"/>(QT thu/chi)</td>
@@ -366,6 +370,7 @@
                   <div align="center" >
                     Mô tả
                 </th>
+               <!--20171117 thuongdt bo sung them ngay bu chi-->
                 <th class="promptText" bgcolor="#f0f0f0" width="13%">
                   <div align="center" >
                    Ngày bù chi
@@ -441,6 +446,7 @@
                         <logic:equal value="03" name="items" property="loai_qtoan">
                           
                         </logic:equal>
+                        <!--20171030 QuangVB them moi loai quyet toan bu so chi, thau chi, loai khac begin-->
                         <logic:equal value="04" name="items" property="loai_qtoan">
                           Bù chi
                         </logic:equal>
@@ -453,6 +459,7 @@
                         <logic:equal value="07" name="items" property="loai_qtoan">
                           Loại khác
                         </logic:equal>
+                        <!--20171030 QuangVB them moi loai quyet toan bu so chi, thau chi, loai khac end-->
                       </td>
                       <td align="center">
                         <logic:equal value="01" name="items" property="trang_thai">
@@ -545,6 +552,7 @@ function goPage(page) {
         var inNH = jQuery('#ngan_hang option:selected').index() ;
 //        var inxtthai = jQuery('#tthai_dxn_thop option:selected').index();
 //        var lan_dc = jQuery('#lan_dc option:selected').val();
+        //20171117 thuongdt kiem tra tu ngay, den ngay gioi han pham vi tim kiem begin---------------
         var vTuNgay=  document.getElementById("tu_ngay"); 
         var vDenNgay=  document.getElementById("den_ngay"); 
         var vTuNgayTemp ;
@@ -575,7 +583,9 @@ function goPage(page) {
               alert('Dữ liệu tra cứu không quá 30 ngày ');
               vTuNgay.focus();  
               return;
-          }       
+          }      
+          
+          //20171117 thuongdt kiem tra tu ngay, den ngay gioi han pham vi tim kiem end---------------
           f.action = 'lstTheoDoiQT066Action.do?inKB='+inKB+'&inNH='+inNH; 
       }
     

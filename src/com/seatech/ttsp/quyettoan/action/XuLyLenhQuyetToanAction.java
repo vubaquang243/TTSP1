@@ -329,12 +329,23 @@ public class XuLyLenhQuyetToanAction extends AppAction {
                                     if (msgID != null && !"".equals(msgID)) {
                                         vo.setMsg_id(msgID);
                                         vo.setNguoi_ks_nh(userLogin);
-                                        if (dao.update(vo) > 0) {
-                                            // insert 1 ban ghi vao sp_quyet_toan
+                                        
+                                       //20171226 thuongdt turning duyet lenh qt cua QuangVB
                                         String idQT = f.getId();
-                                            XuLyLenhQuyetToanThuCongVO lenhQTTCVO =
-                                                dao.getThongTinQuyetToanById(idQT,
-                                                                             null);
+                                        XuLyLenhQuyetToanThuCongVO lenhQTTCVO =
+                                            dao.getThongTinQuyetToanById(idQT,
+                                                                         null);
+                                        int iUpdate  =0;
+                                        if (lenhQTTCVO.getNhap_thu_cong().equals("Y")) {
+                                            iUpdate = dao.updateTCong(vo);
+                                        }else{
+                                            iUpdate = dao.update(vo);
+                                        }
+                                        
+                                        if (iUpdate > 0) {
+                                              conn.commit();
+                                            //QuangVB insert 1 ban ghi vao sp_quyet_toan gom mot dien quyet toan ve TW 
+                                            //khi da co mot dien quyet toan thu cong don vi da lap begin--------------
                                             if (lenhQTTCVO.getNhap_thu_cong().equals("Y")) {
                                                 lenhQTTCVO.setQtoan_dvi("N");
                                                 lenhQTTCVO.setTrang_thai("03");
@@ -347,16 +358,18 @@ public class XuLyLenhQuyetToanAction extends AppAction {
                                                 } else {
                                                     id = utils.getSoLTT("910");
                                                     lenhQTTCVO.setId(id);
-                                                }
+                                                                                        
                                             }
                                             Vector vParams = new Vector();
                                             int sqlResult =
-                                                dao.insertLenhQuyetToan(lenhQTTCVO,
-                                                                        vParams);
+                                              dao.insertLenhQuyetToan(lenhQTTCVO, vParams);
                                             if (sqlResult > 0)
-                                                conn.commit();
+                                              conn.commit();
                                             else
-                                                throw new Exception("Không insert vào được bảng kê quyết toán");
+                                              throw new Exception("Không insert vào được bảng kê quyết toán");       
+                                          }                                          
+                                          //QuangVB insert 1 ban ghi vao sp_quyet_toan gom mot dien quyet toan ve TW 
+                                          //khi da co mot dien quyet toan thu cong don vi da lap end----------------
                                             jsonObj.addProperty("Success",
                                                                 true);
                                             jsonObj.addProperty("id",

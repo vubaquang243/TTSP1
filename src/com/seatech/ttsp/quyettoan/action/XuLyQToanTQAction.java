@@ -471,9 +471,9 @@ public class XuLyQToanTQAction extends AppAction {
         if (isCancelled(request)) {
             return mapping.findForward(AppConstants.FAILURE);
         }
-        //if (!checkPermissionOnFunction(request, "QTOAN.TQUOC.XLyBKE")) {
-          //  return mapping.findForward("errorQuyen");
-        //}
+        if (!checkPermissionOnFunction(request, "QTOAN.TQUOC.XLyBKE")) {
+            return mapping.findForward("errorQuyen");
+        }
         Connection conn = null;
         String reportName = null;
         InputStream reportStream = null;

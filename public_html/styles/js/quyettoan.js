@@ -153,7 +153,7 @@ function fillDataQuyetToan(id, tr_id) {
                         jQuery("#ngay_ks_nh").val(data.ngay_ks_nh);
                         jQuery("#ndung_tt").val(data.ndung_tt);
                         jQuery("#ma_nt").val(data.ma_nt);
-                        jQuery("#so_tien").val(CurrencyFormatted(data.so_tien,data.ma_nt));
+                        jQuery("#so_tien").val(CurrencyFormatted2(("" + data.so_tien).replace(/\./g,","),data.ma_nt)); // 20171221 : taidd định dạng lại số tiền.
 
                         /*
                          * thong tin nhan

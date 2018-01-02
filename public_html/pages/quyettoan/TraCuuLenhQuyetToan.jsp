@@ -21,6 +21,7 @@
 
 <%
   String kb_huyen = request.getAttribute("kb_huyen")==null?"":request.getAttribute("kb_huyen").toString();
+ //20171222 Quang VD them moi 
   String kb_id = session.getAttribute(AppConstants.APP_KB_CODE_SESSION) == null ? "" : session.getAttribute(AppConstants.APP_KB_CODE_SESSION).toString();
   String id_kb = session.getAttribute(AppConstants.APP_KB_ID_SESSION) == null ? "" : session.getAttribute(AppConstants.APP_KB_ID_SESSION).toString();
 %>
@@ -43,6 +44,7 @@
             jQuery("#kb_huyen").val("0003");
           }catch(ex){}
       }
+      //20171222 Quang VD them moi 
       var kb_id = '<%=kb_id%>';
       if(kb_id == "0001"){
       jQuery('#kb_tinh').append('<option value="" selected>Chọn kho bạc tỉnh<\/option>');
@@ -102,6 +104,7 @@
       jQuery("#pageNumber").val(page);
       jQuery("#frmQTTQ").submit();
   }
+  //20171222 Quang VB sua noi dung ham them moi, kiem tra dinh dang tien
   function FindQT(){
     var inKB = jQuery('#kb_huyen option:selected').index();
     document.forms[0].action="TraCuuQToanList.do?inKB="+inKB;
@@ -269,7 +272,7 @@
       jQuery("#dialog-form-lov-dm").dialog( "open" );      
     }
   // end
-  //XU ly tien te
+  ////20171222 Quang VB XU ly tien te begin----------------------------------
   function changeForeignCurrency(nStr){
         nStr += '';
         nStr = nStr.replace(/\,/g,"");
@@ -308,6 +311,7 @@
       str.value = changeForeignCurrency(value);
     }}
   }
+  //20171222 Quang VB XU ly tien te begin----------------------------------
 </script>
 <fmt:setBundle basename="com.seatech.ttsp.resource.TraCuuQTResource"/>
     <html:form styleId="frmQTTQ" action="/TraCuuQToan.do">
@@ -352,6 +356,7 @@
             <tbody>
               <tr>
                 <td valign="top">
+                <!-- 20171222 Quang VB them moi sua dieu kien và ket qua tra cuu begin-------------------------------------------->
                   <table class="bordertableChungTu" border="0" cellspacing="0" cellpadding="2"
                          width="100%">
                       <tbody>
@@ -438,7 +443,8 @@
                                      </html:option>  
                                      <html:option value="06">
                                          Báo nợ thu phí POS 
-                                     </html:option>  
+                                     </html:option> 
+                                     <!--20171129 QuangVB them loai quyet toan-->
                                      <html:option value="07">
                                          Quyết toán bù số chi
                                      </html:option> 
@@ -459,12 +465,18 @@
                           </td>
                           <td width="20%">
                             <logic:present name="MAT4">
-                              <html:select styleClass="selectBox" property="kb_huyen" styleId="kb_huyen" style="width:100%;height:20px" onkeydown="if(event.keyCode==13) event.keyCode=9;" >                              
+                              <html:select styleClass="selectBox" property="kb_huyen" styleId="kb_huyen" style="width:100%;height:20px" onkeydown="if(event.keyCode==13) event.keyCode=9;" > 
+                              <% if("1".equals(id_kb) || "2".equals(id_kb)){%>
+                              <html:option value="">Chọn kho bạc huyện</html:option>
+                              <%}%>
                                 <html:options collection="lstKBHuyen" property="ma" labelProperty="ten"/>
                               </html:select>
                             </logic:present>
                             <logic:notPresent name="MAT4">
                               <html:select styleClass="selectBox" property="kb_huyen" styleId="kb_huyen" style="width:100%;height:20px" onkeydown="if(event.keyCode==13) event.keyCode=9;" >
+                              <% if("1".equals(id_kb) || "2".equals(id_kb)){%>
+                              <html:option value="">Chọn kho bạc huyện</html:option>
+                              <%}%>
                                 <html:options collection="lstKBHuyen" property="ma" labelProperty="ten"/>
                               </html:select>
                             </logic:notPresent>
@@ -597,6 +609,7 @@
                         </tr>
                       </tbody>
                     </table>
+                     <!-- 20171222 Quang VB them moi sua dieu kien và ket qua tra cuu end-------------------------------------------->
                   </td>
                 </tr>
               </tbody>

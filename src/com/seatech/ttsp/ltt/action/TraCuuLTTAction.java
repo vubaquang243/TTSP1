@@ -838,9 +838,17 @@ public class TraCuuLTTAction extends AppAction {
                                      "\" id=\"tong_sotien\"></input>");
                     szWhereClause.append("and t.tong_sotien = ? ");
                     param_ltt =
-                            new Parameter(lttForm.getTong_sotien().trim(), true);
+                            new Parameter(StringUtil.formatMoneyVNDToDouble(lttForm.getTong_sotien().trim()), true); // 20171220 taidd dinh dang lai sao tien theo mau moi
                     v_Param_ltt.add(param_ltt);
                 }
+                
+                // 20171220 taidd them dieu kien in theo loai tien
+                if (lttForm.getMa_nt() != null && !"".equals(lttForm.getMa_nt())) {
+                    szWhereClause.append(" and d.ma = ? ");
+                    param_ltt = new Parameter(lttForm.getMa_nt(), true);
+                    v_Param_ltt.add(param_ltt);
+                }
+                
 
                 Long ma_nhkb_chuyen = null;
                 Long ma_nhkb_nhan = null;

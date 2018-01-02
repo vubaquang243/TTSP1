@@ -304,7 +304,11 @@
                   getTenNHang();
                 }
               }else{
-                if(document.getElementById('receiveBank').options.length==2){ // select dong thu 2 neu select box co 2 value voi user cap tinh
+               if(id != ''){
+                  jQuery('#receiveBank option[value="'+id+'"]').attr('selected', true);
+                  getTenNHang();
+                }else{
+                  if(document.getElementById('receiveBank').options.length==2){ // select dong thu 2 neu select box co 2 value voi user cap tinh
                   jQuery("#receiveBank option:eq(1)").attr('selected', true);
                   getTenNHang(); 
                 }else if(kb_huyen=='0'||kb_huyen==null||''==kb_huyen){
@@ -313,6 +317,7 @@
                 }else if(kb_huyen!='0'){
                   jQuery('#receiveBank option:eq('+kb_huyen+')').attr('selected', true);
                   getTenNHang();
+                }
                 }
               }
             }

@@ -33,16 +33,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-/*
- *
- * Lenh quyet toan thu cong
- *
- */
+/**
+ * @create: QuangVB
+ * @create-date: 09/2017
+ * @see: them moi class cho chuc nang lenh quyet toan thu cong
+ * */
 public class LenhQTTCAction extends AppAction {
 
-    /*
-     * Vao man hinh chinh
-     */
+   
 
     public ActionForward executeAction(ActionMapping mapping, ActionForm form,
                                        HttpServletRequest request,

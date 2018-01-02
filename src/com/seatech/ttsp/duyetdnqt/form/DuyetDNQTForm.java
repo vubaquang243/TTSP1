@@ -1,7 +1,11 @@
 package com.seatech.ttsp.duyetdnqt.form;
 
 import com.seatech.framework.strustx.AppForm;
-
+/**
+ * @create: QuangVB
+ * @create-date: 09/2017
+ * @see: them moi Class dùng cho việc duyệt đè nghị quyết toán
+ */
 public class DuyetDNQTForm extends AppForm{
   
   private String soLenh;

@@ -1,7 +1,11 @@
 package com.seatech.ttsp.lenhqtthucong.form;
 
 import com.seatech.framework.strustx.AppForm;
-/* Khai bao params */
+/**
+ * @create: QuangVB
+ * @create-date: 09/2017
+ * @see: them moi class cho chuc nang lenh quyet toan thu cong
+ * */
 public class LenhQTTCForm extends AppForm {
     private String maNHKBChuyen;
 

@@ -173,6 +173,7 @@ String duyetloi = request.getAttribute("duyetloi")==null?"":request.getAttribute
                       </logic:equal>
                    <input type="hidden" name="tthai_hidden" id="tthai_<bean:write name="index"/>" value="<bean:write name="UDlist" property="tthai_dxn_thop"/>" />
                    <input type="hidden" name="ngaydc_hidden" id="ngaydc_<bean:write name="index"/>" value="<bean:write name="UDlist" property="ngay_dc"/>" />
+                   <!-- 20171121 thuongdt them moi ket qua trang thai doi chieu -->
                    <input type="hidden" name="tthaikq_hidden" id="tthaikq_<bean:write name="index"/>" value="<bean:write name="UDlist" property="trang_thai"/>" />
                    </td>
                  </tr>
